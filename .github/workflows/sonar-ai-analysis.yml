@@ -365,7 +365,7 @@ jobs:
             -H "Authorization: Bearer $FLOWISE_BEARER_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
-            https://cloud.flowiseai.com/api/v1/prediction/c902f982-340a-4737-b7cb-982173e3647f) 
+            https://cloud.flowiseai.com/api/v1/prediction/c902f982-340a-4737-b7cb-982173e3647f)
 
           echo "$RESPONSE" > flowise_output.json
 
