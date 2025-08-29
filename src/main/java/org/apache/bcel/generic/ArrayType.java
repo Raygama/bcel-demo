@@ -1,20 +1,19 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 package org.apache.bcel.generic;
 
@@ -22,116 +21,108 @@ import org.apache.bcel.Const;
 
 /**
  * Denotes array type, such as int[][]
+ *
  */
 public final class ArrayType extends ReferenceType {
 
-    private final int dimensions;
-    private final Type basicType;
+    private int dimensions;
+    private Type basic_type;
+
 
     /**
-     * Convenience constructor for array type, for example int[]
+     * Convenience constructor for array type, e.g. int[]
      *
-     * @param type array type, for example T_INT
-     * @param dimensions array dimensions
+     * @param type array type, e.g. T_INT
      */
     public ArrayType(final byte type, final int dimensions) {
         this(BasicType.getType(type), dimensions);
     }
 
+
     /**
-     * Convenience constructor for reference array type, for example Object[]
+     * Convenience constructor for reference array type, e.g. Object[]
      *
-     * @param className complete name of class ({@link String}, for example)
-     * @param dimensions array dimensions
+     * @param class_name complete name of class (java.lang.String, e.g.)
      */
-    public ArrayType(final String className, final int dimensions) {
-        this(ObjectType.getInstance(className), dimensions);
+    public ArrayType(final String class_name, final int dimensions) {
+        this(ObjectType.getInstance(class_name), dimensions);
     }
+
 
     /**
      * Constructor for array of given type
      *
      * @param type type of array (may be an array itself)
-     * @param dimensions array dimensions
      */
     public ArrayType(final Type type, final int dimensions) {
         super(Const.T_ARRAY, "<dummy>");
-        if (dimensions < 1 || dimensions > Const.MAX_BYTE) {
+        if ((dimensions < 1) || (dimensions > Const.MAX_BYTE)) {
             throw new ClassGenException("Invalid number of dimensions: " + dimensions);
         }
         switch (type.getType()) {
-        case Const.T_ARRAY:
-            final ArrayType array = (ArrayType) type;
-            this.dimensions = dimensions + array.dimensions;
-            basicType = array.basicType;
-            break;
-        case Const.T_VOID:
-            throw new ClassGenException("Invalid type: void[]");
-        default: // Basic type or reference
-            this.dimensions = dimensions;
-            basicType = type;
-            break;
+            case Const.T_ARRAY:
+                final ArrayType array = (ArrayType) type;
+                this.dimensions = dimensions + array.dimensions;
+                basic_type = array.basic_type;
+                break;
+            case Const.T_VOID:
+                throw new ClassGenException("Invalid type: void[]");
+            default: // Basic type or reference
+                this.dimensions = dimensions;
+                basic_type = type;
+                break;
         }
         final StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.dimensions; i++) {
             buf.append('[');
         }
-        buf.append(basicType.getSignature());
-        this.signature = buf.toString();
+        buf.append(basic_type.getSignature());
+        super.setSignature(buf.toString());
     }
 
-    /**
-     * @return true if both type objects refer to the same array type.
-     */
-    @Override
-    public boolean equals(final Object type) {
-        if (type instanceof ArrayType) {
-            final ArrayType array = (ArrayType) type;
-            return array.dimensions == dimensions && array.basicType.equals(basicType);
-        }
-        return false;
-    }
 
     /**
      * @return basic type of array, i.e., for int[][][] the basic type is int
      */
     public Type getBasicType() {
-        return basicType;
+        return basic_type;
     }
 
-    /**
-     * Gets the name of referenced class.
-     *
-     * @return name of referenced class.
-     * @since 6.7.0
-     */
-    @Override
-    public String getClassName() {
-        return signature;
-    }
-
-    /**
-     * @return number of dimensions of array
-     */
-    public int getDimensions() {
-        return dimensions;
-    }
 
     /**
      * @return element type of array, i.e., for int[][][] the element type is int[][]
      */
     public Type getElementType() {
         if (dimensions == 1) {
-            return basicType;
+            return basic_type;
         }
-        return new ArrayType(basicType, dimensions - 1);
+        return new ArrayType(basic_type, dimensions - 1);
     }
 
-    /**
-     * @return a hash code value for the object.
+
+    /** @return number of dimensions of array
+     */
+    public int getDimensions() {
+        return dimensions;
+    }
+
+
+    /** @return a hash code value for the object.
      */
     @Override
     public int hashCode() {
-        return basicType.hashCode() ^ dimensions;
+        return basic_type.hashCode() ^ dimensions;
+    }
+
+
+    /** @return true if both type objects refer to the same array type.
+     */
+    @Override
+    public boolean equals( final Object _type ) {
+        if (_type instanceof ArrayType) {
+            final ArrayType array = (ArrayType) _type;
+            return (array.dimensions == dimensions) && array.basic_type.equals(basic_type);
+        }
+        return false;
     }
 }

@@ -1,20 +1,19 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 package org.apache.bcel.classfile;
 
@@ -22,10 +21,12 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
+
+import org.apache.bcel.Const;
 
 /**
  * Abstract super class for fields and methods.
+ *
  */
 public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
 
@@ -62,96 +63,196 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     @java.lang.Deprecated
     protected ConstantPool constant_pool;
 
-    private String signatureAttributeString;
-    private boolean searchedForSignatureAttribute;
+    private String signatureAttributeString = null;
+    private boolean searchedForSignatureAttribute = false;
 
     FieldOrMethod() {
     }
 
-    /**
-     * Constructs object from file stream.
-     *
-     * @param file Input stream
-     * @throws IOException if an I/O error occurs.
-     */
-    protected FieldOrMethod(final DataInput file, final ConstantPool constantPool) throws IOException {
-        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null, constantPool);
-        final int attributesCount = file.readUnsignedShort();
-        attributes = new Attribute[attributesCount];
-        for (int i = 0; i < attributesCount; i++) {
-            attributes[i] = Attribute.readAttribute(file, constantPool);
-        }
-        this.attributes_count = attributesCount; // init deprecated field
-    }
 
     /**
-     * Constructs object from file stream.
-     *
+     * Initialize from another object. Note that both objects use the same
+     * references (shallow copy). Use clone() for a physical copy.
+     */
+    protected FieldOrMethod(final FieldOrMethod c) {
+        this(c.getAccessFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c
+                .getConstantPool());
+    }
+
+
+    /**
+     * Construct object from file stream.
      * @param file Input stream
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     * @throws ClassFormatException
      * @deprecated (6.0) Use {@link #FieldOrMethod(java.io.DataInput, ConstantPool)} instead.
      */
     @java.lang.Deprecated
-    protected FieldOrMethod(final DataInputStream file, final ConstantPool constantPool) throws IOException {
-        this((DataInput) file, constantPool);
+    protected FieldOrMethod(final DataInputStream file, final ConstantPool constant_pool) throws IOException,
+            ClassFormatException {
+        this((DataInput) file, constant_pool);
     }
 
     /**
-     * Initialize from another object. Note that both objects use the same references (shallow copy). Use clone() for a
-     * physical copy.
-     *
-     * @param c Source to copy.
+     * Construct object from file stream.
+     * @param file Input stream
+     * @throws IOException
+     * @throws ClassFormatException
      */
-    protected FieldOrMethod(final FieldOrMethod c) {
-        this(c.getAccessFlags(), c.getNameIndex(), c.getSignatureIndex(), c.getAttributes(), c.getConstantPool());
+    protected FieldOrMethod(final DataInput file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
+        this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null,
+                constant_pool);
+        final int attributes_count = file.readUnsignedShort();
+        attributes = new Attribute[attributes_count];
+        for (int i = 0; i < attributes_count; i++) {
+            attributes[i] = Attribute.readAttribute(file, constant_pool);
+        }
+        this.attributes_count = attributes_count; // init deprecated field
     }
 
+
     /**
-     * @param accessFlags Access rights of method
-     * @param nameIndex Points to field name in constant pool
-     * @param signatureIndex Points to encoded signature
+     * @param access_flags Access rights of method
+     * @param name_index Points to field name in constant pool
+     * @param signature_index Points to encoded signature
      * @param attributes Collection of attributes
-     * @param constantPool Array of constants
+     * @param constant_pool Array of constants
      */
-    protected FieldOrMethod(final int accessFlags, final int nameIndex, final int signatureIndex, final Attribute[] attributes,
-        final ConstantPool constantPool) {
-        super(accessFlags);
-        this.name_index = nameIndex;
-        this.signature_index = signatureIndex;
-        this.constant_pool = constantPool;
+    protected FieldOrMethod(final int access_flags, final int name_index, final int signature_index,
+            final Attribute[] attributes, final ConstantPool constant_pool) {
+        super(access_flags);
+        this.name_index = name_index;
+        this.signature_index = signature_index;
+        this.constant_pool = constant_pool;
         setAttributes(attributes);
     }
 
-    /**
-     * @return deep copy of this field
-     */
-    protected FieldOrMethod copy_(final ConstantPool constantPool) {
-        try {
-            final FieldOrMethod c = (FieldOrMethod) clone();
-            c.constant_pool = constantPool;
-            c.attributes = new Attribute[attributes.length];
-            c.attributes_count = attributes_count; // init deprecated field
-            Arrays.setAll(c.attributes, i -> attributes[i].copy(constantPool));
-            return c;
-        } catch (final CloneNotSupportedException e) {
-            throw new UnsupportedOperationException(e);
-        }
-    }
 
     /**
      * Dump object to file stream on binary format.
      *
      * @param file Output file stream
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
      */
     public final void dump(final DataOutputStream file) throws IOException {
         file.writeShort(super.getAccessFlags());
         file.writeShort(name_index);
         file.writeShort(signature_index);
         file.writeShort(attributes_count);
-        for (final Attribute attribute : attributes) {
-            attribute.dump(file);
+        if (attributes != null) {
+            for (final Attribute attribute : attributes) {
+                attribute.dump(file);
+            }
         }
+    }
+
+
+    /**
+     * @return Collection of object attributes.
+     */
+    public final Attribute[] getAttributes() {
+        return attributes;
+    }
+
+
+    /**
+     * @param attributes Collection of object attributes.
+     */
+    public final void setAttributes( final Attribute[] attributes ) {
+        this.attributes = attributes;
+        this.attributes_count = attributes != null ? attributes.length : 0; // init deprecated field
+    }
+
+
+    /**
+     * @return Constant pool used by this object.
+     */
+    public final ConstantPool getConstantPool() {
+        return constant_pool;
+    }
+
+
+    /**
+     * @param constant_pool Constant pool to be used for this object.
+     */
+    public final void setConstantPool( final ConstantPool constant_pool ) {
+        this.constant_pool = constant_pool;
+    }
+
+
+    /**
+     * @return Index in constant pool of object's name.
+     */
+    public final int getNameIndex() {
+        return name_index;
+    }
+
+
+    /**
+     * @param name_index Index in constant pool of object's name.
+     */
+    public final void setNameIndex( final int name_index ) {
+        this.name_index = name_index;
+    }
+
+
+    /**
+     * @return Index in constant pool of field signature.
+     */
+    public final int getSignatureIndex() {
+        return signature_index;
+    }
+
+
+    /**
+     * @param signature_index Index in constant pool of field signature.
+     */
+    public final void setSignatureIndex( final int signature_index ) {
+        this.signature_index = signature_index;
+    }
+
+
+    /**
+     * @return Name of object, i.e., method name or field name
+     */
+    public final String getName() {
+        ConstantUtf8 c;
+        c = (ConstantUtf8) constant_pool.getConstant(name_index, Const.CONSTANT_Utf8);
+        return c.getBytes();
+    }
+
+
+    /**
+     * @return String representation of object's type signature (java style)
+     */
+    public final String getSignature() {
+        ConstantUtf8 c;
+        c = (ConstantUtf8) constant_pool.getConstant(signature_index, Const.CONSTANT_Utf8);
+        return c.getBytes();
+    }
+
+
+    /**
+     * @return deep copy of this field
+     */
+    protected FieldOrMethod copy_( final ConstantPool _constant_pool ) {
+        FieldOrMethod c = null;
+
+        try {
+          c = (FieldOrMethod)clone();
+        } catch(final CloneNotSupportedException e) {
+            // ignored, but will cause NPE ...
+        }
+
+        c.constant_pool    = constant_pool;
+        c.attributes       = new Attribute[attributes.length];
+        c.attributes_count = attributes_count; // init deprecated field
+
+        for (int i = 0; i < attributes.length; i++) {
+            c.attributes[i] = attributes[i].copy(constant_pool);
+        }
+
+        return c;
     }
 
     /**
@@ -167,110 +268,27 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     }
 
     /**
-     * Gets attribute for given tag.
-     * @return Attribute for given tag, null if not found.
-     * Refer to {@link org.apache.bcel.Const#ATTR_UNKNOWN} constants named ATTR_* for possible values.
-     * @since 6.10.0
-     */
-    @SuppressWarnings("unchecked")
-    public final <T extends Attribute> T getAttribute(final byte tag) {
-        for (final Attribute attribute : getAttributes()) {
-            if (attribute.getTag() == tag) {
-                return (T) attribute;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @return Collection of object attributes.
-     */
-    public final Attribute[] getAttributes() {
-        return attributes;
-    }
-
-    /**
-     * @return Constant pool used by this object.
-     */
-    public final ConstantPool getConstantPool() {
-        return constant_pool;
-    }
-
-    /**
-     * Hunts for a signature attribute on the member and returns its contents. So where the 'regular' signature may be
-     * (Ljava/util/Vector;)V the signature attribute may in fact say 'Ljava/lang/Vector&lt;Ljava/lang/String&gt;;' Coded for
-     * performance - searches for the attribute only when requested - only searches for it once.
-     *
+     * Hunts for a signature attribute on the member and returns its contents.  So where the 'regular' signature
+     * may be (Ljava/util/Vector;)V the signature attribute may in fact say 'Ljava/lang/Vector&lt;Ljava/lang/String&gt;;'
+     * Coded for performance - searches for the attribute only when requested - only searches for it once.
      * @since 6.0
      */
-    public final String getGenericSignature() {
-        if (!searchedForSignatureAttribute) {
+    public final String getGenericSignature()
+    {
+        if (!searchedForSignatureAttribute)
+        {
             boolean found = false;
-            for (int i = 0; !found && i < attributes.length; i++) {
-                if (attributes[i] instanceof Signature) {
-                    signatureAttributeString = ((Signature) attributes[i]).getSignature();
+            for (int i = 0; !found && i < attributes.length; i++)
+            {
+                if (attributes[i] instanceof Signature)
+                {
+                    signatureAttributeString = ((Signature) attributes[i])
+                            .getSignature();
                     found = true;
                 }
             }
             searchedForSignatureAttribute = true;
         }
         return signatureAttributeString;
-    }
-
-    /**
-     * @return Name of object, i.e., method name or field name
-     */
-    public final String getName() {
-        return constant_pool.getConstantUtf8(name_index).getBytes();
-    }
-
-    /**
-     * @return Index in constant pool of object's name.
-     */
-    public final int getNameIndex() {
-        return name_index;
-    }
-
-    /**
-     * @return String representation of object's type signature (Java style)
-     */
-    public final String getSignature() {
-        return constant_pool.getConstantUtf8(signature_index).getBytes();
-    }
-
-    /**
-     * @return Index in constant pool of field signature.
-     */
-    public final int getSignatureIndex() {
-        return signature_index;
-    }
-
-    /**
-     * @param attributes Collection of object attributes.
-     */
-    public final void setAttributes(final Attribute[] attributes) {
-        this.attributes = attributes != null ? attributes : Attribute.EMPTY_ARRAY;
-        this.attributes_count = this.attributes.length; // init deprecated field
-    }
-
-    /**
-     * @param constantPool Constant pool to be used for this object.
-     */
-    public final void setConstantPool(final ConstantPool constantPool) {
-        this.constant_pool = constantPool;
-    }
-
-    /**
-     * @param nameIndex Index in constant pool of object's name.
-     */
-    public final void setNameIndex(final int nameIndex) {
-        this.name_index = nameIndex;
-    }
-
-    /**
-     * @param signatureIndex Index in constant pool of field signature.
-     */
-    public final void setSignatureIndex(final int signatureIndex) {
-        this.signature_index = signatureIndex;
     }
 }

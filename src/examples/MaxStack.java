@@ -1,20 +1,19 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 
 import org.apache.bcel.Repository;
@@ -25,46 +24,47 @@ import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.MethodGen;
 
 /**
- * Read class file(s) and examine all of its methods, determining the maximum stack depth used by analyzing control
- * flow.
+ * Read class file(s) and examine all of its methods, determining the
+ * maximum stack depth used by analyzing control flow.
+ *
  */
-public final class MaxStack {
+public final class maxstack {
 
     public static void main(final String[] argv) throws Exception {
-        for (final String className : argv) {
-            JavaClass javaClass = Repository.lookupClass(className);
+        for (final String class_name : argv) {
+            JavaClass java_class = Repository.lookupClass(class_name);
 
-            if (javaClass == null) {
-                javaClass = new ClassParser(className).parse();
+            if (java_class == null) {
+                java_class = new ClassParser(class_name).parse();
             }
 
-            final ConstantPoolGen cp = new ConstantPoolGen(javaClass.getConstantPool());
+            final ConstantPoolGen cp = new ConstantPoolGen(java_class.getConstantPool());
 
-            for (final Method m : javaClass.getMethods()) {
+            for (final Method m : java_class.getMethods()) {
                 if (!(m.isAbstract() || m.isNative())) {
-                    final MethodGen mg = new MethodGen(m, className, cp);
+                    final MethodGen mg = new MethodGen(m, class_name, cp);
 
-                    final int compiledStack = mg.getMaxStack();
-                    final int compiledLocals = mg.getMaxLocals();
+                    final int compiled_stack = mg.getMaxStack();
+                    final int compiled_locals = mg.getMaxLocals();
                     mg.setMaxStack(); // Recompute value
                     mg.setMaxLocals();
-                    final int computedStack = mg.getMaxStack();
-                    final int computedLocals = mg.getMaxLocals();
+                    final int computed_stack = mg.getMaxStack();
+                    final int computed_locals = mg.getMaxLocals();
 
                     mg.getInstructionList().dispose(); // Reuse instruction handles
 
                     System.out.println(m);
 
-                    if (computedStack == compiledStack) {
-                        System.out.println("Stack ok(" + computedStack + ")");
+                    if (computed_stack == compiled_stack) {
+                        System.out.println("Stack ok(" + computed_stack + ")");
                     } else {
-                        System.out.println("\nCompiled stack size " + compiledStack + " computed size " + computedStack);
+                        System.out.println("\nCompiled stack size " + compiled_stack + " computed size " + computed_stack);
                     }
 
-                    if (computedLocals == compiledLocals) {
-                        System.out.println("Locals ok(" + computedLocals + ")");
+                    if (computed_locals == compiled_locals) {
+                        System.out.println("Locals ok(" + computed_locals + ")");
                     } else {
-                        System.out.println("\nCompiled locals " + compiledLocals + " computed size " + computedLocals);
+                        System.out.println("\nCompiled locals " + compiled_locals + " computed size " + computed_locals);
                     }
                 }
             }

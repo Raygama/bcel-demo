@@ -1,391 +1,573 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 package org.apache.bcel.generic;
 
 /**
- * Interface implementing the Visitor pattern programming style. I.e., a class that implements this interface can handle
- * all types of instructions with the properly typed methods just by calling the accept() method.
+ * Interface implementing the Visitor pattern programming style.
+ * I.e., a class that implements this interface can handle all types of
+ * instructions with the properly typed methods just by calling the accept()
+ * method.
+ *
  */
 public interface Visitor {
 
-    void visitAALOAD(AALOAD obj);
+    void visitStackInstruction( StackInstruction obj );
 
-    void visitAASTORE(AASTORE obj);
 
-    void visitACONST_NULL(ACONST_NULL obj);
+    void visitLocalVariableInstruction( LocalVariableInstruction obj );
 
-    void visitAllocationInstruction(AllocationInstruction obj);
 
-    void visitALOAD(ALOAD obj);
+    void visitBranchInstruction( BranchInstruction obj );
 
-    void visitANEWARRAY(ANEWARRAY obj);
 
-    void visitARETURN(ARETURN obj);
+    void visitLoadClass( LoadClass obj );
 
-    void visitArithmeticInstruction(ArithmeticInstruction obj);
 
-    void visitArrayInstruction(ArrayInstruction obj);
+    void visitFieldInstruction( FieldInstruction obj );
 
-    void visitARRAYLENGTH(ARRAYLENGTH obj);
 
-    void visitASTORE(ASTORE obj);
+    void visitIfInstruction( IfInstruction obj );
 
-    void visitATHROW(ATHROW obj);
 
-    void visitBALOAD(BALOAD obj);
+    void visitConversionInstruction( ConversionInstruction obj );
 
-    void visitBASTORE(BASTORE obj);
 
-    void visitBIPUSH(BIPUSH obj);
+    void visitPopInstruction( PopInstruction obj );
 
-    void visitBranchInstruction(BranchInstruction obj);
 
-    void visitBREAKPOINT(BREAKPOINT obj);
+    void visitStoreInstruction( StoreInstruction obj );
 
-    void visitCALOAD(CALOAD obj);
 
-    void visitCASTORE(CASTORE obj);
+    void visitTypedInstruction( TypedInstruction obj );
 
-    void visitCHECKCAST(CHECKCAST obj);
 
-    void visitConstantPushInstruction(ConstantPushInstruction obj);
+    void visitSelect( Select obj );
 
-    void visitConversionInstruction(ConversionInstruction obj);
 
-    void visitCPInstruction(CPInstruction obj);
+    void visitJsrInstruction( JsrInstruction obj );
 
-    void visitD2F(D2F obj);
 
-    void visitD2I(D2I obj);
+    void visitGotoInstruction( GotoInstruction obj );
 
-    void visitD2L(D2L obj);
 
-    void visitDADD(DADD obj);
+    void visitUnconditionalBranch( UnconditionalBranch obj );
 
-    void visitDALOAD(DALOAD obj);
 
-    void visitDASTORE(DASTORE obj);
+    void visitPushInstruction( PushInstruction obj );
 
-    void visitDCMPG(DCMPG obj);
 
-    void visitDCMPL(DCMPL obj);
+    void visitArithmeticInstruction( ArithmeticInstruction obj );
 
-    void visitDCONST(DCONST obj);
 
-    void visitDDIV(DDIV obj);
+    void visitCPInstruction( CPInstruction obj );
 
-    void visitDLOAD(DLOAD obj);
 
-    void visitDMUL(DMUL obj);
+    void visitInvokeInstruction( InvokeInstruction obj );
 
-    void visitDNEG(DNEG obj);
 
-    void visitDREM(DREM obj);
+    void visitArrayInstruction( ArrayInstruction obj );
 
-    void visitDRETURN(DRETURN obj);
 
-    void visitDSTORE(DSTORE obj);
+    void visitAllocationInstruction( AllocationInstruction obj );
 
-    void visitDSUB(DSUB obj);
 
-    void visitDUP(DUP obj);
+    void visitReturnInstruction( ReturnInstruction obj );
 
-    void visitDUP_X1(DUP_X1 obj);
 
-    void visitDUP_X2(DUP_X2 obj);
+    void visitFieldOrMethod( FieldOrMethod obj );
 
-    void visitDUP2(DUP2 obj);
 
-    void visitDUP2_X1(DUP2_X1 obj);
+    void visitConstantPushInstruction( ConstantPushInstruction obj );
 
-    void visitDUP2_X2(DUP2_X2 obj);
 
-    void visitExceptionThrower(ExceptionThrower obj);
+    void visitExceptionThrower( ExceptionThrower obj );
 
-    void visitF2D(F2D obj);
 
-    void visitF2I(F2I obj);
+    void visitLoadInstruction( LoadInstruction obj );
 
-    void visitF2L(F2L obj);
 
-    void visitFADD(FADD obj);
+    void visitVariableLengthInstruction( VariableLengthInstruction obj );
 
-    void visitFALOAD(FALOAD obj);
 
-    void visitFASTORE(FASTORE obj);
+    void visitStackProducer( StackProducer obj );
 
-    void visitFCMPG(FCMPG obj);
 
-    void visitFCMPL(FCMPL obj);
+    void visitStackConsumer( StackConsumer obj );
 
-    void visitFCONST(FCONST obj);
 
-    void visitFDIV(FDIV obj);
+    void visitACONST_NULL( ACONST_NULL obj );
 
-    void visitFieldInstruction(FieldInstruction obj);
 
-    void visitFieldOrMethod(FieldOrMethod obj);
+    void visitGETSTATIC( GETSTATIC obj );
 
-    void visitFLOAD(FLOAD obj);
 
-    void visitFMUL(FMUL obj);
+    void visitIF_ICMPLT( IF_ICMPLT obj );
 
-    void visitFNEG(FNEG obj);
 
-    void visitFREM(FREM obj);
+    void visitMONITOREXIT( MONITOREXIT obj );
 
-    void visitFRETURN(FRETURN obj);
 
-    void visitFSTORE(FSTORE obj);
+    void visitIFLT( IFLT obj );
 
-    void visitFSUB(FSUB obj);
 
-    void visitGETFIELD(GETFIELD obj);
+    void visitLSTORE( LSTORE obj );
 
-    void visitGETSTATIC(GETSTATIC obj);
 
-    void visitGOTO(GOTO obj);
+    void visitPOP2( POP2 obj );
 
-    void visitGOTO_W(GOTO_W obj);
 
-    void visitGotoInstruction(GotoInstruction obj);
+    void visitBASTORE( BASTORE obj );
 
-    void visitI2B(I2B obj);
 
-    void visitI2C(I2C obj);
+    void visitISTORE( ISTORE obj );
 
-    void visitI2D(I2D obj);
 
-    void visitI2F(I2F obj);
+    void visitCHECKCAST( CHECKCAST obj );
 
-    void visitI2L(I2L obj);
 
-    void visitI2S(I2S obj);
+    void visitFCMPG( FCMPG obj );
 
-    void visitIADD(IADD obj);
 
-    void visitIALOAD(IALOAD obj);
+    void visitI2F( I2F obj );
 
-    void visitIAND(IAND obj);
 
-    void visitIASTORE(IASTORE obj);
+    void visitATHROW( ATHROW obj );
 
-    void visitICONST(ICONST obj);
 
-    void visitIDIV(IDIV obj);
+    void visitDCMPL( DCMPL obj );
 
-    void visitIF_ACMPEQ(IF_ACMPEQ obj);
 
-    void visitIF_ACMPNE(IF_ACMPNE obj);
+    void visitARRAYLENGTH( ARRAYLENGTH obj );
 
-    void visitIF_ICMPEQ(IF_ICMPEQ obj);
 
-    void visitIF_ICMPGE(IF_ICMPGE obj);
+    void visitDUP( DUP obj );
 
-    void visitIF_ICMPGT(IF_ICMPGT obj);
 
-    void visitIF_ICMPLE(IF_ICMPLE obj);
+    void visitINVOKESTATIC( INVOKESTATIC obj );
 
-    void visitIF_ICMPLT(IF_ICMPLT obj);
 
-    void visitIF_ICMPNE(IF_ICMPNE obj);
+    void visitLCONST( LCONST obj );
 
-    void visitIFEQ(IFEQ obj);
 
-    void visitIFGE(IFGE obj);
+    void visitDREM( DREM obj );
 
-    void visitIFGT(IFGT obj);
 
-    void visitIfInstruction(IfInstruction obj);
+    void visitIFGE( IFGE obj );
 
-    void visitIFLE(IFLE obj);
 
-    void visitIFLT(IFLT obj);
+    void visitCALOAD( CALOAD obj );
 
-    void visitIFNE(IFNE obj);
 
-    void visitIFNONNULL(IFNONNULL obj);
+    void visitLASTORE( LASTORE obj );
 
-    void visitIFNULL(IFNULL obj);
 
-    void visitIINC(IINC obj);
+    void visitI2D( I2D obj );
 
-    void visitILOAD(ILOAD obj);
 
-    void visitIMPDEP1(IMPDEP1 obj);
+    void visitDADD( DADD obj );
 
-    void visitIMPDEP2(IMPDEP2 obj);
 
-    void visitIMUL(IMUL obj);
+    void visitINVOKESPECIAL( INVOKESPECIAL obj );
 
-    void visitINEG(INEG obj);
 
-    void visitINSTANCEOF(INSTANCEOF obj);
+    void visitIAND( IAND obj );
+
+
+    void visitPUTFIELD( PUTFIELD obj );
+
+
+    void visitILOAD( ILOAD obj );
+
+
+    void visitDLOAD( DLOAD obj );
+
+
+    void visitDCONST( DCONST obj );
+
+
+    void visitNEW( NEW obj );
+
+
+    void visitIFNULL( IFNULL obj );
+
+
+    void visitLSUB( LSUB obj );
+
+
+    void visitL2I( L2I obj );
+
+
+    void visitISHR( ISHR obj );
+
+
+    void visitTABLESWITCH( TABLESWITCH obj );
+
+
+    void visitIINC( IINC obj );
+
+
+    void visitDRETURN( DRETURN obj );
+
+
+    void visitFSTORE( FSTORE obj );
+
+
+    void visitDASTORE( DASTORE obj );
+
+
+    void visitIALOAD( IALOAD obj );
+
+
+    void visitDDIV( DDIV obj );
+
+
+    void visitIF_ICMPGE( IF_ICMPGE obj );
+
+
+    void visitLAND( LAND obj );
+
+
+    void visitIDIV( IDIV obj );
+
+
+    void visitLOR( LOR obj );
+
+
+    void visitCASTORE( CASTORE obj );
+
+
+    void visitFREM( FREM obj );
+
+
+    void visitLDC( LDC obj );
+
+
+    void visitBIPUSH( BIPUSH obj );
+
+
+    void visitDSTORE( DSTORE obj );
+
+
+    void visitF2L( F2L obj );
+
+
+    void visitFMUL( FMUL obj );
+
+
+    void visitLLOAD( LLOAD obj );
+
+
+    void visitJSR( JSR obj );
+
+
+    void visitFSUB( FSUB obj );
+
+
+    void visitSASTORE( SASTORE obj );
+
+
+    void visitALOAD( ALOAD obj );
+
+
+    void visitDUP2_X2( DUP2_X2 obj );
+
+
+    void visitRETURN( RETURN obj );
+
+
+    void visitDALOAD( DALOAD obj );
+
+
+    void visitSIPUSH( SIPUSH obj );
+
+
+    void visitDSUB( DSUB obj );
+
+
+    void visitL2F( L2F obj );
+
+
+    void visitIF_ICMPGT( IF_ICMPGT obj );
+
+
+    void visitF2D( F2D obj );
+
+
+    void visitI2L( I2L obj );
+
+
+    void visitIF_ACMPNE( IF_ACMPNE obj );
+
+
+    void visitPOP( POP obj );
+
+
+    void visitI2S( I2S obj );
+
+
+    void visitIFEQ( IFEQ obj );
+
+
+    void visitSWAP( SWAP obj );
+
+
+    void visitIOR( IOR obj );
+
+
+    void visitIREM( IREM obj );
+
+
+    void visitIASTORE( IASTORE obj );
+
+
+    void visitNEWARRAY( NEWARRAY obj );
+
+
+    void visitINVOKEINTERFACE( INVOKEINTERFACE obj );
+
+
+    void visitINEG( INEG obj );
+
+
+    void visitLCMP( LCMP obj );
+
+
+    void visitJSR_W( JSR_W obj );
+
+
+    void visitMULTIANEWARRAY( MULTIANEWARRAY obj );
+
+
+    void visitDUP_X2( DUP_X2 obj );
+
+
+    void visitSALOAD( SALOAD obj );
+
+
+    void visitIFNONNULL( IFNONNULL obj );
+
+
+    void visitDMUL( DMUL obj );
+
+
+    void visitIFNE( IFNE obj );
+
+
+    void visitIF_ICMPLE( IF_ICMPLE obj );
+
+
+    void visitLDC2_W( LDC2_W obj );
+
+
+    void visitGETFIELD( GETFIELD obj );
+
+
+    void visitLADD( LADD obj );
+
+
+    void visitNOP( NOP obj );
+
+
+    void visitFALOAD( FALOAD obj );
+
+
+    void visitINSTANCEOF( INSTANCEOF obj );
+
+
+    void visitIFLE( IFLE obj );
+
+
+    void visitLXOR( LXOR obj );
+
+
+    void visitLRETURN( LRETURN obj );
+
+
+    void visitFCONST( FCONST obj );
+
+
+    void visitIUSHR( IUSHR obj );
+
+
+    void visitBALOAD( BALOAD obj );
+
+
+    void visitDUP2( DUP2 obj );
+
+
+    void visitIF_ACMPEQ( IF_ACMPEQ obj );
+
+
+    void visitIMPDEP1( IMPDEP1 obj );
+
+
+    void visitMONITORENTER( MONITORENTER obj );
+
+
+    void visitLSHL( LSHL obj );
+
+
+    void visitDCMPG( DCMPG obj );
+
+
+    void visitD2L( D2L obj );
+
+
+    void visitIMPDEP2( IMPDEP2 obj );
+
+
+    void visitL2D( L2D obj );
+
+
+    void visitRET( RET obj );
+
+
+    void visitIFGT( IFGT obj );
+
+
+    void visitIXOR( IXOR obj );
+
+
+    void visitINVOKEVIRTUAL( INVOKEVIRTUAL obj );
+
 
     /**
      * @since 6.0
      */
-    void visitINVOKEDYNAMIC(INVOKEDYNAMIC obj);
+    void visitINVOKEDYNAMIC( INVOKEDYNAMIC obj );
 
-    void visitInvokeInstruction(InvokeInstruction obj);
 
-    void visitINVOKEINTERFACE(INVOKEINTERFACE obj);
+    void visitFASTORE( FASTORE obj );
 
-    void visitINVOKESPECIAL(INVOKESPECIAL obj);
 
-    void visitINVOKESTATIC(INVOKESTATIC obj);
+    void visitIRETURN( IRETURN obj );
 
-    void visitINVOKEVIRTUAL(INVOKEVIRTUAL obj);
 
-    void visitIOR(IOR obj);
+    void visitIF_ICMPNE( IF_ICMPNE obj );
 
-    void visitIREM(IREM obj);
 
-    void visitIRETURN(IRETURN obj);
+    void visitFLOAD( FLOAD obj );
 
-    void visitISHL(ISHL obj);
 
-    void visitISHR(ISHR obj);
+    void visitLDIV( LDIV obj );
 
-    void visitISTORE(ISTORE obj);
 
-    void visitISUB(ISUB obj);
+    void visitPUTSTATIC( PUTSTATIC obj );
 
-    void visitIUSHR(IUSHR obj);
 
-    void visitIXOR(IXOR obj);
+    void visitAALOAD( AALOAD obj );
 
-    void visitJSR(JSR obj);
 
-    void visitJSR_W(JSR_W obj);
+    void visitD2I( D2I obj );
 
-    void visitJsrInstruction(JsrInstruction obj);
 
-    void visitL2D(L2D obj);
+    void visitIF_ICMPEQ( IF_ICMPEQ obj );
 
-    void visitL2F(L2F obj);
 
-    void visitL2I(L2I obj);
+    void visitAASTORE( AASTORE obj );
 
-    void visitLADD(LADD obj);
 
-    void visitLALOAD(LALOAD obj);
+    void visitARETURN( ARETURN obj );
 
-    void visitLAND(LAND obj);
 
-    void visitLASTORE(LASTORE obj);
+    void visitDUP2_X1( DUP2_X1 obj );
 
-    void visitLCMP(LCMP obj);
 
-    void visitLCONST(LCONST obj);
+    void visitFNEG( FNEG obj );
 
-    void visitLDC(LDC obj);
 
-    void visitLDC2_W(LDC2_W obj);
+    void visitGOTO_W( GOTO_W obj );
 
-    void visitLDIV(LDIV obj);
 
-    void visitLLOAD(LLOAD obj);
+    void visitD2F( D2F obj );
 
-    void visitLMUL(LMUL obj);
 
-    void visitLNEG(LNEG obj);
+    void visitGOTO( GOTO obj );
 
-    void visitLoadClass(LoadClass obj);
 
-    void visitLoadInstruction(LoadInstruction obj);
+    void visitISUB( ISUB obj );
 
-    void visitLocalVariableInstruction(LocalVariableInstruction obj);
 
-    void visitLOOKUPSWITCH(LOOKUPSWITCH obj);
+    void visitF2I( F2I obj );
 
-    void visitLOR(LOR obj);
 
-    void visitLREM(LREM obj);
+    void visitDNEG( DNEG obj );
 
-    void visitLRETURN(LRETURN obj);
 
-    void visitLSHL(LSHL obj);
+    void visitICONST( ICONST obj );
 
-    void visitLSHR(LSHR obj);
 
-    void visitLSTORE(LSTORE obj);
+    void visitFDIV( FDIV obj );
 
-    void visitLSUB(LSUB obj);
 
-    void visitLUSHR(LUSHR obj);
+    void visitI2B( I2B obj );
 
-    void visitLXOR(LXOR obj);
 
-    void visitMONITORENTER(MONITORENTER obj);
+    void visitLNEG( LNEG obj );
 
-    void visitMONITOREXIT(MONITOREXIT obj);
 
-    void visitMULTIANEWARRAY(MULTIANEWARRAY obj);
+    void visitLREM( LREM obj );
 
-    void visitNEW(NEW obj);
 
-    void visitNEWARRAY(NEWARRAY obj);
+    void visitIMUL( IMUL obj );
 
-    void visitNOP(NOP obj);
 
-    void visitPOP(POP obj);
+    void visitIADD( IADD obj );
 
-    void visitPOP2(POP2 obj);
 
-    void visitPopInstruction(PopInstruction obj);
+    void visitLSHR( LSHR obj );
 
-    void visitPushInstruction(PushInstruction obj);
 
-    void visitPUTFIELD(PUTFIELD obj);
+    void visitLOOKUPSWITCH( LOOKUPSWITCH obj );
 
-    void visitPUTSTATIC(PUTSTATIC obj);
 
-    void visitRET(RET obj);
+    void visitDUP_X1( DUP_X1 obj );
 
-    void visitRETURN(RETURN obj);
 
-    void visitReturnInstruction(ReturnInstruction obj);
+    void visitFCMPL( FCMPL obj );
 
-    void visitSALOAD(SALOAD obj);
 
-    void visitSASTORE(SASTORE obj);
+    void visitI2C( I2C obj );
 
-    void visitSelect(Select obj);
 
-    void visitSIPUSH(SIPUSH obj);
+    void visitLMUL( LMUL obj );
 
-    void visitStackConsumer(StackConsumer obj);
 
-    void visitStackInstruction(StackInstruction obj);
+    void visitLUSHR( LUSHR obj );
 
-    void visitStackProducer(StackProducer obj);
 
-    void visitStoreInstruction(StoreInstruction obj);
+    void visitISHL( ISHL obj );
 
-    void visitSWAP(SWAP obj);
 
-    void visitTABLESWITCH(TABLESWITCH obj);
+    void visitLALOAD( LALOAD obj );
 
-    void visitTypedInstruction(TypedInstruction obj);
 
-    void visitUnconditionalBranch(UnconditionalBranch obj);
+    void visitASTORE( ASTORE obj );
 
-    void visitVariableLengthInstruction(VariableLengthInstruction obj);
+
+    void visitANEWARRAY( ANEWARRAY obj );
+
+
+    void visitFRETURN( FRETURN obj );
+
+
+    void visitFADD( FADD obj );
+
+
+    void visitBREAKPOINT( BREAKPOINT obj );
 }

@@ -1,22 +1,22 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 
+import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.ConstantClass;
@@ -35,25 +35,52 @@ import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.PUSH;
 
 /**
- * Read class file(s) and patch all of its methods, so that they print "hello" and their name and signature before doing
- * anything else.
+ * Read class file(s) and patch all of its methods, so that they print
+ * "hello" and their name and signature before doing anything else.
+ *
  */
-public final class Helloify {
+public final class helloify implements Constants {
 
-    private static String className;
+    private static String class_name;
     private static ConstantPoolGen cp;
-    private static int out; // reference to System.out
+    private static int out;     // reference to System.out
     private static int println; // reference to PrintStream.println
+
+    public static void main(final String[] argv) throws Exception {
+        for (final String arg : argv) {
+            if (arg.endsWith(".class")) {
+                final JavaClass java_class = new ClassParser(arg).parse();
+                final ConstantPool constants = java_class.getConstantPool();
+                final String file_name = arg.substring(0, arg.length() - 6) + "_hello.class";
+                cp = new ConstantPoolGen(constants);
+
+                helloifyClassName(java_class);
+
+                out = cp.addFieldref("java.lang.System", "out", "Ljava/io/PrintStream;");
+                println = cp.addMethodref("java.io.PrintStream", "println", "(Ljava/lang/String;)V");
+                // Patch all methods.
+                final Method[] methods = java_class.getMethods();
+
+                for (int j = 0; j < methods.length; j++) {
+                    methods[j] = helloifyMethod(methods[j]);
+                }
+
+                // Finally dump it back to a file.
+                java_class.setConstantPool(cp.getFinalConstantPool());
+                java_class.dump(file_name);
+            }
+        }
+    }
 
     /**
      * Change class name to <old_name>_hello
      */
-    private static void helloifyClassName(final JavaClass javaClass) {
-        className = javaClass.getClassName() + "_hello";
-        int index = javaClass.getClassNameIndex();
+    private static void helloifyClassName(final JavaClass java_class) {
+        class_name = java_class.getClassName() + "_hello";
+        int index = java_class.getClassNameIndex();
 
         index = ((ConstantClass) cp.getConstant(index)).getNameIndex();
-        cp.setConstant(index, new ConstantUtf8(Utility.packageToPath(className)));
+        cp.setConstant(index, new ConstantUtf8(class_name.replace('.', '/')));
     }
 
     /**
@@ -65,18 +92,20 @@ public final class Helloify {
         final String name = m.getName();
 
         // Sanity check
-        if (m.isNative() || m.isAbstract() || code == null) {
+        if (m.isNative() || m.isAbstract() || (code == null)) {
             return m;
         }
 
         // Create instruction list to be inserted at method start.
-        final String mesg = "Hello from " + Utility.methodSignatureToString(m.getSignature(), name, Utility.accessToString(flags));
+        final String mesg = "Hello from " + Utility.methodSignatureToString(m.getSignature(),
+                name,
+                Utility.accessToString(flags));
         final InstructionList patch = new InstructionList();
         patch.append(new GETSTATIC(out));
         patch.append(new PUSH(cp, mesg));
         patch.append(new INVOKEVIRTUAL(println));
 
-        final MethodGen mg = new MethodGen(m, className, cp);
+        final MethodGen mg = new MethodGen(m, class_name, cp);
         final InstructionList il = mg.getInstructionList();
         final InstructionHandle[] ihs = il.getInstructionHandles();
 
@@ -101,31 +130,5 @@ public final class Helloify {
         il.dispose(); // Reuse instruction handles
 
         return m;
-    }
-
-    public static void main(final String[] argv) throws Exception {
-        for (final String arg : argv) {
-            if (arg.endsWith(JavaClass.EXTENSION)) {
-                final JavaClass javaClass = new ClassParser(arg).parse();
-                final ConstantPool constants = javaClass.getConstantPool();
-                final String fileName = arg.substring(0, arg.length() - 6) + "_hello.class";
-                cp = new ConstantPoolGen(constants);
-
-                helloifyClassName(javaClass);
-
-                out = cp.addFieldref("java.lang.System", "out", "Ljava/io/PrintStream;");
-                println = cp.addMethodref("java.io.PrintStream", "println", "(Ljava/lang/String;)V");
-                // Patch all methods.
-                final Method[] methods = javaClass.getMethods();
-
-                for (int j = 0; j < methods.length; j++) {
-                    methods[j] = helloifyMethod(methods[j]);
-                }
-
-                // Finally dump it back to a file.
-                javaClass.setConstantPool(cp.getFinalConstantPool());
-                javaClass.dump(fileName);
-            }
-        }
     }
 }

@@ -1,20 +1,18 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package org.apache.bcel.classfile;
@@ -26,39 +24,40 @@ import java.io.IOException;
 import org.apache.bcel.Const;
 
 /**
- * Represents the default value of a annotation for a method info.
+ * Represents the default value of a annotation for a method info
  *
  * @since 6.0
  */
 public class AnnotationDefault extends Attribute {
 
-    private ElementValue defaultValue;
+    private ElementValue default_value;
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param input Input stream
-     * @param constantPool Array of constants
+     * @param name_index    Index pointing to the name <em>Code</em>
+     * @param length        Content length in bytes
+     * @param input         Input stream
+     * @param constant_pool Array of constants
      */
-    AnnotationDefault(final int nameIndex, final int length, final DataInput input, final ConstantPool constantPool) throws IOException {
-        this(nameIndex, length, (ElementValue) null, constantPool);
-        defaultValue = ElementValue.readElementValue(input, constantPool);
+    AnnotationDefault(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool) throws IOException {
+        this(name_index, length, (ElementValue) null, constant_pool);
+        default_value = ElementValue.readElementValue(input, constant_pool);
     }
 
     /**
-     * @param nameIndex Index pointing to the name <em>Code</em>
-     * @param length Content length in bytes
-     * @param defaultValue the annotation's default value
-     * @param constantPool Array of constants
+     * @param name_index    Index pointing to the name <em>Code</em>
+     * @param length        Content length in bytes
+     * @param defaultValue  the annotation's default value
+     * @param constant_pool Array of constants
      */
-    public AnnotationDefault(final int nameIndex, final int length, final ElementValue defaultValue, final ConstantPool constantPool) {
-        super(Const.ATTR_ANNOTATION_DEFAULT, nameIndex, length, constantPool);
-        this.defaultValue = defaultValue;
+    public AnnotationDefault(final int name_index, final int length, final ElementValue defaultValue, final ConstantPool constant_pool) {
+        super(Const.ATTR_ANNOTATION_DEFAULT, name_index, length, constant_pool);
+        this.default_value = defaultValue;
     }
 
     /**
-     * Called by objects that are traversing the nodes of the tree implicitly defined by the contents of a Java class.
-     * I.e., the hierarchy of methods, fields, attributes, etc. spawns a tree of objects.
+     * Called by objects that are traversing the nodes of the tree implicitely
+     * defined by the contents of a Java class. I.e., the hierarchy of methods,
+     * fields, attributes, etc. spawns a tree of objects.
      *
      * @param v Visitor object
      */
@@ -67,28 +66,28 @@ public class AnnotationDefault extends Attribute {
         v.visitAnnotationDefault(this);
     }
 
-    @Override
-    public Attribute copy(final ConstantPool constantPool) {
-        return (Attribute) clone();
-    }
-
-    @Override
-    public final void dump(final DataOutputStream dos) throws IOException {
-        super.dump(dos);
-        defaultValue.dump(dos);
+    /**
+     * @param defaultValue the default value of this methodinfo's annotation
+     */
+    public final void setDefaultValue(final ElementValue defaultValue) {
+        default_value = defaultValue;
     }
 
     /**
      * @return the default value
      */
     public final ElementValue getDefaultValue() {
-        return defaultValue;
+        return default_value;
     }
 
-    /**
-     * @param defaultValue the default value of this methodinfo's annotation
-     */
-    public final void setDefaultValue(final ElementValue defaultValue) {
-        this.defaultValue = defaultValue;
+    @Override
+    public Attribute copy(final ConstantPool _constant_pool) {
+        return (Attribute) clone();
+    }
+
+    @Override
+    public final void dump(final DataOutputStream dos) throws IOException {
+        super.dump(dos);
+        default_value.dump(dos);
     }
 }
