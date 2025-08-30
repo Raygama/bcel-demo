@@ -158,6 +158,16 @@ public class ConstantPool implements Cloneable, Node {
                         + ":" + constantToString(cid.getNameAndTypeIndex(),
                         Const.CONSTANT_NameAndType);
                 break;
+            case Const.CONSTANT_Module:
+                i = ((ConstantModule) c).getNameIndex();
+                c = getConstant(i, Const.CONSTANT_Utf8);
+                str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+                break;
+            case Const.CONSTANT_Package:
+                i = ((ConstantPackage) c).getNameIndex();
+                c = getConstant(i, Const.CONSTANT_Utf8);
+                str = Utility.compactClassName(((ConstantUtf8) c).getBytes(), false);
+                break;
             default: // Never reached
                 throw new RuntimeException("Unknown constant type " + tag);
         }
@@ -290,7 +300,7 @@ public class ConstantPool implements Cloneable, Node {
         Constant c;
         int i;
         c = getConstant(index, tag);
-        /* This switch() is not that elegant, since the two classes have the
+        /* This switch() is not that elegant, since the four classes have the
          * same contents, they just differ in the name of the index
          * field variable.
          * But we want to stick to the JVM naming conventions closely though
@@ -303,6 +313,12 @@ public class ConstantPool implements Cloneable, Node {
                 break;
             case Const.CONSTANT_String:
                 i = ((ConstantString) c).getStringIndex();
+                break;
+            case Const.CONSTANT_Module:
+                i = ((ConstantModule) c).getNameIndex();
+                break;
+            case Const.CONSTANT_Package:
+                i = ((ConstantPackage) c).getNameIndex();
                 break;
             default:
                 throw new RuntimeException("getConstantString called with illegal tag " + tag);
