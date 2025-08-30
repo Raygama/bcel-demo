@@ -367,7 +367,7 @@ jobs:
             -d "$PAYLOAD" \
             https://cloud.flowiseai.com/api/v1/prediction/ae8b5cb1-b90b-4f25-9395-a839e92e2bf6)
 
-          echo "$RESPONSE" > flowise_output.json
+          echo "$RESPONSE" > flowise_output.json 
 
 
 
