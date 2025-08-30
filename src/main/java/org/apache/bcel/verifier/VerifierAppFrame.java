@@ -46,6 +46,7 @@ import org.apache.bcel.classfile.JavaClass;
  * This class implements a machine-generated frame for use with
  * the GraphicalVerfifier.
  *
+ * @version $Id$
  * @see GraphicalVerifier
  */
 public class VerifierAppFrame extends JFrame {

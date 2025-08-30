@@ -31,6 +31,7 @@ package org.apache.bcel.verifier.exc;
  * and Resolution") of the above mentioned book.
  * <B>TODO: At this time, this class is not used in JustIce.</B>
  *
+ * @version $Id$
  */
 public class LinkingConstraintException extends StructuralCodeConstraintException{
 

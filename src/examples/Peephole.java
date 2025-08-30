@@ -32,6 +32,7 @@ import org.apache.bcel.util.InstructionFinder;
 /**
  * Remove NOPs from given class
  *
+ * @version $Id$
  */
 public class Peephole {
 

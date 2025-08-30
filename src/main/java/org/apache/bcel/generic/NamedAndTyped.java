@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * Denote entity that has both name and type. This is true for local variables,
  * methods and fields.
  *
+ * @version $Id$
  */
 public interface NamedAndTyped {
 

@@ -21,7 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import org.apache.bcel.Const;
+import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantPool;
@@ -48,6 +48,7 @@ import org.apache.bcel.classfile.Utility;
  * constructor. The default value contains "java.", "sun.",
  * "javax."</p>
  *
+ * @version $Id$
  * @see JavaWrapper
  * @see ClassPath
  * @deprecated 6.0 Do not use - does not work
@@ -159,12 +160,11 @@ public class ClassLoader extends java.lang.ClassLoader {
      * token is considered to be a package name. You can encode your own
      * arguments into the subsequent string. You must ensure however not
      * to use any "illegal" characters, i.e., characters that may not
-     * appear in a Java class name too
-     * <p>
+     * appear in a Java class name too<br>
+     *
      * The default implementation interprets the string as a encoded compressed
      * Java class, unpacks and decodes it with the Utility.decode() method, and
      * parses the resulting byte array and returns the resulting JavaClass object.
-     * </p>
      *
      * @param class_name compressed byte code with "$$BCEL$$" in it
      */
@@ -183,9 +183,9 @@ public class ClassLoader extends java.lang.ClassLoader {
         // Adapt the class name to the passed value
         final ConstantPool cp = clazz.getConstantPool();
         final ConstantClass cl = (ConstantClass) cp.getConstant(clazz.getClassNameIndex(),
-                Const.CONSTANT_Class);
+                Constants.CONSTANT_Class);
         final ConstantUtf8 name = (ConstantUtf8) cp.getConstant(cl.getNameIndex(),
-                Const.CONSTANT_Utf8);
+                Constants.CONSTANT_Utf8);
         name.setBytes(class_name.replace('.', '/'));
         return clazz;
     }

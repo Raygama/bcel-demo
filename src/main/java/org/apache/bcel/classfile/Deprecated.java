@@ -28,6 +28,7 @@ import org.apache.bcel.Const;
  * deprecated method.
  * It is instantiated from the <em>Attribute.readAttribute()</em> method.
  *
+ * @version $Id$
  * @see     Attribute
  */
 public final class Deprecated extends Attribute {
@@ -71,7 +72,7 @@ public final class Deprecated extends Attribute {
         if (length > 0) {
             bytes = new byte[length];
             input.readFully(bytes);
-            println("Deprecated attribute with length > 0");
+            System.err.println("Deprecated attribute with length > 0");
         }
     }
 

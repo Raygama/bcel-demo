@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * SASTORE - Store into short array
  * <PRE>Stack: ..., arrayref, index, value -&gt; ...</PRE>
  *
+ * @version $Id$
  */
 public class SASTORE extends ArrayInstruction implements StackConsumer {
 

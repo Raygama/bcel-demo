@@ -25,6 +25,7 @@ package org.apache.bcel.generic;
  * @see BranchHandle
  * @see LocalVariableGen
  * @see CodeExceptionGen
+ * @version $Id$
  */
 public interface InstructionTargeter {
 

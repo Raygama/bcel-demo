@@ -21,6 +21,7 @@ package org.apache.bcel.verifier;
  * VerifierFactoryObserver instances are notified when new Verifier
  * instances are created.
  *
+ * @version $Id$
  *
  * @see VerifierFactory#getVerifier(String)
  * @see VerifierFactory#getVerifiers()

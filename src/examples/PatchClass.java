@@ -27,6 +27,7 @@ import org.apache.bcel.classfile.JavaClass;
  *
  * Usage: patch <oldstring> <newstring> files
  *
+ * @version $Id$
  */
 public class patchclass {
 

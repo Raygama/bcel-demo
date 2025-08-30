@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * Denotes an instruction to be a variable length instruction, such as
  * GOTO, JSR, LOOKUPSWITCH and TABLESWITCH.
  *
+ * @version $Id$
 
  * @see GOTO
  * @see JSR

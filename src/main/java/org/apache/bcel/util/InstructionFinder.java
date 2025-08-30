@@ -60,6 +60,7 @@ import org.apache.bcel.generic.InstructionList;
  *
  * </pre>
  *
+ * @version $Id$
  * @see org.apache.bcel.generic.Instruction
  * @see InstructionList
  */

@@ -22,6 +22,7 @@ import org.apache.bcel.Const;
 /**
  * Denotes basic type such as int.
  *
+ * @version $Id$
  */
 public final class BasicType extends Type {
 

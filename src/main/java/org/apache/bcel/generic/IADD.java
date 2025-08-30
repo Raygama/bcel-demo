@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * IADD - Add ints
  * <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
  *
+ * @version $Id$
  */
 public class IADD extends ArithmeticInstruction {
 

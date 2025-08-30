@@ -20,6 +20,7 @@ package org.apache.bcel.generic;
 /**
  * BREAKPOINT, JVM dependent, ignored by default
  *
+ * @version $Id$
  */
 public class BREAKPOINT extends Instruction {
 

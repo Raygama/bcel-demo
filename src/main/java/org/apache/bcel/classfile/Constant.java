@@ -20,7 +20,6 @@ package org.apache.bcel.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.util.BCELComparator;
@@ -29,6 +28,8 @@ import org.apache.bcel.util.BCELComparator;
  * Abstract superclass for classes to represent the different constant types
  * in the constant pool of a class file. The classes keep closely to
  * the JVM specification.
+ *
+ * @version $Id$
  */
 public abstract class Constant implements Cloneable, Node {
 
@@ -38,7 +39,7 @@ public abstract class Constant implements Cloneable, Node {
         public boolean equals( final Object o1, final Object o2 ) {
             final Constant THIS = (Constant) o1;
             final Constant THAT = (Constant) o2;
-            return Objects.equals(THIS.toString(), THAT.toString());
+            return THIS.toString().equals(THAT.toString());
         }
 
 
@@ -48,7 +49,6 @@ public abstract class Constant implements Cloneable, Node {
             return THIS.toString().hashCode();
         }
     };
-
     /* In fact this tag is redundant since we can distinguish different
      * `Constant' objects by their type, i.e., via `instanceof'. In some
      * places we will use the tag for switch()es anyway.
@@ -63,9 +63,11 @@ public abstract class Constant implements Cloneable, Node {
     @java.lang.Deprecated
     protected byte tag; // TODO should be private & final
 
+
     Constant(final byte tag) {
         this.tag = tag;
     }
+
 
     /**
      * Called by objects that are traversing the nodes of the tree implicitely
@@ -77,7 +79,9 @@ public abstract class Constant implements Cloneable, Node {
     @Override
     public abstract void accept( Visitor v );
 
+
     public abstract void dump( DataOutputStream file ) throws IOException;
+
 
     /**
      * @return Tag of constant, i.e., its type. No setTag() method to avoid
@@ -87,6 +91,7 @@ public abstract class Constant implements Cloneable, Node {
         return tag;
     }
 
+
     /**
      * @return String representation.
      */
@@ -94,6 +99,7 @@ public abstract class Constant implements Cloneable, Node {
     public String toString() {
         return Const.getConstantName(tag) + "[" + tag + "]";
     }
+
 
     /**
      * @return deep copy of this constant
@@ -107,6 +113,7 @@ public abstract class Constant implements Cloneable, Node {
         return null;
     }
 
+
     @Override
     public Object clone() {
         try {
@@ -116,8 +123,9 @@ public abstract class Constant implements Cloneable, Node {
         }
     }
 
+
     /**
-     * Reads one constant from the given input, the type depends on a tag byte.
+     * Read one constant from the given input, the type depends on a tag byte.
      *
      * @param dataInput Input stream
      * @return Constant object
@@ -154,8 +162,6 @@ public abstract class Constant implements Cloneable, Node {
             return new ConstantMethodHandle(dataInput);
         case Const.CONSTANT_MethodType:
             return new ConstantMethodType(dataInput);
-        case Const.CONSTANT_Dynamic:
-            return new ConstantDynamic(dataInput);
         case Const.CONSTANT_InvokeDynamic:
             return new ConstantInvokeDynamic(dataInput);
         case Const.CONSTANT_Module:
@@ -174,6 +180,7 @@ public abstract class Constant implements Cloneable, Node {
         return bcelComparator;
     }
 
+
     /**
      * @param comparator Comparison strategy object
      */
@@ -181,8 +188,9 @@ public abstract class Constant implements Cloneable, Node {
         bcelComparator = comparator;
     }
 
+
     /**
-     * Returns value as defined by given BCELComparator strategy.
+     * Return value as defined by given BCELComparator strategy.
      * By default two Constant objects are said to be equal when
      * the result of toString() is equal.
      *
@@ -193,8 +201,9 @@ public abstract class Constant implements Cloneable, Node {
         return bcelComparator.equals(this, obj);
     }
 
+
     /**
-     * Returns value as defined by given BCELComparator strategy.
+     * Return value as defined by given BCELComparator strategy.
      * By default return the hashcode of the result of toString().
      *
      * @see java.lang.Object#hashCode()

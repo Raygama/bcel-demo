@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * LLOAD - Load long from local variable
  *<PRE>Stack ... -&gt; ..., result.word1, result.word2</PRE>
  *
+ * @version $Id$
  */
 public class LLOAD extends LoadInstruction {
 

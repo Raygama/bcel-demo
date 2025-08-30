@@ -30,6 +30,7 @@ import org.apache.bcel.generic.Type;
 
 /**
  *
+ * @version $Id$
  */
 public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
   private ASTIdent[]  idents;

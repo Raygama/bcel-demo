@@ -22,6 +22,7 @@ package org.apache.bcel.verifier.exc;
  * Instances of this class should never be thrown. When such an instance is thrown,
  * this is due to an INTERNAL ERROR of BCEL's class file verifier &quot;JustIce&quot;.
  *
+ * @version $Id$
  */
 public final class AssertionViolatedException extends RuntimeException{
     private static final long serialVersionUID = -129822266349567409L;

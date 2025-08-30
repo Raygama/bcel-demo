@@ -32,6 +32,7 @@ import org.apache.bcel.Const;
  * is intended to be instantiated from the
  * <em>Attribute.readAttribute()</em> method.
  *
+ * @version $Id$
  * @see     Attribute
  */
 public final class Synthetic extends Attribute {
@@ -77,7 +78,7 @@ public final class Synthetic extends Attribute {
         if (length > 0) {
             bytes = new byte[length];
             input.readFully(bytes);
-            println("Synthetic attribute with length > 0");
+            System.err.println("Synthetic attribute with length > 0");
         }
     }
 

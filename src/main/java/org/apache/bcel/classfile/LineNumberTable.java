@@ -28,6 +28,7 @@ import org.apache.bcel.Const;
  * purposes. This attribute is used by the <em>Code</em> attribute. It
  * contains pairs of PCs and line numbers.
  *
+ * @version $Id$
  * @see     Code
  * @see LineNumber
  */
@@ -65,7 +66,7 @@ public final class LineNumberTable extends Attribute {
      * @param length Content length in bytes
      * @param input Input stream
      * @param constant_pool Array of constants
-     * @throws IOException if an I/O Exception occurs in readUnsignedShort
+     * @throws IOEXception if an I/O Exception occurs in readUnsignedShort
      */
     LineNumberTable(final int name_index, final int length, final DataInput input, final ConstantPool constant_pool)
             throws IOException {
@@ -95,7 +96,7 @@ public final class LineNumberTable extends Attribute {
      * Dump line number table attribute to file stream in binary format.
      *
      * @param file Output file stream
-     * @throws IOException if an I/O Exception occurs in writeShort
+     * @throws IOEXception if an I/O Exception occurs in writeShort
      */
     @Override
     public final void dump( final DataOutputStream file ) throws IOException {
@@ -164,7 +165,7 @@ public final class LineNumberTable extends Attribute {
         /* Do a binary search since the array is ordered.
          */
         do {
-            final int i = (l + r) >>> 1;
+            final int i = (l + r) / 2;
             final int j = line_number_table[i].getStartPC();
             if (j == pos) {
                 return line_number_table[i].getLineNumber();

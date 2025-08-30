@@ -34,6 +34,7 @@ import org.apache.bcel.classfile.JavaClass;
  *
  * @see org.apache.bcel.Repository
  *
+ * @version $Id$
  */
 public class ClassLoaderRepository implements Repository {
 

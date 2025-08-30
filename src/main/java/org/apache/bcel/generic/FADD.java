@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * FADD - Add floats
  * <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
  *
+ * @version $Id$
  */
 public class FADD extends ArithmeticInstruction {
 

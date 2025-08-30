@@ -45,9 +45,10 @@ import org.apache.bcel.verifier.exc.StructuralCodeConstraintException;
  * The instance of this class will throw a StructuralCodeConstraintException
  * instance if an instruction is visitXXX()ed which has preconditions that are
  * not satisfied.
- * TODO: Currently, the JVM's behavior concerning monitors (MONITORENTER,
+ * TODO: Currently, the JVM's behaviour concerning monitors (MONITORENTER,
  * MONITOREXIT) is not modeled in JustIce.
  *
+ * @version $Id$
  * @see StructuralCodeConstraintException
  */
 public class InstConstraintVisitor extends EmptyVisitor{

@@ -22,6 +22,7 @@ package org.apache.bcel.generic;
  *
  * <PRE>Stack: ..., value1, value2 -&gt; ...</PRE>
  *
+ * @version $Id$
  */
 public class IF_ICMPGE extends IfInstruction {
 

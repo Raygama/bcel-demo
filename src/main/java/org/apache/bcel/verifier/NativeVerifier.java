@@ -24,6 +24,7 @@ package org.apache.bcel.verifier;
  * This can be used for comparison runs between the JVM-internal verifier
  * and JustIce.
  *
+ * @version $Id$
  */
 public abstract class NativeVerifier {
 

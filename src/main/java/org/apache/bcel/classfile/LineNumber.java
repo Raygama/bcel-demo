@@ -26,6 +26,7 @@ import java.io.IOException;
  * the source that corresponds to a relative address in the byte code. This
  * is used for debugging purposes.
  *
+ * @version $Id$
  * @see     LineNumberTable
  */
 public final class LineNumber implements Cloneable, Node {
@@ -50,7 +51,7 @@ public final class LineNumber implements Cloneable, Node {
      * Construct object from file stream.
      *
      * @param file Input stream
-     * @throws IOException if an I/O Exception occurs in readUnsignedShort
+     * @throws IOEXception if an I/O Exception occurs in readUnsignedShort
      */
     LineNumber(final DataInput file) throws IOException {
         this(file.readUnsignedShort(), file.readUnsignedShort());
@@ -84,7 +85,7 @@ public final class LineNumber implements Cloneable, Node {
      * Dump line number/pc pair to file stream in binary format.
      *
      * @param file Output file stream
-     * @throws IOException if an I/O Exception occurs in writeShort
+     * @throws IOEXception if an I/O Exception occurs in writeShort
      */
     public final void dump( final DataOutputStream file ) throws IOException {
         file.writeShort(start_pc);

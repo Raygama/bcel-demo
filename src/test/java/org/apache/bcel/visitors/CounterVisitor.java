@@ -26,7 +26,6 @@ import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantDouble;
-import org.apache.bcel.classfile.ConstantDynamic;
 import org.apache.bcel.classfile.ConstantFieldref;
 import org.apache.bcel.classfile.ConstantFloat;
 import org.apache.bcel.classfile.ConstantInteger;
@@ -160,9 +159,6 @@ public class CounterVisitor implements Visitor
 
     /** @since 6.1 */
     public int constantPackageCount = 0;
-
-    /** @since 6.3 */
-    public int constantDynamicCount = 0;
     // CHECKSTYLE:ON
 
 
@@ -443,11 +439,5 @@ public class CounterVisitor implements Visitor
     @Override
     public void visitConstantModule(final ConstantModule constantModule) {
         constantModuleCount++;
-    }
-
-    /** @since 6.3 */
-    @Override
-    public void visitConstantDynamic(final ConstantDynamic constantDynamic) {
-        constantDynamicCount++;
     }
 }

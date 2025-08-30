@@ -47,6 +47,7 @@ import org.apache.bcel.classfile.ConstantUtf8;
  * Constants.MAX_SHORT entries. Note that the first (0) is used by the
  * JVM and that Double and Long constants need two slots.
  *
+ * @version $Id$
  * @see Constant
  */
 public class ConstantPoolGen {

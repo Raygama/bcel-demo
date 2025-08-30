@@ -26,6 +26,7 @@ package org.apache.bcel.verifier.exc;
  * This is roughly equivalent to the VerifyError the JVM-internal verifiers
  * throw.
  *
+ * @version $Id$
  */
 public abstract class VerifierConstraintViolatedException extends RuntimeException{
     // /** The name of the offending class that did not pass the verifier. */

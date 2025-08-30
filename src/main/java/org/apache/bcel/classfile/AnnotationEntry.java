@@ -29,6 +29,7 @@ import org.apache.bcel.Const;
 /**
  * represents one annotation in the annotation table
  *
+ * @version $Id: AnnotationEntry
  * @since 6.0
  */
 public class AnnotationEntry implements Node {

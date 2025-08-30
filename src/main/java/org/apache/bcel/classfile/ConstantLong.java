@@ -27,6 +27,7 @@ import org.apache.bcel.Const;
  * This class is derived from the abstract {@link Constant}
  * and represents a reference to a long object.
  *
+ * @version $Id$
  * @see     Constant
  */
 public final class ConstantLong extends Constant implements ConstantObject {

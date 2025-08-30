@@ -25,6 +25,7 @@ import org.apache.bcel.util.ByteSequence;
 /**
  * GOTO_W - Branch always (to relative offset, not absolute address)
  *
+ * @version $Id$
  */
 public class GOTO_W extends GotoInstruction {
 

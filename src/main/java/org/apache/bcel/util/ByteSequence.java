@@ -25,6 +25,7 @@ import java.io.DataInputStream;
  * via the `readByte()' method. This is used to implement a wrapper for the
  * Java byte code stream to gain some more readability.
  *
+ * @version $Id$
  */
 public final class ByteSequence extends DataInputStream {
 
