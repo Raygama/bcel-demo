@@ -35,7 +35,6 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
      * Not to be used otherwise.
      */
     FieldOrMethod() {
-        // no init
     }
 
 
@@ -49,7 +48,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
 
     /** @return signature of referenced method/field.
      */
-    public String getSignature(final ConstantPoolGen cpg) {
+    public String getSignature( final ConstantPoolGen cpg ) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         final ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
@@ -59,7 +58,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
 
     /** @return name of referenced method/field.
      */
-    public String getName(final ConstantPoolGen cpg) {
+    public String getName( final ConstantPoolGen cpg ) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         final ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(cmr.getNameAndTypeIndex());
@@ -79,7 +78,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
      *
      */
     @Deprecated
-    public String getClassName(final ConstantPoolGen cpg) {
+    public String getClassName( final ConstantPoolGen cpg ) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         final String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
@@ -97,20 +96,20 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
      *    getReferenceType() instead.
      */
     @Deprecated
-    public ObjectType getClassType(final ConstantPoolGen cpg) {
+    public ObjectType getClassType( final ConstantPoolGen cpg ) {
         return ObjectType.getInstance(getClassName(cpg));
     }
 
 
     /**
-     * Gets the reference type representing the class, interface,
+     * Return the reference type representing the class, interface,
      * or array class referenced by the instruction.
      * @param cpg the ConstantPoolGen used to create the instruction
      * @return an ObjectType (if the referenced class type is a class
      *   or interface), or an ArrayType (if the referenced class
      *   type is an array class)
      */
-    public ReferenceType getReferenceType(final ConstantPoolGen cpg) {
+    public ReferenceType getReferenceType( final ConstantPoolGen cpg ) {
         final ConstantPool cp = cpg.getConstantPool();
         final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
         String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
@@ -123,18 +122,17 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
 
 
     /**
-     * Gets the ObjectType of the method return or field.
+     * Get the ObjectType of the method return or field.
      *
      * @return type of the referenced class/interface
      * @throws ClassGenException when the field is (or method returns) an array,
      */
     @Override
-    public ObjectType getLoadClassType(final ConstantPoolGen cpg) {
+    public ObjectType getLoadClassType( final ConstantPoolGen cpg ) {
         final ReferenceType rt = getReferenceType(cpg);
-        if (rt instanceof ObjectType) {
-            return (ObjectType) rt;
+        if(rt instanceof ObjectType) {
+            return (ObjectType)rt;
         }
-        throw new ClassGenException(
-            rt.getClass().getCanonicalName() + " " + rt.getSignature() + " does not represent an ObjectType");
+        throw new ClassGenException(rt.getSignature() + " does not represent an ObjectType");
     }
 }

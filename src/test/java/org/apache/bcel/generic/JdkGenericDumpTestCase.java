@@ -61,22 +61,9 @@ import com.sun.jna.platform.win32.Advapi32Util;
 /**
  * Test that the generic dump() methods work on the JDK classes Reads each class into an instruction list and then dumps
  * the instructions. The output bytes should be the same as the input.
- * <p>
- * Set the property {@value #EXTRA_JAVA_HOMES} to a {@link File#pathSeparator}-separated list of JRE/JDK paths for
- * additional testing.
- * </p>
- * <p>
- * For example:
- * </p>
- * 
- * <pre>
- * mvn test -Dtest=JdkGenericDumpTestCase -DExtraJavaHomes="C:\Program Files\Java\openjdk\jdk-13;C:\Program Files\Java\openjdk\jdk-14"
- * </pre>
  */
 @RunWith(Parameterized.class)
 public class JdkGenericDumpTestCase {
-
-    private static final String EXTRA_JAVA_HOMES = "ExtraJavaHomes";
 
     private static class ClassParserFilesVisitor extends SimpleFileVisitor<Path> {
 
@@ -165,26 +152,26 @@ public class JdkGenericDumpTestCase {
         addAllJavaHomesOnWindows(KEY_JRE_9, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK_9, javaHomes);
-        addAllJavaHomes(EXTRA_JAVA_HOMES, javaHomes);
+        addAllJavaHomes("ExtraJavaHomes", javaHomes);
         return javaHomes;
     }
 
     private static void addAllJavaHomes(String extraJavaHomesProp, Set<String> javaHomes) {
-        String path = System.getProperty(extraJavaHomesProp);
-        if (StringUtils.isEmpty(path)) {
-            return;
-        }
-        String[] paths = path.split(File.pathSeparator);
-        javaHomes.addAll(Arrays.asList(paths));
+		String path = System.getProperty(extraJavaHomesProp);
+		if (StringUtils.isEmpty(path)) {
+			return;
+		}
+		String[] paths = path.split(File.pathSeparator);
+		javaHomes.addAll(Arrays.asList(paths));
+		
+	}
 
-    }
-
-    private static Set<String> findJavaHomesOnWindows(final String keyJavaHome, final String[] keys) {
+	private static Set<String> findJavaHomesOnWindows(final String keyJavaHome, final String[] keys) {
         final Set<String> javaHomes = new HashSet<>(keys.length);
         for (final String key : keys) {
             if (Advapi32Util.registryKeyExists(HKEY_LOCAL_MACHINE, keyJavaHome + "\\" + key)) {
                 final String javaHome = Advapi32Util.registryGetStringValue(HKEY_LOCAL_MACHINE,
-                    keyJavaHome + "\\" + key, "JavaHome");
+                        keyJavaHome + "\\" + key, "JavaHome");
                 if (StringUtils.isNoneBlank(javaHome)) {
                     if (new File(javaHome).exists()) {
                         javaHomes.add(javaHome);

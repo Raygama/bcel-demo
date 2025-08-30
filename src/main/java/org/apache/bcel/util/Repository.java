@@ -20,8 +20,9 @@ package org.apache.bcel.util;
 import org.apache.bcel.classfile.JavaClass;
 
 /**
- * Abstract definition of a class repository. Instances may be used to load classes from different sources and may be
- * used in the Repository.setRepository method.
+ * Abstract definition of a class repository. Instances may be used
+ * to load classes from different sources and may be used in the
+ * Repository.setRepository method.
  *
  * @see org.apache.bcel.Repository
  */
@@ -30,34 +31,42 @@ public interface Repository {
     /**
      * Stores the provided class under "clazz.getClassName()"
      */
-    void storeClass(JavaClass clazz);
+    void storeClass( JavaClass clazz );
+
 
     /**
      * Removes class from repository
      */
-    void removeClass(JavaClass clazz);
+    void removeClass( JavaClass clazz );
+
 
     /**
-     * Finds the class with the name provided, if the class isn't there, return NULL.
+     * Finds the class with the name provided, if the class
+     * isn't there, return NULL.
      */
-    JavaClass findClass(String className);
+    JavaClass findClass( String className );
+
 
     /**
-     * Finds the class with the name provided, if the class isn't there, make an attempt to load it.
+     * Finds the class with the name provided, if the class
+     * isn't there, make an attempt to load it.
      */
-    JavaClass loadClass(String className) throws java.lang.ClassNotFoundException;
+    JavaClass loadClass( String className ) throws java.lang.ClassNotFoundException;
+
 
     /**
      * Finds the JavaClass instance for the given run-time class object
      */
-    JavaClass loadClass(Class<?> clazz) throws java.lang.ClassNotFoundException;
+    JavaClass loadClass( Class<?> clazz ) throws java.lang.ClassNotFoundException;
 
-    /**
+
+    /** 
      * Clears all entries from cache.
      */
     void clear();
 
-    /**
+
+    /** 
      * Gets the ClassPath associated with this Repository
      */
     ClassPath getClassPath();

@@ -41,7 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document>
   <properties>
-    <title>Apache Commons BCEL Release Notes</title>
+    <title>Changes</title>
     <author email="dev@commons.apache.org">Apache Commons developers</author>
   </properties>
 
@@ -62,18 +62,9 @@ The <action> type attribute can be add,update,fix,remove.
    -->
 
   <body>
-    <release version="6.4.0" date="2019-MM-DD" description="Bug fix release">
+    <release version="6.3.2" date="2019-MM-DD" description="Bug fix release">
       <action issue="BCEL-316" type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.bcel.classfile.Attribute class and subclasses should NOT log to the console by default.</action>
       <action issue="BCEL-278" type="fix" dev="ggregory" due-to="Valery Barysoky">InvokeInstruction.toString(final ConstantPool cp) throws NoSuchElementException #11.</action>
-      <action issue="BCEL-318" type="fix" dev="ggregory" due-to="Gary Gregory">Add org.apache.bcel.classfile.ConstantUtf8.clearCache().</action>
-      <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update tests from JNA 4.5.0 to 5.3.1.</action>
-      <action issue="BCEL-317" type="update" dev="ggregory" due-to="Tomo Suzuki, Gary Gregory">Pluggable cache for ConstantUtf8.</action>
-      <action issue="BCEL-320" type="add" dev="ggregory" due-to="Tomo Suzuki, Gary Gregory">Add LruCacheClassPathRepository that can scan many JAR files without OutOfMemoryError.</action>
-      <action issue="BCEL-299" type="update" dev="ggregory" due-to="Gary Gregory, zhangminglei">Fix example src/examples/ClassDumper.java ClassDumper.processID().</action>
-      <action issue="BCEL-322" type="add" dev="ggregory" due-to="Gary Gregory">Add constants to org.apache.bcel.Const for Java 14.</action>
-      <action issue="BCEL-270" type="fix" dev="ggregory" due-to="Alexandru-Constantin Bledea">Calling toString(ConstantPool) on InvokeInstruction throws NullPointerException.</action>
-      <action issue="BCEL-321" type="add" dev="ggregory" due-to="Tomo Suzuki">Refactor subclasses of ClassPathRepository for differences in underlying cache.</action>
-      <action issue="BCEL-323" type="fix" dev="ggregory" due-to="Tomo Suzuki">org.apache.bcel.util.BCELifier to set major and minor versions.</action>
     </release>
 
     <release version="6.3.1" date="2019-03-20" description="Bug fix release">
@@ -157,7 +148,7 @@ Source compatible - Yes, sort of;
 
 For full information about API changes please see the extended Clirr report:
 
-    https://commons.apache.org/bcel/clirr-report.html">
+    http://commons.apache.org/bcel/clirr-report.html">
       <action issue="BCEL-262" type="update" dev="britter" due-to="Mark Roberts">InvokeInstruction.getClassName(ConstantPoolGen)
                                           should not throw an exception when it detects an array.</action>
       <action issue="BCEL-237" type="fix" dev="sebb">non-empty final arrays should be private as they are mutable.</action>
@@ -276,7 +267,7 @@ For full information about API changes please see the extended Clirr report:
       </action>
       <action issue="BCEL-28" type="fix">
         Mistake in "Peephole optimizer" example
-        at https://commons.apache.org/bcel/manual.html
+        at http://commons.apache.org/bcel/manual.html
       </action>
       <action issue="BCEL-74" type="fix">
         BCEL cannot be used as java.system.class.loader.
