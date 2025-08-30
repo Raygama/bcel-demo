@@ -388,7 +388,7 @@ jobs:
             const raw = fs.readFileSync(path, 'utf8').trim();
             if (!raw || raw[0] !== '{') {
               core.warning('Flowise did not return valid JSON. Skipping comment.');
-              return; 
+              return;
             }
 
             let parsed;
