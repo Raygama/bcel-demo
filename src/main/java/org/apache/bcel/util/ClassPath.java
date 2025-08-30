@@ -352,7 +352,7 @@ public class ClassPath implements Closeable {
         private final ModularRuntimeImage modularRuntimeImage;
         private final JrtModule[] modules;
 
-        public JrtModules(final String path) throws IOException {
+        public JrtModules(String path) throws IOException {
             this.modularRuntimeImage = new ModularRuntimeImage();
             final List<Path> list = modularRuntimeImage.list(path);
             this.modules = new JrtModule[list.size()];
@@ -430,14 +430,22 @@ public class ClassPath implements Closeable {
 
     }
 
-    private static final FilenameFilter ARCHIVE_FILTER = (dir, name) -> {
-        name = name.toLowerCase(Locale.ENGLISH);
-        return name.endsWith(".zip") || name.endsWith(".jar");
+    private static final FilenameFilter ARCHIVE_FILTER = new FilenameFilter() {
+
+        @Override
+        public boolean accept(final File dir, String name) {
+            name = name.toLowerCase(Locale.ENGLISH);
+            return name.endsWith(".zip") || name.endsWith(".jar");
+        }
     };
 
-    private static final FilenameFilter MODULES_FILTER = (dir, name) -> {
-        name = name.toLowerCase(Locale.ENGLISH);
-        return name.endsWith(".jmod");
+    private static final FilenameFilter MODULES_FILTER = new FilenameFilter() {
+
+        @Override
+        public boolean accept(final File dir, String name) {
+            name = name.toLowerCase(Locale.ENGLISH);
+            return name.endsWith(".jmod");
+        }
     };
 
     public static final ClassPath SYSTEM_CLASS_PATH = new ClassPath(getClassPath());

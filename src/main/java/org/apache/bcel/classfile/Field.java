@@ -99,7 +99,7 @@ public final class Field extends FieldOrMethod {
     /**
      * @return constant value associated with this field (may be null)
      */
-    public ConstantValue getConstantValue() {
+    public final ConstantValue getConstantValue() {
         for (final Attribute attribute : super.getAttributes()) {
             if (attribute.getTag() == Const.ATTR_CONSTANT_VALUE) {
                 return (ConstantValue) attribute;
@@ -116,7 +116,7 @@ public final class Field extends FieldOrMethod {
      * @return String representation of field, including the signature.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         String name;
         String signature;
         String access; // Short cuts to constant pool
@@ -144,7 +144,7 @@ public final class Field extends FieldOrMethod {
     /**
      * @return deep copy of this field
      */
-    public Field copy( final ConstantPool _constant_pool ) {
+    public final Field copy( final ConstantPool _constant_pool ) {
         return (Field) copy_(_constant_pool);
     }
 

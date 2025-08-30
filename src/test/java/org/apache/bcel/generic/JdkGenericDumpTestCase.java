@@ -68,7 +68,7 @@ import com.sun.jna.platform.win32.Advapi32Util;
  * <p>
  * For example:
  * </p>
- *
+ * 
  * <pre>
  * mvn test -Dtest=JdkGenericDumpTestCase -DExtraJavaHomes="C:\Program Files\Java\openjdk\jdk-13;C:\Program Files\Java\openjdk\jdk-14"
  * </pre>
@@ -165,21 +165,18 @@ public class JdkGenericDumpTestCase {
         addAllJavaHomesOnWindows(KEY_JRE_9, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK_9, javaHomes);
-        addAllJavaHomesFromKey(EXTRA_JAVA_HOMES, javaHomes);
+        addAllJavaHomes(EXTRA_JAVA_HOMES, javaHomes);
         return javaHomes;
     }
 
-    private static void addAllJavaHomesFromKey(final String extraJavaHomesKey, final Set<String> javaHomes) {
-        addAllJavaHomesFromPath(javaHomes, System.getProperty(extraJavaHomesKey));
-        addAllJavaHomesFromPath(javaHomes, System.getenv(extraJavaHomesKey));
-    }
-
-    private static void addAllJavaHomesFromPath(final Set<String> javaHomes, final String path) {
+    private static void addAllJavaHomes(String extraJavaHomesProp, Set<String> javaHomes) {
+        String path = System.getProperty(extraJavaHomesProp);
         if (StringUtils.isEmpty(path)) {
             return;
         }
-        final String[] paths = path.split(File.pathSeparator);
+        String[] paths = path.split(File.pathSeparator);
         javaHomes.addAll(Arrays.asList(paths));
+
     }
 
     private static Set<String> findJavaHomesOnWindows(final String keyJavaHome, final String[] keys) {
@@ -228,12 +225,22 @@ public class JdkGenericDumpTestCase {
 
     private File[] listJdkJars() throws Exception {
         final File javaLib = new File(javaHome, "lib");
-        return javaLib.listFiles((FileFilter) file -> file.getName().endsWith(".jar"));
+        return javaLib.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(final File file) {
+                return file.getName().endsWith(".jar");
+            }
+        });
     }
 
     private File[] listJdkModules() throws Exception {
         final File javaLib = new File(javaHome, "jmods");
-        return javaLib.listFiles((FileFilter) file -> file.getName().endsWith(".jmod"));
+        return javaLib.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(final File file) {
+                return file.getName().endsWith(".jmod");
+            }
+        });
     }
 
     private void testJar(final File file) throws Exception {

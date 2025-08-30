@@ -98,7 +98,7 @@ public final class LineNumberTable extends Attribute {
      * @throws IOException if an I/O Exception occurs in writeShort
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
         file.writeShort(line_number_table.length);
         for (final LineNumber lineNumber : line_number_table) {
@@ -110,7 +110,7 @@ public final class LineNumberTable extends Attribute {
     /**
      * @return Array of (pc offset, line number) pairs.
      */
-    public LineNumber[] getLineNumberTable() {
+    public final LineNumber[] getLineNumberTable() {
         return line_number_table;
     }
 
@@ -118,7 +118,7 @@ public final class LineNumberTable extends Attribute {
     /**
      * @param line_number_table the line number entries for this table
      */
-    public void setLineNumberTable( final LineNumber[] line_number_table ) {
+    public final void setLineNumberTable( final LineNumber[] line_number_table ) {
         this.line_number_table = line_number_table;
     }
 
@@ -127,7 +127,7 @@ public final class LineNumberTable extends Attribute {
      * @return String representation.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final StringBuilder buf = new StringBuilder();
         final StringBuilder line = new StringBuilder();
         final String newLine = System.getProperty("line.separator", "\n");
@@ -209,7 +209,7 @@ public final class LineNumberTable extends Attribute {
     }
 
 
-    public int getTableLength() {
+    public final int getTableLength() {
         return line_number_table == null ? 0 : line_number_table.length;
     }
 }

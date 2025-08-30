@@ -28,13 +28,13 @@ import org.apache.bcel.Const;
  * Each entry describes a service implementation that the parent module provides.
  *
  * @see   Module
- * @since 6.4.0
+ * @since 6.4
  */
 public final class ModuleProvides implements Cloneable, Node {
 
-    private final int provides_index;  // points to CONSTANT_Class_info
-    private final int provides_with_count;
-    private final int[] provides_with_index;  // points to CONSTANT_Class_info
+    private int provides_index;  // points to CONSTANT_Class_info
+    private int provides_with_count;
+    private int provides_with_index[];  // points to CONSTANT_Class_info
 
 
     /**
@@ -73,7 +73,7 @@ public final class ModuleProvides implements Cloneable, Node {
      * @param file Output file stream
      * @throws IOException if an I/O Exception occurs in writeShort
      */
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeShort(provides_index);
         file.writeShort(provides_with_count);
         for (final int entry : provides_with_index) {
@@ -86,7 +86,7 @@ public final class ModuleProvides implements Cloneable, Node {
      * @return String representation
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return "provides(" + provides_index + ", " + provides_with_count + ", ...)";
     }
 
@@ -94,7 +94,7 @@ public final class ModuleProvides implements Cloneable, Node {
     /**
      * @return Resolved string representation
      */
-    public String toString( final ConstantPool constant_pool ) {
+    public final String toString( final ConstantPool constant_pool ) {
         final StringBuilder buf = new StringBuilder();
         final String interface_name = constant_pool.constantToString(provides_index, Const.CONSTANT_Class);
         buf.append(Utility.compactClassName(interface_name, false));

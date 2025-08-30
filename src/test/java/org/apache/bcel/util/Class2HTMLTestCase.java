@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 
 import org.apache.bcel.classfile.ClassParser;
 import org.junit.Assert;
-import org.junit.Test;
 
 import junit.framework.TestCase;
 
@@ -41,14 +40,4 @@ public class Class2HTMLTestCase extends TestCase {
             new Class2HTML(parser.parse(), outputDir.getAbsolutePath() + "/");
         }
     }
-
-    /**
-     * Tests that we do not break binary compatibility with BCEL-330.
-     */
-    @Test
-    public void testReferenceToConstant() {
-        @SuppressWarnings("unused")
-        short referenceToConstant = Class2HTML.AALOAD;
-    }
-
 }

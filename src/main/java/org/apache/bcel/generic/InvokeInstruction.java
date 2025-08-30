@@ -55,9 +55,9 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
         final Constant c = cp.getConstant(super.getIndex());
         final StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
 
-        final String opcodeName = Const.getOpcodeName(super.getOpcode());
+        String opcodeName = Const.getOpcodeName(super.getOpcode());
 
-        final StringBuilder sb = new StringBuilder(opcodeName);
+        StringBuilder sb = new StringBuilder(opcodeName);
         if (tok.hasMoreTokens()) {
             sb.append(" ");
             sb.append(tok.nextToken().replace('.', '/'));

@@ -82,7 +82,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
      * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeByte(super.getTag());
         file.writeDouble(bytes);
     }
@@ -91,7 +91,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
     /**
      * @return data, i.e., 8 bytes.
      */
-    public double getBytes() {
+    public final double getBytes() {
         return bytes;
     }
 
@@ -99,7 +99,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
     /**
      * @param bytes the raw bytes that represent the double value
      */
-    public void setBytes( final double bytes ) {
+    public final void setBytes( final double bytes ) {
         this.bytes = bytes;
     }
 
@@ -108,7 +108,7 @@ public final class ConstantDouble extends Constant implements ConstantObject {
      * @return String representation.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + "(bytes = " + bytes + ")";
     }
 

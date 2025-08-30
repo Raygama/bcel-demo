@@ -36,7 +36,7 @@ public final class NestHost extends Attribute {
 
 
     /**
-     * Initializes from another object. Note that both objects use the same
+     * Initialize from another object. Note that both objects use the same
      * references (shallow copy). Use copy() for a physical copy.
      */
     public NestHost(final NestHost c) {
@@ -47,7 +47,7 @@ public final class NestHost extends Attribute {
     /**
      * @param name_index Index in constant pool
      * @param length Content length in bytes
-     * @param host_class_index Host class index
+     * @param int Host class index
      * @param constant_pool Array of constants
      */
     public NestHost(final int name_index, final int length, final int host_class_index,
@@ -58,7 +58,7 @@ public final class NestHost extends Attribute {
 
 
     /**
-     * Constructs object from input stream.
+     * Construct object from input stream.
      * @param name_index Index in constant pool
      * @param length Content length in bytes
      * @param input Input stream
@@ -85,13 +85,13 @@ public final class NestHost extends Attribute {
 
 
     /**
-     * Dumps NestHost attribute to file stream in binary format.
+     * Dump NestHost attribute to file stream in binary format.
      *
      * @param file Output file stream
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
         file.writeShort(host_class_index);
     }
@@ -100,15 +100,15 @@ public final class NestHost extends Attribute {
     /**
      * @return index into constant pool of host class name.
      */
-    public int getHostClassIndex() {
+    public final int getHostClassIndex() {
         return host_class_index;
     }
 
 
     /**
-     * @param host_class_index the host class index
+     * @param int the host class index
      */
-    public void setHostClassIndex( final int host_class_index ) {
+    public final void setHostClassIndex( final int host_class_index ) {
         this.host_class_index = host_class_index;
     }
 
@@ -117,7 +117,7 @@ public final class NestHost extends Attribute {
      * @return String representation
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final StringBuilder buf = new StringBuilder();
         buf.append("NestHost: ");
         final String class_name = super.getConstantPool().getConstantString(host_class_index, Const.CONSTANT_Class);

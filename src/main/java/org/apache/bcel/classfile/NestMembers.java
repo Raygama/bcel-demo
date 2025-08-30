@@ -95,7 +95,7 @@ public final class NestMembers extends Attribute {
      * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
         file.writeShort(classes.length);
         for (final int index : classes) {
@@ -107,7 +107,7 @@ public final class NestMembers extends Attribute {
     /**
      * @return array of indices into constant pool of class names.
      */
-    public int[] getClasses() {
+    public final int[] getClasses() {
         return classes;
     }
 
@@ -115,7 +115,7 @@ public final class NestMembers extends Attribute {
     /**
      * @return Length of classes table.
      */
-    public int getNumberClasses() {
+    public final int getNumberClasses() {
         return classes == null ? 0 : classes.length;
     }
 
@@ -123,7 +123,7 @@ public final class NestMembers extends Attribute {
     /**
      * @return string array of class names
      */
-    public String[] getClassNames() {
+    public final String[] getClassNames() {
         final String[] names = new String[classes.length];
         for (int i = 0; i < classes.length; i++) {
             names[i] = super.getConstantPool().getConstantString(classes[i],
@@ -137,7 +137,7 @@ public final class NestMembers extends Attribute {
      * @param classes the list of class indexes
      * Also redefines number_of_classes according to table length.
      */
-    public void setClasses( final int[] classes ) {
+    public final void setClasses( final int[] classes ) {
         this.classes = classes != null ? classes : new int[0];
     }
 
@@ -146,7 +146,7 @@ public final class NestMembers extends Attribute {
      * @return String representation, i.e., a list of classes.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final StringBuilder buf = new StringBuilder();
         buf.append("NestMembers(");
         buf.append(classes.length);

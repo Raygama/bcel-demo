@@ -56,11 +56,11 @@ public class ProxyCreator {
     /**
      * Load class and create instance
      */
-    public static Object createProxy(final String pack, final String class_name) {
+    public static Object createProxy(String pack, String class_name) {
         try {
-            final Class<?> cl = Class.forName(pack + "$$BCEL$$" + class_name);
+            Class<?> cl = Class.forName(pack + "$$BCEL$$" + class_name);
             return cl.newInstance();
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -72,28 +72,28 @@ public class ProxyCreator {
      * that just prints the passed arguments, load and use it via the class loader
      * mechanism.
      */
-    public static void main(final String[] argv) throws Exception {
-        final ClassLoader loader = ProxyCreator.class.getClassLoader();
+    public static void main(String[] argv) throws Exception {
+        ClassLoader loader = ProxyCreator.class.getClassLoader();
 
         // instanceof won't work here ...
         // TODO this is broken; cannot ever be true now that ClassLoader has been dropped
         if (loader.getClass().toString().equals("class org.apache.bcel.util.ClassLoader")) {
             // Real class name will be set by the class loader
-            final ClassGen cg = new ClassGen("foo", "java.lang.Object", "", Constants.ACC_PUBLIC,
+            ClassGen cg = new ClassGen("foo", "java.lang.Object", "", Constants.ACC_PUBLIC,
                     new String[]{"java.awt.event.ActionListener"});
 
             // That's important, otherwise newInstance() won't work
             cg.addEmptyConstructor(Constants.ACC_PUBLIC);
 
-            final InstructionList il = new InstructionList();
-            final ConstantPoolGen cp = cg.getConstantPool();
-            final InstructionFactory factory = new InstructionFactory(cg);
+            InstructionList il = new InstructionList();
+            ConstantPoolGen cp = cg.getConstantPool();
+            InstructionFactory factory = new InstructionFactory(cg);
 
-            final int out = cp.addFieldref("java.lang.System", "out",
+            int out = cp.addFieldref("java.lang.System", "out",
                     "Ljava/io/PrintStream;");
-            final int println = cp.addMethodref("java.io.PrintStream", "println",
+            int println = cp.addMethodref("java.io.PrintStream", "println",
                     "(Ljava/lang/Object;)V");
-            final MethodGen mg = new MethodGen(Constants.ACC_PUBLIC, Type.VOID,
+            MethodGen mg = new MethodGen(Constants.ACC_PUBLIC, Type.VOID,
                     new Type[]{
                             new ObjectType("java.awt.event.ActionEvent")
                     }, null, "actionPerformed", "foo", il, cp);
@@ -116,15 +116,15 @@ public class ProxyCreator {
             mg.setMaxLocals();
             cg.addMethod(mg.getMethod());
 
-            final byte[] bytes = cg.getJavaClass().getBytes();
+            byte[] bytes = cg.getJavaClass().getBytes();
 
             System.out.println("Uncompressed class: " + bytes.length);
 
-            final String s = Utility.encode(bytes, true);
+            String s = Utility.encode(bytes, true);
             System.out.println("Encoded class: " + s.length());
 
             System.out.print("Creating proxy ... ");
-            final ActionListener a = (ActionListener) createProxy("foo.bar.", s);
+            ActionListener a = (ActionListener) createProxy("foo.bar.", s);
             System.out.println("Done. Now calling actionPerformed()");
 
             a.actionPerformed(new ActionEvent(a, ActionEvent.ACTION_PERFORMED, "hello"));

@@ -98,7 +98,7 @@ public final class ExceptionTable extends Attribute {
      * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
         file.writeShort(exception_index_table.length);
         for (final int index : exception_index_table) {
@@ -110,7 +110,7 @@ public final class ExceptionTable extends Attribute {
     /**
      * @return Array of indices into constant pool of thrown exceptions.
      */
-    public int[] getExceptionIndexTable() {
+    public final int[] getExceptionIndexTable() {
         return exception_index_table;
     }
 
@@ -118,7 +118,7 @@ public final class ExceptionTable extends Attribute {
     /**
      * @return Length of exception table.
      */
-    public int getNumberOfExceptions() {
+    public final int getNumberOfExceptions() {
         return exception_index_table == null ? 0 : exception_index_table.length;
     }
 
@@ -126,7 +126,7 @@ public final class ExceptionTable extends Attribute {
     /**
      * @return class names of thrown exceptions
      */
-    public String[] getExceptionNames() {
+    public final String[] getExceptionNames() {
         final String[] names = new String[exception_index_table.length];
         for (int i = 0; i < exception_index_table.length; i++) {
             names[i] = super.getConstantPool().getConstantString(exception_index_table[i],
@@ -140,7 +140,7 @@ public final class ExceptionTable extends Attribute {
      * @param exception_index_table the list of exception indexes
      * Also redefines number_of_exceptions according to table length.
      */
-    public void setExceptionIndexTable( final int[] exception_index_table ) {
+    public final void setExceptionIndexTable( final int[] exception_index_table ) {
         this.exception_index_table = exception_index_table != null ? exception_index_table : new int[0];
     }
 
@@ -149,7 +149,7 @@ public final class ExceptionTable extends Attribute {
      * @return String representation, i.e., a list of thrown exceptions.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final StringBuilder buf = new StringBuilder();
         String str;
         buf.append("Exceptions: ");

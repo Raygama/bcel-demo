@@ -34,15 +34,15 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
   private ASTExpr if_expr, then_expr, else_expr;
 
   // Generated methods
-  ASTIfExpr(final int id) {
+  ASTIfExpr(int id) {
     super(id);
   }
 
-  ASTIfExpr(final MiniParser p, final int id) {
+  ASTIfExpr(MiniParser p, int id) {
     super(p, id);
   }
 
-  public static Node jjtCreate(final MiniParser p, final int id) {
+  public static Node jjtCreate(MiniParser p, int id) {
     return new ASTIfExpr(p, id);
   }
 
@@ -69,7 +69,7 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Overrides ASTExpr.traverse()
    */
   @Override
-  public ASTExpr traverse(final Environment env) {
+  public ASTExpr traverse(Environment env) { 
     this.env = env;
 
     if_expr   = if_expr.traverse(env);
@@ -89,12 +89,12 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
    * @param expected type
    */
   @Override
-  public int eval(final int expected) {
+  public int eval(int expected) {
     int then_type, else_type, if_type;
 
     if((if_type=if_expr.eval(T_BOOLEAN)) != T_BOOLEAN) {
         MiniC.addError(if_expr.getLine(), if_expr.getColumn(),
-                     "IF expression is not of type boolean, but " +
+                     "IF expression is not of type boolean, but " + 
                      TYPE_NAMES[if_type] + ".");
     }
 
@@ -140,11 +140,11 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Fourth pass, produce Java code.
    */
   @Override
-  public void code(final StringBuffer buf) {
+  public void code(StringBuffer buf) {
     if_expr.code(buf);
 
     buf.append("    if(" + ASTFunDecl.pop() + " == 1) {\n");
-    final int size = ASTFunDecl.size;
+    int size = ASTFunDecl.size;
     then_expr.code(buf);
     ASTFunDecl.size = size; // reset stack
     buf.append("    } else {\n");
@@ -156,11 +156,11 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Fifth pass, produce Java byte code.
    */
   @Override
-  public void byte_code(final InstructionList il, final MethodGen method, final ConstantPoolGen cp) {
+  public void byte_code(InstructionList il, MethodGen method, ConstantPoolGen cp) {
     if_expr.byte_code(il, method, cp);
 
-    final InstructionList then_code = new InstructionList();
-    final InstructionList else_code = new InstructionList();
+    InstructionList then_code = new InstructionList();
+    InstructionList else_code = new InstructionList();
 
     then_expr.byte_code(then_code, method, cp);
     else_expr.byte_code(else_code, method, cp);
@@ -176,7 +176,7 @@ public class ASTIfExpr extends ASTExpr implements org.apache.bcel.Constants {
   }
 
   @Override
-  public void dump(final String prefix) {
+  public void dump(String prefix) {
     System.out.println(toString(prefix));
 
     if_expr.dump(prefix + " ");

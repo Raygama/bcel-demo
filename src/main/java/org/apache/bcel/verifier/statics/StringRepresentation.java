@@ -88,7 +88,6 @@ public class StringRepresentation extends org.apache.bcel.classfile.EmptyVisitor
     /**
      * Creates a new StringRepresentation object which is the representation of n.
      *
-     * @param n The node to represent.
      * @see #toString()
      */
     public StringRepresentation(final Node n) {
@@ -407,7 +406,7 @@ public class StringRepresentation extends org.apache.bcel.classfile.EmptyVisitor
     }
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
     @Override
     public void visitNestMembers(final NestMembers obj) {
