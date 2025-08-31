@@ -27,10 +27,9 @@ import org.apache.bcel.Const;
  * This class is derived from the abstract {@link Constant}
  * and represents a reference to a module.
  *
- * <p>Note: Early access Java 9 support- currently subject to change</p>
+ * Note: Early access Java 9 support- currently subject to change
  *
  * @see     Constant
- * @since 6.1
  */
 public final class ConstantModule extends Constant implements ConstantObject {
 

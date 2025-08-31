@@ -528,7 +528,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    /** @since 6.1 */
     @Override
     public void visitConstantPackage(final ConstantPackage obj) {
         stack.push(obj);
@@ -536,7 +535,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    /** @since 6.1 */
     @Override
     public void visitConstantModule(final ConstantModule obj) {
         stack.push(obj);
