@@ -13,7 +13,7 @@ jobs:
 
     env:
       SONAR_URL: https://sonarcloud.io
-      PROJECT_KEY: Raygama_BCEL-demo
+      PROJECT_KEY: raygama_bcel-demo
 
     steps:
       - uses: actions/checkout@v3
