@@ -66,6 +66,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     private int max_stack;
     private InstructionList il;
     private boolean strip_attributes;
+    private LocalVariableTable local_variable_table = null;
     private LocalVariableTypeTable local_variable_type_table = null;
     private final List<LocalVariableGen> variable_vec = new ArrayList<>();
     private final List<LineNumberGen> line_number_vec = new ArrayList<>();
@@ -130,10 +131,10 @@ public class MethodGen extends FieldGenOrMethodGen {
         setConstantPool(cp);
         final boolean abstract_ = isAbstract() || isNative();
         InstructionHandle start = null;
-        final InstructionHandle end = null;
+        InstructionHandle end = null;
         if (!abstract_) {
             start = il.getStart();
-            // end == null => live to end of method
+            end = il.getEnd();
             /* Add local variables, namely the implicit `this' and the arguments
              */
             if (!isStatic() && (class_name != null)) { // Instance method -> `this' is local var 0
@@ -224,9 +225,10 @@ public class MethodGen extends FieldGenOrMethodGen {
                             }
                         }
                     } else if (a instanceof LocalVariableTable) {
-                        updateLocalVariableTable((LocalVariableTable) a);
+                        this.local_variable_table = (LocalVariableTable) a;
+                        updateLocalVariableTable(this.local_variable_table);
                     } else if (a instanceof LocalVariableTypeTable) {
-                        this.local_variable_type_table = (LocalVariableTypeTable) a.copy(cp.getConstantPool());
+                        this.local_variable_type_table = (LocalVariableTypeTable) a;
                     } else {
                         addCodeAttribute(a);
                     }
@@ -257,19 +259,18 @@ public class MethodGen extends FieldGenOrMethodGen {
      * index is slot+2
      * @param start from where the variable is valid
      * @param end until where the variable is valid
-     * @param orig_index the index of the local variable prior to any modifications
      * @return new local variable object
      * @see LocalVariable
      */
     public LocalVariableGen addLocalVariable( final String name, final Type type, final int slot,
-            final InstructionHandle start, final InstructionHandle end, final int orig_index ) {
+            final InstructionHandle start, final InstructionHandle end ) {
         final byte t = type.getType();
         if (t != Const.T_ADDRESS) {
             final int add = type.getSize();
             if (slot + add > max_locals) {
                 max_locals = slot + add;
             }
-            final LocalVariableGen l = new LocalVariableGen(slot, name, type, start, end, orig_index);
+            final LocalVariableGen l = new LocalVariableGen(slot, name, type, start, end);
             int i;
             if ((i = variable_vec.indexOf(l)) >= 0) {
                 variable_vec.set(i, l);
@@ -280,24 +281,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
         throw new IllegalArgumentException("Can not use " + type
                 + " as type for local variable");
-    }
-
-
-    /**
-     * Adds a local variable to this method.
-     *
-     * @param name variable name
-     * @param type variable type
-     * @param slot the index of the local variable, if type is long or double, the next available
-     * index is slot+2
-     * @param start from where the variable is valid
-     * @param end until where the variable is valid
-     * @return new local variable object
-     * @see LocalVariable
-     */
-    public LocalVariableGen addLocalVariable( final String name, final Type type, final int slot,
-            final InstructionHandle start, final InstructionHandle end ) {
-        return addLocalVariable(name, type, slot, start, end, slot);
     }
 
     /**
@@ -383,12 +366,6 @@ public class MethodGen extends FieldGenOrMethodGen {
                 .getConstantPool());
     }
 
-    /**
-     * @return `LocalVariableTypeTable' attribute of this method.
-     */
-    public LocalVariableTypeTable getLocalVariableTypeTable() {
-        return local_variable_type_table;
-    }
 
     /**
      * Give an instruction a line number corresponding to the source code line.
@@ -570,13 +547,6 @@ public class MethodGen extends FieldGenOrMethodGen {
 
 
     /**
-     * Remove the LocalVariableTypeTable
-     */
-    public void removeLocalVariableTypeTable( ) {
-        local_variable_type_table = null;
-    }
-
-    /**
      * Remove a code attribute.
      */
     public void removeCodeAttribute( final Attribute a ) {
@@ -588,7 +558,6 @@ public class MethodGen extends FieldGenOrMethodGen {
      * Remove all code attributes.
      */
     public void removeCodeAttributes() {
-        local_variable_type_table = null;
         code_attrs_vec.clear();
     }
 
@@ -617,13 +586,13 @@ public class MethodGen extends FieldGenOrMethodGen {
      */
       public void addParameterAnnotationsAsAttribute(final ConstantPoolGen cp) {
           if (!hasParameterAnnotations) {
-              return;
-          }
+            return;
+        }
           final Attribute[] attrs = AnnotationEntryGen.getParameterAnnotationAttributes(cp,param_annotations);
-          if (attrs != null) {
-              for (final Attribute attr : attrs) {
-                  addAttribute(attr);
-              }
+          if (attrs!=null) {
+          for (final Attribute attr : attrs) {
+              addAttribute(attr);
+          }
           }
       }
 
@@ -650,13 +619,15 @@ public class MethodGen extends FieldGenOrMethodGen {
         /* Create LocalVariableTable and LineNumberTable attributes (for debuggers, e.g.)
          */
         if ((variable_vec.size() > 0) && !strip_attributes) {
-            updateLocalVariableTable(getLocalVariableTable(_cp));
+            if (local_variable_table != null) {
+                updateLocalVariableTable(local_variable_table);
+            }
             addCodeAttribute(lvt = getLocalVariableTable(_cp));
         }
         if (local_variable_type_table != null) {
             // LocalVariable length in LocalVariableTypeTable is not updated automatically. It's a difference with LocalVariableTable.
             if (lvt != null) {
-                adjustLocalVariableTypeTable(lvt);
+                adjustLocalVariableLength(lvt);
             }
             addCodeAttribute(local_variable_type_table);
         }
@@ -700,9 +671,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         if (lvt != null) {
             removeCodeAttribute(lvt);
         }
-        if (local_variable_type_table != null) {
-            removeCodeAttribute(local_variable_type_table);
-        }
         if (lnt != null) {
             removeCodeAttribute(lnt);
         }
@@ -720,29 +688,27 @@ public class MethodGen extends FieldGenOrMethodGen {
         removeLocalVariables();
         for (final LocalVariable l : lv) {
             InstructionHandle start = il.findHandle(l.getStartPC());
-            final InstructionHandle end = il.findHandle(l.getStartPC() + l.getLength());
+            InstructionHandle end = il.findHandle(l.getStartPC() + l.getLength());
             // Repair malformed handles
             if (null == start) {
                 start = il.getStart();
             }
-            // end == null => live to end of method
-            // Since we are recreating the LocalVaraible, we must
-            // propagate the orig_index to new copy.
+            if (null == end) {
+                end = il.getEnd();
+            }
             addLocalVariable(l.getName(), Type.getType(l.getSignature()), l
-                    .getIndex(), start, end, l.getOrigIndex());
+                    .getIndex(), start, end);
         }
     }
 
-    private void adjustLocalVariableTypeTable(final LocalVariableTable lvt) {
+    private void adjustLocalVariableLength(final LocalVariableTable lvt) {
         final LocalVariable[] lv = lvt.getLocalVariableTable();
         final LocalVariable[] lvg = local_variable_type_table.getLocalVariableTypeTable();
 
         for (final LocalVariable element : lvg) {
             for (final LocalVariable l : lv) {
-                if (element.getName().equals(l.getName()) && element.getIndex() == l.getOrigIndex()) {
+                if (element.getName().equals(l.getName()) && element.getIndex() == l.getIndex()) {
                     element.setLength(l.getLength());
-                    element.setStartPC(l.getStartPC());
-                    element.setIndex(l.getIndex());
                     break;
                 }
             }

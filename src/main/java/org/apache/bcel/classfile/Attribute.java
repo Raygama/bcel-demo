@@ -235,10 +235,7 @@ public abstract class Attribute implements Cloneable, Node {
             case Const.ATTR_SIGNATURE:
                 return new Signature(name_index, length, file, constant_pool);
             case Const.ATTR_STACK_MAP:
-                // old style stack map: unneeded for JDK5 and below;
-                // illegal(?) for JDK6 and above.  So just delete with a warning.
-                System.err.println("Warning: Obsolete StackMap attribute ignored.");
-                return new Unknown(name_index, length, file, constant_pool);
+                return new StackMap(name_index, length, file, constant_pool);
             case Const.ATTR_RUNTIME_VISIBLE_ANNOTATIONS:
                 return new RuntimeVisibleAnnotations(name_index, length, file, constant_pool);
             case Const.ATTR_RUNTIME_INVISIBLE_ANNOTATIONS:
@@ -254,8 +251,6 @@ public abstract class Attribute implements Cloneable, Node {
             case Const.ATTR_ENCLOSING_METHOD:
                 return new EnclosingMethod(name_index, length, file, constant_pool);
             case Const.ATTR_STACK_MAP_TABLE:
-                // read new style stack map: StackMapTable.  The rest of the code
-                // calls this a StackMap for historical reasons.
                 return new StackMap(name_index, length, file, constant_pool);
             case Const.ATTR_BOOTSTRAP_METHODS:
                 return new BootstrapMethods(name_index, length, file, constant_pool);
