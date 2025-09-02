@@ -63,7 +63,7 @@ public class OperandStack implements Cloneable {
      */
     @Override
     public Object clone() {
-        final OperandStack newstack = new OperandStack(this.maxStack);
+        OperandStack newstack = new OperandStack(this.maxStack);
         @SuppressWarnings("unchecked") // OK because this.stack is the same type
         final ArrayList<Type> clone = (ArrayList<Type>) this.stack.clone();
         newstack.stack = clone;
@@ -92,7 +92,7 @@ public class OperandStack implements Cloneable {
         if (!(o instanceof OperandStack)) {
             return false;
         }
-        final OperandStack s = (OperandStack) o;
+        OperandStack s = (OperandStack) o;
         return this.stack.equals(s.stack);
     }
 
@@ -138,7 +138,7 @@ public class OperandStack implements Cloneable {
      * Returns the element on top of the stack. The element is popped off the stack.
      */
     public Type pop() {
-        final Type e = stack.remove(size()-1);
+        Type e = stack.remove(size()-1);
         return e;
     }
 
@@ -197,7 +197,7 @@ public class OperandStack implements Cloneable {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("Slots used: ");
         sb.append(slotsUsed());
         sb.append(" MaxStack: ");
@@ -253,7 +253,7 @@ public class OperandStack implements Cloneable {
                 }
             }
         }
-        } catch (final ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
         // FIXME: maybe not the best way to handle this
         throw new AssertionViolatedException("Missing class: " + e, e);
         }

@@ -47,8 +47,8 @@ public class FieldGen extends FieldGenOrMethodGen {
 
         @Override
         public boolean equals( final Object o1, final Object o2 ) {
-            final FieldGen THIS = (FieldGen) o1;
-            final FieldGen THAT = (FieldGen) o2;
+            FieldGen THIS = (FieldGen) o1;
+            FieldGen THAT = (FieldGen) o2;
             return THIS.getName().equals(THAT.getName())
                     && THIS.getSignature().equals(THAT.getSignature());
         }
@@ -56,7 +56,7 @@ public class FieldGen extends FieldGenOrMethodGen {
 
         @Override
         public int hashCode( final Object o ) {
-            final FieldGen THIS = (FieldGen) o;
+            FieldGen THIS = (FieldGen) o;
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
         }
     };
@@ -88,14 +88,14 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     public FieldGen(final Field field, final ConstantPoolGen cp) {
         this(field.getAccessFlags(), Type.getType(field.getSignature()), field.getName(), cp);
-        final Attribute[] attrs = field.getAttributes();
-        for (final Attribute attr : attrs) {
+        Attribute[] attrs = field.getAttributes();
+        for (Attribute attr : attrs) {
             if (attr instanceof ConstantValue) {
                 setValue(((ConstantValue) attr).getConstantValueIndex());
             } else if (attr instanceof Annotations) {
-                final Annotations runtimeAnnotations = (Annotations)attr;
-                final AnnotationEntry[] annotationEntries = runtimeAnnotations.getAnnotationEntries();
-                for (final AnnotationEntry element : annotationEntries) {
+                Annotations runtimeAnnotations = (Annotations)attr;
+                AnnotationEntry[] annotationEntries = runtimeAnnotations.getAnnotationEntries();
+                for (AnnotationEntry element : annotationEntries) {
                     addAnnotationEntry(new AnnotationEntryGen(element,cp,false));
                 }
             } else {
@@ -106,8 +106,8 @@ public class FieldGen extends FieldGenOrMethodGen {
 
 
     private void setValue( final int index ) {
-        final ConstantPool cp = super.getConstantPool().getConstantPool();
-        final Constant c = cp.getConstant(index);
+        ConstantPool cp = super.getConstantPool().getConstantPool();
+        Constant c = cp.getConstant(index);
         value = ((ConstantObject) c).getConstantValue(cp);
     }
 
@@ -213,12 +213,12 @@ public class FieldGen extends FieldGenOrMethodGen {
      * Get field object after having set up all necessary values.
      */
     public Field getField() {
-        final String signature = getSignature();
-        final int name_index = super.getConstantPool().addUtf8(super.getName());
-        final int signature_index = super.getConstantPool().addUtf8(signature);
+        String signature = getSignature();
+        int name_index = super.getConstantPool().addUtf8(super.getName());
+        int signature_index = super.getConstantPool().addUtf8(signature);
         if (value != null) {
             checkType(super.getType());
-            final int index = addConstant();
+            int index = addConstant();
             addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, 
                     super.getConstantPool().getConstantPool())); // sic
         }
@@ -228,8 +228,8 @@ public class FieldGen extends FieldGenOrMethodGen {
     }
 
     private void addAnnotationsAsAttribute(final ConstantPoolGen cp) {
-          final Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp, super.getAnnotationEntries());
-        for (final Attribute attr : attrs) {
+          Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp, super.getAnnotationEntries());
+        for (Attribute attr : attrs) {
             addAttribute(attr);
         }
       }
@@ -290,7 +290,7 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     public void update() {
         if (observers != null) {
-            for (final FieldObserver observer : observers ) {
+            for (FieldObserver observer : observers ) {
                 observer.notify(this);
             }
         }
@@ -320,9 +320,9 @@ public class FieldGen extends FieldGenOrMethodGen {
         access = access.isEmpty() ? "" : (access + " ");
         signature = super.getType().toString();
         name = getName();
-        final StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
         buf.append(access).append(signature).append(" ").append(name);
-        final String value = getInitValue();
+        String value = getInitValue();
         if (value != null) {
             buf.append(" = ").append(value);
         }
@@ -333,7 +333,7 @@ public class FieldGen extends FieldGenOrMethodGen {
     /** @return deep copy of this field
      */
     public FieldGen copy( final ConstantPoolGen cp ) {
-        final FieldGen fg = (FieldGen) clone();
+        FieldGen fg = (FieldGen) clone();
         fg.setConstantPool(cp);
         return fg;
     }

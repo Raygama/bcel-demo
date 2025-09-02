@@ -52,8 +52,8 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
      */
     @Override
     public String toString( final ConstantPool cp ) {
-        final Constant c = cp.getConstant(super.getIndex());
-        final StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
+        Constant c = cp.getConstant(super.getIndex());
+        StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
         return Const.getOpcodeName(super.getOpcode()) + " " + tok.nextToken().replace('.', '/')
                 + tok.nextToken();
     }
@@ -73,7 +73,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
             sum = 1; // this reference
         }
 
-        final String signature = getSignature(cpg);
+        String signature = getSignature(cpg);
         sum += Type.getArgumentTypesSize(signature);
         return sum;
     }
@@ -86,7 +86,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
      */
     @Override
     public int produceStack( final ConstantPoolGen cpg ) {
-        final String signature = getSignature(cpg);
+        String signature = getSignature(cpg);
         return Type.getReturnTypeSize(signature);
     }
 

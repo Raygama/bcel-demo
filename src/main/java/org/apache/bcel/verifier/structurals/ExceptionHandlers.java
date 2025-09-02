@@ -44,9 +44,9 @@ public class ExceptionHandlers{
      */
     public ExceptionHandlers(final MethodGen mg) {
         exceptionhandlers = new HashMap<>();
-        final CodeExceptionGen[] cegs = mg.getExceptionHandlers();
-        for (final CodeExceptionGen ceg : cegs) {
-            final ExceptionHandler eh = new ExceptionHandler(ceg.getCatchType(), ceg.getHandlerPC());
+        CodeExceptionGen[] cegs = mg.getExceptionHandlers();
+        for (CodeExceptionGen ceg : cegs) {
+            ExceptionHandler eh = new ExceptionHandler(ceg.getCatchType(), ceg.getHandlerPC());
             for (InstructionHandle ih=ceg.getStartPC(); ih != ceg.getEndPC().getNext(); ih=ih.getNext()) {
                 Set<ExceptionHandler> hs;
                 hs = exceptionhandlers.get(ih);
@@ -64,7 +64,7 @@ public class ExceptionHandlers{
      * handlers that protect the instruction ih.
      */
     public ExceptionHandler[] getExceptionHandlers(final InstructionHandle ih) {
-        final Set<ExceptionHandler> hsSet = exceptionhandlers.get(ih);
+        Set<ExceptionHandler> hsSet = exceptionhandlers.get(ih);
         if (hsSet == null) {
             return new ExceptionHandler[0];
         }

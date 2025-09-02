@@ -125,7 +125,7 @@ public final class SourceFile extends Attribute {
      * @return Source file name.
      */
     public final String getSourceFileName() {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourcefile_index,
+        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourcefile_index,
                 Const.CONSTANT_Utf8);
         return c.getBytes();
     }

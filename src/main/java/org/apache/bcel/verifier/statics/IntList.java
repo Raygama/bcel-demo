@@ -39,9 +39,9 @@ public class IntList{
     }
     /** Checks if the specified int is already in the list. */
     boolean contains(final int i) {
-        final Integer[] ints = new Integer[theList.size()];
+        Integer[] ints = new Integer[theList.size()];
         theList.toArray(ints);
-        for (final Integer k : ints) {
+        for (Integer k : ints) {
             if (i == k.intValue()) {
                 return true;
             }

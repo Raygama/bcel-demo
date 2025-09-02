@@ -46,7 +46,7 @@ public class ElementValuePair
 
     public String getNameString()
     {
-        final ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(
+        ConstantUtf8 c = (ConstantUtf8) constantPool.getConstant(
                 elementNameIndex, Const.CONSTANT_Utf8);
         return c.getBytes();
     }
@@ -63,7 +63,7 @@ public class ElementValuePair
 
     public String toShortString()
     {
-        final StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         result.append(getNameString()).append("=").append(
                 getValue().toShortString());
         return result.toString();

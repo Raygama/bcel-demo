@@ -107,7 +107,7 @@ public abstract class Annotations extends Attribute {
             return;
         }
         dos.writeShort(annotation_table.length);
-        for (final AnnotationEntry element : annotation_table) {
+        for (AnnotationEntry element : annotation_table) {
             element.dump(dos);
         }
     }

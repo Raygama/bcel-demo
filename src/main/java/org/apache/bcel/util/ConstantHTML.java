@@ -84,7 +84,7 @@ final class ConstantHTML {
 
 
     private void writeConstant( final int index ) {
-        final byte tag = constants[index].getTag();
+        byte tag = constants[index].getTag();
         int class_index;
         int name_index;
         String ref;
@@ -98,36 +98,36 @@ final class ConstantHTML {
             case Const.CONSTANT_Methodref:
                 // Get class_index and name_and_type_index, depending on type
                 if (tag == Const.CONSTANT_Methodref) {
-                    final ConstantMethodref c = (ConstantMethodref) constant_pool.getConstant(index,
+                    ConstantMethodref c = (ConstantMethodref) constant_pool.getConstant(index,
                             Const.CONSTANT_Methodref);
                     class_index = c.getClassIndex();
                     name_index = c.getNameAndTypeIndex();
                 } else {
-                    final ConstantInterfaceMethodref c1 = (ConstantInterfaceMethodref) constant_pool
+                    ConstantInterfaceMethodref c1 = (ConstantInterfaceMethodref) constant_pool
                             .getConstant(index, Const.CONSTANT_InterfaceMethodref);
                     class_index = c1.getClassIndex();
                     name_index = c1.getNameAndTypeIndex();
                 }
                 // Get method name and its class
-                final String method_name = constant_pool.constantToString(name_index,
+                String method_name = constant_pool.constantToString(name_index,
                         Const.CONSTANT_NameAndType);
-                final String html_method_name = Class2HTML.toHTML(method_name);
+                String html_method_name = Class2HTML.toHTML(method_name);
                 // Partially compacted class name, i.e., / -> .
-                final String method_class = constant_pool.constantToString(class_index, Const.CONSTANT_Class);
+                String method_class = constant_pool.constantToString(class_index, Const.CONSTANT_Class);
                 String short_method_class = Utility.compactClassName(method_class); // I.e., remove java.lang.
                 short_method_class = Utility.compactClassName(short_method_class, class_package
                         + ".", true); // Remove class package prefix
                 // Get method signature
-                final ConstantNameAndType c2 = (ConstantNameAndType) constant_pool.getConstant(
+                ConstantNameAndType c2 = (ConstantNameAndType) constant_pool.getConstant(
                         name_index, Const.CONSTANT_NameAndType);
-                final String signature = constant_pool.constantToString(c2.getSignatureIndex(),
+                String signature = constant_pool.constantToString(c2.getSignatureIndex(),
                         Const.CONSTANT_Utf8);
                 // Get array of strings containing the argument types
-                final String[] args = Utility.methodSignatureArgumentTypes(signature, false);
+                String[] args = Utility.methodSignatureArgumentTypes(signature, false);
                 // Get return type string
-                final String type = Utility.methodSignatureReturnType(signature, false);
-                final String ret_type = Class2HTML.referenceType(type);
-                final StringBuilder buf = new StringBuilder("(");
+                String type = Utility.methodSignatureReturnType(signature, false);
+                String ret_type = Class2HTML.referenceType(type);
+                StringBuilder buf = new StringBuilder("(");
                 for (int i = 0; i < args.length; i++) {
                     buf.append(Class2HTML.referenceType(args[i]));
                     if (i < args.length - 1) {
@@ -135,7 +135,7 @@ final class ConstantHTML {
                     }
                 }
                 buf.append(")");
-                final String arg_types = buf.toString();
+                String arg_types = buf.toString();
                 if (method_class.equals(class_name)) {
                     ref = "<A HREF=\"" + class_name + "_code.html#method"
                             + getMethodNumber(method_name + signature) + "\" TARGET=Code>"
@@ -155,16 +155,16 @@ final class ConstantHTML {
                 break;
             case Const.CONSTANT_Fieldref:
                 // Get class_index and name_and_type_index
-                final ConstantFieldref c3 = (ConstantFieldref) constant_pool.getConstant(index,
+                ConstantFieldref c3 = (ConstantFieldref) constant_pool.getConstant(index,
                         Const.CONSTANT_Fieldref);
                 class_index = c3.getClassIndex();
                 name_index = c3.getNameAndTypeIndex();
                 // Get method name and its class (compacted)
-                final String field_class = constant_pool.constantToString(class_index, Const.CONSTANT_Class);
+                String field_class = constant_pool.constantToString(class_index, Const.CONSTANT_Class);
                 String short_field_class = Utility.compactClassName(field_class); // I.e., remove java.lang.
                 short_field_class = Utility.compactClassName(short_field_class,
                         class_package + ".", true); // Remove class package prefix
-                final String field_name = constant_pool
+                String field_name = constant_pool
                         .constantToString(name_index, Const.CONSTANT_NameAndType);
                 if (field_class.equals(class_name)) {
                     ref = "<A HREF=\"" + field_class + "_methods.html#field" + field_name
@@ -183,9 +183,9 @@ final class ConstantHTML {
                         + ")</A></UL>");
                 break;
             case Const.CONSTANT_Class:
-                final ConstantClass c4 = (ConstantClass) constant_pool.getConstant(index, Const.CONSTANT_Class);
+                ConstantClass c4 = (ConstantClass) constant_pool.getConstant(index, Const.CONSTANT_Class);
                 name_index = c4.getNameIndex();
-                final String class_name2 = constant_pool.constantToString(index, tag); // / -> .
+                String class_name2 = constant_pool.constantToString(index, tag); // / -> .
                 String short_class_name = Utility.compactClassName(class_name2); // I.e., remove java.lang.
                 short_class_name = Utility.compactClassName(short_class_name, class_package + ".",
                         true); // Remove class package prefix
@@ -197,18 +197,18 @@ final class ConstantHTML {
                         + "\">Name index(" + name_index + ")</A></UL>\n");
                 break;
             case Const.CONSTANT_String:
-                final ConstantString c5 = (ConstantString) constant_pool.getConstant(index,
+                ConstantString c5 = (ConstantString) constant_pool.getConstant(index,
                         Const.CONSTANT_String);
                 name_index = c5.getStringIndex();
-                final String str = Class2HTML.toHTML(constant_pool.constantToString(index, tag));
+                String str = Class2HTML.toHTML(constant_pool.constantToString(index, tag));
                 file.println("<P><TT>" + str + "</TT><UL>" + "<LI><A HREF=\"#cp" + name_index
                         + "\">Name index(" + name_index + ")</A></UL>\n");
                 break;
             case Const.CONSTANT_NameAndType:
-                final ConstantNameAndType c6 = (ConstantNameAndType) constant_pool.getConstant(index,
+                ConstantNameAndType c6 = (ConstantNameAndType) constant_pool.getConstant(index,
                         Const.CONSTANT_NameAndType);
                 name_index = c6.getNameIndex();
-                final int signature_index = c6.getSignatureIndex();
+                int signature_index = c6.getSignatureIndex();
                 file.println("<P><TT>"
                         + Class2HTML.toHTML(constant_pool.constantToString(index, tag))
                         + "</TT><UL>" + "<LI><A HREF=\"#cp" + name_index + "\">Name index("
@@ -223,7 +223,7 @@ final class ConstantHTML {
 
     private int getMethodNumber( final String str ) {
         for (int i = 0; i < methods.length; i++) {
-            final String cmp = methods[i].getName() + methods[i].getSignature();
+            String cmp = methods[i].getName() + methods[i].getSignature();
             if (cmp.equals(str)) {
                 return i;
             }

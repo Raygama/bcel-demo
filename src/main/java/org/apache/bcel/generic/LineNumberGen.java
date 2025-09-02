@@ -90,7 +90,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
     }

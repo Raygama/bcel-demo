@@ -81,13 +81,13 @@ public class ClassPathRepository implements Repository {
             throw new IllegalArgumentException("Invalid class name " + className);
         }
         className = className.replace('/', '.'); // Just in case, canonical form
-        final JavaClass clazz = findClass(className);
+        JavaClass clazz = findClass(className);
         if (clazz != null) {
             return clazz;
         }
         try {
             return loadClass(_path.getInputStream(className), className);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException("Exception while looking for class " + className + ": " + e, e);
         }
     }
@@ -106,20 +106,20 @@ public class ClassPathRepository implements Repository {
      */
     @Override
     public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
-        final String className = clazz.getName();
-        final JavaClass repositoryClass = findClass(className);
+        String className = clazz.getName();
+        JavaClass repositoryClass = findClass(className);
         if (repositoryClass != null) {
             return repositoryClass;
         }
         String name = className;
-        final int i = name.lastIndexOf('.');
+        int i = name.lastIndexOf('.');
         if (i > 0) {
             name = name.substring(i + 1);
         }
         JavaClass cls = null;
         try (InputStream clsStream = clazz.getResourceAsStream(name + ".class")) {
             return cls = loadClass(clsStream, className);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             return cls;
         }
     }
@@ -127,18 +127,18 @@ public class ClassPathRepository implements Repository {
     private JavaClass loadClass(final InputStream is, final String className) throws ClassNotFoundException {
         try {
             if (is != null) {
-                final ClassParser parser = new ClassParser(is, className);
-                final JavaClass clazz = parser.parse();
+                ClassParser parser = new ClassParser(is, className);
+                JavaClass clazz = parser.parse();
                 storeClass(clazz);
                 return clazz;
             }
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassNotFoundException("Exception while looking for class " + className + ": " + e, e);
         } finally {
             if (is != null) {
                 try {
                     is.close();
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     // ignored
                 }
             }

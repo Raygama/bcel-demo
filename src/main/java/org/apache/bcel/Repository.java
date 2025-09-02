@@ -83,12 +83,12 @@ public abstract class Repository {
      */
     public static ClassPath.ClassFile lookupClassFile( final String class_name ) {
         try {
-            final ClassPath path = repository.getClassPath();
+            ClassPath path = repository.getClassPath();
             if (path == null) {
                 return null;
             }
             return path.getClassFile(class_name);
-        } catch (final IOException e) {
+        } catch (IOException e) {
             return null;
         }
     }
@@ -107,7 +107,7 @@ public abstract class Repository {
      * @return old entry in repository
      */
     public static JavaClass addClass( final JavaClass clazz ) {
-        final JavaClass old = repository.findClass(clazz.getClassName());
+        JavaClass old = repository.findClass(clazz.getClassName());
         repository.storeClass(clazz);
         return old;
     }
@@ -146,7 +146,7 @@ public abstract class Repository {
      *  superclasses can't be found
      */
     public static JavaClass[] getSuperClasses( final String class_name ) throws ClassNotFoundException {
-        final JavaClass jc = lookupClass(class_name);
+        JavaClass jc = lookupClass(class_name);
         return getSuperClasses(jc);
     }
 

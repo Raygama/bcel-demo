@@ -45,7 +45,7 @@ public class ClassElementValue extends ElementValue
 
     public String getClassString()
     {
-        final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx,
+        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(idx,
                 Const.CONSTANT_Utf8);
         return c.getBytes();
     }
@@ -53,7 +53,7 @@ public class ClassElementValue extends ElementValue
     @Override
     public String stringifyValue()
     {
-        final ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(idx,
+        ConstantUtf8 cu8 = (ConstantUtf8) super.getConstantPool().getConstant(idx,
                 Const.CONSTANT_Utf8);
         return cu8.getBytes();
     }

@@ -98,7 +98,7 @@ public class VerifierAppFrame extends JFrame {
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
         try {
             jbInit();
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -244,7 +244,7 @@ public class VerifierAppFrame extends JFrame {
         current_class = classNamesJList.getSelectedValue();
         try {
             verify();
-        } catch (final ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             // FIXME: report the error using the GUI
             ex.printStackTrace();
         }
@@ -254,7 +254,7 @@ public class VerifierAppFrame extends JFrame {
 
     private void verify() throws ClassNotFoundException {
         setTitle("PLEASE WAIT");
-        final Verifier v = VerifierFactory.getVerifier(current_class);
+        Verifier v = VerifierFactory.getVerifier(current_class);
         v.flush(); // Don't cache the verification result for this class.
         VerificationResult vr;
         vr = v.doPass1();
@@ -285,14 +285,14 @@ public class VerifierAppFrame extends JFrame {
             } else { // must be Verified_OK, because Pass1 was OK (cannot be Verified_NOTYET).
                 pass2TextPane.setText(vr.getMessage());
                 pass2TextPane.setBackground(Color.green);
-                final JavaClass jc = Repository.lookupClass(current_class);
+                JavaClass jc = Repository.lookupClass(current_class);
                 /*
                  boolean all3aok = true;
                  boolean all3bok = true;
                  String all3amsg = "";
                  String all3bmsg = "";
                  */
-                final String[] methodnames = new String[jc.getMethods().length];
+                String[] methodnames = new String[jc.getMethods().length];
                 for (int i = 0; i < jc.getMethods().length; i++) {
                     methodnames[i] = jc.getMethods()[i].toString().replace('\n', ' ').replace('\t',
                             ' ');
@@ -303,9 +303,9 @@ public class VerifierAppFrame extends JFrame {
                 pass3bJList.setSelectionInterval(0, jc.getMethods().length - 1);
             }
         }
-        final String[] msgs = v.getMessages();
+        String[] msgs = v.getMessages();
         messagesTextPane.setBackground(msgs.length == 0 ? Color.green : Color.yellow);
-        final StringBuilder allmsgs = new StringBuilder();
+        StringBuilder allmsgs = new StringBuilder();
         for (int i = 0; i < msgs.length; i++) {
             msgs[i] = msgs[i].replace('\n', ' ');
             allmsgs.append(msgs[i]).append("\n\n");
@@ -316,7 +316,7 @@ public class VerifierAppFrame extends JFrame {
 
 
     void newFileMenuItem_actionPerformed( final ActionEvent e ) {
-        final String classname = JOptionPane
+        String classname = JOptionPane
                 .showInputDialog("Please enter the fully qualified name of a class or interface to verify:");
         if ((classname == null) || (classname.isEmpty())) {
             return;
@@ -330,13 +330,13 @@ public class VerifierAppFrame extends JFrame {
         if (e.getValueIsAdjusting()) {
             return;
         }
-        final Verifier v = VerifierFactory.getVerifier(current_class);
-        final StringBuilder all3amsg = new StringBuilder();
+        Verifier v = VerifierFactory.getVerifier(current_class);
+        StringBuilder all3amsg = new StringBuilder();
         boolean all3aok = true;
         boolean rejected = false;
         for (int i = 0; i < pass3aJList.getModel().getSize(); i++) {
             if (pass3aJList.isSelectedIndex(i)) {
-                final VerificationResult vr = v.doPass3a(i);
+                VerificationResult vr = v.doPass3a(i);
                 if (vr.getStatus() == VerificationResult.VERIFIED_REJECTED) {
                     all3aok = false;
                     rejected = true;
@@ -346,7 +346,7 @@ public class VerifierAppFrame extends JFrame {
                     jc = Repository.lookupClass(v.getClassName());
                     all3amsg.append("Method '").append(jc.getMethods()[i]).append("': ")
                             .append(vr.getMessage().replace('\n', ' ') ).append("\n\n");
-                } catch (final ClassNotFoundException ex) {
+                } catch (ClassNotFoundException ex) {
                     // FIXME: handle the error
                     ex.printStackTrace();
                 }
@@ -361,13 +361,13 @@ public class VerifierAppFrame extends JFrame {
         if (e.getValueIsAdjusting()) {
             return;
         }
-        final Verifier v = VerifierFactory.getVerifier(current_class);
-        final StringBuilder all3bmsg = new StringBuilder();
+        Verifier v = VerifierFactory.getVerifier(current_class);
+        StringBuilder all3bmsg = new StringBuilder();
         boolean all3bok = true;
         boolean rejected = false;
         for (int i = 0; i < pass3bJList.getModel().getSize(); i++) {
             if (pass3bJList.isSelectedIndex(i)) {
-                final VerificationResult vr = v.doPass3b(i);
+                VerificationResult vr = v.doPass3b(i);
                 if (vr.getStatus() == VerificationResult.VERIFIED_REJECTED) {
                     all3bok = false;
                     rejected = true;
@@ -377,7 +377,7 @@ public class VerifierAppFrame extends JFrame {
                     jc = Repository.lookupClass(v.getClassName());
                     all3bmsg.append("Method '").append(jc.getMethods()[i]).append("': ")
                             .append(vr.getMessage().replace('\n', ' ')).append("\n\n");
-                } catch (final ClassNotFoundException ex) {
+                } catch (ClassNotFoundException ex) {
                     // FIXME: handle the error
                     ex.printStackTrace();
                 }

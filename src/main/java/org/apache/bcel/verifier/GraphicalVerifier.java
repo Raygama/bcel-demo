@@ -35,7 +35,7 @@ public class GraphicalVerifier {
 
     /** Constructor. */
     public GraphicalVerifier() {
-        final VerifierAppFrame frame = new VerifierAppFrame();
+        VerifierAppFrame frame = new VerifierAppFrame();
         //Frames �berpr�fen, die voreingestellte Gr��e haben
         //Frames packen, die nutzbare bevorzugte Gr��eninformationen enthalten, z.B. aus ihrem Layout
         if (packFrame) {
@@ -44,8 +44,8 @@ public class GraphicalVerifier {
             frame.validate();
         }
         //Das Fenster zentrieren
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final Dimension frameSize = frame.getSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize = frame.getSize();
         if (frameSize.height > screenSize.height) {
             frameSize.height = screenSize.height;
         }
@@ -65,7 +65,7 @@ public class GraphicalVerifier {
     public static void main( final String[] args ) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         new GraphicalVerifier();

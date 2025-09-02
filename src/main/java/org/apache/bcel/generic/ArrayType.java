@@ -62,7 +62,7 @@ public final class ArrayType extends ReferenceType {
         }
         switch (type.getType()) {
             case Const.T_ARRAY:
-                final ArrayType array = (ArrayType) type;
+                ArrayType array = (ArrayType) type;
                 this.dimensions = dimensions + array.dimensions;
                 basic_type = array.basic_type;
                 break;
@@ -73,7 +73,7 @@ public final class ArrayType extends ReferenceType {
                 basic_type = type;
                 break;
         }
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.dimensions; i++) {
             buf.append('[');
         }
@@ -121,7 +121,7 @@ public final class ArrayType extends ReferenceType {
     @Override
     public boolean equals( final Object _type ) {
         if (_type instanceof ArrayType) {
-            final ArrayType array = (ArrayType) _type;
+            ArrayType array = (ArrayType) _type;
             return (array.dimensions == dimensions) && array.basic_type.equals(basic_type);
         }
         return false;

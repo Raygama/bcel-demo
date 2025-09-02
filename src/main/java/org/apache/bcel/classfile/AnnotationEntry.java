@@ -138,10 +138,10 @@ public class AnnotationEntry implements Node {
         final StringBuilder result = new StringBuilder();
         result.append("@");
         result.append(getAnnotationType());
-        final ElementValuePair[] evPairs = getElementValuePairs();
+        ElementValuePair[] evPairs = getElementValuePairs();
         if (evPairs.length > 0) {
             result.append("(");
-            for (final ElementValuePair element : evPairs) {
+            for (ElementValuePair element : evPairs) {
                 result.append(element.toShortString());
             }
             result.append(")");
@@ -156,10 +156,10 @@ public class AnnotationEntry implements Node {
 
     public static AnnotationEntry[] createAnnotationEntries(final Attribute[] attrs) {
         // Find attributes that contain annotation data
-        final List<AnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
-        for (final Attribute attribute : attrs) {
+        List<AnnotationEntry> accumulatedAnnotations = new ArrayList<>(attrs.length);
+        for (Attribute attribute : attrs) {
             if (attribute instanceof Annotations) {
-                final Annotations runtimeAnnotations = (Annotations) attribute;
+                Annotations runtimeAnnotations = (Annotations) attribute;
                 Collections.addAll(accumulatedAnnotations, runtimeAnnotations.getAnnotationEntries());
             }
         }

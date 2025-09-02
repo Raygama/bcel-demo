@@ -25,14 +25,12 @@ public class PLSETestClass
     public void meth1(final int arg1)
     {
         @SuppressWarnings("unused")
-        final
         int local1 = arg1;
     }
 
     public void meth2(final int arg1, final ArrayList<String> arg2, final int arg3)
     {
         @SuppressWarnings("unused")
-        final
         int local1 = arg1;
     }
 }

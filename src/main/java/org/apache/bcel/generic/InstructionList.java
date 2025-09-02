@@ -113,8 +113,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
          * Do a binary search since the pos array is orderd.
          */
         do {
-            final int i = (l + r) / 2;
-            final int j = pos[i];
+            int i = (l + r) / 2;
+            int j = pos[i];
             if (j == target) {
                 return ihs[i];
             } else if (target < j) {
@@ -135,7 +135,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return target position's instruction handle if available
      */
     public InstructionHandle findHandle(final int pos) {
-        final int[] positions = byte_positions;
+        int[] positions = byte_positions;
         InstructionHandle ih = start;
         for (int i = 0; i < length; i++) {
             if (positions[i] == pos) {
@@ -164,12 +164,12 @@ public class InstructionList implements Iterable<InstructionHandle> {
              */
             while (bytes.available() > 0) {
                 // Remember byte offset and associate it with the instruction
-                final int off = bytes.getIndex();
+                int off = bytes.getIndex();
                 pos[count] = off;
                 /*
                  * Read one instruction from the byte stream, the byte position is set accordingly.
                  */
-                final Instruction i = Instruction.readInstruction(bytes);
+                Instruction i = Instruction.readInstruction(bytes);
                 InstructionHandle ih;
                 if (i instanceof BranchInstruction) {
                     ih = append((BranchInstruction) i);
@@ -180,7 +180,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 ihs[count] = ih;
                 count++;
             }
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassGenException(e.toString(), e);
         }
         byte_positions = new int[count]; // Trim to proper size
@@ -190,7 +190,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
          */
         for (int i = 0; i < count; i++) {
             if (ihs[i] instanceof BranchHandle) {
-                final BranchInstruction bi = (BranchInstruction) ihs[i].getInstruction();
+                BranchInstruction bi = (BranchInstruction) ihs[i].getInstruction();
                 int target = bi.getPosition() + bi.getIndex(); /*
                                                                 * Byte code position: relative -> absolute.
                                                                 */
@@ -202,8 +202,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 bi.setTarget(ih); // Update target
                 // If it is a Select instruction, update all branch targets
                 if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
-                    final Select s = (Select) bi;
-                    final int[] indices = s.getIndices();
+                    Select s = (Select) bi;
+                    int[] indices = s.getIndices();
                     for (int j = 0; j < indices.length; j++) {
                         target = bi.getPosition() + indices[j];
                         ih = findHandle(ihs, pos, count, target);
@@ -233,8 +233,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (il.isEmpty()) {
             return ih;
         }
-        final InstructionHandle next = ih.getNext();
-        final InstructionHandle ret = il.start;
+        InstructionHandle next = ih.getNext();
+        InstructionHandle ret = il.start;
         ih.setNext(il.start);
         il.start.setPrev(ih);
         il.end.setNext(next);
@@ -316,7 +316,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction handle of the appended instruction
      */
     public InstructionHandle append(final Instruction i) {
-        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
+        InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
         append(ih);
         return ih;
     }
@@ -329,7 +329,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return branch instruction handle of the appended instruction
      */
     public BranchHandle append(final BranchInstruction i) {
-        final BranchHandle ih = BranchHandle.getBranchHandle(i);
+        BranchHandle ih = BranchHandle.getBranchHandle(i);
         append(ih);
         return ih;
     }
@@ -407,8 +407,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction handle pointing to the <B>first</B> appended instruction
      */
     public BranchHandle append(final InstructionHandle ih, final BranchInstruction i) {
-        final BranchHandle bh = BranchHandle.getBranchHandle(i);
-        final InstructionList il = new InstructionList();
+        BranchHandle bh = BranchHandle.getBranchHandle(i);
+        InstructionList il = new InstructionList();
         il.append(bh);
         append(ih, il);
         return bh;
@@ -430,8 +430,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (il.isEmpty()) {
             return ih;
         }
-        final InstructionHandle prev = ih.getPrev();
-        final InstructionHandle ret = il.start;
+        InstructionHandle prev = ih.getPrev();
+        InstructionHandle ret = il.start;
         ih.setPrev(il.end);
         il.end.setNext(ih);
         il.start.setPrev(prev);
@@ -504,7 +504,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction handle of the inserted instruction
      */
     public InstructionHandle insert(final Instruction i) {
-        final InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
+        InstructionHandle ih = InstructionHandle.getInstructionHandle(i);
         insert(ih);
         return ih;
     }
@@ -517,7 +517,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return branch instruction handle of the appended instruction
      */
     public BranchHandle insert(final BranchInstruction i) {
-        final BranchHandle ih = BranchHandle.getBranchHandle(i);
+        BranchHandle ih = BranchHandle.getBranchHandle(i);
         insert(ih);
         return ih;
     }
@@ -595,8 +595,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction handle of the first inserted instruction
      */
     public BranchHandle insert(final InstructionHandle ih, final BranchInstruction i) {
-        final BranchHandle bh = BranchHandle.getBranchHandle(i);
-        final InstructionList il = new InstructionList();
+        BranchHandle bh = BranchHandle.getBranchHandle(i);
+        InstructionList il = new InstructionList();
         il.append(bh);
         insert(ih, il);
         return bh;
@@ -630,7 +630,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             }
         }
         // Step 2: Temporarily remove the given instructions from the list
-        final InstructionHandle prev = start.getPrev();
+        InstructionHandle prev = start.getPrev();
         InstructionHandle next = end.getNext();
         if (prev != null) {
             prev.setNext(next);
@@ -709,11 +709,11 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
         first.setPrev(null); // Completely separated from rest of list
         last.setNext(null);
-        final List<InstructionHandle> target_vec = new ArrayList<>();
+        List<InstructionHandle> target_vec = new ArrayList<>();
         for (InstructionHandle ih = first; ih != null; ih = ih.getNext()) {
             ih.getInstruction().dispose(); // e.g. BranchInstructions release their targets
         }
-        final StringBuilder buf = new StringBuilder("{ ");
+        StringBuilder buf = new StringBuilder("{ ");
         for (InstructionHandle ih = first; ih != null; ih = next) {
             next = ih.getNext();
             length--;
@@ -727,7 +727,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
         }
         buf.append("}");
         if (!target_vec.isEmpty()) {
-            final InstructionHandle[] targeted = new InstructionHandle[target_vec.size()];
+            InstructionHandle[] targeted = new InstructionHandle[target_vec.size()];
             target_vec.toArray(targeted);
             throw new TargetLostException(targeted, buf.toString());
         }
@@ -854,21 +854,21 @@ public class InstructionList implements Iterable<InstructionHandle> {
         int additional_bytes = 0;
         int index = 0;
         int count = 0;
-        final int[] pos = new int[length];
+        int[] pos = new int[length];
         /*
          * Pass 0: Sanity checks
          */
         if (check) {
             for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                final Instruction i = ih.getInstruction();
+                Instruction i = ih.getInstruction();
                 if (i instanceof BranchInstruction) { // target instruction within list?
                     Instruction inst = ((BranchInstruction) i).getTarget().getInstruction();
                     if (!contains(inst)) {
                         throw new ClassGenException("Branch target of " + Const.getOpcodeName(i.getOpcode()) + ":" + inst + " not in instruction list");
                     }
                     if (i instanceof Select) {
-                        final InstructionHandle[] targets = ((Select) i).getTargets();
-                        for (final InstructionHandle target : targets) {
+                        InstructionHandle[] targets = ((Select) i).getTargets();
+                        for (InstructionHandle target : targets) {
                             inst = target.getInstruction();
                             if (!contains(inst)) {
                                 throw new ClassGenException("Branch target of " + Const.getOpcodeName(i.getOpcode()) + ":" + inst + " not in instruction list");
@@ -886,7 +886,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
          * Pass 1: Set position numbers and sum up the maximum number of bytes an instruction may be shifted.
          */
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
+            Instruction i = ih.getInstruction();
             ih.setPosition(index);
             pos[count++] = index;
             /*
@@ -917,7 +917,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
          */
         index = count = 0;
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
+            Instruction i = ih.getInstruction();
             ih.setPosition(index);
             pos[count++] = index;
             index += i.getLength();
@@ -934,15 +934,15 @@ public class InstructionList implements Iterable<InstructionHandle> {
     public byte[] getByteCode() {
         // Update position indices of instructions
         setPositions();
-        final ByteArrayOutputStream b = new ByteArrayOutputStream();
-        final DataOutputStream out = new DataOutputStream(b);
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
         try {
             for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                final Instruction i = ih.getInstruction();
+                Instruction i = ih.getInstruction();
                 i.dump(out); // Traverse list
             }
             out.flush();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             System.err.println(e);
             return new byte[0];
         }
@@ -953,12 +953,12 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return an array of instructions without target information for branch instructions.
      */
     public Instruction[] getInstructions() {
-        final List<Instruction> instructions = new ArrayList<>();
+        List<Instruction> instructions = new ArrayList<>();
         try (ByteSequence bytes = new ByteSequence(getByteCode())) {
             while (bytes.available() > 0) {
                 instructions.add(Instruction.readInstruction(bytes));
             }
-        } catch (final IOException e) {
+        } catch (IOException e) {
             throw new ClassGenException(e.toString(), e);
         }
         return instructions.toArray(new Instruction[instructions.size()]);
@@ -975,7 +975,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return String containing all instructions in this list.
      */
     public String toString(final boolean verbose) {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
             buf.append(ih.toString(verbose)).append("\n");
         }
@@ -996,7 +996,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 if (ih == null) {
                     throw new NoSuchElementException();
                 }
-                final InstructionHandle i = ih;
+                InstructionHandle i = ih;
                 ih = ih.getNext();
                 return i;
             }
@@ -1017,7 +1017,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return array containing all instructions (handles)
      */
     public InstructionHandle[] getInstructionHandles() {
-        final InstructionHandle[] ihs = new InstructionHandle[length];
+        InstructionHandle[] ihs = new InstructionHandle[length];
         InstructionHandle ih = start;
         for (int i = 0; i < length; i++) {
             ihs[i] = ih;
@@ -1040,14 +1040,14 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return complete, i.e., deep copy of this list
      */
     public InstructionList copy() {
-        final Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
-        final InstructionList il = new InstructionList();
+        Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
+        InstructionList il = new InstructionList();
         /*
          * Pass 1: Make copies of all instructions, append them to the new list and associate old instruction references with the new ones, i.e., a 1:1 mapping.
          */
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
-            final Instruction c = i.copy(); // Use clone for shallow copy
+            Instruction i = ih.getInstruction();
+            Instruction c = i.copy(); // Use clone for shallow copy
             if (c instanceof BranchInstruction) {
                 map.put(ih, il.append((BranchInstruction) c));
             } else {
@@ -1060,17 +1060,17 @@ public class InstructionList implements Iterable<InstructionHandle> {
         InstructionHandle ih = start;
         InstructionHandle ch = il.start;
         while (ih != null) {
-            final Instruction i = ih.getInstruction();
-            final Instruction c = ch.getInstruction();
+            Instruction i = ih.getInstruction();
+            Instruction c = ch.getInstruction();
             if (i instanceof BranchInstruction) {
-                final BranchInstruction bi = (BranchInstruction) i;
-                final BranchInstruction bc = (BranchInstruction) c;
-                final InstructionHandle itarget = bi.getTarget(); // old target
+                BranchInstruction bi = (BranchInstruction) i;
+                BranchInstruction bc = (BranchInstruction) c;
+                InstructionHandle itarget = bi.getTarget(); // old target
                 // New target is in hash map
                 bc.setTarget(map.get(itarget));
                 if (bi instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
-                    final InstructionHandle[] itargets = ((Select) bi).getTargets();
-                    final InstructionHandle[] ctargets = ((Select) bc).getTargets();
+                    InstructionHandle[] itargets = ((Select) bi).getTargets();
+                    InstructionHandle[] ctargets = ((Select) bc).getTargets();
                     for (int j = 0; j < itargets.length; j++) { // Update all targets
                         ctargets[j] = map.get(itargets[j]);
                     }
@@ -1087,10 +1087,10 @@ public class InstructionList implements Iterable<InstructionHandle> {
      */
     public void replaceConstantPool(final ConstantPoolGen old_cp, final ConstantPoolGen new_cp) {
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
+            Instruction i = ih.getInstruction();
             if (i instanceof CPInstruction) {
-                final CPInstruction ci = (CPInstruction) i;
-                final Constant c = old_cp.getConstant(ci.getIndex());
+                CPInstruction ci = (CPInstruction) i;
+                Constant c = old_cp.getConstant(ci.getIndex());
                 ci.setIndex(new_cp.addConstant(c, old_cp));
             }
         }
@@ -1154,15 +1154,15 @@ public class InstructionList implements Iterable<InstructionHandle> {
      */
     public void redirectBranches(final InstructionHandle old_target, final InstructionHandle new_target) {
         for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            final Instruction i = ih.getInstruction();
+            Instruction i = ih.getInstruction();
             if (i instanceof BranchInstruction) {
-                final BranchInstruction b = (BranchInstruction) i;
-                final InstructionHandle target = b.getTarget();
+                BranchInstruction b = (BranchInstruction) i;
+                InstructionHandle target = b.getTarget();
                 if (target == old_target) {
                     b.setTarget(new_target);
                 }
                 if (b instanceof Select) { // Either LOOKUPSWITCH or TABLESWITCH
-                    final InstructionHandle[] targets = ((Select) b).getTargets();
+                    InstructionHandle[] targets = ((Select) b).getTargets();
                     for (int j = 0; j < targets.length; j++) {
                         if (targets[j] == old_target) {
                             ((Select) b).setTarget(j, new_target);
@@ -1185,9 +1185,9 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @see MethodGen
      */
     public void redirectLocalVariables(final LocalVariableGen[] lg, final InstructionHandle old_target, final InstructionHandle new_target) {
-        for (final LocalVariableGen element : lg) {
-            final InstructionHandle start = element.getStart();
-            final InstructionHandle end = element.getEnd();
+        for (LocalVariableGen element : lg) {
+            InstructionHandle start = element.getStart();
+            InstructionHandle end = element.getEnd();
             if (start == old_target) {
                 element.setStart(new_target);
             }
@@ -1209,7 +1209,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @see MethodGen
      */
     public void redirectExceptionHandlers(final CodeExceptionGen[] exceptions, final InstructionHandle old_target, final InstructionHandle new_target) {
-        for (final CodeExceptionGen exception : exceptions) {
+        for (CodeExceptionGen exception : exceptions) {
             if (exception.getStartPC() == old_target) {
                 exception.setStartPC(new_target);
             }
@@ -1249,7 +1249,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      */
     public void update() {
         if (observers != null) {
-            for (final InstructionListObserver observer : observers) {
+            for (InstructionListObserver observer : observers) {
                 observer.notify(this);
             }
         }
