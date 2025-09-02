@@ -683,7 +683,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         return m;
     }
 
-    private void updateLocalVariableTable(final LocalVariableTable a) {
+    private void updateLocalVariableTable(LocalVariableTable a) {
         final LocalVariable[] lv = a.getLocalVariableTable();
         removeLocalVariables();
         for (final LocalVariable l : lv) {
@@ -701,14 +701,14 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
     }
 
-    private void adjustLocalVariableLength(final LocalVariableTable lvt) {
-        final LocalVariable[] lv = lvt.getLocalVariableTable();
-        final LocalVariable[] lvg = local_variable_type_table.getLocalVariableTypeTable();
+    private void adjustLocalVariableLength(LocalVariableTable lvt) {
+        LocalVariable[] lv = lvt.getLocalVariableTable();
+        LocalVariable[] lvg = local_variable_type_table.getLocalVariableTypeTable();
 
-        for (final LocalVariable element : lvg) {
-            for (final LocalVariable l : lv) {
-                if (element.getName().equals(l.getName()) && element.getIndex() == l.getIndex()) {
-                    element.setLength(l.getLength());
+        for (int i = 0, length = lvg.length; i < length; i++) {
+            for (LocalVariable l : lv) {
+                if (lvg[i].getName().equals(l.getName()) && lvg[i].getIndex() == l.getIndex()) {
+                    lvg[i].setLength(l.getLength());
                     break;
                 }
             }
@@ -1146,11 +1146,11 @@ public class MethodGen extends FieldGenOrMethodGen {
                 } else {
                     paramAnnInvisAttr = rpa;
                 }
-                final ParameterAnnotationEntry[] parameterAnnotationEntries = rpa.getParameterAnnotationEntries();
-                for (int j = 0; j < parameterAnnotationEntries.length; j++)
+                for (int j = 0; j < arg_types.length; j++)
                 {
                     // This returns Annotation[] ...
-                    final ParameterAnnotationEntry immutableArray = rpa.getParameterAnnotationEntries()[j];
+                    final ParameterAnnotationEntry immutableArray = rpa
+                            .getParameterAnnotationEntries()[j];
                     // ... which needs transforming into an AnnotationGen[] ...
                     final List<AnnotationEntryGen> mutable = makeMutableVersion(immutableArray.getAnnotationEntries());
                     // ... then add these to any we already know about
