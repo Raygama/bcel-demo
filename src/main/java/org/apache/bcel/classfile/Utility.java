@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,8 +34,8 @@ import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /**
  * Utility functions that do not really belong to any class in particular.
@@ -147,18 +147,22 @@ public abstract class Utility {
     public static String codeToString( final byte[] code, final ConstantPool constant_pool, final int index,
             final int length, final boolean verbose ) {
         StringBuilder buf = new StringBuilder(code.length * 20); // Should be sufficient // CHECKSTYLE IGNORE MagicNumber
-        try (ByteSequence stream = new ByteSequence(code)) {
+        ByteSequence stream = new ByteSequence(code);
+        try {
             for (int i = 0; i < index; i++) {
                 codeToString(stream, constant_pool, verbose);
             }
             for (int i = 0; stream.available() > 0; i++) {
                 if ((length < 0) || (i < length)) {
                     String indices = fillup(stream.getIndex() + ":", 6, true, ' ');
-                    buf.append(indices).append(codeToString(stream, constant_pool, verbose)).append('\n');
+                    buf.append(indices).append(codeToString(stream, constant_pool, verbose))
+                            .append('\n');
                 }
             }
         } catch (IOException e) {
-            throw new ClassFormatException("Byte code error: " + buf.toString(), e);
+            System.out.println(buf.toString());
+            e.printStackTrace();
+            throw new ClassFormatException("Byte code error: " + e, e);
         }
         return buf.toString();
     }
@@ -438,7 +442,8 @@ public abstract class Utility {
                                 buf.append(bytes.readInt());
                                 break;
                             default: // Never reached
-                                throw new IllegalStateException("Unreachable default case reached!");
+                                System.err.println("Unreachable default case reached!");
+                                System.exit(-1);
                         }
                     }
                 }
@@ -1264,21 +1269,22 @@ public abstract class Utility {
      * 
      * @throws IOException if there's a gzip exception
      */
-    public static String encode(byte[] bytes, final boolean compress) throws IOException {
+    public static String encode( byte[] bytes, final boolean compress ) throws IOException {
         if (compress) {
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    GZIPOutputStream gos = new GZIPOutputStream(baos)) {
-                gos.write(bytes, 0, bytes.length);
-                bytes = baos.toByteArray();
-            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            GZIPOutputStream gos = new GZIPOutputStream(baos);
+            gos.write(bytes, 0, bytes.length);
+            gos.close();
+            baos.close();
+            bytes = baos.toByteArray();
         }
         CharArrayWriter caw = new CharArrayWriter();
-        try (JavaWriter jw = new JavaWriter(caw)) {
-            for (byte b : bytes) {
-                int in = b & 0x000000ff; // Normalize to unsigned
-                jw.write(in);
-            }
+        JavaWriter jw = new JavaWriter(caw);
+        for (byte b : bytes) {
+            int in = b & 0x000000ff; // Normalize to unsigned
+            jw.write(in);
         }
+        jw.close();
         return caw.toString();
     }
 
@@ -1291,16 +1297,19 @@ public abstract class Utility {
      * 
      * @throws IOException if there's a gzip exception
      */
-    public static byte[] decode(final String s, final boolean uncompress) throws IOException {
-        byte[] bytes;
-        try (JavaReader jr = new JavaReader(new CharArrayReader(s.toCharArray()));
-                ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            int ch;
-            while ((ch = jr.read()) >= 0) {
-                bos.write(ch);
-            }
-            bytes = bos.toByteArray();
+    public static byte[] decode( final String s, final boolean uncompress ) throws IOException {
+        char[] chars = s.toCharArray();
+        CharArrayReader car = new CharArrayReader(chars);
+        JavaReader jr = new JavaReader(car);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        int ch;
+        while ((ch = jr.read()) >= 0) {
+            bos.write(ch);
         }
+        bos.close();
+        car.close();
+        jr.close();
+        byte[] bytes = bos.toByteArray();
         if (uncompress) {
             GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
             byte[] tmp = new byte[bytes.length * 3]; // Rough estimate

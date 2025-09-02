@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /** 
  * Instances of this class may be used, e.g., to generate typed
@@ -32,7 +32,7 @@ import org.apache.bcel.Const;
  * @see Const
  * @see InstructionConst
  */
-public class InstructionFactory implements InstructionConstants {
+public class InstructionFactory {
 
     // N.N. These must agree with the order of Constants.T_CHAR through T_LONG
     private static final String[] short_names = {
@@ -592,7 +592,7 @@ public class InstructionFactory implements InstructionConstants {
                     && (src == Const.T_CHAR || src == Const.T_BYTE || src == Const.T_SHORT)) {
                 src = Const.T_INT;
             }
-            String name = "org.apache.bcel.generic." + short_names[src - Const.T_CHAR] + "2"
+            String name = "org.apache.commons.bcel6.generic." + short_names[src - Const.T_CHAR] + "2"
                     + short_names[dest - Const.T_CHAR];
             Instruction i = null;
             try {

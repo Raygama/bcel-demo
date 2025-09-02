@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * Thrown on internal errors. Extends RuntimeException so it hasn't to be declared

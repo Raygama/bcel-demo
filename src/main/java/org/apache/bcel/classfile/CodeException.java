@@ -15,14 +15,13 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.Constants;
+import org.apache.commons.bcel6.Const;
 
 /**
  * This class represents an entry in the exception table of the <em>Code</em>
@@ -32,7 +31,7 @@ import org.apache.bcel.Constants;
  * @version $Id$
  * @see     Code
  */
-public final class CodeException implements Cloneable, Node, Constants {
+public final class CodeException implements Cloneable, Node {
 
     private int start_pc; // Range in the code the exception handler is
     private int end_pc; // active. start_pc is inclusive, end_pc exclusive

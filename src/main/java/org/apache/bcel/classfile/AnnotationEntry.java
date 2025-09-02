@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /**
  * represents one annotation in the annotation table

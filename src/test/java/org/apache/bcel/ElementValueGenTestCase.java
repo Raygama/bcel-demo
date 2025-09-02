@@ -43,7 +43,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
     /**
      * Create primitive element values
      */
-    public void testCreateIntegerElementValue() throws Exception
+    public void testCreateIntegerElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -57,7 +57,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateFloatElementValue() throws Exception
+    public void testCreateFloatElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -71,7 +71,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateDoubleElementValue() throws Exception
+    public void testCreateDoubleElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -85,7 +85,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateLongElementValue() throws Exception
+    public void testCreateLongElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -99,7 +99,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateCharElementValue() throws Exception
+    public void testCreateCharElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -113,7 +113,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateByteElementValue() throws Exception
+    public void testCreateByteElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -127,7 +127,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateBooleanElementValue() throws Exception
+    public void testCreateBooleanElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -141,7 +141,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    public void testCreateShortElementValue() throws Exception
+    public void testCreateShortElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -157,7 +157,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
 
     // //
     // Create string element values
-    public void testCreateStringElementValue() throws Exception
+    public void testCreateStringElementValue()
     {
         // Create HelloWorld
         ClassGen cg = createClassGen("HelloWorld");
@@ -174,7 +174,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
 
     // //
     // Create enum element value
-    public void testCreateEnumElementValue() throws Exception
+    public void testCreateEnumElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -198,7 +198,7 @@ public class ElementValueGenTestCase extends AbstractTestCase
 
     // //
     // Create class element value
-    public void testCreateClassElementValue() throws Exception
+    public void testCreateClassElementValue()
     {
         ClassGen cg = createClassGen("HelloWorld");
         ConstantPoolGen cp = cg.getConstantPool();
@@ -209,20 +209,32 @@ public class ElementValueGenTestCase extends AbstractTestCase
         checkSerialize(evg, cp);
     }
 
-    private void checkSerialize(final ElementValueGen evgBefore, final ConstantPoolGen cpg) throws IOException {
-        String beforeValue = evgBefore.stringifyValue();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (DataOutputStream dos = new DataOutputStream(baos)) {
+    private void checkSerialize(final ElementValueGen evgBefore, final ConstantPoolGen cpg)
+    {
+        try
+        {
+            String beforeValue = evgBefore.stringifyValue();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(baos);
             evgBefore.dump(dos);
             dos.flush();
+            dos.close();
+            byte[] bs = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(bs);
+            DataInputStream dis = new DataInputStream(bais);
+            ElementValueGen evgAfter = ElementValueGen.readElementValue(dis,
+                    cpg);
+            dis.close();
+            String afterValue = evgAfter.stringifyValue();
+            if (!beforeValue.equals(afterValue))
+            {
+                fail("Deserialization failed: before='" + beforeValue
+                        + "' after='" + afterValue + "'");
+            }
         }
-        ElementValueGen evgAfter;
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()))) {
-            evgAfter = ElementValueGen.readElementValue(dis, cpg);
-        }
-        String afterValue = evgAfter.stringifyValue();
-        if (!beforeValue.equals(afterValue)) {
-            fail("Deserialization failed: before='" + beforeValue + "' after='" + afterValue + "'");
+        catch (IOException ioe)
+        {
+            fail("Unexpected exception whilst checking serialization: " + ioe);
         }
     }
 }

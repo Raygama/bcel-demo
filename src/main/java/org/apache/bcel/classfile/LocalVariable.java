@@ -15,14 +15,13 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.Constants;
+import org.apache.commons.bcel6.Const;
 
 /**
  * This class represents a local variable within a method. It contains its
@@ -31,7 +30,7 @@ import org.apache.bcel.Constants;
  * @version $Id$
  * @see     LocalVariableTable
  */
-public final class LocalVariable implements Cloneable, Node, Constants {
+public final class LocalVariable implements Cloneable, Node {
 
     private int start_pc; // Range in which the variable is valid
     private int length;

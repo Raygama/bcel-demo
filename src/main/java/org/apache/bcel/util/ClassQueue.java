@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.util.LinkedList;
 
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /** 
  * Utility class implementing a (typesafe) queue of JavaClass

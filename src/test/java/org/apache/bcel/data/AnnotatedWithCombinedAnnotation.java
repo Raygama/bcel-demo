@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.bcel.data;
+package org.apache.commons.bcel6.data;
 
 @CombinedAnnotation( { @SimpleAnnotation(id = 4) })
 public class AnnotatedWithCombinedAnnotation

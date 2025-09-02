@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * Denote that a class targets InstructionHandles within an InstructionList. Namely

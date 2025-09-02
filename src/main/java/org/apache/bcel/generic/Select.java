@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /** 
  * Select - Abstract super class for LOOKUPSWITCH and TABLESWITCH instructions.
@@ -377,7 +377,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     
     /**
      * 
-     * @return the padding
+     * @return
      * @since 6.0
      */
     final int getPadding() {

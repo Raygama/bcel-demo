@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * Imnplement this interface if you're interested in changes to a FieldGen object

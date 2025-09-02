@@ -1,4 +1,4 @@
-package org.apache.bcel.verifier.tests;
+package org.apache.commons.bcel6.verifier.tests;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,8 +30,12 @@ public abstract class TestCreator {
 
     public void create() throws IOException {
         File classFile = new File(getPackageFolder(), getClassName());
-        try (FileOutputStream out = new FileOutputStream(classFile)) {
+        FileOutputStream out = new FileOutputStream(classFile);
+        try {
             create(out);
+        }
+        finally {
+            out.close();
         }
     }
     

@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.structurals;
+package org.apache.commons.bcel6.verifier.structurals;
 
 
-import org.apache.bcel.generic.InstructionHandle;
+import org.apache.commons.bcel6.generic.InstructionHandle;
 
 /**
  * This interface defines properties of JVM bytecode subroutines.

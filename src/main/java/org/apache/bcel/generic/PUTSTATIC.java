@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /** 
  * PUTSTATIC - Put static field in class

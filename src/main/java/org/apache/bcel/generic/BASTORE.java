@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * BASTORE -  Store into byte or boolean array
@@ -28,7 +28,7 @@ public class BASTORE extends ArrayInstruction implements StackConsumer {
     /** Store byte or boolean into array
      */
     public BASTORE() {
-        super(org.apache.bcel.Const.BASTORE);
+        super(org.apache.commons.bcel6.Const.BASTORE);
     }
 
 

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.exc;
+package org.apache.commons.bcel6.verifier.exc;
 
 /**
  * Instances of this class are thrown by BCEL's class file verifier "JustIce"
@@ -28,7 +28,7 @@ public class InvalidMethodException extends RuntimeException{
     private static final long serialVersionUID = -7060302743724808051L;
 
     /** Constructs an InvalidMethodException with the specified detail message. */
-    public InvalidMethodException(final String message) {
+    public InvalidMethodException(final String message){
         super(message);
     }
 }

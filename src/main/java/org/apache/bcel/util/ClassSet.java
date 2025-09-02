@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /** 
  * Utility class implementing a (typesafe) set of JavaClass objects.
@@ -33,31 +33,31 @@ import org.apache.bcel.classfile.JavaClass;
  */
 public class ClassSet {
 
-    private final Map<String, JavaClass> map = new HashMap<>();
+    private final Map<String, JavaClass> _map = new HashMap<>();
 
 
     public boolean add( final JavaClass clazz ) {
         boolean result = false;
-        if (!map.containsKey(clazz.getClassName())) {
+        if (!_map.containsKey(clazz.getClassName())) {
             result = true;
-            map.put(clazz.getClassName(), clazz);
+            _map.put(clazz.getClassName(), clazz);
         }
         return result;
     }
 
 
     public void remove( final JavaClass clazz ) {
-        map.remove(clazz.getClassName());
+        _map.remove(clazz.getClassName());
     }
 
 
     public boolean empty() {
-        return map.isEmpty();
+        return _map.isEmpty();
     }
 
 
     public JavaClass[] toArray() {
-        Collection<JavaClass> values = map.values();
+        Collection<JavaClass> values = _map.values();
         JavaClass[] classes = new JavaClass[values.size()];
         values.toArray(classes);
         return classes;
@@ -65,6 +65,6 @@ public class ClassSet {
 
 
     public String[] getClassNames() {
-        return map.keySet().toArray(new String[map.size()]);
+        return _map.keySet().toArray(new String[_map.size()]);
     }
 }

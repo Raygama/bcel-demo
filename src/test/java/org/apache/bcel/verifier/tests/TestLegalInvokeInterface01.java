@@ -15,11 +15,11 @@
  * limitations under the License.
  * 
  */
-package org.apache.bcel.verifier.tests;
+package org.apache.commons.bcel6.verifier.tests;
 
 public class TestLegalInvokeInterface01{
 
-    public static void test1(final Interface01 t) {
+    public static void test1(final Interface01 t){
         t.run();
     }
 }

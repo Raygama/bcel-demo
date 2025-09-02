@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * IMPDEP2 - Implementation dependent
@@ -25,7 +25,7 @@ package org.apache.bcel.generic;
 public class IMPDEP2 extends Instruction {
 
     public IMPDEP2() {
-        super(org.apache.bcel.Const.IMPDEP2, (short) 1);
+        super(org.apache.commons.bcel6.Const.IMPDEP2, (short) 1);
     }
 
 

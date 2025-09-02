@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +26,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.generic.ClassGenException;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.InstructionList;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.generic.ClassGenException;
+import org.apache.commons.bcel6.generic.InstructionHandle;
+import org.apache.commons.bcel6.generic.InstructionList;
 
 /**
  * InstructionFinder is a tool to search for given instructions patterns, i.e.,
@@ -50,7 +50,7 @@ import org.apache.bcel.generic.InstructionList;
  *   InstructionFinder f   = new InstructionFinder(il);
  *   String            pat = &quot;IfInstruction ICONST_0 GOTO ICONST_1 NOP (IFEQ|IFNE)&quot;;
  *   
- *   for (Iterator i = f.search(pat, constraint); i.hasNext(); ) {
+ *   for(Iterator i = f.search(pat, constraint); i.hasNext(); ) {
  *   InstructionHandle[] match = (InstructionHandle[])i.next();
  *   ...
  *   il.delete(match[1], match[5]);
@@ -61,7 +61,7 @@ import org.apache.bcel.generic.InstructionList;
  * </pre>
  * 
  * @version $Id$
- * @see org.apache.bcel.generic.Instruction
+ * @see Instruction
  * @see InstructionList
  */
 public class InstructionFinder {
@@ -297,14 +297,14 @@ public class InstructionFinder {
      * check constraints that can not expressed with regular expressions.
      * 
      */
-    public interface CodeConstraint {
+    public static interface CodeConstraint {
 
         /**
          * @param match
          *          array of instructions matching the requested pattern
          * @return true if the matched area is really useful
          */
-        boolean checkCode( InstructionHandle[] match );
+        public boolean checkCode( InstructionHandle[] match );
     }
 
     // Initialize pattern map

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * NOP - Do nothing
@@ -25,7 +25,7 @@ package org.apache.bcel.generic;
 public class NOP extends Instruction {
 
     public NOP() {
-        super(org.apache.bcel.Const.NOP, (short) 1);
+        super(org.apache.commons.bcel6.Const.NOP, (short) 1);
     }
 
 

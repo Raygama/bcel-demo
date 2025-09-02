@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.Constant;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /**
  * This class is a container for a list of <a href="Instruction.html">Instruction</a> objects. Instructions can be appended, inserted, moved, deleted, etc..
@@ -153,15 +153,14 @@ public class InstructionList implements Iterable<InstructionHandle> {
      *            byte array containing the instructions
      */
     public InstructionList(final byte[] code) {
+        ByteSequence bytes = new ByteSequence(code);
+        InstructionHandle[] ihs = new InstructionHandle[code.length];
+        int[] pos = new int[code.length]; // Can't be more than that
         int count = 0; // Contains actual length
-        int[] pos;
-        InstructionHandle[] ihs;
-        try (ByteSequence bytes = new ByteSequence(code)) {
-            ihs = new InstructionHandle[code.length];
-            pos = new int[code.length]; // Can't be more than that
-            /*
-             * Pass 1: Create an object for each byte code and append them to the list.
-             */
+        /*
+         * Pass 1: Create an object for each byte code and append them to the list.
+         */
+        try {
             while (bytes.available() > 0) {
                 // Remember byte offset and associate it with the instruction
                 int off = bytes.getIndex();
@@ -953,8 +952,9 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return an array of instructions without target information for branch instructions.
      */
     public Instruction[] getInstructions() {
+        ByteSequence bytes = new ByteSequence(getByteCode());
         List<Instruction> instructions = new ArrayList<>();
-        try (ByteSequence bytes = new ByteSequence(getByteCode())) {
+        try {
             while (bytes.available() > 0) {
                 instructions.add(Instruction.readInstruction(bytes));
             }

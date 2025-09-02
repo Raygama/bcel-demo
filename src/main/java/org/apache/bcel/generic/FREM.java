@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * FREM - Remainder of floats
@@ -28,7 +28,7 @@ public class FREM extends ArithmeticInstruction {
     /** Remainder of floats
      */
     public FREM() {
-        super(org.apache.bcel.Const.FREM);
+        super(org.apache.commons.bcel6.Const.FREM);
     }
 
 

@@ -15,12 +15,12 @@
  *  limitations under the License.
  */
 
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /**
  * This class represents a stack map entry recording the types of
@@ -102,7 +102,6 @@ public final class StackMapEntry implements Node, Cloneable
      * @deprecated Since 6.0, use {@link #StackMapEntry(int, int, StackMapType[], StackMapType[], ConstantPool)}
      * instead
      */
-    @java.lang.Deprecated
     public StackMapEntry(final int byte_code_offset, final int number_of_locals,
             final StackMapType[] types_of_locals, final int number_of_stack_items,
             final StackMapType[] types_of_stack_items, final ConstantPool constant_pool) {
@@ -323,7 +322,7 @@ public final class StackMapEntry implements Node, Cloneable
      * entry to the next.  Note that this might cause the the
      * frame type to change.  Note also that delta may be negative.
      *
-     * @param delta offset delta
+     * @param int offset delta
      */
     public void updateByteCodeOffset(final int delta) {
         setByteCodeOffset(byte_code_offset + delta);

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LNEG - Negate long
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class LNEG extends ArithmeticInstruction {
 
     public LNEG() {
-        super(org.apache.bcel.Const.LNEG);
+        super(org.apache.commons.bcel6.Const.LNEG);
     }
 
 

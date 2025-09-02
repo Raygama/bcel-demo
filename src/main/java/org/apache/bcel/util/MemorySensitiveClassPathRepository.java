@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,23 +23,23 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /**
  * This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are loaded from the file systems using the paths
  * specified in the given class path. By default, this is the value returned by ClassPath.getClassPath(). This repository holds onto classes with
  * SoftReferences, and will reload as needed, in cases where memory sizes are important.<br>
  *
- * @see org.apache.bcel.Repository
+ * @see org.apache.commons.bcel6.Repository
  */
 public class MemorySensitiveClassPathRepository implements Repository {
 
-    private ClassPath path = null;
-    private final Map<String, SoftReference<JavaClass>> loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
+    private ClassPath _path = null;
+    private final Map<String, SoftReference<JavaClass>> _loadedClasses = new HashMap<>(); // CLASSNAME X JAVACLASS
 
     public MemorySensitiveClassPathRepository(final ClassPath path) {
-        this.path = path;
+        _path = path;
     }
 
     /**
@@ -47,7 +47,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public void storeClass(final JavaClass clazz) {
-        loadedClasses.put(clazz.getClassName(), new SoftReference<>(clazz));
+        _loadedClasses.put(clazz.getClassName(), new SoftReference<>(clazz));
         clazz.setRepository(this);
     }
 
@@ -56,7 +56,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public void removeClass(final JavaClass clazz) {
-        loadedClasses.remove(clazz.getClassName());
+        _loadedClasses.remove(clazz.getClassName());
     }
 
     /**
@@ -64,7 +64,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public JavaClass findClass(final String className) {
-        SoftReference<JavaClass> ref = loadedClasses.get(className);
+        SoftReference<JavaClass> ref = _loadedClasses.get(className);
         if (ref == null) {
             return null;
         }
@@ -83,7 +83,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public JavaClass loadClass(String className) throws ClassNotFoundException {
-        if ((className == null) || className.isEmpty()) {
+        if ((className == null) || className.equals("")) {
             throw new IllegalArgumentException("Invalid class name " + className);
         }
         className = className.replace('/', '.'); // Just in case, canonical form
@@ -92,7 +92,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
             return clazz;
         }
         try {
-            return loadClass(path.getInputStream(className), className);
+            return loadClass(_path.getInputStream(className), className);
         } catch (IOException e) {
             throw new ClassNotFoundException("Exception while looking for class " + className + ": " + e, e);
         }
@@ -112,23 +112,29 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
-        String className = clazz.getName();
-        JavaClass repositoryClass = findClass(className);
-        if (repositoryClass != null) {
-            return repositoryClass;
+        InputStream clsStream = null;
+        try {
+            String className = clazz.getName();
+            JavaClass repositoryClass = findClass(className);
+            if (repositoryClass != null) {
+                return repositoryClass;
+            }
+            String name = className;
+            int i = name.lastIndexOf('.');
+            if (i > 0) {
+                name = name.substring(i + 1);
+            }
+            clsStream = clazz.getResourceAsStream(name + ".class");
+            return loadClass(clsStream, className);
+        } finally {
+            try {
+                if (clsStream != null) {
+                    clsStream.close();
+                }
+            } catch (IOException ioe) {
+                // don't care
+            }
         }
-        String name = className;
-        int i = name.lastIndexOf('.');
-        if (i > 0) {
-            name = name.substring(i + 1);
-        }
-        JavaClass cls = null;
-        try (InputStream clsStream = clazz.getResourceAsStream(name + ".class")) {
-            return cls = loadClass(clsStream, className);
-        } catch (IOException e) {
-            return cls;
-        }
-
     }
 
     private JavaClass loadClass(final InputStream is, final String className) throws ClassNotFoundException {
@@ -158,7 +164,7 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public ClassPath getClassPath() {
-        return path;
+        return _path;
     }
 
     /**
@@ -166,6 +172,6 @@ public class MemorySensitiveClassPathRepository implements Repository {
      */
     @Override
     public void clear() {
-        loadedClasses.clear();
+        _loadedClasses.clear();
     }
 }

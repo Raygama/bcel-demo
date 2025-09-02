@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * I2S - Convert int to short
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class I2S extends ConversionInstruction {
 
     public I2S() {
-        super(org.apache.bcel.Const.I2S);
+        super(org.apache.commons.bcel6.Const.I2S);
     }
 
 

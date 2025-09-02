@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /** 
  * INSTANCEOF - Determine if object is of given type
@@ -37,7 +37,7 @@ public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThr
 
 
     public INSTANCEOF(final int index) {
-        super(org.apache.bcel.Const.INSTANCEOF, index);
+        super(org.apache.commons.bcel6.Const.INSTANCEOF, index);
     }
 
 

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * LCMP - Compare longs:
@@ -27,7 +27,7 @@ package org.apache.bcel.generic;
 public class LCMP extends Instruction implements TypedInstruction, StackProducer, StackConsumer {
 
     public LCMP() {
-        super(org.apache.bcel.Const.LCMP, (short) 1);
+        super(org.apache.commons.bcel6.Const.LCMP, (short) 1);
     }
 
 

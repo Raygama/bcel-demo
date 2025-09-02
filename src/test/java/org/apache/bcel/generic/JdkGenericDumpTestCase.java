@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
@@ -27,10 +27,10 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.Code;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.Method;
+import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.Code;
+import org.apache.commons.bcel6.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.Method;
 import org.junit.Test;
 
 /**
@@ -43,30 +43,30 @@ public class JDKGenericDumpTestCase {
     @Test
     public void testJDKjars() throws Exception {
         File[] jars = listJDKjars();
-        for (File file : jars) {
+        for(File file : jars) {
             testJar(file);
         }
     }
 
     private void testJar(final File file) throws Exception {
         System.out.println(file);
-        try (JarFile jar = new JarFile(file)) {
-            Enumeration<JarEntry> en = jar.entries();
-            while (en.hasMoreElements()) {
-                JarEntry e = en.nextElement();
-                final String name = e.getName();
-                if (name.endsWith(".class")) {
-                    // System.out.println("- " + name);
-                    try (InputStream in = jar.getInputStream(e)) {
-                        ClassParser parser = new ClassParser(in, name);
-                        JavaClass jc = parser.parse();
-                        for (Method m : jc.getMethods()) {
-                            compare(name, m);
-                        }
-                    }
+        JarFile jar = new JarFile(file);
+        Enumeration<JarEntry> en = jar.entries();
+
+        while (en.hasMoreElements()) {
+            JarEntry e = en.nextElement();
+            final String name = e.getName();
+            if (name.endsWith(".class")) {
+//                System.out.println("- " + name);
+                InputStream in = jar.getInputStream(e);
+                ClassParser parser = new ClassParser(in, name);
+                JavaClass jc = parser.parse();
+                for(Method m : jc.getMethods()) {
+                    compare(name, m);
                 }
             }
         }
+        jar.close();
     }
 
     private void compare(final String name, final Method m) {
@@ -84,7 +84,7 @@ public class JDKGenericDumpTestCase {
             System.out.println(name + ": "+m.toString() +" "+ src.length+" "+out.length);
             System.out.println(bytesToHex(src));
             System.out.println(bytesToHex(out));
-            for (InstructionHandle ih : il) {
+            for(InstructionHandle ih : il) {
                 System.out.println(ih.toString(false));
             }
             fail("Array comparison failure");

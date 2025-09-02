@@ -16,7 +16,7 @@
  * 
  */
 
-package org.apache.bcel.data;
+package org.apache.commons.bcel6.data;
 
 public class AnnotatedFields {
   @SimpleAnnotation(id=1) int i;

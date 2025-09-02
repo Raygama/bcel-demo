@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * Equality of instructions isn't clearly to be defined. You might
@@ -31,7 +31,7 @@ package org.apache.bcel.generic;
  */
 public interface InstructionComparator {
 
-    InstructionComparator DEFAULT = new InstructionComparator() {
+    public static final InstructionComparator DEFAULT = new InstructionComparator() {
 
         @Override
         public boolean equals( final Instruction i1, final Instruction i2 ) {

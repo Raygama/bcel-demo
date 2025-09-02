@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.util.BCELComparator;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.util.BCELComparator;
 
 /**
  * Abstract superclass for classes to represent the different constant types
@@ -33,7 +33,7 @@ import org.apache.bcel.util.BCELComparator;
  */
 public abstract class Constant implements Cloneable, Node {
 
-    private static BCELComparator bcelComparator = new BCELComparator() {
+    private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
         public boolean equals( final Object o1, final Object o2 ) {
@@ -173,7 +173,7 @@ public abstract class Constant implements Cloneable, Node {
      * @return Comparison strategy object
      */
     public static BCELComparator getComparator() {
-        return bcelComparator;
+        return _cmp;
     }
 
 
@@ -181,7 +181,7 @@ public abstract class Constant implements Cloneable, Node {
      * @param comparator Comparison strategy object
      */
     public static void setComparator( final BCELComparator comparator ) {
-        bcelComparator = comparator;
+        _cmp = comparator;
     }
 
 
@@ -194,7 +194,7 @@ public abstract class Constant implements Cloneable, Node {
      */
     @Override
     public boolean equals( final Object obj ) {
-        return bcelComparator.equals(this, obj);
+        return _cmp.equals(this, obj);
     }
 
 
@@ -206,6 +206,6 @@ public abstract class Constant implements Cloneable, Node {
      */
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        return _cmp.hashCode(this);
     }
 }

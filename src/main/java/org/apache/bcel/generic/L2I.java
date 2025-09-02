@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * L2I - Convert long to int
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class L2I extends ConversionInstruction {
 
     public L2I() {
-        super(org.apache.bcel.Const.L2I);
+        super(org.apache.commons.bcel6.Const.L2I);
     }
 
 

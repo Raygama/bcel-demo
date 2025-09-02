@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LSHL - Arithmetic shift left long
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class LSHL extends ArithmeticInstruction {
 
     public LSHL() {
-        super(org.apache.bcel.Const.LSHL);
+        super(org.apache.commons.bcel6.Const.LSHL);
     }
 
 

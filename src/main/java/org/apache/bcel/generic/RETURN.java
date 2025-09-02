@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * RETURN -  Return from void method
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class RETURN extends ReturnInstruction {
 
     public RETURN() {
-        super(org.apache.bcel.Const.RETURN);
+        super(org.apache.commons.bcel6.Const.RETURN);
     }
 
 

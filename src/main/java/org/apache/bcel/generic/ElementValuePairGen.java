@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.classfile.ConstantUtf8;
-import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.classfile.ElementValuePair;
+import org.apache.commons.bcel6.classfile.ConstantUtf8;
+import org.apache.commons.bcel6.classfile.ElementValue;
+import org.apache.commons.bcel6.classfile.ElementValuePair;
 
 /**
  * @since 6.0

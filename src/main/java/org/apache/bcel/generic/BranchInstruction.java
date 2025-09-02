@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /** 
  * Abstract super class for branching instructions like GOTO, IFEQ, etc..
@@ -266,6 +266,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
 
     /**
      * @param position the position to set
+     * @return the new position
      * @since 6.0
      */
     protected void setPosition(final int position) {

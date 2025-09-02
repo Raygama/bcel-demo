@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IRETURN -  Return int from method
@@ -28,7 +28,7 @@ public class IRETURN extends ReturnInstruction {
     /** Return int from method
      */
     public IRETURN() {
-        super(org.apache.bcel.Const.IRETURN);
+        super(org.apache.commons.bcel6.Const.IRETURN);
     }
 
 

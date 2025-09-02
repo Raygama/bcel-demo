@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.util.Stack;
 
@@ -247,6 +247,32 @@ public class DescendingVisitor implements Visitor
         var.accept(visitor);
         stack.pop();
     }
+
+    /**
+     * @since 6.0
+    @Override
+    public void visitStackMapTable(StackMapTable table)
+    {
+        stack.push(table);
+        table.accept(visitor);
+        StackMapTableEntry[] vars = table.getStackMapTable();
+        for (StackMapTableEntry var : vars) {
+            var.accept(this);
+        }
+        stack.pop();
+    }
+     */
+
+    /**
+     * @since 6.0
+    @Override
+    public void visitStackMapTableEntry(StackMapTableEntry var)
+    {
+        stack.push(var);
+        var.accept(visitor);
+        stack.pop();
+    }
+     */
 
     @Override
     public void visitLocalVariable(final LocalVariable var)

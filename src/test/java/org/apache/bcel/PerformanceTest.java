@@ -77,48 +77,48 @@ public final class PerformanceTest extends TestCase {
         System.out.println("parsing " + lib);
 
         total.start();
-        try (JarFile jar = new JarFile(lib)) {
-            Enumeration<?> en = jar.entries();
+        JarFile jar = new JarFile(lib);
+        Enumeration<?> en = jar.entries();
 
-            while (en.hasMoreElements()) {
-                JarEntry e = (JarEntry) en.nextElement();
-                if (e.getName().endsWith(".class")) {
-                    byte[] bytes;
-                    try (InputStream in = jar.getInputStream(e)) {
-                        bytes = read(in);
+        while (en.hasMoreElements()) {
+            JarEntry e = (JarEntry) en.nextElement();
+            if (e.getName().endsWith(".class")) {
+                InputStream in = jar.getInputStream(e);
+                byte[] bytes = read(in);
+
+                parseTime.start();
+                JavaClass clazz = new ClassParser(new ByteArrayInputStream(bytes), e.getName())
+                        .parse();
+                parseTime.stop();
+
+                cgenTime.start();
+                ClassGen cg = new ClassGen(clazz);
+                cgenTime.stop();
+
+                Method[] methods = cg.getMethods();
+                for (Method m : methods) {
+                    mgenTime.start();
+                    MethodGen mg = new MethodGen(m, cg.getClassName(), cg.getConstantPool());
+                    InstructionList il = mg.getInstructionList();
+                    mgenTime.stop();
+
+                    mserTime.start();
+                    if (il != null) {
+                        mg.getInstructionList().setPositions();
+                        mg.setMaxLocals();
+                        mg.setMaxStack();
                     }
-                    
-                    parseTime.start();
-                    JavaClass clazz = new ClassParser(new ByteArrayInputStream(bytes), e.getName()).parse();
-                    parseTime.stop();
-
-                    cgenTime.start();
-                    ClassGen cg = new ClassGen(clazz);
-                    cgenTime.stop();
-
-                    Method[] methods = cg.getMethods();
-                    for (Method m : methods) {
-                        mgenTime.start();
-                        MethodGen mg = new MethodGen(m, cg.getClassName(), cg.getConstantPool());
-                        InstructionList il = mg.getInstructionList();
-                        mgenTime.stop();
-
-                        mserTime.start();
-                        if (il != null) {
-                            mg.getInstructionList().setPositions();
-                            mg.setMaxLocals();
-                            mg.setMaxStack();
-                        }
-                        cg.replaceMethod(m, mg.getMethod());
-                        mserTime.stop();
-                    }
-
-                    serTime.start();
-                    cg.getJavaClass().getBytes();
-                    serTime.stop();
+                    cg.replaceMethod(m, mg.getMethod());
+                    mserTime.stop();
                 }
+
+                serTime.start();
+                cg.getJavaClass().getBytes();
+                serTime.stop();
             }
         }
+
+        jar.close();
         total.stop();
         if (REPORT) {
             System.out.println("ClassParser.parse: " + parseTime);
@@ -131,7 +131,7 @@ public final class PerformanceTest extends TestCase {
         }
     }
 
-    public void testPerformance() {
+    public void testPerformance() throws IOException {
         File javaLib = new File(System.getProperty("java.home") + "/lib");
         javaLib.listFiles(new FileFilter() {
 

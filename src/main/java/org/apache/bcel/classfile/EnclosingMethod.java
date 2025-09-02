@@ -14,13 +14,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /**
  * This attribute exists for local or 
@@ -66,21 +66,11 @@ public class EnclosingMethod extends Attribute {
     }
 
     // Accessors
-    public final int getEnclosingClassIndex() {
-        return classIndex;
-    }
+    public final int getEnclosingClassIndex() { return classIndex; }  
+    public final int getEnclosingMethodIndex(){ return methodIndex;}
 
-    public final int getEnclosingMethodIndex() {
-        return methodIndex;
-    }
-
-    public final void setEnclosingClassIndex(final int idx) {
-        classIndex = idx;
-    }
-
-    public final void setEnclosingMethodIndex(final int idx) {
-        methodIndex = idx;
-    }
+    public final void setEnclosingClassIndex(final int idx) {classIndex = idx;}
+    public final void setEnclosingMethodIndex(final int idx){methodIndex= idx;}
 
     public final ConstantClass getEnclosingClass() {
         ConstantClass c = 

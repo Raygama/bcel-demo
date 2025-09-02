@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.exc;
+package org.apache.commons.bcel6.verifier.exc;
 
 /**
  * Instances of this class are thrown by BCEL's class file verifier "JustIce" when
@@ -29,13 +29,13 @@ public abstract class CodeConstraintException extends VerificationException{
     /**
      * Constructs a new CodeConstraintException with null as its error message string.
      */
-    CodeConstraintException() {
+    CodeConstraintException(){
         super();
     }
     /**
      * Constructs a new CodeConstraintException with the specified error message.
      */
-    CodeConstraintException(final String message) {
+    CodeConstraintException(final String message){
         super(message);
     }    
 }

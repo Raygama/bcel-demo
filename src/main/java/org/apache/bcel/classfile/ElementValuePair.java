@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /**
  * an annotation's element value pair

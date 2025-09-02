@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IFGE - Branch if int comparison with zero succeeds
@@ -35,7 +35,7 @@ public class IFGE extends IfInstruction {
 
 
     public IFGE(final InstructionHandle target) {
-        super(org.apache.bcel.Const.IFGE, target);
+        super(org.apache.commons.bcel6.Const.IFGE, target);
     }
 
 

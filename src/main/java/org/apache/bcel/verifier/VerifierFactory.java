@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.verifier;
+package org.apache.commons.bcel6.verifier;
 
 import java.util.HashMap;
 import java.util.List;

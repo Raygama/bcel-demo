@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LALOAD - Load long from array
@@ -28,7 +28,7 @@ public class LALOAD extends ArrayInstruction implements StackProducer {
     /** Load long from array
      */
     public LALOAD() {
-        super(org.apache.bcel.Const.LALOAD);
+        super(org.apache.commons.bcel6.Const.LALOAD);
     }
 
 

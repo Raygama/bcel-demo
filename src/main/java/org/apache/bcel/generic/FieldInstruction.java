@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.classfile.ConstantPool;
+import org.apache.commons.bcel6.classfile.ConstantPool;
 
 /**
  * Super class for the GET/PUTxxx family of instructions.
@@ -47,8 +47,8 @@ public abstract class FieldInstruction extends FieldOrMethod {
      */
     @Override
     public String toString( final ConstantPool cp ) {
-        return org.apache.bcel.Const.getOpcodeName(super.getOpcode()) + " "
-                + cp.constantToString(super.getIndex(), org.apache.bcel.Const.CONSTANT_Fieldref);
+        return org.apache.commons.bcel6.Const.getOpcodeName(super.getOpcode()) + " "
+                + cp.constantToString(super.getIndex(), org.apache.commons.bcel6.Const.CONSTANT_Fieldref);
     }
 
 

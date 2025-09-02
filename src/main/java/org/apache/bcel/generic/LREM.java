@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /**
  * LREM - Remainder of long
@@ -28,7 +28,7 @@ import org.apache.bcel.ExceptionConst;
 public class LREM extends ArithmeticInstruction implements ExceptionThrower {
 
     public LREM() {
-        super(org.apache.bcel.Const.LREM);
+        super(org.apache.commons.bcel6.Const.LREM);
     }
 
 

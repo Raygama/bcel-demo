@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,14 +26,14 @@ import java.util.Map;
  * This repository uses a factory design, allowing it to maintain a collection of different classpaths, and as such It is designed to be used as a singleton per
  * classpath.
  *
- * @see org.apache.bcel.Repository
+ * @see org.apache.commons.bcel6.Repository
  *
  * @version $Id$
  */
-public class SyntheticRepository extends MemorySensitiveClassPathRepository {
+public class SyntheticRepository extends MemorySensitiveClassPathRepository implements Repository {
 
     // private static final String DEFAULT_PATH = ClassPath.getClassPath();
-    private static final Map<ClassPath, SyntheticRepository> instances = new HashMap<>(); // CLASSPATH X REPOSITORY
+    private static final Map<ClassPath, SyntheticRepository> _instances = new HashMap<>(); // CLASSPATH X REPOSITORY
 
     private SyntheticRepository(final ClassPath path) {
         super(path);
@@ -44,10 +44,10 @@ public class SyntheticRepository extends MemorySensitiveClassPathRepository {
     }
 
     public static SyntheticRepository getInstance(final ClassPath classPath) {
-        SyntheticRepository rep = instances.get(classPath);
+        SyntheticRepository rep = _instances.get(classPath);
         if (rep == null) {
             rep = new SyntheticRepository(classPath);
-            instances.put(classPath, rep);
+            _instances.put(classPath, rep);
         }
         return rep;
     }

@@ -15,15 +15,15 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /**
  * The repository maintains information about which classes have
@@ -32,7 +32,7 @@ import org.apache.bcel.classfile.JavaClass;
  * It loads its data from the ClassLoader implementation
  * passed into its constructor.
  *
- * @see org.apache.bcel.Repository
+ * @see org.apache.commons.bcel6.Repository
  *
  * @version $Id$
  */
@@ -79,20 +79,25 @@ public class ClassLoaderRepository implements Repository {
      * Lookup a JavaClass object from the Class Name provided.
      */
     @Override
-    public JavaClass loadClass(final String className) throws ClassNotFoundException {
+    public JavaClass loadClass( final String className ) throws ClassNotFoundException {
         String classFile = className.replace('.', '/');
         JavaClass RC = findClass(className);
         if (RC != null) {
             return RC;
         }
-        try (InputStream is = loader.getResourceAsStream(classFile + ".class")) {
+        try {
+            InputStream is = loader.getResourceAsStream(classFile + ".class");
             if (is == null) {
                 throw new ClassNotFoundException(className + " not found.");
             }
-            ClassParser parser = new ClassParser(is, className);
-            RC = parser.parse();
-            storeClass(RC);
-            return RC;
+            try {
+                ClassParser parser = new ClassParser(is, className);
+                RC = parser.parse();
+                storeClass(RC);
+                return RC;
+            } finally {
+                is.close();
+            }
         } catch (IOException e) {
             throw new ClassNotFoundException(className + " not found: " + e, e);
         }

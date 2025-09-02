@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IMUL - Multiply ints
@@ -28,7 +28,7 @@ public class IMUL extends ArithmeticInstruction {
     /** Multiply ints
      */
     public IMUL() {
-        super(org.apache.bcel.Const.IMUL);
+        super(org.apache.commons.bcel6.Const.IMUL);
     }
 
 

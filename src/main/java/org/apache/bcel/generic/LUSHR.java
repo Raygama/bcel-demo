@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LUSHR - Logical shift right long
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class LUSHR extends ArithmeticInstruction {
 
     public LUSHR() {
-        super(org.apache.bcel.Const.LUSHR);
+        super(org.apache.commons.bcel6.Const.LUSHR);
     }
 
 

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * POP2 - Pop two top operand stack words
@@ -27,7 +27,7 @@ package org.apache.bcel.generic;
 public class POP2 extends StackInstruction implements PopInstruction {
 
     public POP2() {
-        super(org.apache.bcel.Const.POP2);
+        super(org.apache.commons.bcel6.Const.POP2);
     }
 
 
