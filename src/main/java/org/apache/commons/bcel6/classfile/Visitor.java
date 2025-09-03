@@ -131,19 +131,4 @@ public interface Visitor
      * @since 6.0
      */
     void visitMethodParameters(MethodParameters obj);
-
-    /**
-     * @since 6.0
-     */
-    void visitConstantMethodType(ConstantMethodType obj);
-
-    /**
-     * @since 6.0
-     */
-    void visitConstantMethodHandle(ConstantMethodHandle obj);
-
-    /**
-     * @since 6.0
-     */
-    void visitParameterAnnotationEntry(ParameterAnnotationEntry obj);
 }

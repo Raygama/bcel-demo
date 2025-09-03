@@ -32,8 +32,6 @@ import org.apache.commons.bcel6.classfile.ConstantInteger;
 import org.apache.commons.bcel6.classfile.ConstantInterfaceMethodref;
 import org.apache.commons.bcel6.classfile.ConstantInvokeDynamic;
 import org.apache.commons.bcel6.classfile.ConstantLong;
-import org.apache.commons.bcel6.classfile.ConstantMethodHandle;
-import org.apache.commons.bcel6.classfile.ConstantMethodType;
 import org.apache.commons.bcel6.classfile.ConstantMethodref;
 import org.apache.commons.bcel6.classfile.ConstantNameAndType;
 import org.apache.commons.bcel6.classfile.ConstantPool;
@@ -54,7 +52,6 @@ import org.apache.commons.bcel6.classfile.LocalVariableTable;
 import org.apache.commons.bcel6.classfile.LocalVariableTypeTable;
 import org.apache.commons.bcel6.classfile.Method;
 import org.apache.commons.bcel6.classfile.MethodParameters;
-import org.apache.commons.bcel6.classfile.ParameterAnnotationEntry;
 import org.apache.commons.bcel6.classfile.ParameterAnnotations;
 import org.apache.commons.bcel6.classfile.Signature;
 import org.apache.commons.bcel6.classfile.SourceFile;
@@ -401,23 +398,5 @@ public class CounterVisitor implements Visitor
     public void visitConstantInvokeDynamic(ConstantInvokeDynamic obj)
     {
         constantInvokeDynamic++;
-    }
-
-    /** @since 6.0 */
-    @Override
-    public void visitConstantMethodType(ConstantMethodType obj) {
-        // TODO Auto-generated method stub        
-    }
-
-    /** @since 6.0 */
-    @Override
-    public void visitConstantMethodHandle(ConstantMethodHandle constantMethodHandle) {
-        // TODO Auto-generated method stub
-    }
-
-    /** @since 6.0 */
-    @Override
-    public void visitParameterAnnotationEntry(ParameterAnnotationEntry parameterAnnotationEntry) {
-        // TODO Auto-generated method stub        
     }
 }

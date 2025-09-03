@@ -529,29 +529,4 @@ public class DescendingVisitor implements Visitor
         obj.accept(visitor);
         stack.pop();
     }
-
-    /** @since 6.0 */
-    @Override
-    public void visitConstantMethodType(ConstantMethodType obj) {
-        stack.push(obj);
-        obj.accept(visitor);
-        stack.pop();
-    }
-
-    /** @since 6.0 */
-    @Override
-    public void visitConstantMethodHandle(ConstantMethodHandle obj) {
-        stack.push(obj);
-        obj.accept(visitor);
-        stack.pop();
-    }
-
-    /** @since 6.0 */
-    @Override
-    public void visitParameterAnnotationEntry(ParameterAnnotationEntry obj) {
-        stack.push(obj);
-        obj.accept(visitor);
-        stack.pop();
-    }
-
 }
