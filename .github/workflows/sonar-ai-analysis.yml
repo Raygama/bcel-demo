@@ -397,7 +397,7 @@ jobs:
             } catch (e) {
               core.warning(`JSON parse error: ${e.message}`);
               return;
-            }
+            } 
 
             const body = parsed.text || 'Flowise returned:\n```json\n' +
                           JSON.stringify(parsed, null, 2) + '\n```';
