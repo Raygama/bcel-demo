@@ -163,7 +163,8 @@ public class SimpleElementValueGen extends ElementValueGen
                 break;
             default:
                 throw new RuntimeException(
-                    "SimpleElementValueGen class does not know how to copy this type " + super.getElementValueType());
+                        "SimpleElementValueGen class does not know how "
+                                + "to copy this type " + super.getElementValueType());
             }
         }
     }
@@ -240,7 +241,8 @@ public class SimpleElementValueGen extends ElementValueGen
             return cu8.getBytes();
         default:
             throw new RuntimeException(
-                "SimpleElementValueGen class does not know how to stringify type " + super.getElementValueType());
+                    "SimpleElementValueGen class does not know how to stringify type "
+                            + super.getElementValueType());
         }
     }
 
@@ -263,7 +265,8 @@ public class SimpleElementValueGen extends ElementValueGen
             break;
         default:
             throw new RuntimeException(
-                "SimpleElementValueGen doesnt know how to write out type " + super.getElementValueType());
+                    "SimpleElementValueGen doesnt know how to write out type "
+                            + super.getElementValueType());
         }
     }
 }
