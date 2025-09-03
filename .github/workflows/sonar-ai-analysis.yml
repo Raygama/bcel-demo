@@ -285,7 +285,7 @@ jobs:
             (if .snippet then "* Snippet:*\\n```\\n\(.snippet)\\n```" else "" end) + "\n"
           ' issues.json | sed ':a;N;$!ba;s/\n/\\n/g' | head -c "$MAX_SUMMARY_CHARS")
 
-          QUESTION_TEXT="You're analyzing SonarCloud issues from PR #${{ github.event.pull_request.number }} in '${{ github.repository }}' (owner: '${{ github.repository_owner }}'), targeting '${{ github.event.pull_request.head.ref }}'. If there are duplicates, analyze them once.\n\n## Sonar Issues (truncated)\n$SONAR_ISSUE_SUMMARY"
+          QUESTION_TEXT="You're analyzing SonarCloud issues from PR #${{ github.event.pull_request.number }} in '${{ github.repository }}' (owner: '${{ github.repository_owner }}'), targeting '${{ github.event.pull_request.head.ref }}' with the PR title '${{ github.event.pull_request.title }}'. If there are duplicates, analyze them once.\n\n## Sonar Issues (truncated)\n$SONAR_ISSUE_SUMMARY"
           QUESTION_TEXT=$(printf "%s" "$QUESTION_TEXT" | head -c "$MAX_QUESTION_CHARS")
 
           make_payload () {
