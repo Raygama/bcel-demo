@@ -34,7 +34,7 @@ import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.util.ByteSequence;
 
 /**
@@ -102,7 +102,7 @@ public abstract class Utility {
     public static String accessToString( int access_flags, boolean for_class ) {
         StringBuilder buf = new StringBuilder();
         int p = 0;
-        for (int i = 0; p < Const.MAX_ACC_FLAG; i++) { // Loop through known flags
+        for (int i = 0; p < Constants.MAX_ACC_FLAG; i++) { // Loop through known flags
             p = pow2(i);
             if ((access_flags & p) != 0) {
                 /* Special case: Classes compiled with new compilers and with the
@@ -110,10 +110,10 @@ public abstract class Utility {
                  * because SUN used the same value for the flags `ACC_SUPER' and
                  * `ACC_SYNCHRONIZED'.
                  */
-                if (for_class && ((p == Const.ACC_SUPER) || (p == Const.ACC_INTERFACE))) {
+                if (for_class && ((p == Constants.ACC_SUPER) || (p == Constants.ACC_INTERFACE))) {
                     continue;
                 }
-                buf.append(Const.getAccessName(i)).append(" ");
+                buf.append(Constants.getAccessName(i)).append(" ");
             }
         }
         return buf.toString().trim();
@@ -126,7 +126,7 @@ public abstract class Utility {
      * @return "class" or "interface", depending on the ACC_INTERFACE flag
      */
     public static String classOrInterface( int access_flags ) {
-        return ((access_flags & Const.ACC_INTERFACE) != 0) ? "interface" : "class";
+        return ((access_flags & Constants.ACC_INTERFACE) != 0) ? "interface" : "class";
     }
 
 
@@ -198,18 +198,18 @@ public abstract class Utility {
         int[] jump_table;
         int no_pad_bytes = 0;
         int offset;
-        StringBuilder buf = new StringBuilder(Const.getOpcodeName(opcode));
+        StringBuilder buf = new StringBuilder(Constants.getOpcodeName(opcode));
         /* Special case: Skip (0-3) padding bytes, i.e., the
          * following bytes are 4-byte-aligned
          */
-        if ((opcode == Const.TABLESWITCH) || (opcode == Const.LOOKUPSWITCH)) {
+        if ((opcode == Constants.TABLESWITCH) || (opcode == Constants.LOOKUPSWITCH)) {
             int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
             for (int i = 0; i < no_pad_bytes; i++) {
                 byte b;
                 if ((b = bytes.readByte()) != 0) {
                     System.err.println("Warning: Padding byte != 0 in "
-                            + Const.getOpcodeName(opcode) + ":" + b);
+                            + Constants.getOpcodeName(opcode) + ":" + b);
                 }
             }
             // Both cases have a field default_offset in common
@@ -218,7 +218,7 @@ public abstract class Utility {
         switch (opcode) {
             /* Table switch has variable length arguments.
              */
-            case Const.TABLESWITCH:
+            case Constants.TABLESWITCH:
                 low = bytes.readInt();
                 high = bytes.readInt();
                 offset = bytes.getIndex() - 12 - no_pad_bytes - 1;
@@ -237,7 +237,7 @@ public abstract class Utility {
                 break;
             /* Lookup switch has variable length arguments.
              */
-            case Const.LOOKUPSWITCH: {
+            case Constants.LOOKUPSWITCH: {
                 npairs = bytes.readInt();
                 offset = bytes.getIndex() - 8 - no_pad_bytes - 1;
                 match = new int[npairs];
@@ -259,45 +259,45 @@ public abstract class Utility {
             /* Two address bytes + offset from start of byte stream form the
              * jump target
              */
-            case Const.GOTO:
-            case Const.IFEQ:
-            case Const.IFGE:
-            case Const.IFGT:
-            case Const.IFLE:
-            case Const.IFLT:
-            case Const.JSR:
-            case Const.IFNE:
-            case Const.IFNONNULL:
-            case Const.IFNULL:
-            case Const.IF_ACMPEQ:
-            case Const.IF_ACMPNE:
-            case Const.IF_ICMPEQ:
-            case Const.IF_ICMPGE:
-            case Const.IF_ICMPGT:
-            case Const.IF_ICMPLE:
-            case Const.IF_ICMPLT:
-            case Const.IF_ICMPNE:
+            case Constants.GOTO:
+            case Constants.IFEQ:
+            case Constants.IFGE:
+            case Constants.IFGT:
+            case Constants.IFLE:
+            case Constants.IFLT:
+            case Constants.JSR:
+            case Constants.IFNE:
+            case Constants.IFNONNULL:
+            case Constants.IFNULL:
+            case Constants.IF_ACMPEQ:
+            case Constants.IF_ACMPNE:
+            case Constants.IF_ICMPEQ:
+            case Constants.IF_ICMPGE:
+            case Constants.IF_ICMPGT:
+            case Constants.IF_ICMPLE:
+            case Constants.IF_ICMPLT:
+            case Constants.IF_ICMPNE:
                 buf.append("\t\t#").append((bytes.getIndex() - 1) + bytes.readShort());
                 break;
             /* 32-bit wide jumps
              */
-            case Const.GOTO_W:
-            case Const.JSR_W:
+            case Constants.GOTO_W:
+            case Constants.JSR_W:
                 buf.append("\t\t#").append((bytes.getIndex() - 1) + bytes.readInt());
                 break;
             /* Index byte references local variable (register)
              */
-            case Const.ALOAD:
-            case Const.ASTORE:
-            case Const.DLOAD:
-            case Const.DSTORE:
-            case Const.FLOAD:
-            case Const.FSTORE:
-            case Const.ILOAD:
-            case Const.ISTORE:
-            case Const.LLOAD:
-            case Const.LSTORE:
-            case Const.RET:
+            case Constants.ALOAD:
+            case Constants.ASTORE:
+            case Constants.DLOAD:
+            case Constants.DSTORE:
+            case Constants.FLOAD:
+            case Constants.FSTORE:
+            case Constants.ILOAD:
+            case Constants.ISTORE:
+            case Constants.LLOAD:
+            case Constants.LSTORE:
+            case Constants.RET:
                 if (wide) {
                     vindex = bytes.readUnsignedShort();
                     wide = false; // Clear flag
@@ -311,42 +311,42 @@ public abstract class Utility {
              * following instruction. Relies on that the method is called again with
              * the following opcode.
              */
-            case Const.WIDE:
+            case Constants.WIDE:
                 wide = true;
                 buf.append("\t(wide)");
                 break;
             /* Array of basic type.
              */
-            case Const.NEWARRAY:
-                buf.append("\t\t<").append(Const.getTypeName(bytes.readByte())).append(">");
+            case Constants.NEWARRAY:
+                buf.append("\t\t<").append(Constants.getTypeName(bytes.readByte())).append(">");
                 break;
             /* Access object/class fields.
              */
-            case Const.GETFIELD:
-            case Const.GETSTATIC:
-            case Const.PUTFIELD:
-            case Const.PUTSTATIC:
+            case Constants.GETFIELD:
+            case Constants.GETSTATIC:
+            case Constants.PUTFIELD:
+            case Constants.PUTSTATIC:
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t").append(
-                        constant_pool.constantToString(index, Const.CONSTANT_Fieldref)).append(
+                        constant_pool.constantToString(index, Constants.CONSTANT_Fieldref)).append(
                         verbose ? " (" + index + ")" : "");
                 break;
             /* Operands are references to classes in constant pool
              */
-            case Const.NEW:
-            case Const.CHECKCAST:
+            case Constants.NEW:
+            case Constants.CHECKCAST:
                 buf.append("\t");
                 //$FALL-THROUGH$
-            case Const.INSTANCEOF:
+            case Constants.INSTANCEOF:
                 index = bytes.readUnsignedShort();
                 buf.append("\t<").append(
-                        constant_pool.constantToString(index, Const.CONSTANT_Class))
+                        constant_pool.constantToString(index, Constants.CONSTANT_Class))
                         .append(">").append(verbose ? " (" + index + ")" : "");
                 break;
             /* Operands are references to methods in constant pool
              */
-            case Const.INVOKESPECIAL:
-            case Const.INVOKESTATIC:
+            case Constants.INVOKESPECIAL:
+            case Constants.INVOKESTATIC:
                 index = bytes.readUnsignedShort();
                 Constant c = constant_pool.getConstant(index);
                 // With Java8 operand may be either a CONSTANT_Methodref
@@ -355,40 +355,40 @@ public abstract class Utility {
                         constant_pool.constantToString(index, c.getTag()))
                         .append(verbose ? " (" + index + ")" : "");
                 break;
-            case Const.INVOKEVIRTUAL:
+            case Constants.INVOKEVIRTUAL:
                 index = bytes.readUnsignedShort();
                 buf.append("\t").append(
-                        constant_pool.constantToString(index, Const.CONSTANT_Methodref))
+                        constant_pool.constantToString(index, Constants.CONSTANT_Methodref))
                         .append(verbose ? " (" + index + ")" : "");
                 break;
-            case Const.INVOKEINTERFACE:
+            case Constants.INVOKEINTERFACE:
                 index = bytes.readUnsignedShort();
                 int nargs = bytes.readUnsignedByte(); // historical, redundant
                 buf.append("\t").append(
                         constant_pool
-                                .constantToString(index, Const.CONSTANT_InterfaceMethodref))
+                                .constantToString(index, Constants.CONSTANT_InterfaceMethodref))
                         .append(verbose ? " (" + index + ")\t" : "").append(nargs).append("\t")
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
-            case Const.INVOKEDYNAMIC:
+            case Constants.INVOKEDYNAMIC:
                 index = bytes.readUnsignedShort();
                 buf.append("\t").append(
                         constant_pool
-                                .constantToString(index, Const.CONSTANT_InvokeDynamic))
+                                .constantToString(index, Constants.CONSTANT_InvokeDynamic))
                         .append(verbose ? " (" + index + ")\t" : "")
                         .append(bytes.readUnsignedByte())  // Thrid byte is a reserved space
                         .append(bytes.readUnsignedByte()); // Last byte is a reserved space
                 break;
             /* Operands are references to items in constant pool
              */
-            case Const.LDC_W:
-            case Const.LDC2_W:
+            case Constants.LDC_W:
+            case Constants.LDC2_W:
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t").append(
                         constant_pool.constantToString(index, constant_pool.getConstant(index)
                                 .getTag())).append(verbose ? " (" + index + ")" : "");
                 break;
-            case Const.LDC:
+            case Constants.LDC:
                 index = bytes.readUnsignedByte();
                 buf.append("\t\t").append(
                         constant_pool.constantToString(index, constant_pool.getConstant(index)
@@ -396,27 +396,27 @@ public abstract class Utility {
                 break;
             /* Array of references.
              */
-            case Const.ANEWARRAY:
+            case Constants.ANEWARRAY:
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t<").append(
                         compactClassName(constant_pool.getConstantString(index,
-                                Const.CONSTANT_Class), false)).append(">").append(
+                                Constants.CONSTANT_Class), false)).append(">").append(
                         verbose ? " (" + index + ")" : "");
                 break;
             /* Multidimensional array of references.
              */
-            case Const.MULTIANEWARRAY: {
+            case Constants.MULTIANEWARRAY: {
                 index = bytes.readUnsignedShort();
                 int dimensions = bytes.readUnsignedByte();
                 buf.append("\t<").append(
                         compactClassName(constant_pool.getConstantString(index,
-                                Const.CONSTANT_Class), false)).append(">\t").append(dimensions)
+                                Constants.CONSTANT_Class), false)).append(">\t").append(dimensions)
                         .append(verbose ? " (" + index + ")" : "");
             }
                 break;
             /* Increment local variable.
              */
-            case Const.IINC:
+            case Constants.IINC:
                 if (wide) {
                     vindex = bytes.readUnsignedShort();
                     constant = bytes.readShort();
@@ -428,17 +428,17 @@ public abstract class Utility {
                 buf.append("\t\t%").append(vindex).append("\t").append(constant);
                 break;
             default:
-                if (Const.getNoOfOperands(opcode) > 0) {
-                    for (int i = 0; i < Const.getOperandTypeCount(opcode); i++) {
+                if (Constants.getNoOfOperands(opcode) > 0) {
+                    for (int i = 0; i < Constants.getOperandTypeCount(opcode); i++) {
                         buf.append("\t\t");
-                        switch (Const.getOperandType(opcode, i)) {
-                            case Const.T_BYTE:
+                        switch (Constants.getOperandType(opcode, i)) {
+                            case Constants.T_BYTE:
                                 buf.append(bytes.readByte());
                                 break;
-                            case Const.T_SHORT:
+                            case Constants.T_SHORT:
                                 buf.append(bytes.readShort());
                                 break;
-                            case Const.T_INT:
+                            case Constants.T_INT:
                                 buf.append(bytes.readInt());
                                 break;
                             default: // Never reached
@@ -986,10 +986,10 @@ public abstract class Utility {
             buf.append('[');
         }
         boolean found = false;
-        for (int i = Const.T_BOOLEAN; (i <= Const.T_VOID) && !found; i++) {
-            if (Const.getTypeName(i).equals(type)) {
+        for (int i = Constants.T_BOOLEAN; (i <= Constants.T_VOID) && !found; i++) {
+            if (Constants.getTypeName(i).equals(type)) {
                 found = true;
-                buf.append(Const.getShortTypeName(i));
+                buf.append(Constants.getShortTypeName(i));
             }
         }
         if (!found) {
@@ -1035,7 +1035,7 @@ public abstract class Utility {
      *
      * @param  signature in format described above
      * @return type of method signature
-     * @see    Const
+     * @see    Constants
      * 
      * @throws ClassFormatException if signature is not a method signature
      */
@@ -1058,7 +1058,7 @@ public abstract class Utility {
      *
      * @param  signature in format described above
      * @return type of signature
-     * @see    Const
+     * @see    Constants
      * 
      * @throws ClassFormatException if signature isn't a known type
      */
@@ -1066,28 +1066,28 @@ public abstract class Utility {
         try {
             switch (signature.charAt(0)) {
                 case 'B':
-                    return Const.T_BYTE;
+                    return Constants.T_BYTE;
                 case 'C':
-                    return Const.T_CHAR;
+                    return Constants.T_CHAR;
                 case 'D':
-                    return Const.T_DOUBLE;
+                    return Constants.T_DOUBLE;
                 case 'F':
-                    return Const.T_FLOAT;
+                    return Constants.T_FLOAT;
                 case 'I':
-                    return Const.T_INT;
+                    return Constants.T_INT;
                 case 'J':
-                    return Const.T_LONG;
+                    return Constants.T_LONG;
                 case 'L':
                 case 'T':
-                    return Const.T_REFERENCE;
+                    return Constants.T_REFERENCE;
                 case '[':
-                    return Const.T_ARRAY;
+                    return Constants.T_ARRAY;
                 case 'V':
-                    return Const.T_VOID;
+                    return Constants.T_VOID;
                 case 'Z':
-                    return Const.T_BOOLEAN;
+                    return Constants.T_BOOLEAN;
                 case 'S':
-                    return Const.T_SHORT;
+                    return Constants.T_SHORT;
                 default:
                     throw new ClassFormatException("Invalid method signature: " + signature);
             }
@@ -1101,8 +1101,8 @@ public abstract class Utility {
      */
     public static short searchOpcode( String name ) {
         name = name.toLowerCase(Locale.ENGLISH);
-        for (short i = 0; i < Const.OPCODE_NAMES_LENGTH; i++) {
-            if (Const.getOpcodeName(i).equals(name)) {
+        for (short i = 0; i < Constants.OPCODE_NAMES_LENGTH; i++) {
+            if (Constants.getOpcodeName(i).equals(name)) {
                 return i;
             }
         }

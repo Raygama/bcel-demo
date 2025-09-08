@@ -21,7 +21,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.util.BCELComparator;
 
 /**
@@ -97,7 +97,7 @@ public abstract class Constant implements Cloneable, Node {
      */
     @Override
     public String toString() {
-        return Const.getConstantName(tag) + "[" + tag + "]";
+        return Constants.getConstantName(tag) + "[" + tag + "]";
     }
 
 
@@ -135,33 +135,33 @@ public abstract class Constant implements Cloneable, Node {
             ClassFormatException {
         byte b = input.readByte(); // Read tag byte
         switch (b) {
-            case Const.CONSTANT_Class:
+            case Constants.CONSTANT_Class:
                 return new ConstantClass(input);
-            case Const.CONSTANT_Fieldref:
+            case Constants.CONSTANT_Fieldref:
                 return new ConstantFieldref(input);
-            case Const.CONSTANT_Methodref:
+            case Constants.CONSTANT_Methodref:
                 return new ConstantMethodref(input);
-            case Const.CONSTANT_InterfaceMethodref:
+            case Constants.CONSTANT_InterfaceMethodref:
                 return new ConstantInterfaceMethodref(input);
-            case Const.CONSTANT_String:
+            case Constants.CONSTANT_String:
                 return new ConstantString(input);
-            case Const.CONSTANT_Integer:
+            case Constants.CONSTANT_Integer:
                 return new ConstantInteger(input);
-            case Const.CONSTANT_Float:
+            case Constants.CONSTANT_Float:
                 return new ConstantFloat(input);
-            case Const.CONSTANT_Long:
+            case Constants.CONSTANT_Long:
                 return new ConstantLong(input);
-            case Const.CONSTANT_Double:
+            case Constants.CONSTANT_Double:
                 return new ConstantDouble(input);
-            case Const.CONSTANT_NameAndType:
+            case Constants.CONSTANT_NameAndType:
                 return new ConstantNameAndType(input);
-            case Const.CONSTANT_Utf8:
+            case Constants.CONSTANT_Utf8:
                 return ConstantUtf8.getInstance(input);
-            case Const.CONSTANT_MethodHandle:
+            case Constants.CONSTANT_MethodHandle:
                 return new ConstantMethodHandle(input);
-            case Const.CONSTANT_MethodType:
+            case Constants.CONSTANT_MethodType:
                 return new ConstantMethodType(input);
-            case Const.CONSTANT_InvokeDynamic:
+            case Constants.CONSTANT_InvokeDynamic:
                 return new ConstantInvokeDynamic(input);
             default:
                 throw new ClassFormatException("Invalid byte tag in constant pool: " + b);

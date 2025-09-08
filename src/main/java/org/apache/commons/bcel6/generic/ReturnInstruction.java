@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.ExceptionConst;
 
 /**
@@ -47,17 +47,17 @@ public abstract class ReturnInstruction extends Instruction implements Exception
     public Type getType() {
         final short _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.IRETURN:
+            case Constants.IRETURN:
                 return Type.INT;
-            case Const.LRETURN:
+            case Constants.LRETURN:
                 return Type.LONG;
-            case Const.FRETURN:
+            case Constants.FRETURN:
                 return Type.FLOAT;
-            case Const.DRETURN:
+            case Constants.DRETURN:
                 return Type.DOUBLE;
-            case Const.ARETURN:
+            case Constants.ARETURN:
                 return Type.OBJECT;
-            case Const.RETURN:
+            case Constants.RETURN:
                 return Type.VOID;
             default: // Never reached
                 throw new ClassGenException("Unknown type " + _opcode);

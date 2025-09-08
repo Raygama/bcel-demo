@@ -21,7 +21,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * This class is derived from the abstract {@link Constant}
@@ -55,7 +55,7 @@ public final class ConstantMethodType extends Constant {
 
 
     public ConstantMethodType(int descriptor_index) {
-        super(Const.CONSTANT_MethodType);
+        super(Constants.CONSTANT_MethodType);
         this.descriptor_index = descriptor_index;
     }
 

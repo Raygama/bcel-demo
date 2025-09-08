@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * Returnaddress, the type JSR or JSR_W instructions push upon the stack.
@@ -35,7 +35,7 @@ public class ReturnaddressType extends Type {
      * A Returnaddress [that doesn't know where to return to].
      */
     private ReturnaddressType() {
-        super(Const.T_ADDRESS, "<return address>");
+        super(Constants.T_ADDRESS, "<return address>");
     }
 
 
@@ -43,7 +43,7 @@ public class ReturnaddressType extends Type {
      * Creates a ReturnaddressType object with a target.
      */
     public ReturnaddressType(InstructionHandle returnTarget) {
-        super(Const.T_ADDRESS, "<return address targeting " + returnTarget + ">");
+        super(Constants.T_ADDRESS, "<return address targeting " + returnTarget + ">");
         this.returnTarget = returnTarget;
     }
 

@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /**
  * Super class for the x2y family of instructions.
@@ -49,27 +49,27 @@ public abstract class ConversionInstruction extends Instruction implements Typed
     public Type getType( ConstantPoolGen cp ) {
         final short _opcode = super.getOpcode();
         switch (_opcode) {
-            case Const.D2I:
-            case Const.F2I:
-            case Const.L2I:
+            case Constants.D2I:
+            case Constants.F2I:
+            case Constants.L2I:
                 return Type.INT;
-            case Const.D2F:
-            case Const.I2F:
-            case Const.L2F:
+            case Constants.D2F:
+            case Constants.I2F:
+            case Constants.L2F:
                 return Type.FLOAT;
-            case Const.D2L:
-            case Const.F2L:
-            case Const.I2L:
+            case Constants.D2L:
+            case Constants.F2L:
+            case Constants.I2L:
                 return Type.LONG;
-            case Const.F2D:
-            case Const.I2D:
-            case Const.L2D:
+            case Constants.F2D:
+            case Constants.I2D:
+            case Constants.L2D:
                 return Type.DOUBLE;
-            case Const.I2B:
+            case Constants.I2B:
                 return Type.BYTE;
-            case Const.I2C:
+            case Constants.I2C:
                 return Type.CHAR;
-            case Const.I2S:
+            case Constants.I2S:
                 return Type.SHORT;
             default: // Never reached
                 throw new ClassGenException("Unknown type " + _opcode);
