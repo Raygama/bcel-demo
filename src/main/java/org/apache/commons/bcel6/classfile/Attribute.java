@@ -50,25 +50,25 @@ import org.apache.commons.bcel6.Const;
 public abstract class Attribute implements Cloneable, Node {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected int name_index; // Points to attribute name in constant pool TODO make private (has getter & setter)
 
     /**
-     * @deprecated (since 6.0) (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected int length; // Content length of attribute field TODO make private (has getter & setter)
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected byte tag; // Tag to distinguish subclasses TODO make private & final; supposed to be immutable
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected ConstantPool constant_pool; // TODO make private (has getter & setter)
@@ -106,21 +106,6 @@ public abstract class Attribute implements Cloneable, Node {
     }
 
     private static final Map<String, Object> readers = new HashMap<>();
-
-    /**
-     * Add an Attribute reader capable of parsing (user-defined) attributes
-     * named "name". You should not add readers for the standard attributes such
-     * as "LineNumberTable", because those are handled internally.
-     * 
-     * @param name the name of the attribute as stored in the class file
-     * @param r    the reader object
-     * @deprecated Use {@link #addAttributeReader(String, UnknownAttributeReader)} instead
-     */
-    @java.lang.Deprecated
-    public static void addAttributeReader(String name, AttributeReader r)
-    {
-        readers.put(name, r);
-    }
 
     /**
      * Add an Attribute reader capable of parsing (user-defined) attributes

@@ -32,13 +32,13 @@ import org.apache.commons.bcel6.util.ByteSequence;
 public abstract class Instruction implements Cloneable {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected short length = 1; // Length of instruction in bytes 
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected short opcode = -1; // Opcode number
@@ -547,27 +547,6 @@ public abstract class Instruction implements Cloneable {
      * @param v Visitor object
      */
     public abstract void accept( Visitor v );
-
-
-    /** Get Comparator object used in the equals() method to determine
-     * equality of instructions.
-     *
-     * @return currently used comparator for equals()
-     * @deprecated use the built in comparator, or wrap this class in another object that implements these methods
-     */
-    @Deprecated
-    public static InstructionComparator getComparator() {
-        return cmp;
-    }
-
-
-    /** Set comparator to be used for equals().
-      * @deprecated use the built in comparator, or wrap this class in another object that implements these methods
-     */
-    @Deprecated
-    public static void setComparator( InstructionComparator c ) {
-        cmp = c;
-    }
 
 
     /** Check for equality, delegated to comparator

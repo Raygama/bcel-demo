@@ -28,13 +28,13 @@ import java.io.IOException;
 public abstract class ElementValue
 {
     /**
-     * @deprecated (since 6.0) will be made private and final; do not access directly, use getter
+     * @deprecated will be made private and final; do not access directly, use getter
      */
     @java.lang.Deprecated
     protected int type; // TODO should be final
 
     /**
-     * @deprecated (since 6.0) will be made private and final; do not access directly, use getter
+     * @deprecated will be made private and final; do not access directly, use getter
      */
     @java.lang.Deprecated
     protected ConstantPool cpool; // TODO should be final
