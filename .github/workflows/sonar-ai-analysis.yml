@@ -124,10 +124,10 @@ jobs:
           set -euo pipefail
 
           # ---- Tunables (tighten if you still hit limits) ----
-          MAX_ISSUES=120            # hard cap on issues you will pass to AI
-          MAX_ISSUES_PER_RULE=25    # avoid one rule dominating
-          MAX_ISSUES_PER_FILE=20    # avoid one file dominating
-          MAX_SNIPPET_CHARS=380     # keep snippet tiny but useful
+          MAX_ISSUES=40            # hard cap on issues you will pass to AI
+          MAX_ISSUES_PER_RULE=10    # avoid one rule dominating
+          MAX_ISSUES_PER_FILE=9    # avoid one file dominating
+          MAX_SNIPPET_CHARS=180     # keep snippet tiny but useful
           CONTEXT_BEFORE=1          # lines before the hit
           CONTEXT_AFTER=1           # lines after the hit
           SONAR_SEVERITIES="BLOCKER,CRITICAL,MAJOR"   # you can widen later
