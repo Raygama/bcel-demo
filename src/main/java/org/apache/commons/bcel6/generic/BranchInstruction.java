@@ -75,7 +75,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         index = getTargetOffset();
         if (!isValidShort(index)) {
             throw new ClassGenException("Branch target offset too large for short: " + index);
@@ -176,7 +176,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      */
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
-        super.setLength(3);
+        length = 3;
         index = bytes.readShort();
     }
 
@@ -208,7 +208,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
 
 
     /**
-     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen, LineNumberGen
+     * Used by BranchInstruction, LocalVariableGen, CodeExceptionGen
      */
     static void notifyTarget( InstructionHandle old_ih, InstructionHandle new_ih,
             InstructionTargeter t ) {

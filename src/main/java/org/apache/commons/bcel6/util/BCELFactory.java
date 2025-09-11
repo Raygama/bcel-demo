@@ -41,7 +41,7 @@ import org.apache.commons.bcel6.generic.FieldInstruction;
 import org.apache.commons.bcel6.generic.IINC;
 import org.apache.commons.bcel6.generic.INSTANCEOF;
 import org.apache.commons.bcel6.generic.Instruction;
-import org.apache.commons.bcel6.generic.InstructionConst;
+import org.apache.commons.bcel6.generic.InstructionConstants;
 import org.apache.commons.bcel6.generic.InstructionHandle;
 import org.apache.commons.bcel6.generic.InvokeInstruction;
 import org.apache.commons.bcel6.generic.LDC;
@@ -108,9 +108,9 @@ class BCELFactory extends EmptyVisitor {
 
     private boolean visitInstruction( Instruction i ) {
         short opcode = i.getOpcode();
-        if ((InstructionConst.getInstruction(opcode) != null)
+        if ((InstructionConstants.getInstruction(opcode) != null)
                 && !(i instanceof ConstantPushInstruction) && !(i instanceof ReturnInstruction)) { // Handled below
-            _out.println("il.append(InstructionConst."
+            _out.println("il.append(InstructionConstants."
                     + i.getName().toUpperCase(Locale.ENGLISH) + ");");
             return true;
         }
@@ -151,7 +151,7 @@ class BCELFactory extends EmptyVisitor {
         Type type = i.getFieldType(_cp);
         _out.println("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" + field_name
                 + "\", " + BCELifier.printType(type) + ", " + "Constants."
-                + Constants.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + Constants.OPCODE_NAMES[opcode].toUpperCase(Locale.ENGLISH) + "));");
     }
 
 
@@ -165,7 +165,7 @@ class BCELFactory extends EmptyVisitor {
         _out.println("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name
                 + "\", " + BCELifier.printType(type) + ", "
                 + BCELifier.printArgumentTypes(arg_types) + ", " + "Constants."
-                + Constants.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + Constants.OPCODE_NAMES[opcode].toUpperCase(Locale.ENGLISH) + "));");
     }
 
 

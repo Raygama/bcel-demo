@@ -297,9 +297,9 @@ public class ClassGen extends AccessFlags implements Cloneable {
      */
     public void addEmptyConstructor( int access_flags ) {
         InstructionList il = new InstructionList();
-        il.append(InstructionConst.THIS); // Push `this'
+        il.append(InstructionConstants.THIS); // Push `this'
         il.append(new INVOKESPECIAL(cp.addMethodref(super_class_name, "<init>", "()V")));
-        il.append(InstructionConst.RETURN);
+        il.append(InstructionConstants.RETURN);
         MethodGen mg = new MethodGen(access_flags, Type.VOID, Type.NO_ARGS, null, "<init>",
                 class_name, il, cp);
         mg.setMaxStack(1);
@@ -556,9 +556,9 @@ public class ClassGen extends AccessFlags implements Cloneable {
 
 
     @Override
-    public Object clone() {
+    public ClassGen clone() {
         try {
-            return super.clone();
+            return (ClassGen) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }

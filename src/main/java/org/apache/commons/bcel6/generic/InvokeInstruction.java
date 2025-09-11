@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.Constant;
-import org.apache.commons.bcel6.classfile.ConstantCP;
 import org.apache.commons.bcel6.classfile.ConstantPool;
 
 /**
@@ -55,7 +54,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public String toString( ConstantPool cp ) {
         Constant c = cp.getConstant(super.getIndex());
         StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
-        return Constants.getOpcodeName(super.getOpcode()) + " " + tok.nextToken().replace('.', '/')
+        return Constants.OPCODE_NAMES[opcode] + " " + tok.nextToken().replace('.', '/')
                 + tok.nextToken();
     }
 
@@ -68,7 +67,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     @Override
     public int consumeStack( ConstantPoolGen cpg ) {
         int sum;
-        if ((super.getOpcode() == Constants.INVOKESTATIC) || (super.getOpcode() == Constants.INVOKEDYNAMIC)) {
+        if ((opcode == Constants.INVOKESTATIC) || (opcode == Constants.INVOKEDYNAMIC)) {
             sum = 0;
         } else {
             sum = 1; // this reference
@@ -119,23 +118,4 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
     public Type[] getArgumentTypes( ConstantPoolGen cpg ) {
         return Type.getArgumentTypes(getSignature(cpg));
     }
-
-    /**
-     * This overrides the deprecated version as we know here that the referenced class
-     * cannot be an array unless something has gone badly wrong.
-     * @return name of the referenced class/interface
-     * @throws IllegalArgumentException if the referenced class is an array (this should not happen)
-     */
-    @Override
-    public String getClassName( ConstantPoolGen cpg ) {
-        ConstantPool cp = cpg.getConstantPool();
-        ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        String className = cp.getConstantString(cmr.getClassIndex(), Constants.CONSTANT_Class);
-        if (className.startsWith("[")) {
-            throw new IllegalArgumentException("Cannot be used on an array type");
-        }
-        return className.replace('/', '.');
-    }
-
-    
 }

@@ -21,7 +21,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 import org.apache.commons.bcel6.classfile.ConstantPool;
 import org.apache.commons.bcel6.util.ByteSequence;
 
@@ -30,9 +30,6 @@ import org.apache.commons.bcel6.util.ByteSequence;
  * <PRE>Stack: ..., objectref, [arg1, [arg2 ...]] -&gt; ...</PRE>
  *
  * @version $Id$
- * @see
- * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokeinterface">
- * The invokeinterface instruction in The Java Virtual Machine Specification</a>
  */
 public final class INVOKEINTERFACE extends InvokeInstruction {
 
@@ -49,7 +46,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
 
     public INVOKEINTERFACE(int index, int nargs) {
         super(Constants.INVOKEINTERFACE, index);
-        super.setLength(5);
+        length = 5;
         if (nargs < 1) {
             throw new ClassGenException("Number of arguments must be > 0 " + nargs);
         }
@@ -63,7 +60,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         out.writeShort(super.getIndex());
         out.writeByte(nargs);
         out.writeByte(0);
@@ -85,7 +82,7 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
         super.initFromFile(bytes, wide);
-        super.setLength(5);
+        length = 5;
         nargs = bytes.readUnsignedByte();
         bytes.readByte(); // Skip 0 byte
     }
@@ -108,11 +105,11 @@ public final class INVOKEINTERFACE extends InvokeInstruction {
 
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION,
-            ExceptionConst.UNSATISFIED_LINK_ERROR,
-            ExceptionConst.ABSTRACT_METHOD_ERROR,
-            ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION,
+            ExceptionConstants.UNSATISFIED_LINK_ERROR,
+            ExceptionConstants.ABSTRACT_METHOD_ERROR,
+            ExceptionConstants.ILLEGAL_ACCESS_ERROR,
+            ExceptionConstants.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
 

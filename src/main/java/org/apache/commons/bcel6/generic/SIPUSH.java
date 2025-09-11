@@ -72,7 +72,7 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
      */
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
-        super.setLength(3);
+        length = 3;
         b = bytes.readShort();
     }
 

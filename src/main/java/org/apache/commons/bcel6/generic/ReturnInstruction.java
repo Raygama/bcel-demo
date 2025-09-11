@@ -18,7 +18,7 @@
 package org.apache.commons.bcel6.generic;
 
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 
 /**
  * Super class for the xRETURN family of instructions.
@@ -45,8 +45,7 @@ public abstract class ReturnInstruction extends Instruction implements Exception
 
 
     public Type getType() {
-        final short _opcode = super.getOpcode();
-        switch (_opcode) {
+        switch (opcode) {
             case Constants.IRETURN:
                 return Type.INT;
             case Constants.LRETURN:
@@ -60,7 +59,7 @@ public abstract class ReturnInstruction extends Instruction implements Exception
             case Constants.RETURN:
                 return Type.VOID;
             default: // Never reached
-                throw new ClassGenException("Unknown type " + _opcode);
+                throw new ClassGenException("Unknown type " + opcode);
         }
     }
 
@@ -68,7 +67,7 @@ public abstract class ReturnInstruction extends Instruction implements Exception
     @Override
     public Class<?>[] getExceptions() {
         return new Class[] {
-            ExceptionConst.ILLEGAL_MONITOR_STATE
+            ExceptionConstants.ILLEGAL_MONITOR_STATE
         };
     }
 

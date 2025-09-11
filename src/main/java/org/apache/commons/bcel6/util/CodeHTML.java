@@ -92,7 +92,7 @@ final class CodeHTML {
         int no_pad_bytes = 0;
         int offset;
         StringBuilder buf = new StringBuilder(256); // CHECKSTYLE IGNORE MagicNumber
-        buf.append("<TT>").append(Constants.getOpcodeName(opcode)).append("</TT></TD><TD>");
+        buf.append("<TT>").append(Constants.OPCODE_NAMES[opcode]).append("</TT></TD><TD>");
         /* Special case: Skip (0-3) padding bytes, i.e., the
          * following bytes are 4-byte-aligned
          */
@@ -218,7 +218,7 @@ final class CodeHTML {
             /* Array of basic type.
              */
             case Constants.NEWARRAY:
-                buf.append("<FONT COLOR=\"#00FF00\">").append(Constants.getTypeName(bytes.readByte())).append(
+                buf.append("<FONT COLOR=\"#00FF00\">").append(Constants.TYPE_NAMES[bytes.readByte()]).append(
                         "</FONT>");
                 break;
             /* Access object/class fields.
@@ -354,9 +354,9 @@ final class CodeHTML {
                 buf.append("%").append(vindex).append(" ").append(constant);
                 break;
             default:
-                if (Constants.getNoOfOperands(opcode) > 0) {
-                    for (int i = 0; i < Constants.getOperandTypeCount(opcode); i++) {
-                        switch (Constants.getOperandType(opcode, i)) {
+                if (Constants.NO_OF_OPERANDS[opcode] > 0) {
+                    for (int i = 0; i < Constants.TYPE_OF_OPERANDS[opcode].length; i++) {
+                        switch (Constants.TYPE_OF_OPERANDS[opcode][i]) {
                             case Constants.T_BYTE:
                                 buf.append(bytes.readUnsignedByte());
                                 break;
@@ -368,7 +368,7 @@ final class CodeHTML {
                                 break;
                             default: // Never reached
                                 throw new IllegalStateException(
-                                    "Unreachable default case reached! "+Constants.getOperandType(opcode, i));
+                                    "Unreachable default case reached! "+Constants.TYPE_OF_OPERANDS[opcode][i]);
                         }
                         buf.append("&nbsp;");
                     }
@@ -416,7 +416,7 @@ final class CodeHTML {
         // Get target addresses from GOTO, JSR, TABLESWITCH, etc.
         for (; bytes.available() > 0;) {
             opcode = bytes.readUnsignedByte();
-            //System.out.println(getOpcodeName(opcode));
+            //System.out.println(OPCODE_NAMES[opcode]);
             switch (opcode) {
                 case Constants.TABLESWITCH:
                 case Constants.LOOKUPSWITCH:
@@ -527,7 +527,7 @@ final class CodeHTML {
                 if (tag != Constants.ATTR_UNKNOWN) {
                     file.print("<LI><A HREF=\"" + class_name + "_attributes.html#method"
                             + method_number + "@" + i + "\" TARGET=Attributes>"
-                            + Constants.getAttributeName(tag) + "</A></LI>\n");
+                            + Constants.ATTRIBUTE_NAMES[tag] + "</A></LI>\n");
                 } else {
                     file.print("<LI>" + attributes[i] + "</LI>");
                 }
@@ -540,7 +540,7 @@ final class CodeHTML {
                         tag = attributes2[j].getTag();
                         file.print("<LI><A HREF=\"" + class_name + "_attributes.html#" + "method"
                                 + method_number + "@" + i + "@" + j + "\" TARGET=Attributes>"
-                                + Constants.getAttributeName(tag) + "</A></LI>\n");
+                                + Constants.ATTRIBUTE_NAMES[tag] + "</A></LI>\n");
                     }
                     file.print("</UL>");
                 }

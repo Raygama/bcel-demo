@@ -49,7 +49,7 @@ import org.apache.commons.bcel6.util.ByteSequence;
  * @see     InstructionHandle
  * @see BranchHandle
  */
-public class InstructionList implements Iterable<InstructionHandle> {
+public class InstructionList {
 
     private InstructionHandle start = null;
     private InstructionHandle end = null;
@@ -147,7 +147,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             if(positions[i] == pos) {
                 return ih;
             }
-            ih = ih.getNext();
+            ih = ih.next;
         }
         return null;
     }
@@ -195,7 +195,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
          */
         for (int i = 0; i < count; i++) {
             if (ihs[i] instanceof BranchHandle) {
-                BranchInstruction bi = (BranchInstruction) ihs[i].getInstruction();
+                BranchInstruction bi = (BranchInstruction) ihs[i].instruction;
                 int target = bi.getPosition() + bi.getIndex(); /* Byte code position:
                  * relative -> absolute. */
                 // Search for target position
@@ -237,13 +237,13 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (il.isEmpty()) {
             return ih;
         }
-        InstructionHandle next = ih.getNext();
+        InstructionHandle next = ih.next;
         InstructionHandle ret = il.start;
-        ih.setNext(il.start);
-        il.start.setPrev(ih);
-        il.end.setNext(next);
+        ih.next = il.start;
+        il.start.prev = ih;
+        il.end.next = next;
         if (next != null) {
-            next.setPrev(il.end);
+            next.prev = il.end;
         } else {
             end = il.end; // Update end ...
         }
@@ -303,11 +303,11 @@ public class InstructionList implements Iterable<InstructionHandle> {
     private void append( InstructionHandle ih ) {
         if (isEmpty()) {
             start = end = ih;
-            ih.setNext(ih.setPrev(null));
+            ih.next = ih.prev = null;
         } else {
-            end.setNext(ih);
-            ih.setPrev(end);
-            ih.setNext(null);
+            end.next = ih;
+            ih.prev = end;
+            ih.next = null;
             end = ih;
         }
         length++; // Update length
@@ -431,13 +431,13 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (il.isEmpty()) {
             return ih;
         }
-        InstructionHandle prev = ih.getPrev();
+        InstructionHandle prev = ih.prev;
         InstructionHandle ret = il.start;
-        ih.setPrev(il.end);
-        il.end.setNext(ih);
-        il.start.setPrev(prev);
+        ih.prev = il.end;
+        il.end.next = ih;
+        il.start.prev = prev;
         if (prev != null) {
-            prev.setNext(il.start);
+            prev.next = il.start;
         } else {
             start = il.start; // Update start ...
         }
@@ -470,11 +470,11 @@ public class InstructionList implements Iterable<InstructionHandle> {
     private void insert( InstructionHandle ih ) {
         if (isEmpty()) {
             start = end = ih;
-            ih.setNext(ih.setPrev(null));
+            ih.next = ih.prev = null;
         } else {
-            start.setPrev(ih);
-            ih.setNext(start);
-            ih.setPrev(null);
+            start.prev = ih;
+            ih.next = start;
+            ih.prev = null;
             start = ih;
         }
         length++;
@@ -621,7 +621,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
             throw new ClassGenException("Invalid range: From " + start + " to " + end
                     + " contains target " + target);
         }
-        for (InstructionHandle ih = start; ih != end.getNext(); ih = ih.getNext()) {
+        for (InstructionHandle ih = start; ih != end.next; ih = ih.next) {
             if (ih == null) {
                 throw new ClassGenException("Invalid range: From " + start + " to " + end);
             } else if (ih == target) {
@@ -630,33 +630,33 @@ public class InstructionList implements Iterable<InstructionHandle> {
             }
         }
         // Step 2: Temporarily remove the given instructions from the list
-        InstructionHandle prev = start.getPrev();
-        InstructionHandle next = end.getNext();
+        InstructionHandle prev = start.prev;
+        InstructionHandle next = end.next;
         if (prev != null) {
-            prev.setNext(next);
+            prev.next = next;
         } else {
             this.start = next;
         }
         if (next != null) {
-            next.setPrev(prev);
+            next.prev = prev;
         } else {
             this.end = prev;
         }
-        start.setPrev(end.setNext(null));
+        start.prev = end.next = null;
         // Step 3: append after target
         if (target == null) { // append to start of list
             if (this.start != null) {
-                this.start.setPrev(end);
+                this.start.prev = end;
             }
-            end.setNext(this.start);
+            end.next = this.start;
             this.start = start;
         } else {
-            next = target.getNext();
-            target.setNext(start);
-            start.setPrev(target);
-            end.setNext(next);
+            next = target.next;
+            target.next = start;
+            start.prev = target;
+            end.next = next;
             if (next != null) {
-                next.setPrev(end);
+                next.prev = end;
             } else {
                 this.end = end;
             }
@@ -696,31 +696,31 @@ public class InstructionList implements Iterable<InstructionHandle> {
                 first = start;
                 start = next;
             } else {
-                first = prev.getNext();
-                prev.setNext(next);
+                first = prev.next;
+                prev.next = next;
             }
             if (next == null) { // At end of list
                 last = end;
                 end = prev;
             } else {
-                last = next.getPrev();
-                next.setPrev(prev);
+                last = next.prev;
+                next.prev = prev;
             }
         }
-        first.setPrev(null); // Completely separated from rest of list
-        last.setNext(null);
+        first.prev = null; // Completely separated from rest of list
+        last.next = null;
         List<InstructionHandle> target_vec = new ArrayList<>();
-        for (InstructionHandle ih = first; ih != null; ih = ih.getNext()) {
+        for (InstructionHandle ih = first; ih != null; ih = ih.next) {
             ih.getInstruction().dispose(); // e.g. BranchInstructions release their targets
         }
         StringBuilder buf = new StringBuilder("{ ");
         for (InstructionHandle ih = first; ih != null; ih = next) {
-            next = ih.getNext();
+            next = ih.next;
             length--;
             if (ih.hasTargeters()) { // Still got targeters?
                 target_vec.add(ih);
                 buf.append(ih.toString(true)).append(" ");
-                ih.setNext(ih.setPrev(null));
+                ih.next = ih.prev = null;
             } else {
                 ih.dispose();
             }
@@ -741,7 +741,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @param ih instruction (handle) to remove 
      */
     public void delete( InstructionHandle ih ) throws TargetLostException {
-        remove(ih.getPrev(), ih.getNext());
+        remove(ih.prev, ih.next);
     }
 
 
@@ -769,7 +769,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @param to   where to end deleting (inclusive)
      */
     public void delete( InstructionHandle from, InstructionHandle to ) throws TargetLostException {
-        remove(from.getPrev(), to.getNext());
+        remove(from.prev, to.next);
     }
 
 
@@ -801,8 +801,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction found on success, null otherwise
      */
     private InstructionHandle findInstruction1( Instruction i ) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            if (ih.getInstruction() == i) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+            if (ih.instruction == i) {
                 return ih;
             }
         }
@@ -817,8 +817,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @return instruction found on success, null otherwise
      */
     private InstructionHandle findInstruction2( Instruction i ) {
-        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
-            if (ih.getInstruction() == i) {
+        for (InstructionHandle ih = end; ih != null; ih = ih.prev) {
+            if (ih.instruction == i) {
                 return ih;
             }
         }
@@ -830,7 +830,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
         if (i == null) {
             return false;
         }
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
             if (ih == i) {
                 return true;
             }
@@ -865,29 +865,29 @@ public class InstructionList implements Iterable<InstructionHandle> {
         /* Pass 0: Sanity checks
          */
         if (check) {
-            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                Instruction i = ih.getInstruction();
+            for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+                Instruction i = ih.instruction;
                 if (i instanceof BranchInstruction) { // target instruction within list?
-                    Instruction inst = ((BranchInstruction) i).getTarget().getInstruction();
+                    Instruction inst = ((BranchInstruction) i).getTarget().instruction;
                     if (!contains(inst)) {
                         throw new ClassGenException("Branch target of "
-                                + Constants.getOpcodeName(i.getOpcode()) + ":" + inst
+                                + Constants.OPCODE_NAMES[i.opcode] + ":" + inst
                                 + " not in instruction list");
                     }
                     if (i instanceof Select) {
                         InstructionHandle[] targets = ((Select) i).getTargets();
                         for (InstructionHandle target : targets) {
-                            inst = target.getInstruction();
+                            inst = target.instruction;
                             if (!contains(inst)) {
                                 throw new ClassGenException("Branch target of "
-                                        + Constants.getOpcodeName(i.getOpcode()) + ":" + inst
+                                        + Constants.OPCODE_NAMES[i.opcode] + ":" + inst
                                         + " not in instruction list");
                             }
                         }
                     }
                     if (!(ih instanceof BranchHandle)) {
                         throw new ClassGenException("Branch instruction "
-                                + Constants.getOpcodeName(i.getOpcode()) + ":" + inst
+                                + Constants.OPCODE_NAMES[i.opcode] + ":" + inst
                                 + " not contained in BranchHandle.");
                     }
                 }
@@ -896,8 +896,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         /* Pass 1: Set position numbers and sum up the maximum number of bytes an
          * instruction may be shifted.
          */
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            Instruction i = ih.getInstruction();
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+            Instruction i = ih.instruction;
             ih.setPosition(index);
             pos[count++] = index;
             /* Get an estimate about how many additional bytes may be added, because
@@ -921,15 +921,15 @@ public class InstructionList implements Iterable<InstructionHandle> {
          * the target offset (short or int) and ensure that branch targets are
          * within this list.
          */
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
             additional_bytes += ih.updatePosition(additional_bytes, max_additional_bytes);
         }
         /* Pass 3: Update position numbers (which may have changed due to the
          * preceding expansions), like pass 1.
          */
         index = count = 0;
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            Instruction i = ih.getInstruction();
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+            Instruction i = ih.instruction;
             ih.setPosition(index);
             pos[count++] = index;
             index += i.getLength();
@@ -951,8 +951,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
         try {
-            for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-                Instruction i = ih.getInstruction();
+            for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+                Instruction i = ih.instruction;
                 i.dump(out); // Traverse list
             }
         } catch (IOException e) {
@@ -992,7 +992,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      */
     public String toString( boolean verbose ) {
         StringBuilder buf = new StringBuilder();
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
             buf.append(ih.toString(verbose)).append("\n");
         }
         return buf.toString();
@@ -1014,7 +1014,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
                     throw new NoSuchElementException();
                 }
                 InstructionHandle i = ih;
-                ih = ih.getNext();
+                ih = ih.next;
                 return i;
             }
 
@@ -1041,7 +1041,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
         InstructionHandle ih = start;
         for (int i = 0; i < length; i++) {
             ihs[i] = ih;
-            ih = ih.getNext();
+            ih = ih.next;
         }
         return ihs;
     }
@@ -1069,8 +1069,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
          * and associate old instruction references with the new ones, i.e.,
          * a 1:1 mapping.
          */
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            Instruction i = ih.getInstruction();
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+            Instruction i = ih.instruction;
             Instruction c = i.copy(); // Use clone for shallow copy
             if (c instanceof BranchInstruction) {
                 map.put(ih, il.append((BranchInstruction) c));
@@ -1083,8 +1083,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
         InstructionHandle ih = start;
         InstructionHandle ch = il.start;
         while (ih != null) {
-            Instruction i = ih.getInstruction();
-            Instruction c = ch.getInstruction();
+            Instruction i = ih.instruction;
+            Instruction c = ch.instruction;
             if (i instanceof BranchInstruction) {
                 BranchInstruction bi = (BranchInstruction) i;
                 BranchInstruction bc = (BranchInstruction) c;
@@ -1099,8 +1099,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
                     }
                 }
             }
-            ih = ih.getNext();
-            ch = ch.getNext();
+            ih = ih.next;
+            ch = ch.next;
         }
         return il;
     }
@@ -1110,8 +1110,8 @@ public class InstructionList implements Iterable<InstructionHandle> {
      *  constant pool
      */
     public void replaceConstantPool( ConstantPoolGen old_cp, ConstantPoolGen new_cp ) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
-            Instruction i = ih.getInstruction();
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
+            Instruction i = ih.instruction;
             if (i instanceof CPInstruction) {
                 CPInstruction ci = (CPInstruction) i;
                 Constant c = old_cp.getConstant(ci.getIndex());
@@ -1134,7 +1134,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      */
     public void dispose() {
         // Traverse in reverse order, because ih.next is overwritten
-        for (InstructionHandle ih = end; ih != null; ih = ih.getPrev()) {
+        for (InstructionHandle ih = end; ih != null; ih = ih.prev) {
             /* Causes BranchInstructions to release target and targeters, because it
              * calls dispose() on the contained instruction.
              */
@@ -1184,7 +1184,7 @@ public class InstructionList implements Iterable<InstructionHandle> {
      * @param new_target the new target instruction handle
      */
     public void redirectBranches( InstructionHandle old_target, InstructionHandle new_target ) {
-        for (InstructionHandle ih = start; ih != null; ih = ih.getNext()) {
+        for (InstructionHandle ih = start; ih != null; ih = ih.next) {
             Instruction i = ih.getInstruction();
             if (i instanceof BranchInstruction) {
                 BranchInstruction b = (BranchInstruction) i;

@@ -17,11 +17,8 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 
 /** 
  * INVOKEVIRTUAL - Invoke instance method; dispatch based on class
@@ -29,9 +26,6 @@ import org.apache.commons.bcel6.ExceptionConst;
  * <PRE>Stack: ..., objectref, [arg1, [arg2 ...]] -&gt; ...</PRE>
  *
  * @version $Id$
- * @see
- * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokevirtual">
- * The invokevirtual instruction in The Java Virtual Machine Specification</a>
  */
 public class INVOKEVIRTUAL extends InvokeInstruction {
 
@@ -48,23 +42,13 @@ public class INVOKEVIRTUAL extends InvokeInstruction {
     }
 
 
-    /**
-     * Dump instruction as byte code to stream out.
-     * @param out Output stream
-     */
-    @Override
-    public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
-        out.writeShort(super.getIndex());
-    }
-
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
-            ExceptionConst.NULL_POINTER_EXCEPTION,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR,
-            ExceptionConst.ABSTRACT_METHOD_ERROR,
-            ExceptionConst.UNSATISFIED_LINK_ERROR);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
+            ExceptionConstants.NULL_POINTER_EXCEPTION,
+            ExceptionConstants.INCOMPATIBLE_CLASS_CHANGE_ERROR,
+            ExceptionConstants.ABSTRACT_METHOD_ERROR,
+            ExceptionConstants.UNSATISFIED_LINK_ERROR);
     }
 
 

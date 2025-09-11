@@ -47,7 +47,7 @@ public final class StackMapType implements Cloneable {
     StackMapType(DataInput file, ConstantPool constant_pool) throws IOException {
         this(file.readByte(), -1, constant_pool);
         if (hasIndex()) {
-            this.index = file.readShort();
+            this.index = (int) file.readShort();
         }
         this.constant_pool = constant_pool;
     }
@@ -133,7 +133,7 @@ public final class StackMapType implements Cloneable {
      */
     @Override
     public final String toString() {
-        return "(type=" + Constants.getItemName(type) + printIndex() + ")";
+        return "(type=" + Constants.ITEM_NAMES[type] + printIndex() + ")";
     }
 
 

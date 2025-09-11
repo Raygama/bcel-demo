@@ -72,7 +72,7 @@ public abstract class Instruction implements Cloneable {
     /** @return name of instruction, i.e., opcode name
      */
     public String getName() {
-        return Constants.getOpcodeName(opcode);
+        return Constants.OPCODE_NAMES[opcode];
     }
 
 
@@ -121,7 +121,7 @@ public abstract class Instruction implements Cloneable {
     public Instruction copy() {
         Instruction i = null;
         // "Constant" instruction, no need to duplicate
-        if (InstructionConst.getInstruction(this.getOpcode()) != null) {
+        if (InstructionConstants.getInstruction(this.getOpcode()) != null) {
             i = this;
         } else {
             try {
@@ -148,12 +148,9 @@ public abstract class Instruction implements Cloneable {
     /**
      * Read an instruction from (byte code) input stream and return the
      * appropiate object.
-     * <p>
-     * If the Instruction is defined in {@link InstructionConst}, then the
-     * singleton instance is returned.
+     *
      * @param bytes input stream bytes
      * @return instruction object being read
-     * @see InstructionConst#getInstruction(int)
      */
     // @since 6.0 no longer final
     public static Instruction readInstruction( ByteSequence bytes ) throws IOException {
@@ -164,7 +161,7 @@ public abstract class Instruction implements Cloneable {
             wide = true;
             opcode = (short) bytes.readUnsignedByte();
         }
-        final Instruction instruction = InstructionConst.getInstruction(opcode);
+        final Instruction instruction = InstructionConstants.getInstruction(opcode);
         if (instruction != null) {
             return instruction; // Used predefined immutable object, if available
         }
@@ -483,7 +480,7 @@ public abstract class Instruction implements Cloneable {
      * or Constants.UNPREDICTABLE, if this can not be computed statically
      */
     public int consumeStack( ConstantPoolGen cpg ) {
-        return Constants.getConsumeStack(opcode);
+        return Constants.CONSUME_STACK[opcode];
     }
 
 
@@ -495,7 +492,7 @@ public abstract class Instruction implements Cloneable {
      * or Constants.UNPREDICTABLE, if this can not be computed statically
      */
     public int produceStack( ConstantPoolGen cpg ) {
-        return Constants.getProduceStack(opcode);
+        return Constants.PRODUCE_STACK[opcode];
     }
 
 

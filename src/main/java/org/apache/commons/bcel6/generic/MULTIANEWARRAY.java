@@ -20,7 +20,7 @@ package org.apache.commons.bcel6.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 import org.apache.commons.bcel6.classfile.ConstantPool;
 import org.apache.commons.bcel6.util.ByteSequence;
 
@@ -50,7 +50,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
             throw new ClassGenException("Invalid dimensions value: " + dimensions);
         }
         this.dimensions = dimensions;
-        super.setLength(4);
+        length = 4;
     }
 
 
@@ -60,7 +60,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         out.writeShort(super.getIndex());
         out.writeByte(dimensions);
     }
@@ -73,7 +73,7 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
         super.initFromFile(bytes, wide);
         dimensions = bytes.readByte();
-        super.setLength(4);
+        length = 4;
     }
 
 
@@ -116,9 +116,9 @@ public class MULTIANEWARRAY extends CPInstruction implements LoadClass, Allocati
 
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION,
-            ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION,
+            ExceptionConstants.ILLEGAL_ACCESS_ERROR,
+            ExceptionConstants.NEGATIVE_ARRAY_SIZE_EXCEPTION);
     }
 
 

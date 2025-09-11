@@ -126,12 +126,12 @@ public final class Pass3aVerifier extends PassVerifier{
      * The one and only InstructionList object used by an instance of this class.
      * It's here for performance reasons by do_verify() and its callees.
      */    
-    private InstructionList instructionList;
+    InstructionList instructionList;
     /**
      * The one and only Code object used by an instance of this class.
      *  It's here for performance reasons by do_verify() and its callees.
      */    
-    private Code code;
+    Code code;
 
     /** Should only be instantiated by a Verifier. */
     public Pass3aVerifier(Verifier owner, int method_no){

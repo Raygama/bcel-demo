@@ -18,7 +18,7 @@
 package org.apache.commons.bcel6.generic;
 
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 
 /** 
  * PUTFIELD - Put field in object
@@ -51,9 +51,9 @@ public class PUTFIELD extends FieldInstruction implements PopInstruction, Except
 
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
-            ExceptionConst.NULL_POINTER_EXCEPTION,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
+            ExceptionConstants.NULL_POINTER_EXCEPTION,
+            ExceptionConstants.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
 

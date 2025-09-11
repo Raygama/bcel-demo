@@ -17,9 +17,6 @@
  */
 package org.apache.commons.bcel6;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 /**
  * Constants for the project, mostly defined in the JVM specification.
  *
@@ -239,113 +236,84 @@ public final class Constants {
    */
   public static final short MAX_ACC_FLAG     = ACC_ENUM;
 
-  /**
-   * The names of the access flags.
-   * @deprecated Do not use as will be made private.
-   * Use getAccessName instead
-   */
-  @Deprecated
+  /** The names of the access flags. */
   public static final String[] ACCESS_NAMES = {
     "public", "private", "protected", "static", "final", "synchronized",
     "volatile", "transient", "native", "interface", "abstract", "strictfp",
     "synthetic", "annotation", "enum"
   };
 
-  /** @since 6.0 */
-  public static final int ACCESS_NAMES_LENGTH = ACCESS_NAMES.length;
-  
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getAccessName(int index) {
-      return ACCESS_NAMES[index];
-  }
-
-  /*
-   * The description of the constant pool is at:
-   * http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4
-   * References below are to the individual sections
-   */
-
   /** Marks a constant pool entry as type UTF-8.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.7">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Utf8               = 1;
 
   /** Marks a constant pool entry as type Integer.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.4">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Integer            = 3;
 
   /** Marks a constant pool entry as type Float.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.4">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Float              = 4;
 
   /** Marks a constant pool entry as type Long.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.5">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Long               = 5;
 
   /** Marks a constant pool entry as type Double.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.5">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Double             = 6;
 
   /** Marks a constant pool entry as a Class
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.1">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Class              = 7;
 
   /** Marks a constant pool entry as a Field Reference.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.2">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Fieldref           = 9;
 
   /** Marks a constant pool entry as type String
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.3">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_String             = 8;
 
   /** Marks a constant pool entry as a Method Reference.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.2">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_Methodref          = 10;
 
   /** Marks a constant pool entry as an Interface Method Reference.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.2">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_InterfaceMethodref = 11;
 
   /** Marks a constant pool entry as a name and type.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.6">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_NameAndType        = 12;
 
   /** Marks a constant pool entry as a Method Handle.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.8">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_MethodHandle       = 15;
 
   /** Marks a constant pool entry as a Method Type.
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.9">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_MethodType         = 16;
 
   /** Marks a constant pool entry as an Invoke Dynamic
-   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.10">
+   * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4">
    * The Constant Pool in The Java Virtual Machine Specification</a> */
   public static final byte CONSTANT_InvokeDynamic      = 18;
 
-  /**
-   * The names of the types of entries in a constant pool.
-   * @deprecated Do not use as will be made private.
-   * Use getConstantName instead
-   */
-  @Deprecated
+  /** The names of the types of entries in a constant pool. */
   public static final String[] CONSTANT_NAMES = {
     "", "CONSTANT_Utf8", "", "CONSTANT_Integer",
     "CONSTANT_Float", "CONSTANT_Long", "CONSTANT_Double",
@@ -353,16 +321,6 @@ public final class Constants {
     "CONSTANT_Methodref", "CONSTANT_InterfaceMethodref",
     "CONSTANT_NameAndType", "", "", "CONSTANT_MethodHandle",
     "CONSTANT_MethodType", "", "CONSTANT_InvokeDynamic" };
-
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getConstantName(int index) {
-      return CONSTANT_NAMES[index];
-  }
 
   /** The name of the static initializer, also called &quot;class
    *  initialization method&quot; or &quot;interface initialization
@@ -375,24 +333,8 @@ public final class Constants {
    */
   public static final String CONSTRUCTOR_NAME = "<init>";
 
-  /**
-   * The names of the interfaces implemented by arrays
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
-   */
-  @Deprecated
+  /** The names of the interfaces implemented by arrays */
   public static final String[] INTERFACES_IMPLEMENTED_BY_ARRAYS = {"java.lang.Cloneable", "java.io.Serializable"};
-
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static Iterable<String> getInterfacesImplementedByArrays() {
-      return Collections.unmodifiableList(Arrays.asList(INTERFACES_IMPLEMENTED_BY_ARRAYS));
-  }
-
 
   /**
    * Maximum Constant Pool entries.
@@ -1489,32 +1431,16 @@ public final class Constants {
 
   /** The primitive type names corresponding to the T_XX constants,
    * e.g., TYPE_NAMES[T_INT] = "int"
-   * @deprecated Do not use as will be made private.
-   * Use getTypeName instead
    */
-  @Deprecated
   public static final String[] TYPE_NAMES = {
     ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE, ILLEGAL_TYPE,
     "boolean", "char", "float", "double", "byte", "short", "int", "long",
     "void", "array", "object", "unknown", "address"
   };
 
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getTypeName(int index) {
-      return TYPE_NAMES[index];
-  }
-
   /** The primitive class names corresponding to the T_XX constants,
    * e.g., CLASS_TYPE_NAMES[T_INT] = "java.lang.Integer"
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
    */
-  @Deprecated
   public static final String[] CLASS_TYPE_NAMES = {
     ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE, ILLEGAL_TYPE,
     "java.lang.Boolean", "java.lang.Character", "java.lang.Float",
@@ -1525,10 +1451,7 @@ public final class Constants {
 
   /** The signature characters corresponding to primitive types,
    * e.g., SHORT_TYPE_NAMES[T_INT] = "I"
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
    */
-  @Deprecated
   public static final String[] SHORT_TYPE_NAMES = {
     ILLEGAL_TYPE, ILLEGAL_TYPE,  ILLEGAL_TYPE, ILLEGAL_TYPE,
     "Z", "C", "F", "D", "B", "S", "I", "J",
@@ -1536,24 +1459,10 @@ public final class Constants {
   };
 
   /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getShortTypeName(int index) {
-      return SHORT_TYPE_NAMES[index];
-  }
-
-
-  /**
    * Number of byte code operands for each opcode, i.e., number of bytes after the tag byte
    * itself.  Indexed by opcode, so NO_OF_OPERANDS[BIPUSH] = the number of operands for a bipush
    * instruction.
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
    */
-  @Deprecated
   public static final short[] NO_OF_OPERANDS = {
     0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/,
     0/*iconst_1*/, 0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/,
@@ -1616,23 +1525,10 @@ public final class Constants {
   };
 
   /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static short getNoOfOperands(int index) {
-      return NO_OF_OPERANDS[index];
-  }
-
-  /**
    * How the byte code operands are to be interpreted for each opcode.
    * Indexed by opcode.  TYPE_OF_OPERANDS[ILOAD] = an array of shorts
    * describing the data types for the instruction.
-   * @deprecated Do not use; will be made private.
-   * Use getOperandType(int, int) instead
    */
-  @Deprecated
   public static final short[][] TYPE_OF_OPERANDS = {
     {}/*nop*/, {}/*aconst_null*/, {}/*iconst_m1*/, {}/*iconst_0*/,
     {}/*iconst_1*/, {}/*iconst_2*/, {}/*iconst_3*/, {}/*iconst_4*/,
@@ -1698,24 +1594,8 @@ public final class Constants {
   };
 
   /**
-   * @since 6.0
-   */
-  public static short getOperandType(int opcode, int index) {
-      return TYPE_OF_OPERANDS[opcode][index];
-  }
-
-  /**
-   * @since 6.0
-   */
-  public static long getOperandTypeCount(int opcode) {
-      return TYPE_OF_OPERANDS[opcode].length;
-  }
-
-  /**
    * Names of opcodes.  Indexed by opcode.  OPCODE_NAMES[ALOAD] = "aload".
-   * @deprecated Do not use; will be made private . Use getOpcodeName(int) instead
    */
-  @Deprecated
   public static final String[] OPCODE_NAMES = {
     "nop", "aconst_null", "iconst_m1", "iconst_0", "iconst_1",
     "iconst_2", "iconst_3", "iconst_4", "iconst_5", "lconst_0",
@@ -1766,26 +1646,10 @@ public final class Constants {
   };
 
   /**
-   * @since 6.0
-   */
-  public static final int OPCODE_NAMES_LENGTH = OPCODE_NAMES.length;
-
-
-  /**
-   * @since 6.0
-   */
-  public static String getOpcodeName(int index) {
-      return OPCODE_NAMES[index]; 
-  }
-
-  /**
    * Number of words consumed on operand stack by instructions.
    * Indexed by opcode.  CONSUME_STACK[FALOAD] = number of words
    * consumed from the stack by a faload instruction.
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
    */
-  @Deprecated
   public static final int[] CONSUME_STACK = {
     0/*nop*/, 0/*aconst_null*/, 0/*iconst_m1*/, 0/*iconst_0*/, 0/*iconst_1*/,
     0/*iconst_2*/, 0/*iconst_3*/, 0/*iconst_4*/, 0/*iconst_5*/, 0/*lconst_0*/,
@@ -1838,24 +1702,10 @@ public final class Constants {
   };
 
   /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static int getConsumeStack(int index) {
-      return CONSUME_STACK[index];
-  }
-
-
-  /**
    * Number of words produced onto operand stack by instructions.
    * Indexed by opcode.  CONSUME_STACK[DALOAD] = number of words
    * consumed from the stack by a daload instruction.
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
    */
-  @Deprecated
   public static final int[] PRODUCE_STACK = {
     0/*nop*/, 1/*aconst_null*/, 1/*iconst_m1*/, 1/*iconst_0*/, 1/*iconst_1*/,
     1/*iconst_2*/, 1/*iconst_3*/, 1/*iconst_4*/, 1/*iconst_5*/, 2/*lconst_0*/,
@@ -1907,16 +1757,6 @@ public final class Constants {
     UNDEFINED, UNPREDICTABLE/*impdep1*/, UNPREDICTABLE/*impdep2*/
   };
 
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static int getProduceStack(int index) {
-      return PRODUCE_STACK[index];
-  }
-
   /** Attributes and their corresponding names.
    */
   public static final byte ATTR_UNKNOWN                                 = -1;
@@ -1945,12 +1785,7 @@ public final class Constants {
 
   public static final short KNOWN_ATTRIBUTES = 22; // count of attributes
 
-  /**
-   * 
-   * @deprecated Do not use as will be made private.
-   * Use getAttributeName instead
-   */
-  @Deprecated
+  // TODO: mutable public array!!
   public static final String[] ATTRIBUTE_NAMES = {
     "SourceFile", "ConstantValue", "Code", "Exceptions",
     "LineNumberTable", "LocalVariableTable",
@@ -1961,16 +1796,6 @@ public final class Constants {
     "AnnotationDefault", "LocalVariableTypeTable", "EnclosingMethod", "StackMapTable",
     "BootstrapMethods", "MethodParameters"
   };
-
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getAttributeName(int index) {
-      return ATTRIBUTE_NAMES[index];
-  }
 
   /** Constants used in the StackMap attribute.
    */
@@ -1984,25 +1809,10 @@ public final class Constants {
   public static final byte ITEM_Object     = 7;
   public static final byte ITEM_NewObject  = 8;
 
-  /**
-   * @deprecated Do not use as will be made private.
-   * Use TBA instead
-   */
-  @Deprecated
   public static final String[] ITEM_NAMES = {
     "Bogus", "Integer", "Float", "Double", "Long",
     "Null", "InitObject", "Object", "NewObject"
   };
-
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getItemName(int index) {
-      return ITEM_NAMES[index];
-  }
 
   /** Constants used to identify StackMapEntry types.
    *
@@ -2038,24 +1848,10 @@ public final class Constants {
   public static final byte REF_newInvokeSpecial = 8;
   public static final byte REF_invokeInterface  = 9;
   
-  /**
-   * The names of the reference_kinds of a CONSTANT_MethodHandle_info.
-   * @deprecated Do not use; will be made private . Use getMethodHandleName(int) instead
-   */
-  @Deprecated
+  /** The names of the referencd_kinds of a CONSTANT_MethodHandle_info. */
   public static final String[] METHODHANDLE_NAMES = {
       "", "getField", "getStatic", "putField", "putStatic", "invokeVirtual",
       "invokeStatic", "invokeSpecial", "newInvokeSpecial", "invokeInterface" };
-
-  /**
-   * 
-   * @param index
-   * @return
-   * @since 6.0
-   */
-  public static String getMethodHandleName(int index) {
-      return METHODHANDLE_NAMES[index];
-  }
 
   private Constants() { } // not instantiable
 

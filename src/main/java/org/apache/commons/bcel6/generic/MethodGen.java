@@ -487,7 +487,7 @@ public class MethodGen extends FieldGenOrMethodGen {
         CodeException[] c_exc = new CodeException[size];
         for (int i = 0; i < size; i++) {
             CodeExceptionGen c =  exception_vec.get(i);
-            c_exc[i] = c.getCodeException(super.getConstantPool());
+            c_exc[i] = c.getCodeException(cp);
         }
         return c_exc;
     }
@@ -615,9 +615,8 @@ public class MethodGen extends FieldGenOrMethodGen {
      */
     public Method getMethod() {
         String signature = getSignature();
-        final ConstantPoolGen _cp = super.getConstantPool();
-        int name_index = _cp.addUtf8(super.getName());
-        int signature_index = _cp.addUtf8(signature);
+        int name_index = cp.addUtf8(name);
+        int signature_index = cp.addUtf8(signature);
         /* Also updates positions of instructions, i.e., their indices
          */
         byte[] byte_code = null;
@@ -629,10 +628,10 @@ public class MethodGen extends FieldGenOrMethodGen {
         /* Create LocalVariableTable and LineNumberTable attributes (for debuggers, e.g.)
          */
         if ((variable_vec.size() > 0) && !strip_attributes) {
-            addCodeAttribute(lvt = getLocalVariableTable(_cp));
+            addCodeAttribute(lvt = getLocalVariableTable(cp));
         }
         if ((line_number_vec.size() > 0) && !strip_attributes) {
-            addCodeAttribute(lnt = getLineNumberTable(_cp));
+            addCodeAttribute(lnt = getLineNumberTable(cp));
         }
         Attribute[] code_attrs = getCodeAttributes();
         /* Each attribute causes 6 additional header bytes
@@ -652,20 +651,20 @@ public class MethodGen extends FieldGenOrMethodGen {
                     removeAttribute(a);
                 }
             }
-            code = new Code(_cp.addUtf8("Code"), 8 + byte_code.length + // prologue byte code
+            code = new Code(cp.addUtf8("Code"), 8 + byte_code.length + // prologue byte code
                     2 + exc_len + // exceptions
                     2 + attrs_len, // attributes
-                    max_stack, max_locals, byte_code, c_exc, code_attrs, _cp.getConstantPool());
+                    max_stack, max_locals, byte_code, c_exc, code_attrs, cp.getConstantPool());
             addAttribute(code);
         }
-        addAnnotationsAsAttribute(_cp);
-        addParameterAnnotationsAsAttribute(_cp);
+        addAnnotationsAsAttribute(cp);
+        addParameterAnnotationsAsAttribute(cp);
         ExceptionTable et = null;
         if (throws_vec.size() > 0) {
-            addAttribute(et = getExceptionTable(_cp));
+            addAttribute(et = getExceptionTable(cp));
             // Add `Exceptions' if there are "throws" clauses
         }
-        Method m = new Method(super.getAccessFlags(), name_index, signature_index, getAttributes(), _cp
+        Method m = new Method(super.getAccessFlags(), name_index, signature_index, getAttributes(), cp
                 .getConstantPool());
         // Undo effects of adding attributes
         if (lvt != null) {
@@ -695,7 +694,7 @@ public class MethodGen extends FieldGenOrMethodGen {
             /* Check branch instructions.
              */
             for (InstructionHandle ih = il.getStart(); ih != null; ih = next) {
-                next = ih.getNext();
+                next = ih.next;
                 if ((next != null) && (ih.getInstruction() instanceof NOP)) {
                     try {
                         il.delete(ih);
@@ -812,7 +811,7 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     @Override
     public String getSignature() {
-        return Type.getMethodSignature(super.getType(), arg_types);
+        return Type.getMethodSignature(type, arg_types);
     }
 
 
@@ -821,7 +820,7 @@ public class MethodGen extends FieldGenOrMethodGen {
      */
     public void setMaxStack() { // TODO could be package-protected? (some tests would need repackaging)
         if (il != null) {
-            max_stack = getMaxStack(super.getConstantPool(), il, getExceptionHandlers());
+            max_stack = getMaxStack(cp, il, getExceptionHandlers());
         } else {
             max_stack = 0;
         }
@@ -844,7 +843,7 @@ public class MethodGen extends FieldGenOrMethodGen {
                 if ((ins instanceof LocalVariableInstruction) || (ins instanceof RET)
                         || (ins instanceof IINC)) {
                     int index = ((IndexedInstruction) ins).getIndex()
-                            + ((TypedInstruction) ins).getType(super.getConstantPool()).getSize();
+                            + ((TypedInstruction) ins).getType(cp).getSize();
                     if (index > max) {
                         max = index;
                     }
@@ -866,8 +865,8 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     static final class BranchTarget {
 
-        final InstructionHandle target;
-        final int stackDepth;
+        InstructionHandle target;
+        int stackDepth;
 
 
         BranchTarget(InstructionHandle target, int stackDepth) {
@@ -878,8 +877,8 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     static final class BranchStack {
 
-        private final Stack<BranchTarget> branchTargets = new Stack<>();
-        private final Hashtable<InstructionHandle, BranchTarget> visitedTargets = new Hashtable<>();
+        Stack<BranchTarget> branchTargets = new Stack<>();
+        Hashtable<InstructionHandle, BranchTarget> visitedTargets = new Hashtable<>();
 
 
         public void push( InstructionHandle target, int stackDepth ) {
@@ -1032,9 +1031,9 @@ public class MethodGen extends FieldGenOrMethodGen {
     @Override
     public final String toString() {
         String access = Utility.accessToString(super.getAccessFlags());
-        String signature = Type.getMethodSignature(super.getType(), arg_types);
-        signature = Utility.methodSignatureToString(signature, super.getName(), access, true,
-                getLocalVariableTable(super.getConstantPool()));
+        String signature = Type.getMethodSignature(type, arg_types);
+        signature = Utility.methodSignatureToString(signature, name, access, true,
+                getLocalVariableTable(cp));
         StringBuilder buf = new StringBuilder(signature);
         for (Attribute a : getAttributes()) {
             if (!((a instanceof Code) || (a instanceof ExceptionTable))) {
@@ -1055,10 +1054,10 @@ public class MethodGen extends FieldGenOrMethodGen {
      */
     public MethodGen copy( String class_name, ConstantPoolGen cp ) {
         Method m = ((MethodGen) clone()).getMethod();
-        MethodGen mg = new MethodGen(m, class_name, super.getConstantPool());
-        if (super.getConstantPool() != cp) {
+        MethodGen mg = new MethodGen(m, class_name, this.cp);
+        if (this.cp != cp) {
             mg.setConstantPool(cp);
-            mg.getInstructionList().replaceConstantPool(super.getConstantPool(), cp);
+            mg.getInstructionList().replaceConstantPool(this.cp, cp);
         }
         return mg;
     }

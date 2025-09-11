@@ -21,7 +21,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 import org.apache.commons.bcel6.classfile.ConstantPool;
 import org.apache.commons.bcel6.util.ByteSequence;
 
@@ -31,9 +31,6 @@ import org.apache.commons.bcel6.util.ByteSequence;
  * mechanism entirely.
  *
  * @version $Id: InvokeInstruction.java 1152072 2011-07-29 01:54:05Z dbrosius $
- * @see
- * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokedynamic">
- * The invokedynamic instruction in The Java Virtual Machine Specification</a>
  * @since 6.0
  */
 public class INVOKEDYNAMIC extends InvokeInstruction {
@@ -57,7 +54,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         out.writeShort(super.getIndex());
         out.writeByte(0);
         out.writeByte(0);
@@ -70,7 +67,7 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
         super.initFromFile(bytes, wide);
-        super.setLength(5);
+        length = 5;
         bytes.readByte(); // Skip 0 byte
         bytes.readByte(); // Skip 0 byte
     }
@@ -87,11 +84,11 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
 
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION,
-            ExceptionConst.UNSATISFIED_LINK_ERROR,
-            ExceptionConst.ABSTRACT_METHOD_ERROR,
-            ExceptionConst.ILLEGAL_ACCESS_ERROR,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_INTERFACE_METHOD_RESOLUTION,
+            ExceptionConstants.UNSATISFIED_LINK_ERROR,
+            ExceptionConstants.ABSTRACT_METHOD_ERROR,
+            ExceptionConstants.ILLEGAL_ACCESS_ERROR,
+            ExceptionConstants.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
 
