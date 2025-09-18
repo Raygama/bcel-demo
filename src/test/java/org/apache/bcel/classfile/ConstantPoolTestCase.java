@@ -27,23 +27,23 @@ import org.junit.Test;
 public class ConstantPoolTestCase extends AbstractTestCase {
     @Test
     public void testConstantToString() throws ClassNotFoundException {
-        final JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.SimpleClassWithDefaultConstructor");
-        final ConstantPoolGen cp = new ConstantPoolGen(clazz.getConstantPool());
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME + ".data.SimpleClassWithDefaultConstructor");
+        ConstantPoolGen cp = new ConstantPoolGen(clazz.getConstantPool());
 
-        final Method[] methods = clazz.getMethods();
+        Method[] methods = clazz.getMethods();
 
-        for (final Method method : methods) {
+        for (Method method : methods) {
             if (method.getName().equals("<init>")) {
-                for (final InstructionHandle instructionHandle : getInstructionHandles(clazz, cp, method)) {
+                for (InstructionHandle instructionHandle : getInstructionHandles(clazz, cp, method)) {
                     System.out.println(instructionHandle.getInstruction().toString(cp.getConstantPool()));
                 }
             }
         }
     }
 
-    private InstructionHandle[] getInstructionHandles(final JavaClass clazz, final ConstantPoolGen cp, final Method method) {
-        final MethodGen methodGen = new MethodGen(method, clazz.getClassName(), cp);
-        final InstructionList instructionList = methodGen.getInstructionList();
+    private InstructionHandle[] getInstructionHandles(JavaClass clazz, ConstantPoolGen cp, Method method) {
+        MethodGen methodGen = new MethodGen(method, clazz.getClassName(), cp);
+        InstructionList instructionList = methodGen.getInstructionList();
         return instructionList.getInstructionHandles();
     }
 }
