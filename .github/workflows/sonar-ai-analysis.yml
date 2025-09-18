@@ -138,7 +138,7 @@ jobs:
           echo "[]" > all-issues.json
           PAGE=1
           PAGESIZE=500
-          COLLECTED=0 
+          COLLECTED=0
 
           while : ; do
             PAGE_JSON=$(curl -s -G "${{ env.SONAR_URL }}/api/issues/search" \
