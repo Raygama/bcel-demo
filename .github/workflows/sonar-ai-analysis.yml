@@ -431,7 +431,8 @@ jobs:
               try { analysis = JSON.parse(raw).text || raw; } catch {}
             }
 
-            let judge = 'No judge result';
+            let judgeReadable = 'No judge result';
+            let judgeRaw = null;
             if (fs.existsSync('judge_output.json')) {
               const raw = fs.readFileSync('judge_output.json', 'utf8');
               try {
@@ -444,20 +445,41 @@ jobs:
                 let judgeJson;
                 try {
                   judgeJson = JSON.parse(judgeText);
-                } catch (e) {
-                  judge = "Judge output could not be parsed:\n```\n" + judgeText + "\n```";
-                }
+                  judgeRaw = judgeJson;
 
-                if (judgeJson) {
-                  judge = "### Judge Evaluation\n```json\n" +
-                          JSON.stringify(judgeJson, null, 2) + "\n```";
+                  // Build human-readable version
+                  const ctx = judgeJson.reasoning.contextual_analysis;
+                  const pres = judgeJson.reasoning.prescriptive_guidance;
+                  const qual = judgeJson.reasoning.quality_of_generation;
+                  const scores = judgeJson.final_scores;
+
+                  judgeReadable =
+                    `### Judge Evaluation\n\n` +
+                    `**Contextual Analysis**\n` +
+                    `- Cites Jira Issue: ${ctx.cites_jira_issue}\n` +
+                    `- Logical Connection: ${ctx.is_connection_logical}\n\n` +
+                    `**Prescriptive Guidance**\n` +
+                    `- Concrete Action: ${pres.is_action_concrete}\n` +
+                    `- High Quality: ${pres.is_action_high_quality}\n\n` +
+                    `**Quality of Generation**\n` +
+                    `- Clear & Concise: ${qual.is_clear_and_concise}\n\n` +
+                    `**Final Scores**\n` +
+                    `- Contextual Score: ${scores.contextual_score}/5\n` +
+                    `- Prescriptive Score: ${scores.prescriptive_score}/5\n`;
+                } catch (e) {
+                  judgeReadable = "Judge output could not be parsed:\n```\n" + judgeText + "\n```";
                 }
               } catch (e) {
-                judge = raw;
+                judgeReadable = raw;
               }
             }
 
-            const body = "## Technical Debt Analysis\n" + analysis + "\n\n" + judge;
+            const body =
+              "## Technical Debt Analysis\n" + analysis + "\n\n" +
+              judgeReadable +
+              (judgeRaw ? ("\n<details><summary>Raw Judge JSON</summary>\n\n```json\n" +
+                           JSON.stringify(judgeRaw, null, 2) +
+                           "\n```\n</details>") : "");
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -465,3 +487,4 @@ jobs:
               issue_number: context.issue.number,
               body
             });
+
