@@ -124,8 +124,8 @@ jobs:
           set -euo pipefail
 
           # ---- Tunables (tighten if you still hit limits) ----
-          MAX_ISSUES=120            # hard cap on issues you will pass to AI
-          MAX_ISSUES_PER_RULE=25    # avoid one rule dominating
+          MAX_ISSUES=50             # hard cap on issues you will pass to AI
+          MAX_ISSUES_PER_RULE=5    # avoid one rule dominating
           MAX_ISSUES_PER_FILE=20    # avoid one file dominating
           MAX_SNIPPET_CHARS=380     # keep snippet tiny but useful
           CONTEXT_BEFORE=1          # lines before the hit
@@ -138,7 +138,7 @@ jobs:
           echo "[]" > all-issues.json
           PAGE=1
           PAGESIZE=500
-          COLLECTED=0
+          COLLECTED=0 
 
           while : ; do
             PAGE_JSON=$(curl -s -G "${{ env.SONAR_URL }}/api/issues/search" \
