@@ -369,6 +369,52 @@ jobs:
 
           echo "$RESPONSE" > flowise_output.json
 
+      - name: Evaluate analysis with LLM Judge
+        id: llm-judge
+        env:
+          FLOWISE_BEARER_TOKEN: ${{ secrets.FLOWISE_BEARER_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # Load the analysis output from Flowise (previous step)
+          if [ ! -f flowise_output.json ]; then
+            echo "No analysis output found."
+            echo '{}' > judge_output.json
+            exit 0
+          fi
+
+          ANALYSIS=$(jq -r '.text' flowise_output.json)
+
+          # Reuse Sonar summary text for context
+          SONAR_SUMMARY=$(jq -r '
+            .[] |
+            "### Rule: \(.rule)\n" +
+            "* Severity: \(.severity)\n" +
+            "* Location: \(.component):\(.line)\n" +
+            "* Message: \(.message)\n" +
+            (if .snippet then "* Snippet:*\\n```\\n\(.snippet)\\n```" else "" end) + "\n"
+          ' issues.json | sed ':a;N;$!ba;s/\n/\\n/g')
+
+          # Build judge prompt
+          JUDGE_PROMPT=$(
+            jq -n \
+              --arg sonar "Sonar text:\n\n$SONAR_SUMMARY" \
+              --arg analysis "LLM Analysis:\n\n$ANALYSIS" \
+              '{
+                question: "Judge the output from the LLM with project context, return only JSON as instructed.\n\n\($sonar)\n\n\($analysis)"
+              }'
+          )
+
+          echo "Sending to Judge agent..."
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer $FLOWISE_BEARER_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$JUDGE_PROMPT" \
+            https://cloud.flowiseai.com/api/v1/prediction/83d05606-a050-496f-b0ce-0b42167bdb36)
+
+          echo "$RESPONSE" > judge_output.json
+          echo "Judge output:"
+          cat judge_output.json
 
 
       - name: Comment on PR
@@ -378,29 +424,26 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const path = 'flowise_output.json';
 
-            if (!fs.existsSync(path)) {
-              core.warning('Flowise output file not found.');
-              return;
+            let analysis = 'No analysis';
+            if (fs.existsSync('flowise_output.json')) {
+              const raw = fs.readFileSync('flowise_output.json', 'utf8');
+              try { analysis = JSON.parse(raw).text || raw; } catch {}
             }
 
-            const raw = fs.readFileSync(path, 'utf8').trim();
-            if (!raw || raw[0] !== '{') {
-              core.warning('Flowise did not return valid JSON. Skipping comment.');
-              return;
+            let judge = 'No judge result';
+            if (fs.existsSync('judge_output.json')) {
+              const raw = fs.readFileSync('judge_output.json', 'utf8');
+              try {
+                const parsed = JSON.parse(raw);
+                judge = "### Judge Evaluation\n```json\n" +
+                        JSON.stringify(parsed, null, 2) + "\n```";
+              } catch {
+                judge = raw;
+              }
             }
 
-            let parsed;
-            try {
-              parsed = JSON.parse(raw);
-            } catch (e) {
-              core.warning(`JSON parse error: ${e.message}`);
-              return;
-            }
-
-            const body = parsed.text || 'Flowise returned:\n```json\n' +
-                          JSON.stringify(parsed, null, 2) + '\n```';
+            const body = "## Technical Debt Analysis\n" + analysis + "\n\n" + judge;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
