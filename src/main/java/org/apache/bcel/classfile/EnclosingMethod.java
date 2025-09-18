@@ -83,7 +83,7 @@ public class EnclosingMethod extends Attribute {
     }
 
     public final ConstantClass getEnclosingClass() {
-        final ConstantClass c = 
+        ConstantClass c = 
             (ConstantClass)super.getConstantPool().getConstant(classIndex,Const.CONSTANT_Class);
         return c;
     }
@@ -92,7 +92,7 @@ public class EnclosingMethod extends Attribute {
         if (methodIndex == 0) {
             return null;
         }
-        final ConstantNameAndType nat = 
+        ConstantNameAndType nat = 
             (ConstantNameAndType)super.getConstantPool().getConstant(methodIndex,Const.CONSTANT_NameAndType);
         return nat;
     }

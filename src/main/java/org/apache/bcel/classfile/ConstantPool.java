@@ -57,7 +57,7 @@ public class ConstantPool implements Cloneable, Node {
      */
     public ConstantPool(final DataInput input) throws IOException, ClassFormatException {
         byte tag;
-        final int constant_pool_count = input.readUnsignedShort();
+        int constant_pool_count = input.readUnsignedShort();
         constant_pool = new Constant[constant_pool_count];
         /* constant_pool[0] is unused by the compiler and may be used freely
          * by the implementation.
@@ -101,7 +101,7 @@ public class ConstantPool implements Cloneable, Node {
     public String constantToString( Constant c ) throws ClassFormatException {
         String str;
         int i;
-        final byte tag = c.getTag();
+        byte tag = c.getTag();
         switch (tag) {
             case Const.CONSTANT_Class:
                 i = ((ConstantClass) c).getNameIndex();
@@ -131,7 +131,7 @@ public class ConstantPool implements Cloneable, Node {
             case Const.CONSTANT_NameAndType:
                 str = constantToString(((ConstantNameAndType) c).getNameIndex(),
                         Const.CONSTANT_Utf8)
-                        + " " + constantToString(((ConstantNameAndType) c).getSignatureIndex(),
+                        + ":" + constantToString(((ConstantNameAndType) c).getSignatureIndex(),
                         Const.CONSTANT_Utf8);
                 break;
             case Const.CONSTANT_InterfaceMethodref:
@@ -144,17 +144,17 @@ public class ConstantPool implements Cloneable, Node {
             case Const.CONSTANT_MethodHandle:
                 // Note that the ReferenceIndex may point to a Fieldref, Methodref or
                 // InterfaceMethodref - so we need to peek ahead to get the actual type.
-                final ConstantMethodHandle cmh = (ConstantMethodHandle) c;
+                ConstantMethodHandle cmh = (ConstantMethodHandle) c;
                 str = Const.getMethodHandleName(cmh.getReferenceKind())
                         + " " + constantToString(cmh.getReferenceIndex(),
                         getConstant(cmh.getReferenceIndex()).getTag());
-                break;
+                break;            
             case Const.CONSTANT_MethodType:
-                final ConstantMethodType cmt = (ConstantMethodType) c;
+                ConstantMethodType cmt = (ConstantMethodType) c;
                 str = constantToString(cmt.getDescriptorIndex(), Const.CONSTANT_Utf8);
                 break;
             case Const.CONSTANT_InvokeDynamic:
-                final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
+                ConstantInvokeDynamic cid = (ConstantInvokeDynamic) c;
                 str = cid.getBootstrapMethodAttrIndex()
                         + ":" + constantToString(cid.getNameAndTypeIndex(),
                         Const.CONSTANT_NameAndType);
@@ -167,9 +167,9 @@ public class ConstantPool implements Cloneable, Node {
 
 
     private static String escape( final String str ) {
-        final int len = str.length();
-        final StringBuilder buf = new StringBuilder(len + 5);
-        final char[] ch = str.toCharArray();
+        int len = str.length();
+        StringBuilder buf = new StringBuilder(len + 5);
+        char[] ch = str.toCharArray();
         for (int i = 0; i < len; i++) {
             switch (ch[i]) {
                 case '\n':
@@ -204,12 +204,12 @@ public class ConstantPool implements Cloneable, Node {
      * @return String representation
      */
     public String constantToString( final int index, final byte tag ) throws ClassFormatException {
-        final Constant c = getConstant(index, tag);
+        Constant c = getConstant(index, tag);
         return constantToString(c);
     }
 
 
-    /**
+    /** 
      * Dump constant pool to file stream in binary format.
      *
      * @param file Output file stream
@@ -343,7 +343,7 @@ public class ConstantPool implements Cloneable, Node {
      */
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (int i = 1; i < constant_pool.length; i++) {
             buf.append(i).append(")").append(constant_pool[i]).append("\n");
         }
@@ -364,7 +364,7 @@ public class ConstantPool implements Cloneable, Node {
                     c.constant_pool[i] = constant_pool[i].copy();
                 }
             }
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return c;

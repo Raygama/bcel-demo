@@ -81,7 +81,7 @@ final class AttributeHTML {
 
 
     final void writeAttribute( final Attribute attribute, final String anchor, final int method_number ) {
-        final byte tag = attribute.getTag();
+        byte tag = attribute.getTag();
         int index;
         if (tag == Const.ATTR_UNKNOWN) {
             return;
@@ -98,19 +98,19 @@ final class AttributeHTML {
          */
         switch (tag) {
             case Const.ATTR_CODE:
-                final Code c = (Code) attribute;
+                Code c = (Code) attribute;
                 // Some directly printable values
                 file.print("<UL><LI>Maximum stack size = " + c.getMaxStack()
                         + "</LI>\n<LI>Number of local variables = " + c.getMaxLocals()
                         + "</LI>\n<LI><A HREF=\"" + class_name + "_code.html#method"
                         + method_number + "\" TARGET=Code>Byte code</A></LI></UL>\n");
                 // Get handled exceptions and list them
-                final CodeException[] ce = c.getExceptionTable();
-                final int len = ce.length;
+                CodeException[] ce = c.getExceptionTable();
+                int len = ce.length;
                 if (len > 0) {
                     file.print("<P><B>Exceptions handled</B><UL>");
-                    for (final CodeException cex : ce) {
-                        final int catch_type = cex.getCatchType(); // Index in constant pool
+                    for (CodeException cex : ce) {
+                        int catch_type = cex.getCatchType(); // Index in constant pool
                         file.print("<LI>");
                         if (catch_type != 0) {
                             file.print(constant_html.referenceConstant(catch_type)); // Create Link to _cp.html
@@ -140,9 +140,9 @@ final class AttributeHTML {
                 break;
             case Const.ATTR_EXCEPTIONS:
                 // List thrown exceptions
-                final int[] indices = ((ExceptionTable) attribute).getExceptionIndexTable();
+                int[] indices = ((ExceptionTable) attribute).getExceptionIndexTable();
                 file.print("<UL>");
-                for (final int indice : indices) {
+                for (int indice : indices) {
                     file.print("<LI><A HREF=\"" + class_name + "_cp.html#cp" + indice
                             + "\" TARGET=\"ConstantPool\">Exception class index(" + indice
                             + ")</A>\n");
@@ -150,7 +150,7 @@ final class AttributeHTML {
                 file.print("</UL>\n");
                 break;
             case Const.ATTR_LINE_NUMBER_TABLE:
-                final LineNumber[] line_numbers = ((LineNumberTable) attribute).getLineNumberTable();
+                LineNumber[] line_numbers = ((LineNumberTable) attribute).getLineNumberTable();
                 // List line number pairs
                 file.print("<P>");
                 for (int i = 0; i < line_numbers.length; i++) {
@@ -162,16 +162,16 @@ final class AttributeHTML {
                 }
                 break;
             case Const.ATTR_LOCAL_VARIABLE_TABLE:
-                final LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
+                LocalVariable[] vars = ((LocalVariableTable) attribute).getLocalVariableTable();
                 // List name, range and type
                 file.print("<UL>");
-                for (final LocalVariable var : vars) {
+                for (LocalVariable var : vars) {
                     index = var.getSignatureIndex();
                     String signature = ((ConstantUtf8) constant_pool.getConstant(index,
                             Const.CONSTANT_Utf8)).getBytes();
                     signature = Utility.signatureToString(signature, false);
-                    final int start = var.getStartPC();
-                    final int end = start + var.getLength();
+                    int start = var.getStartPC();
+                    int end = start + var.getLength();
                     file.println("<LI>" + Class2HTML.referenceType(signature) + "&nbsp;<B>"
                             + var.getName() + "</B> in slot %" + var.getIndex()
                             + "<BR>Valid from lines " + "<A HREF=\"" + class_name
@@ -182,10 +182,10 @@ final class AttributeHTML {
                 file.print("</UL>\n");
                 break;
             case Const.ATTR_INNER_CLASSES:
-                final InnerClass[] classes = ((InnerClasses) attribute).getInnerClasses();
+                InnerClass[] classes = ((InnerClasses) attribute).getInnerClasses();
                 // List inner classes
                 file.print("<UL>");
-                for (final InnerClass classe : classes) {
+                for (InnerClass classe : classes) {
                     String name;
                     String access;
                     index = classe.getInnerNameIndex();

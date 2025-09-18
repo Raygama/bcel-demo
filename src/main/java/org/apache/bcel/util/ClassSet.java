@@ -57,8 +57,8 @@ public class ClassSet {
 
 
     public JavaClass[] toArray() {
-        final Collection<JavaClass> values = map.values();
-        final JavaClass[] classes = new JavaClass[values.size()];
+        Collection<JavaClass> values = map.values();
+        JavaClass[] classes = new JavaClass[values.size()];
         values.toArray(classes);
         return classes;
     }

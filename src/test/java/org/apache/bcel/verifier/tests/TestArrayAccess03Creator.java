@@ -54,14 +54,14 @@ public void create(final OutputStream out) throws IOException {
   }
 
   private void createMethod_0() {
-    final InstructionList il = new InstructionList();
-    final MethodGen method = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[] {  }, "<init>",
+    InstructionList il = new InstructionList();
+    MethodGen method = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[] {  }, "<init>",
             TEST_PACKAGE+".TestArrayAccess03", il, _cp);
 
-    final InstructionHandle ih_0 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
+    InstructionHandle ih_0 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
     Assert.assertNotNull(ih_0); // TODO why is this not used
     il.append(_factory.createInvoke("java.lang.Object", "<init>", Type.VOID, Type.NO_ARGS, Const.INVOKESPECIAL));
-    final InstructionHandle ih_4 = il.append(InstructionFactory.createReturn(Type.VOID));
+    InstructionHandle ih_4 = il.append(InstructionFactory.createReturn(Type.VOID));
     Assert.assertNotNull(ih_4); // TODO why is this not used
     method.setMaxStack();
     method.setMaxLocals();
@@ -70,22 +70,22 @@ public void create(final OutputStream out) throws IOException {
   }
 
   private void createMethod_1() {
-    final InstructionList il = new InstructionList();
-    final MethodGen method = new MethodGen(Const.ACC_PUBLIC | Const.ACC_STATIC, Type.VOID, new Type[] { Type.OBJECT },
+    InstructionList il = new InstructionList();
+    MethodGen method = new MethodGen(Const.ACC_PUBLIC | Const.ACC_STATIC, Type.VOID, new Type[] { Type.OBJECT },
             new String[] { "arg0" }, "test", TEST_PACKAGE+".TestArrayAccess03", il, _cp);
 
-    final InstructionHandle ih_0 = il.append(new PUSH(_cp, 1));
+    InstructionHandle ih_0 = il.append(new PUSH(_cp, 1));
     Assert.assertNotNull(ih_0); // TODO why is this not used
     il.append(_factory.createNewArray(new ObjectType(TEST_PACKAGE+".TestArrayAccess03"), (short) 1));
     il.append(InstructionFactory.createStore(Type.OBJECT, 1));
-    final InstructionHandle ih_5 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
+    InstructionHandle ih_5 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
     Assert.assertNotNull(ih_5); // TODO why is this not used
     il.append(new PUSH(_cp, 0));
     il.append(_factory.createNew(TEST_PACKAGE+".TestArrayAccess03"));
     il.append(InstructionConst.DUP);
     il.append(_factory.createInvoke(TEST_PACKAGE+".TestArrayAccess03", "<init>", Type.VOID, Type.NO_ARGS, Const.INVOKESPECIAL));
     il.append(InstructionConst.AASTORE);
-    final InstructionHandle ih_15 = il.append(InstructionFactory.createReturn(Type.VOID));
+    InstructionHandle ih_15 = il.append(InstructionFactory.createReturn(Type.VOID));
     Assert.assertNotNull(ih_15); // TODO why is this not used
     method.setMaxStack();
     method.setMaxLocals();

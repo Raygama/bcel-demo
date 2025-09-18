@@ -86,12 +86,12 @@ public final class ExceptionConst {
         EXCS_INTERFACE_METHOD_RESOLUTION,
         EXCS_STRING_RESOLUTION,
         EXCS_ARRAY_EXCEPTION,
-    }
+    };
 
     // helper method to merge exception class arrays
     private static Class<?>[] mergeExceptions(final Class<?>[] input, final Class<?> ... extraClasses) {
-        final int extraLen = extraClasses == null ? 0 : extraClasses.length;
-        final Class<?>[] excs = new Class<?>[input.length + extraLen];
+        int extraLen = extraClasses == null ? 0 : extraClasses.length;
+        Class<?>[] excs = new Class<?>[input.length + extraLen];
         System.arraycopy(input, 0, excs, 0, input.length);
         if (extraLen > 0) {
             System.arraycopy(extraClasses, 0, excs, input.length, extraLen);            

@@ -52,14 +52,14 @@ public void create(final OutputStream out) throws IOException {
   }
 
   private void createMethod_0() {
-    final InstructionList il = new InstructionList();
-    final MethodGen method = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[] {  },
+    InstructionList il = new InstructionList();
+    MethodGen method = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[] {  },
             "<init>", TEST_PACKAGE+".TestReturn03", il, _cp);
 
-    final InstructionHandle ih_0 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
+    InstructionHandle ih_0 = il.append(InstructionFactory.createLoad(Type.OBJECT, 0));
     Assert.assertNotNull(ih_0); // TODO why is this not used
     il.append(_factory.createInvoke("java.lang.Object", "<init>", Type.VOID, Type.NO_ARGS, Const.INVOKESPECIAL));
-    final InstructionHandle ih_4 = il.append(InstructionFactory.createReturn(Type.VOID));
+    InstructionHandle ih_4 = il.append(InstructionFactory.createReturn(Type.VOID));
     Assert.assertNotNull(ih_4); // TODO why is this not used
     method.setMaxStack();
     method.setMaxLocals();
@@ -68,11 +68,11 @@ public void create(final OutputStream out) throws IOException {
   }
 
   private void createMethod_1() {
-    final InstructionList il = new InstructionList();
-    final MethodGen method = new MethodGen(Const.ACC_PUBLIC | Const.ACC_STATIC, Type.INT, Type.NO_ARGS,
+    InstructionList il = new InstructionList();
+    MethodGen method = new MethodGen(Const.ACC_PUBLIC | Const.ACC_STATIC, Type.INT, Type.NO_ARGS,
             new String[] {  }, "test3", TEST_PACKAGE+".TestReturn03", il, _cp);
 
-    final InstructionHandle ih_0 = il.append(InstructionConst.ACONST_NULL);
+    InstructionHandle ih_0 = il.append(InstructionConst.ACONST_NULL);
     Assert.assertNotNull(ih_0); // TODO why is this not used
     il.append(InstructionFactory.createReturn(Type.OBJECT));
     method.setMaxStack();

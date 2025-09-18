@@ -209,7 +209,7 @@ public final class InnerClass implements Cloneable, Node {
     public InnerClass copy() {
         try {
             return (InnerClass) clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // TODO should this throw?
         }
         return null;

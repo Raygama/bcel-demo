@@ -123,22 +123,8 @@ public class INVOKEDYNAMIC extends InvokeInstruction {
      */
     @Override
     public String getClassName( final ConstantPoolGen cpg ) {
-        final ConstantPool cp = cpg.getConstantPool();
-        final ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), Const.CONSTANT_InvokeDynamic);
+        ConstantPool cp = cpg.getConstantPool();
+        ConstantInvokeDynamic cid = (ConstantInvokeDynamic) cp.getConstant(super.getIndex(), Const.CONSTANT_InvokeDynamic);
         return ((ConstantNameAndType) cp.getConstant(cid.getNameAndTypeIndex())).getName(cp);
-    }
-    
-
-    /**
-     * Since InvokeDynamic doesn't refer to a reference type, just return java.lang.Object, 
-     * as that is the only type we can say for sure the reference will be.
-     * 
-     * @param cpg
-     *            the ConstantPoolGen used to create the instruction
-     * @return an ObjectType for java.lang.Object
-     */
-    @Override
-    public ReferenceType getReferenceType(final ConstantPoolGen cpg) {
-        return new ObjectType(Object.class.getName());
     }
 }

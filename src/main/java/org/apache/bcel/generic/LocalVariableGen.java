@@ -86,8 +86,8 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
                 length += end.getInstruction().getLength();
             }
         }
-        final int name_index = cp.addUtf8(name);
-        final int signature_index = cp.addUtf8(type.getSignature());
+        int name_index = cp.addUtf8(name);
+        int signature_index = cp.addUtf8(type.getSignature());
         return new LocalVariable(start_pc, length, name_index, signature_index, index, cp
                 .getConstantPool());
     }
@@ -204,7 +204,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         if (!(o instanceof LocalVariableGen)) {
             return false;
         }
-        final LocalVariableGen l = (LocalVariableGen) o;
+        LocalVariableGen l = (LocalVariableGen) o;
         return (l.index == index) && (l.start == start) && (l.end == end);
     }
 
@@ -219,7 +219,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     public Object clone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }
     }

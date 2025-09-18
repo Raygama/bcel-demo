@@ -25,9 +25,9 @@ import junit.framework.TestCase;
 public class VerifierTestCase extends TestCase {
 
     public void testDefaultMethodValidation() {
-        final String classname = Collection.class.getName();
+        String classname = Collection.class.getName();
 
-        final Verifier verifier = VerifierFactory.getVerifier(classname);
+        Verifier verifier = VerifierFactory.getVerifier(classname);
         VerificationResult result = verifier.doPass1();
 
         assertEquals("Pass 1 verification of " + classname + " failed: " + result.getMessage(), VerificationResult.VERIFIED_OK,

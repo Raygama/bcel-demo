@@ -95,7 +95,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
         this.targets = targets;
         // now it's safe to set default target
         setTarget(defaultTarget);
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             notifyTarget(null, target2, this);
         }
         if ((match_length = match.length) != targets.length) {
@@ -122,7 +122,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     @Override
     protected int updatePosition( final int offset, final int max_offset ) {
         setPosition(getPosition() + offset); // Additional offset caused by preceding SWITCHs, GOTOs, etc.
-        final short old_length = (short) super.getLength();
+        short old_length = (short) super.getLength();
         /* Alignment on 4-byte-boundary, + 1, because of tag byte.
          */
         padding = (4 - ((getPosition() + 1) % 4)) % 4;
@@ -165,7 +165,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
      */
     @Override
     public String toString( final boolean verbose ) {
-        final StringBuilder buf = new StringBuilder(super.toString(verbose));
+        StringBuilder buf = new StringBuilder(super.toString(verbose));
         if (verbose) {
             for (int i = 0; i < match_length; i++) {
                 String s = "null";
@@ -222,7 +222,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
         if (super.getTarget() == ih) {
             return true;
         }
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             if (target2 == ih) {
                 return true;
             }
@@ -233,7 +233,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        final Select copy = (Select) super.clone();
+        Select copy = (Select) super.clone();
         copy.match = match.clone();
         copy.indices = indices.clone();
         copy.targets = targets.clone();
@@ -247,7 +247,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
     @Override
     void dispose() {
         super.dispose();
-        for (final InstructionHandle target2 : targets) {
+        for (InstructionHandle target2 : targets) {
             target2.removeTargeter(this);
         }
     }

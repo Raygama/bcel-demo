@@ -94,7 +94,7 @@ public class ConstantPoolGen {
      * @param cs array of given constants, new ones will be appended
      */
     public ConstantPoolGen(final Constant[] cs) {
-        final StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
+        StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
 
         size = Math.max(DEFAULT_BUFFER_SIZE, cs.length + 64);
         constants = new Constant[size];
@@ -106,43 +106,43 @@ public class ConstantPoolGen {
 
 
         for (int i = 1; i < index; i++) {
-            final Constant c = constants[i];
+            Constant c = constants[i];
             if (c instanceof ConstantString) {
-                final ConstantString s = (ConstantString) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
-                final String key = u8.getBytes();
+                ConstantString s = (ConstantString) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
+                String key = u8.getBytes();
                 if (!string_table.containsKey(key)) {
                     string_table.put(key, new Index(i));
                 }
             } else if (c instanceof ConstantClass) {
-                final ConstantClass s = (ConstantClass) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
-                final String key = u8.getBytes();
+                ConstantClass s = (ConstantClass) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
+                String key = u8.getBytes();
                 if (!class_table.containsKey(key)) {
                     class_table.put(key, new Index(i));
                 }
             } else if (c instanceof ConstantNameAndType) {
-                final ConstantNameAndType n = (ConstantNameAndType) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
-                final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
+                ConstantNameAndType n = (ConstantNameAndType) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
+                ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
 
                 sb.append(u8.getBytes());
                 sb.append(NAT_DELIM);
                 sb.append(u8_2.getBytes());
-                final String key = sb.toString();
+                String key = sb.toString();
                 sb.delete(0, sb.length());
 
                 if (!n_a_t_table.containsKey(key)) {
                     n_a_t_table.put(key, new Index(i));
                 }
             } else if (c instanceof ConstantUtf8) {
-                final ConstantUtf8 u = (ConstantUtf8) c;
-                final String key = u.getBytes();
+                ConstantUtf8 u = (ConstantUtf8) c;
+                String key = u.getBytes();
                 if (!utf8_table.containsKey(key)) {
                     utf8_table.put(key, new Index(i));
                 }
             } else if (c instanceof ConstantCP) {
-                final ConstantCP m = (ConstantCP) c;
+                ConstantCP m = (ConstantCP) c;
                 String class_name;
                 ConstantUtf8 u8;
 
@@ -151,16 +151,16 @@ public class ConstantPoolGen {
                     // since name can't begin with digit, can  use
                     // METHODREF_DELIM with out fear of duplicates.
                 } else {
-                final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
+                ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
                     u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
                     class_name = u8.getBytes().replace('/', '.');
                 }
 
-                final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
+                ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
                 u8 = (ConstantUtf8) constants[n.getNameIndex()];
-                final String method_name = u8.getBytes();
+                String method_name = u8.getBytes();
                 u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
-                final String signature = u8.getBytes();
+                String signature = u8.getBytes();
 
                 String delim = METHODREF_DELIM;
                 if (c instanceof ConstantInterfaceMethodref) {
@@ -174,7 +174,7 @@ public class ConstantPoolGen {
                 sb.append(method_name);
                 sb.append(delim);
                 sb.append(signature);
-                final String key = sb.toString();
+                String key = sb.toString();
                 sb.delete(0, sb.length());
 
                 if (!cp_table.containsKey(key)) {
@@ -222,7 +222,7 @@ public class ConstantPoolGen {
      */
     protected void adjustSize() {
         if (index + 3 >= size) {
-            final Constant[] cs = constants;
+            Constant[] cs = constants;
             size *= 2;
             constants = new Constant[size];
             System.arraycopy(cs, 0, constants, 0, index);
@@ -239,7 +239,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupString( final String str ) {
-        final Index index = string_table.get(str);
+        Index index = string_table.get(str);
         return (index != null) ? index.index : -1;
     }
 
@@ -255,9 +255,9 @@ public class ConstantPoolGen {
         if ((ret = lookupString(str)) != -1) {
             return ret; // Already in CP
         }
-        final int utf8 = addUtf8(str);
+        int utf8 = addUtf8(str);
         adjustSize();
-        final ConstantString s = new ConstantString(utf8);
+        ConstantString s = new ConstantString(utf8);
         ret = index;
         constants[index++] = s;
         if (!string_table.containsKey(str)) {
@@ -276,7 +276,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupClass( final String str ) {
-        final Index index = class_table.get(str.replace('.', '/'));
+        Index index = class_table.get(str.replace('.', '/'));
         return (index != null) ? index.index : -1;
     }
 
@@ -287,7 +287,7 @@ public class ConstantPoolGen {
             return ret; // Already in CP
         }
         adjustSize();
-        final ConstantClass c = new ConstantClass(addUtf8(clazz));
+        ConstantClass c = new ConstantClass(addUtf8(clazz));
         ret = index;
         constants[index++] = c;
         if (!class_table.containsKey(clazz)) {
@@ -340,7 +340,7 @@ public class ConstantPoolGen {
     public int lookupInteger( final int n ) {
         for (int i = 1; i < index; i++) {
             if (constants[i] instanceof ConstantInteger) {
-                final ConstantInteger c = (ConstantInteger) constants[i];
+                ConstantInteger c = (ConstantInteger) constants[i];
                 if (c.getBytes() == n) {
                     return i;
                 }
@@ -375,10 +375,10 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupFloat( final float n ) {
-        final int bits = Float.floatToIntBits(n);
+        int bits = Float.floatToIntBits(n);
         for (int i = 1; i < index; i++) {
             if (constants[i] instanceof ConstantFloat) {
-                final ConstantFloat c = (ConstantFloat) constants[i];
+                ConstantFloat c = (ConstantFloat) constants[i];
                 if (Float.floatToIntBits(c.getBytes()) == bits) {
                     return i;
                 }
@@ -415,7 +415,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupUtf8( final String n ) {
-        final Index index = utf8_table.get(n);
+        Index index = utf8_table.get(n);
         return (index != null) ? index.index : -1;
     }
 
@@ -450,7 +450,7 @@ public class ConstantPoolGen {
     public int lookupLong( final long n ) {
         for (int i = 1; i < index; i++) {
             if (constants[i] instanceof ConstantLong) {
-                final ConstantLong c = (ConstantLong) constants[i];
+                ConstantLong c = (ConstantLong) constants[i];
                 if (c.getBytes() == n) {
                     return i;
                 }
@@ -486,10 +486,10 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupDouble( final double n ) {
-        final long bits = Double.doubleToLongBits(n);
+        long bits = Double.doubleToLongBits(n);
         for (int i = 1; i < index; i++) {
             if (constants[i] instanceof ConstantDouble) {
-                final ConstantDouble c = (ConstantDouble) constants[i];
+                ConstantDouble c = (ConstantDouble) constants[i];
                 if (Double.doubleToLongBits(c.getBytes()) == bits) {
                     return i;
                 }
@@ -528,7 +528,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupNameAndType( final String name, final String signature ) {
-        final Index _index = n_a_t_table.get(name + NAT_DELIM + signature);
+        Index _index = n_a_t_table.get(name + NAT_DELIM + signature);
         return (_index != null) ? _index.index : -1;
     }
 
@@ -553,7 +553,7 @@ public class ConstantPoolGen {
         signature_index = addUtf8(signature);
         ret = index;
         constants[index++] = new ConstantNameAndType(name_index, signature_index);
-        final String key = name + NAT_DELIM + signature;
+        String key = name + NAT_DELIM + signature;
         if (!n_a_t_table.containsKey(key)) {
             n_a_t_table.put(key, new Index(ret));
         }
@@ -572,7 +572,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupMethodref( final String class_name, final String method_name, final String signature ) {
-        final Index index = cp_table.get(class_name + METHODREF_DELIM + method_name
+        Index index = cp_table.get(class_name + METHODREF_DELIM + method_name
                 + METHODREF_DELIM + signature);
         return (index != null) ? index.index : -1;
     }
@@ -604,7 +604,7 @@ public class ConstantPoolGen {
         class_index = addClass(class_name);
         ret = index;
         constants[index++] = new ConstantMethodref(class_index, name_and_type_index);
-        final String key = class_name + METHODREF_DELIM + method_name + METHODREF_DELIM + signature;
+        String key = class_name + METHODREF_DELIM + method_name + METHODREF_DELIM + signature;
         if (!cp_table.containsKey(key)) {
             cp_table.put(key, new Index(ret));
         }
@@ -626,7 +626,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupInterfaceMethodref( final String class_name, final String method_name, final String signature ) {
-        final Index index = cp_table.get(class_name + IMETHODREF_DELIM + method_name
+        Index index = cp_table.get(class_name + IMETHODREF_DELIM + method_name
                 + IMETHODREF_DELIM + signature);
         return (index != null) ? index.index : -1;
     }
@@ -659,7 +659,7 @@ public class ConstantPoolGen {
         name_and_type_index = addNameAndType(method_name, signature);
         ret = index;
         constants[index++] = new ConstantInterfaceMethodref(class_index, name_and_type_index);
-        final String key = class_name + IMETHODREF_DELIM + method_name + IMETHODREF_DELIM + signature;
+        String key = class_name + IMETHODREF_DELIM + method_name + IMETHODREF_DELIM + signature;
         if (!cp_table.containsKey(key)) {
             cp_table.put(key, new Index(ret));
         }
@@ -681,7 +681,7 @@ public class ConstantPoolGen {
      * @return index on success, -1 otherwise
      */
     public int lookupFieldref( final String class_name, final String field_name, final String signature ) {
-        final Index index = cp_table.get(class_name + FIELDREF_DELIM + field_name
+        Index index = cp_table.get(class_name + FIELDREF_DELIM + field_name
                 + FIELDREF_DELIM + signature);
         return (index != null) ? index.index : -1;
     }
@@ -708,7 +708,7 @@ public class ConstantPoolGen {
         name_and_type_index = addNameAndType(field_name, signature);
         ret = index;
         constants[index++] = new ConstantFieldref(class_index, name_and_type_index);
-        final String key = class_name + FIELDREF_DELIM + field_name + FIELDREF_DELIM + signature;
+        String key = class_name + FIELDREF_DELIM + field_name + FIELDREF_DELIM + signature;
         if (!cp_table.containsKey(key)) {
             cp_table.put(key, new Index(ret));
         }
@@ -756,7 +756,7 @@ public class ConstantPoolGen {
      * @return constant pool with proper length
      */
     public ConstantPool getFinalConstantPool() {
-        final Constant[] cs = new Constant[index];
+        Constant[] cs = new Constant[index];
         System.arraycopy(constants, 0, cs, 0, index);
         return new ConstantPool(cs);
     }
@@ -767,7 +767,7 @@ public class ConstantPoolGen {
      */
     @Override
     public String toString() {
-        final StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder();
         for (int i = 1; i < index; i++) {
             buf.append(i).append(")").append(constants[i]).append("\n");
         }
@@ -778,22 +778,22 @@ public class ConstantPoolGen {
     /** Import constant from another ConstantPool and return new index.
      */
     public int addConstant( final Constant c, final ConstantPoolGen cp ) {
-        final Constant[] constants = cp.getConstantPool().getConstantPool();
+        Constant[] constants = cp.getConstantPool().getConstantPool();
         switch (c.getTag()) {
             case Const.CONSTANT_String: {
-                final ConstantString s = (ConstantString) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
+                ConstantString s = (ConstantString) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[s.getStringIndex()];
                 return addString(u8.getBytes());
             }
             case Const.CONSTANT_Class: {
-                final ConstantClass s = (ConstantClass) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
+                ConstantClass s = (ConstantClass) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[s.getNameIndex()];
                 return addClass(u8.getBytes());
             }
             case Const.CONSTANT_NameAndType: {
-                final ConstantNameAndType n = (ConstantNameAndType) c;
-                final ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
-                final ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
+                ConstantNameAndType n = (ConstantNameAndType) c;
+                ConstantUtf8 u8 = (ConstantUtf8) constants[n.getNameIndex()];
+                ConstantUtf8 u8_2 = (ConstantUtf8) constants[n.getSignatureIndex()];
                 return addNameAndType(u8.getBytes(), u8_2.getBytes());
             }
             case Const.CONSTANT_Utf8:
@@ -809,15 +809,15 @@ public class ConstantPoolGen {
             case Const.CONSTANT_InterfaceMethodref:
             case Const.CONSTANT_Methodref:
             case Const.CONSTANT_Fieldref: {
-                final ConstantCP m = (ConstantCP) c;
-                final ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
-                final ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
+                ConstantCP m = (ConstantCP) c;
+                ConstantClass clazz = (ConstantClass) constants[m.getClassIndex()];
+                ConstantNameAndType n = (ConstantNameAndType) constants[m.getNameAndTypeIndex()];
                 ConstantUtf8 u8 = (ConstantUtf8) constants[clazz.getNameIndex()];
-                final String class_name = u8.getBytes().replace('/', '.');
+                String class_name = u8.getBytes().replace('/', '.');
                 u8 = (ConstantUtf8) constants[n.getNameIndex()];
-                final String name = u8.getBytes();
+                String name = u8.getBytes();
                 u8 = (ConstantUtf8) constants[n.getSignatureIndex()];
-                final String signature = u8.getBytes();
+                String signature = u8.getBytes();
                 switch (c.getTag()) {
                     case Const.CONSTANT_InterfaceMethodref:
                         return addInterfaceMethodref(class_name, name, signature);

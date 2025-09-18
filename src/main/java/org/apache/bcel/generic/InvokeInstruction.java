@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantPool;
 
 /**
@@ -53,8 +52,8 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
      */
     @Override
     public String toString( final ConstantPool cp ) {
-        final Constant c = cp.getConstant(super.getIndex());
-        final StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
+        Constant c = cp.getConstant(super.getIndex());
+        StringTokenizer tok = new StringTokenizer(cp.constantToString(c));
         return Const.getOpcodeName(super.getOpcode()) + " " + tok.nextToken().replace('.', '/')
                 + tok.nextToken();
     }
@@ -74,7 +73,7 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
             sum = 1; // this reference
         }
 
-        final String signature = getSignature(cpg);
+        String signature = getSignature(cpg);
         sum += Type.getArgumentTypesSize(signature);
         return sum;
     }
@@ -87,24 +86,10 @@ public abstract class InvokeInstruction extends FieldOrMethod implements Excepti
      */
     @Override
     public int produceStack( final ConstantPoolGen cpg ) {
-        final String signature = getSignature(cpg);
+        String signature = getSignature(cpg);
         return Type.getReturnTypeSize(signature);
     }
 
-    /**
-     * This overrides the deprecated version as we know here that the referenced class
-     * may legally be an array.
-     *
-     * @return name of the referenced class/interface
-     * @throws IllegalArgumentException if the referenced class is an array (this should not happen)
-     */ 
-    @Override
-    public String getClassName( final ConstantPoolGen cpg ) {
-        final ConstantPool cp = cpg.getConstantPool();
-        final ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        final String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
-        return className.replace('/', '.');
-    }
 
     /** @return return type of referenced method.
      */

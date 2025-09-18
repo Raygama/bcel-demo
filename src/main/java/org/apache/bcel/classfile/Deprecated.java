@@ -135,7 +135,7 @@ public final class Deprecated extends Attribute {
      */
     @Override
     public Attribute copy( final ConstantPool _constant_pool ) {
-        final Deprecated c = (Deprecated) clone();
+        Deprecated c = (Deprecated) clone();
         if (bytes != null) {
             c.bytes = new byte[bytes.length];
             System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);

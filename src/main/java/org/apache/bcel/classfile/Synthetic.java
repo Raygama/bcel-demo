@@ -132,7 +132,7 @@ public final class Synthetic extends Attribute {
      */
     @Override
     public final String toString() {
-        final StringBuilder buf = new StringBuilder("Synthetic");
+        StringBuilder buf = new StringBuilder("Synthetic");
         if (super.getLength() > 0) {
             buf.append(" ").append(Utility.toHexString(bytes));
         }
@@ -145,7 +145,7 @@ public final class Synthetic extends Attribute {
      */
     @Override
     public Attribute copy( final ConstantPool _constant_pool ) {
-        final Synthetic c = (Synthetic) clone();
+        Synthetic c = (Synthetic) clone();
         if (bytes != null) {
             c.bytes = new byte[bytes.length];
             System.arraycopy(bytes, 0, c.bytes, 0, bytes.length);

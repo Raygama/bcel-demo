@@ -86,7 +86,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
      * @param file Input stream
      * @throws IOException
      * @throws ClassFormatException
-     * @deprecated (6.0) Use {@link #FieldOrMethod(java.io.DataInput, ConstantPool)} instead.
+     * @deprecated Use {@link #FieldOrMethod(java.io.DataInput, ConstantPool)} instead.
      */
     @java.lang.Deprecated
     protected FieldOrMethod(final DataInputStream file, final ConstantPool constant_pool) throws IOException,
@@ -103,7 +103,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
     protected FieldOrMethod(final DataInput file, final ConstantPool constant_pool) throws IOException, ClassFormatException {
         this(file.readUnsignedShort(), file.readUnsignedShort(), file.readUnsignedShort(), null,
                 constant_pool);
-        final int attributes_count = file.readUnsignedShort();
+        int attributes_count = file.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
@@ -140,7 +140,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
         file.writeShort(name_index);
         file.writeShort(signature_index);
         file.writeShort(attributes.length);
-        for (final Attribute attribute : attributes) {
+        for (Attribute attribute : attributes) {
             attribute.dump(file);
         }
     }
@@ -239,7 +239,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
 
         try {
           c = (FieldOrMethod)clone();
-        } catch(final CloneNotSupportedException e) {
+        } catch(CloneNotSupportedException e) {
             // ignored, but will cause NPE ...
         }
 

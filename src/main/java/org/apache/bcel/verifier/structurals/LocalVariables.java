@@ -50,7 +50,7 @@ public class LocalVariables implements Cloneable {
      */
     @Override
     public Object clone() {
-        final LocalVariables lvs = new LocalVariables(locals.length);
+        LocalVariables lvs = new LocalVariables(locals.length);
         for (int i=0; i<locals.length; i++) {
             lvs.locals[i] = this.locals[i];
         }
@@ -103,7 +103,7 @@ public class LocalVariables implements Cloneable {
         if (!(o instanceof LocalVariables)) {
             return false;
         }
-        final LocalVariables lv = (LocalVariables) o;
+        LocalVariables lv = (LocalVariables) o;
         if (this.locals.length != lv.locals.length) {
             return false;
         }
@@ -159,7 +159,7 @@ public class LocalVariables implements Cloneable {
         }
         if ((locals[i] instanceof ReferenceType) && (lv.locals[i] instanceof ReferenceType)) {
             if (! locals[i].equals(lv.locals[i])) { // needed in case of two UninitializedObjectType instances
-                final Type sup = ((ReferenceType) locals[i]).getFirstCommonSuperclass((ReferenceType) (lv.locals[i]));
+                Type sup = ((ReferenceType) locals[i]).getFirstCommonSuperclass((ReferenceType) (lv.locals[i]));
 
                 if (sup != null) {
                     locals[i] = sup;
@@ -183,7 +183,7 @@ public class LocalVariables implements Cloneable {
                 locals[i] = Type.UNKNOWN;
             }
         }
-        } catch (final ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
         // FIXME: maybe not the best way to handle this
         throw new AssertionViolatedException("Missing class: " + e, e);
         }
@@ -194,7 +194,7 @@ public class LocalVariables implements Cloneable {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<locals.length; i++) {
             sb.append(Integer.toString(i));
             sb.append(": ");

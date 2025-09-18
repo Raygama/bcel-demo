@@ -39,7 +39,7 @@ public class JDKClassDumpTestCase {
 
     @Test
     public void testPerformance() throws Exception {
-        final File javaLib = new File(System.getProperty("java.home") + "/lib");
+        File javaLib = new File(System.getProperty("java.home") + "/lib");
         javaLib.listFiles(new FileFilter() {
 
             @Override
@@ -47,7 +47,7 @@ public class JDKClassDumpTestCase {
                 if (file.getName().endsWith(".jar")) {
                     try {
                         testJar(file);
-                    } catch (final Exception e) {
+                    } catch (Exception e) {
                         Assert.fail(e.getMessage());
                     }
                 }
@@ -60,15 +60,15 @@ public class JDKClassDumpTestCase {
     private void testJar(final File file) throws Exception {
         System.out.println("parsing " + file);
         try (JarFile jar = new JarFile(file)) {
-            final Enumeration<JarEntry> en = jar.entries();
+            Enumeration<JarEntry> en = jar.entries();
             while (en.hasMoreElements()) {
-                final JarEntry e = en.nextElement();
+                JarEntry e = en.nextElement();
                 final String name = e.getName();
                 if (name.endsWith(".class")) {
                     // System.out.println("parsing " + name);
                     try (InputStream in = jar.getInputStream(e)) {
-                        final ClassParser parser = new ClassParser(in, name);
-                        final JavaClass jc = parser.parse();
+                        ClassParser parser = new ClassParser(in, name);
+                        JavaClass jc = parser.parse();
                         compare(jc, jar.getInputStream(e), name);
                     }
                 }
@@ -83,8 +83,8 @@ public class JDKClassDumpTestCase {
         }
         try (DataInputStream src = new DataInputStream(inputStream)) {
             int i = 0;
-            for (final int out : baos.toByteArray()) {
-                final int in = src.read();
+            for (int out : baos.toByteArray()) {
+                int in = src.read();
                 assertEquals(name + ": Mismatch at " + i, in, out & 0xFF);
                 i++;
             }

@@ -56,7 +56,7 @@ public final class Pass1Verifier extends PassVerifier{
         if (jc == null) {
             try {
                 jc = Repository.lookupClass(myOwner.getClassName());
-            } catch (final ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 // FIXME: currently, Pass1Verifier treats jc == null as a special
                 // case, so we don't need to do anything here.  A better solution
                 // would be to simply throw the ClassNotFoundException
@@ -160,13 +160,13 @@ public final class Pass1Verifier extends PassVerifier{
             }
 
         }
-        catch(final LoadingException e) {
+        catch(LoadingException e) {
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, e.getMessage());
         }
-        catch(final ClassFormatException e) {
+        catch(ClassFormatException e) {
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, e.getMessage());
         }
-        catch(final RuntimeException e) {
+        catch(RuntimeException e) {
             // BCEL does not catch every possible RuntimeException; e.g. if
             // a constant pool index is referenced that does not exist.
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, "Parsing via BCEL did not succeed. "+

@@ -67,7 +67,7 @@ public abstract class JsrInstruction extends BranchInstruction implements Uncond
         while (ih.getInstruction() != this) {
             ih = ih.getNext();
         }
-        final InstructionHandle toThis = ih;
+        InstructionHandle toThis = ih;
         while (ih != null) {
             ih = ih.getNext();
             if ((ih != null) && (ih.getInstruction() == this)) {

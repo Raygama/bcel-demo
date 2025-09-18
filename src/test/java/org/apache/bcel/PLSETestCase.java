@@ -23,9 +23,6 @@ import org.apache.bcel.classfile.LocalVariableTable;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.ConstantPoolGen;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.InstructionList;
-import org.apache.bcel.generic.InvokeInstruction;
 import org.apache.bcel.generic.MethodGen;
 import org.apache.bcel.generic.Type;
 
@@ -37,11 +34,11 @@ public class PLSETestCase extends AbstractTestCase
      */
     public void testB208() throws ClassNotFoundException
     {
-        final JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.PLSETestClass");
-        final ClassGen gen = new ClassGen(clazz);
-        final ConstantPoolGen pool = gen.getConstantPool();
-        final Method m = gen.getMethodAt(1);
-        final MethodGen mg = new MethodGen(m, gen.getClassName(), pool);
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.PLSETestClass");
+        ClassGen gen = new ClassGen(clazz);
+        ConstantPoolGen pool = gen.getConstantPool();
+        Method m = gen.getMethodAt(1);
+        MethodGen mg = new MethodGen(m, gen.getClassName(), pool);
         mg.setInstructionList(null);
         mg.addLocalVariable("local2", Type.INT, null, null);
         // currently, this will cause null pointer exception
@@ -53,37 +50,16 @@ public class PLSETestCase extends AbstractTestCase
      */
     public void testB79() throws ClassNotFoundException
     {
-        final JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.PLSETestClass");
-        final ClassGen gen = new ClassGen(clazz);
-        final ConstantPoolGen pool = gen.getConstantPool();
-        final Method m = gen.getMethodAt(2);
-        final LocalVariableTable lvt = m.getLocalVariableTable();
+        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.PLSETestClass");
+        ClassGen gen = new ClassGen(clazz);
+        ConstantPoolGen pool = gen.getConstantPool();
+        Method m = gen.getMethodAt(2);
+        LocalVariableTable lvt = m.getLocalVariableTable();
         //System.out.println(lvt);
         //System.out.println(lvt.getTableLength());
-        final MethodGen mg = new MethodGen(m, gen.getClassName(), pool);
-        final LocalVariableTable new_lvt = mg.getLocalVariableTable(mg.getConstantPool());
+        MethodGen mg = new MethodGen(m, gen.getClassName(), pool);
+        LocalVariableTable new_lvt = mg.getLocalVariableTable(mg.getConstantPool());
         //System.out.println(new_lvt);
         assertEquals("number of locals", lvt.getTableLength(), new_lvt.getTableLength());
-    }
-
-    /**
-     * BCEL-262: 
-     */
-    public void testB262() throws ClassNotFoundException
-    {
-        final JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.PLSETestEnum");
-        final ClassGen gen = new ClassGen(clazz);
-        final ConstantPoolGen pool = gen.getConstantPool();
-        // get the values() method
-        final Method m = gen.getMethodAt(0);
-        final MethodGen mg = new MethodGen(m, gen.getClassName(), pool);
-        final InstructionList il = mg.getInstructionList();
-        // get the invokevirtual instruction
-        final InstructionHandle ih = il.findHandle(3);
-        final InvokeInstruction ii = (InvokeInstruction)(ih.getInstruction());
-        // without fix, the getClassName() will throw:
-        //   java.lang.IllegalArgumentException: Cannot be used on an array type
-        final String cn = ii.getClassName(pool);
-        assertEquals("[Lorg.apache.bcel.data.PLSETestEnum;", cn);
     }
 }

@@ -32,8 +32,8 @@ public final class Utility{
 
     /** This method returns the stack trace of a Throwable instance as a String. */
     public static String getStackTrace(final Throwable t) {
-        final StringWriter sw = new StringWriter();
-        final PrintWriter pw = new PrintWriter(sw);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
         t.printStackTrace(pw);
         return sw.toString();
     }

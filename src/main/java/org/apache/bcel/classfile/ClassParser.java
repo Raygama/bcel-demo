@@ -70,7 +70,7 @@ public final class ClassParser {
     public ClassParser(final InputStream inputStream, final String file_name) {
         this.file_name = file_name;
         fileOwned = false;
-        final String clazz = inputStream.getClass().getName(); // Not a very clean solution ...
+        String clazz = inputStream.getClass().getName(); // Not a very clean solution ...
         is_zip = clazz.startsWith("java.util.zip.") || clazz.startsWith("java.util.jar.");
         if (inputStream instanceof DataInputStream) {
             this.dataInputStream = (DataInputStream) inputStream;
@@ -121,7 +121,7 @@ public final class ClassParser {
             if (fileOwned) {
                 if (is_zip) {
                     zip = new ZipFile(zip_file);
-                    final ZipEntry entry = zip.getEntry(file_name);
+                    ZipEntry entry = zip.getEntry(file_name);
 
                     if (entry == null) {
                         throw new IOException("File " + file_name + " not found");
@@ -174,7 +174,7 @@ public final class ClassParser {
                     if (dataInputStream != null) {
                         dataInputStream.close();
                     }
-                } catch (final IOException ioe) {
+                } catch (IOException ioe) {
                     //ignore close exceptions
                 }
             }
@@ -182,7 +182,7 @@ public final class ClassParser {
                 if (zip != null) {
                     zip.close();
                 }
-            } catch (final IOException ioe) {
+            } catch (IOException ioe) {
                 //ignore close exceptions
             }
         }
@@ -200,7 +200,7 @@ public final class ClassParser {
      * @throws  ClassFormatException
      */
     private void readAttributes() throws IOException, ClassFormatException {
-        final int attributes_count = dataInputStream.readUnsignedShort();
+        int attributes_count = dataInputStream.readUnsignedShort();
         attributes = new Attribute[attributes_count];
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(dataInputStream, constant_pool);
@@ -246,7 +246,7 @@ public final class ClassParser {
      * @throws  ClassFormatException
      */
     private void readFields() throws IOException, ClassFormatException {
-        final int fields_count = dataInputStream.readUnsignedShort();
+        int fields_count = dataInputStream.readUnsignedShort();
         fields = new Field[fields_count];
         for (int i = 0; i < fields_count; i++) {
             fields[i] = new Field(dataInputStream, constant_pool);
@@ -274,7 +274,7 @@ public final class ClassParser {
      * @throws  ClassFormatException
      */
     private void readInterfaces() throws IOException, ClassFormatException {
-        final int interfaces_count = dataInputStream.readUnsignedShort();
+        int interfaces_count = dataInputStream.readUnsignedShort();
         interfaces = new int[interfaces_count];
         for (int i = 0; i < interfaces_count; i++) {
             interfaces[i] = dataInputStream.readUnsignedShort();
@@ -288,7 +288,7 @@ public final class ClassParser {
      * @throws  ClassFormatException
      */
     private void readMethods() throws IOException, ClassFormatException {
-        final int methods_count = dataInputStream.readUnsignedShort();
+        int methods_count = dataInputStream.readUnsignedShort();
         methods = new Method[methods_count];
         for (int i = 0; i < methods_count; i++) {
             methods[i] = new Method(dataInputStream, constant_pool);
