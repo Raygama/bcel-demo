@@ -125,7 +125,7 @@ jobs:
 
           # ---- Tunables (tighten if you still hit limits) ----
           MAX_ISSUES=50             # hard cap on issues you will pass to AI
-          MAX_ISSUES_PER_RULE=25    # avoid one rule dominating
+          MAX_ISSUES_PER_RULE=5    # avoid one rule dominating
           MAX_ISSUES_PER_FILE=20    # avoid one file dominating
           MAX_SNIPPET_CHARS=380     # keep snippet tiny but useful
           CONTEXT_BEFORE=1          # lines before the hit
