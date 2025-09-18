@@ -20,7 +20,7 @@ package org.apache.commons.bcel6.classfile;
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * This class is derived from the abstract {@link Constant}
@@ -53,7 +53,7 @@ public final class ConstantInvokeDynamic extends ConstantCP {
 
 
     public ConstantInvokeDynamic(int bootstrap_method_attr_index, int name_and_type_index) {
-        super(Const.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
+        super(Constants.CONSTANT_InvokeDynamic, bootstrap_method_attr_index, name_and_type_index);
     }
 
 
@@ -69,22 +69,13 @@ public final class ConstantInvokeDynamic extends ConstantCP {
         v.visitConstantInvokeDynamic(this);
     }
 
-    /**
-     * @return Reference (index) to bootstrap method this constant refers to.
-     *
-     * Note that this method is a functional duplicate of getClassIndex
-     * for use by ConstantInvokeDynamic.
-     * @since 6.0
-     */
-    public final int getBootstrapMethodAttrIndex() {
-        return super.getClassIndex();  // AKA bootstrap_method_attr_index
-    }
 
     /**
      * @return String representation
      */
     @Override
     public final String toString() {
-        return super.toString().replace("class_index", "bootstrap_method_attr_index");
+        // UNDONE: need to string replace "class_index" with "bootstrap_method_attr_index"
+        return super.toString();
     }
 }

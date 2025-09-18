@@ -21,7 +21,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * This class is derived from the abstract {@link Constant}
@@ -56,7 +56,7 @@ public final class ConstantMethodHandle extends Constant {
 
 
     public ConstantMethodHandle(int reference_kind, int reference_index) {
-        super(Const.CONSTANT_MethodHandle);
+        super(Constants.CONSTANT_MethodHandle);
         this.reference_kind = reference_kind;
         this.reference_index = reference_index;
     }

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.Attribute;
 import org.apache.commons.bcel6.classfile.Code;
 import org.apache.commons.bcel6.classfile.CodeException;
@@ -92,11 +92,11 @@ final class CodeHTML {
         int no_pad_bytes = 0;
         int offset;
         StringBuilder buf = new StringBuilder(256); // CHECKSTYLE IGNORE MagicNumber
-        buf.append("<TT>").append(Const.getOpcodeName(opcode)).append("</TT></TD><TD>");
+        buf.append("<TT>").append(Constants.getOpcodeName(opcode)).append("</TT></TD><TD>");
         /* Special case: Skip (0-3) padding bytes, i.e., the
          * following bytes are 4-byte-aligned
          */
-        if ((opcode == Const.TABLESWITCH) || (opcode == Const.LOOKUPSWITCH)) {
+        if ((opcode == Constants.TABLESWITCH) || (opcode == Constants.LOOKUPSWITCH)) {
             int remainder = bytes.getIndex() % 4;
             no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
             for (int i = 0; i < no_pad_bytes; i++) {
@@ -106,7 +106,7 @@ final class CodeHTML {
             default_offset = bytes.readInt();
         }
         switch (opcode) {
-            case Const.TABLESWITCH:
+            case Constants.TABLESWITCH:
                 low = bytes.readInt();
                 high = bytes.readInt();
                 offset = bytes.getIndex() - 12 - no_pad_bytes - 1;
@@ -130,7 +130,7 @@ final class CodeHTML {
                 break;
             /* Lookup switch has variable length arguments.
              */
-            case Const.LOOKUPSWITCH:
+            case Constants.LOOKUPSWITCH:
                 int npairs = bytes.readInt();
                 offset = bytes.getIndex() - 8 - no_pad_bytes - 1;
                 jump_table = new int[npairs];
@@ -155,49 +155,49 @@ final class CodeHTML {
             /* Two address bytes + offset from start of byte stream form the
              * jump target.
              */
-            case Const.GOTO:
-            case Const.IFEQ:
-            case Const.IFGE:
-            case Const.IFGT:
-            case Const.IFLE:
-            case Const.IFLT:
-            case Const.IFNE:
-            case Const.IFNONNULL:
-            case Const.IFNULL:
-            case Const.IF_ACMPEQ:
-            case Const.IF_ACMPNE:
-            case Const.IF_ICMPEQ:
-            case Const.IF_ICMPGE:
-            case Const.IF_ICMPGT:
-            case Const.IF_ICMPLE:
-            case Const.IF_ICMPLT:
-            case Const.IF_ICMPNE:
-            case Const.JSR:
+            case Constants.GOTO:
+            case Constants.IFEQ:
+            case Constants.IFGE:
+            case Constants.IFGT:
+            case Constants.IFLE:
+            case Constants.IFLT:
+            case Constants.IFNE:
+            case Constants.IFNONNULL:
+            case Constants.IFNULL:
+            case Constants.IF_ACMPEQ:
+            case Constants.IF_ACMPNE:
+            case Constants.IF_ICMPEQ:
+            case Constants.IF_ICMPGE:
+            case Constants.IF_ICMPGT:
+            case Constants.IF_ICMPLE:
+            case Constants.IF_ICMPLT:
+            case Constants.IF_ICMPNE:
+            case Constants.JSR:
                 index = bytes.getIndex() + bytes.readShort() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(index)
                         .append("\">").append(index).append("</A>");
                 break;
             /* Same for 32-bit wide jumps
              */
-            case Const.GOTO_W:
-            case Const.JSR_W:
+            case Constants.GOTO_W:
+            case Constants.JSR_W:
                 int windex = bytes.getIndex() + bytes.readInt() - 1;
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(windex)
                         .append("\">").append(windex).append("</A>");
                 break;
             /* Index byte references local variable (register)
              */
-            case Const.ALOAD:
-            case Const.ASTORE:
-            case Const.DLOAD:
-            case Const.DSTORE:
-            case Const.FLOAD:
-            case Const.FSTORE:
-            case Const.ILOAD:
-            case Const.ISTORE:
-            case Const.LLOAD:
-            case Const.LSTORE:
-            case Const.RET:
+            case Constants.ALOAD:
+            case Constants.ASTORE:
+            case Constants.DLOAD:
+            case Constants.DSTORE:
+            case Constants.FLOAD:
+            case Constants.FSTORE:
+            case Constants.ILOAD:
+            case Constants.ISTORE:
+            case Constants.LLOAD:
+            case Constants.LSTORE:
+            case Constants.RET:
                 if (wide) {
                     vindex = bytes.readShort();
                     wide = false; // Clear flag
@@ -211,30 +211,30 @@ final class CodeHTML {
              * following instruction. Relies on that the method is called again with
              * the following opcode.
              */
-            case Const.WIDE:
+            case Constants.WIDE:
                 wide = true;
                 buf.append("(wide)");
                 break;
             /* Array of basic type.
              */
-            case Const.NEWARRAY:
-                buf.append("<FONT COLOR=\"#00FF00\">").append(Const.getTypeName(bytes.readByte())).append(
+            case Constants.NEWARRAY:
+                buf.append("<FONT COLOR=\"#00FF00\">").append(Constants.getTypeName(bytes.readByte())).append(
                         "</FONT>");
                 break;
             /* Access object/class fields.
              */
-            case Const.GETFIELD:
-            case Const.GETSTATIC:
-            case Const.PUTFIELD:
-            case Const.PUTSTATIC:
+            case Constants.GETFIELD:
+            case Constants.GETSTATIC:
+            case Constants.PUTFIELD:
+            case Constants.PUTSTATIC:
                 index = bytes.readShort();
                 ConstantFieldref c1 = (ConstantFieldref) constant_pool.getConstant(index,
-                        Const.CONSTANT_Fieldref);
+                        Constants.CONSTANT_Fieldref);
                 class_index = c1.getClassIndex();
-                name = constant_pool.getConstantString(class_index, Const.CONSTANT_Class);
+                name = constant_pool.getConstantString(class_index, Constants.CONSTANT_Class);
                 name = Utility.compactClassName(name, false);
                 index = c1.getNameAndTypeIndex();
-                String field_name = constant_pool.constantToString(index, Const.CONSTANT_NameAndType);
+                String field_name = constant_pool.constantToString(index, Constants.CONSTANT_NameAndType);
                 if (name.equals(class_name)) { // Local field
                     buf.append("<A HREF=\"").append(class_name).append("_methods.html#field")
                             .append(field_name).append("\" TARGET=Methods>").append(field_name)
@@ -246,36 +246,36 @@ final class CodeHTML {
                 break;
             /* Operands are references to classes in constant pool
              */
-            case Const.CHECKCAST:
-            case Const.INSTANCEOF:
-            case Const.NEW:
+            case Constants.CHECKCAST:
+            case Constants.INSTANCEOF:
+            case Constants.NEW:
                 index = bytes.readShort();
                 buf.append(constant_html.referenceConstant(index));
                 break;
             /* Operands are references to methods in constant pool
              */
-            case Const.INVOKESPECIAL:
-            case Const.INVOKESTATIC:
-            case Const.INVOKEVIRTUAL:
-            case Const.INVOKEINTERFACE:
-            case Const.INVOKEDYNAMIC:
+            case Constants.INVOKESPECIAL:
+            case Constants.INVOKESTATIC:
+            case Constants.INVOKEVIRTUAL:
+            case Constants.INVOKEINTERFACE:
+            case Constants.INVOKEDYNAMIC:
                 int m_index = bytes.readShort();
                 String str;
-                if (opcode == Const.INVOKEINTERFACE) { // Special treatment needed
+                if (opcode == Constants.INVOKEINTERFACE) { // Special treatment needed
                     bytes.readUnsignedByte(); // Redundant
                     bytes.readUnsignedByte(); // Reserved
 //                    int nargs = bytes.readUnsignedByte(); // Redundant
 //                    int reserved = bytes.readUnsignedByte(); // Reserved
                     ConstantInterfaceMethodref c = (ConstantInterfaceMethodref) constant_pool
-                            .getConstant(m_index, Const.CONSTANT_InterfaceMethodref);
+                            .getConstant(m_index, Constants.CONSTANT_InterfaceMethodref);
                     class_index = c.getClassIndex();
                     index = c.getNameAndTypeIndex();
                     name = Class2HTML.referenceClass(class_index);
-                } else if (opcode == Const.INVOKEDYNAMIC) { // Special treatment needed
+                } else if (opcode == Constants.INVOKEDYNAMIC) { // Special treatment needed
                     bytes.readUnsignedByte(); // Reserved
                     bytes.readUnsignedByte(); // Reserved
                     ConstantInvokeDynamic c = (ConstantInvokeDynamic) constant_pool
-                            .getConstant(m_index, Const.CONSTANT_InvokeDynamic);
+                            .getConstant(m_index, Constants.CONSTANT_InvokeDynamic);
                     index = c.getNameAndTypeIndex();
                     name = "#" + c.getBootstrapMethodAttrIndex();
                 } else {
@@ -283,17 +283,17 @@ final class CodeHTML {
                     // reference EITHER a Methodref OR an InterfaceMethodref.
                     // Not sure if that affects this code or not.  (markro)
                     ConstantMethodref c = (ConstantMethodref) constant_pool.getConstant(m_index,
-                            Const.CONSTANT_Methodref);
+                            Constants.CONSTANT_Methodref);
                     class_index = c.getClassIndex();
                     index = c.getNameAndTypeIndex();
                 name = Class2HTML.referenceClass(class_index);
                 }
                 str = Class2HTML.toHTML(constant_pool.constantToString(constant_pool.getConstant(
-                        index, Const.CONSTANT_NameAndType)));
+                        index, Constants.CONSTANT_NameAndType)));
                 // Get signature, i.e., types
                 ConstantNameAndType c2 = (ConstantNameAndType) constant_pool.getConstant(index,
-                        Const.CONSTANT_NameAndType);
-                signature = constant_pool.constantToString(c2.getSignatureIndex(), Const.CONSTANT_Utf8);
+                        Constants.CONSTANT_NameAndType);
+                signature = constant_pool.constantToString(c2.getSignatureIndex(), Constants.CONSTANT_Utf8);
                 String[] args = Utility.methodSignatureArgumentTypes(signature, false);
                 String type = Utility.methodSignatureReturnType(signature, false);
                 buf.append(name).append(".<A HREF=\"").append(class_name).append("_cp.html#cp")
@@ -311,15 +311,15 @@ final class CodeHTML {
                 break;
             /* Operands are references to items in constant pool
              */
-            case Const.LDC_W:
-            case Const.LDC2_W:
+            case Constants.LDC_W:
+            case Constants.LDC2_W:
                 index = bytes.readShort();
                 buf.append("<A HREF=\"").append(class_name).append("_cp.html#cp").append(index)
                         .append("\" TARGET=\"ConstantPool\">").append(
                                 Class2HTML.toHTML(constant_pool.constantToString(index,
                                         constant_pool.getConstant(index).getTag()))).append("</a>");
                 break;
-            case Const.LDC:
+            case Constants.LDC:
                 index = bytes.readUnsignedByte();
                 buf.append("<A HREF=\"").append(class_name).append("_cp.html#cp").append(index)
                         .append("\" TARGET=\"ConstantPool\">").append(
@@ -328,13 +328,13 @@ final class CodeHTML {
                 break;
             /* Array of references.
              */
-            case Const.ANEWARRAY:
+            case Constants.ANEWARRAY:
                 index = bytes.readShort();
                 buf.append(constant_html.referenceConstant(index));
                 break;
             /* Multidimensional array of references.
              */
-            case Const.MULTIANEWARRAY:
+            case Constants.MULTIANEWARRAY:
                 index = bytes.readShort();
                 int dimensions = bytes.readByte();
                 buf.append(constant_html.referenceConstant(index)).append(":").append(dimensions)
@@ -342,7 +342,7 @@ final class CodeHTML {
                 break;
             /* Increment local variable.
              */
-            case Const.IINC:
+            case Constants.IINC:
                 if (wide) {
                     vindex = bytes.readShort();
                     constant = bytes.readShort();
@@ -354,21 +354,21 @@ final class CodeHTML {
                 buf.append("%").append(vindex).append(" ").append(constant);
                 break;
             default:
-                if (Const.getNoOfOperands(opcode) > 0) {
-                    for (int i = 0; i < Const.getOperandTypeCount(opcode); i++) {
-                        switch (Const.getOperandType(opcode, i)) {
-                            case Const.T_BYTE:
+                if (Constants.getNoOfOperands(opcode) > 0) {
+                    for (int i = 0; i < Constants.getOperandTypeCount(opcode); i++) {
+                        switch (Constants.getOperandType(opcode, i)) {
+                            case Constants.T_BYTE:
                                 buf.append(bytes.readUnsignedByte());
                                 break;
-                            case Const.T_SHORT: // Either branch or index
+                            case Constants.T_SHORT: // Either branch or index
                                 buf.append(bytes.readShort());
                                 break;
-                            case Const.T_INT:
+                            case Constants.T_INT:
                                 buf.append(bytes.readInt());
                                 break;
                             default: // Never reached
                                 throw new IllegalStateException(
-                                    "Unreachable default case reached! "+Const.getOperandType(opcode, i));
+                                    "Unreachable default case reached! "+Constants.getOperandType(opcode, i));
                         }
                         buf.append("&nbsp;");
                     }
@@ -400,7 +400,7 @@ final class CodeHTML {
             // Look for local variables and their range
             Attribute[] attributes = code.getAttributes();
             for (Attribute attribute : attributes) {
-                if (attribute.getTag() == Const.ATTR_LOCAL_VARIABLE_TABLE) {
+                if (attribute.getTag() == Constants.ATTR_LOCAL_VARIABLE_TABLE) {
                     LocalVariable[] vars = ((LocalVariableTable) attribute)
                             .getLocalVariableTable();
                     for (LocalVariable var : vars) {
@@ -418,8 +418,8 @@ final class CodeHTML {
             opcode = bytes.readUnsignedByte();
             //System.out.println(getOpcodeName(opcode));
             switch (opcode) {
-                case Const.TABLESWITCH:
-                case Const.LOOKUPSWITCH:
+                case Constants.TABLESWITCH:
+                case Constants.LOOKUPSWITCH:
                     //bytes.readByte(); // Skip already read byte
                     int remainder = bytes.getIndex() % 4;
                     int no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
@@ -430,7 +430,7 @@ final class CodeHTML {
                     }
                     // Both cases have a field default_offset in common
                     default_offset = bytes.readInt();
-                    if (opcode == Const.TABLESWITCH) {
+                    if (opcode == Constants.TABLESWITCH) {
                         int low = bytes.readInt();
                         int high = bytes.readInt();
                         offset = bytes.getIndex() - 12 - no_pad_bytes - 1;
@@ -453,30 +453,30 @@ final class CodeHTML {
                         }
                     }
                     break;
-                case Const.GOTO:
-                case Const.IFEQ:
-                case Const.IFGE:
-                case Const.IFGT:
-                case Const.IFLE:
-                case Const.IFLT:
-                case Const.IFNE:
-                case Const.IFNONNULL:
-                case Const.IFNULL:
-                case Const.IF_ACMPEQ:
-                case Const.IF_ACMPNE:
-                case Const.IF_ICMPEQ:
-                case Const.IF_ICMPGE:
-                case Const.IF_ICMPGT:
-                case Const.IF_ICMPLE:
-                case Const.IF_ICMPLT:
-                case Const.IF_ICMPNE:
-                case Const.JSR:
+                case Constants.GOTO:
+                case Constants.IFEQ:
+                case Constants.IFGE:
+                case Constants.IFGT:
+                case Constants.IFLE:
+                case Constants.IFLT:
+                case Constants.IFNE:
+                case Constants.IFNONNULL:
+                case Constants.IFNULL:
+                case Constants.IF_ACMPEQ:
+                case Constants.IF_ACMPNE:
+                case Constants.IF_ICMPEQ:
+                case Constants.IF_ICMPGE:
+                case Constants.IF_ICMPGT:
+                case Constants.IF_ICMPLE:
+                case Constants.IF_ICMPLT:
+                case Constants.IF_ICMPNE:
+                case Constants.JSR:
                     //bytes.readByte(); // Skip already read byte
                     index = bytes.getIndex() + bytes.readShort() - 1;
                     goto_set.set(index);
                     break;
-                case Const.GOTO_W:
-                case Const.JSR_W:
+                case Constants.GOTO_W:
+                case Constants.JSR_W:
                     //bytes.readByte(); // Skip already read byte
                     index = bytes.getIndex() + bytes.readInt() - 1;
                     goto_set.set(index);
@@ -524,14 +524,14 @@ final class CodeHTML {
             file.print("<H4>Attributes</H4><UL>\n");
             for (int i = 0; i < attributes.length; i++) {
                 byte tag = attributes[i].getTag();
-                if (tag != Const.ATTR_UNKNOWN) {
+                if (tag != Constants.ATTR_UNKNOWN) {
                     file.print("<LI><A HREF=\"" + class_name + "_attributes.html#method"
                             + method_number + "@" + i + "\" TARGET=Attributes>"
-                            + Const.getAttributeName(tag) + "</A></LI>\n");
+                            + Constants.getAttributeName(tag) + "</A></LI>\n");
                 } else {
                     file.print("<LI>" + attributes[i] + "</LI>");
                 }
-                if (tag == Const.ATTR_CODE) {
+                if (tag == Constants.ATTR_CODE) {
                     c = (Code) attributes[i];
                     Attribute[] attributes2 = c.getAttributes();
                     code = c.getCode();
@@ -540,7 +540,7 @@ final class CodeHTML {
                         tag = attributes2[j].getTag();
                         file.print("<LI><A HREF=\"" + class_name + "_attributes.html#" + "method"
                                 + method_number + "@" + i + "@" + j + "\" TARGET=Attributes>"
-                                + Const.getAttributeName(tag) + "</A></LI>\n");
+                                + Constants.getAttributeName(tag) + "</A></LI>\n");
                     }
                     file.print("</UL>");
                 }

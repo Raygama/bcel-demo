@@ -26,7 +26,7 @@ package org.apache.commons.bcel6.generic;
 public class IAND extends ArithmeticInstruction {
 
     public IAND() {
-        super(org.apache.commons.bcel6.Const.IAND);
+        super(org.apache.commons.bcel6.Constants.IAND);
     }
 
 

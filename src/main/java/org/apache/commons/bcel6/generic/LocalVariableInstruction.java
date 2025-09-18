@@ -20,7 +20,7 @@ package org.apache.commons.bcel6.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.util.ByteSequence;
 
 /**
@@ -32,7 +32,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
         IndexedInstruction {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected int n = -1; // index of referenced variable
@@ -42,7 +42,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
 
 
     private boolean wide() {
-        return n > Const.MAX_BYTE;
+        return n > Constants.MAX_BYTE;
     }
 
 
@@ -86,7 +86,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public void dump( DataOutputStream out ) throws IOException {
         if (wide()) {
-            out.writeByte(Const.WIDE);
+            out.writeByte(Constants.WIDE);
         }
         out.writeByte(super.getOpcode());
         if (super.getLength() > 1) { // Otherwise ILOAD_n, instruction, e.g.
@@ -111,8 +111,8 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public String toString( boolean verbose ) {
         final short _opcode = super.getOpcode();
-        if (((_opcode >= Const.ILOAD_0) && (_opcode <= Const.ALOAD_3))
-         || ((_opcode >= Const.ISTORE_0) && (_opcode <= Const.ASTORE_3))) {
+        if (((_opcode >= Constants.ILOAD_0) && (_opcode <= Constants.ALOAD_3))
+         || ((_opcode >= Constants.ISTORE_0) && (_opcode <= Constants.ASTORE_3))) {
             return super.toString(verbose);
         }
         return super.toString(verbose) + " " + n;
@@ -132,15 +132,15 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             super.setLength(4);
         } else {
             final short _opcode = super.getOpcode();
-            if (((_opcode >= Const.ILOAD) && (_opcode <= Const.ALOAD))
-             || ((_opcode >= Const.ISTORE) && (_opcode <= Const.ASTORE))) {
+            if (((_opcode >= Constants.ILOAD) && (_opcode <= Constants.ALOAD))
+             || ((_opcode >= Constants.ISTORE) && (_opcode <= Constants.ASTORE))) {
                 n = bytes.readUnsignedByte();
                 super.setLength(2);
-            } else if (_opcode <= Const.ALOAD_3) { // compact load instruction such as ILOAD_2
-                n = (_opcode - Const.ILOAD_0) % 4;
+            } else if (_opcode <= Constants.ALOAD_3) { // compact load instruction such as ILOAD_2
+                n = (_opcode - Constants.ILOAD_0) % 4;
                 super.setLength(1);
             } else { // Assert ISTORE_0 <= tag <= ASTORE_3
-                n = (_opcode - Const.ISTORE_0) % 4;
+                n = (_opcode - Constants.ISTORE_0) % 4;
                 super.setLength(1);
             }
         }
@@ -164,7 +164,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
      */
     @Override
     public void setIndex( int n ) { // TODO could be package-protected?
-        if ((n < 0) || (n > Const.MAX_SHORT)) {
+        if ((n < 0) || (n > Constants.MAX_SHORT)) {
             throw new ClassGenException("Illegal value: " + n);
         }
         this.n = n;
@@ -201,20 +201,20 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
     @Override
     public Type getType( ConstantPoolGen cp ) {
         switch (canon_tag) {
-            case Const.ILOAD:
-            case Const.ISTORE:
+            case Constants.ILOAD:
+            case Constants.ISTORE:
                 return Type.INT;
-            case Const.LLOAD:
-            case Const.LSTORE:
+            case Constants.LLOAD:
+            case Constants.LSTORE:
                 return Type.LONG;
-            case Const.DLOAD:
-            case Const.DSTORE:
+            case Constants.DLOAD:
+            case Constants.DSTORE:
                 return Type.DOUBLE;
-            case Const.FLOAD:
-            case Const.FSTORE:
+            case Constants.FLOAD:
+            case Constants.FSTORE:
                 return Type.FLOAT;
-            case Const.ALOAD:
-            case Const.ASTORE:
+            case Constants.ALOAD:
+            case Constants.ASTORE:
                 return Type.OBJECT;
             default:
                 throw new ClassGenException("Oops: unknown case in switch" + canon_tag);

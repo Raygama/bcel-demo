@@ -1,9 +1,5 @@
 package org.apache.commons.bcel6;
 
-/**
- * Exception constants.
- * @since 6.0 (intended to replace the InstructionConstant interface)
- */
 public final class ExceptionConst {
 
     /** The mother of all exceptions

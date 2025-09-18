@@ -20,7 +20,7 @@ package org.apache.commons.bcel6.generic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.AccessFlags;
 import org.apache.commons.bcel6.classfile.Attribute;
 
@@ -33,19 +33,19 @@ import org.apache.commons.bcel6.classfile.Attribute;
 public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected String name;
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected Type type;
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected ConstantPoolGen cp;
@@ -69,7 +69,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
 
     @Override
     public void setType( Type type ) { // TODO could be package-protected?
-        if (type.getType() == Const.T_ADDRESS) {
+        if (type.getType() == Constants.T_ADDRESS) {
             throw new IllegalArgumentException("Type can not be " + type);
         }
         this.type = type;

@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * This class is derived from the abstract {@link Constant}
@@ -138,7 +138,7 @@ public final class ConstantUtf8 extends Constant {
      * @throws IOException
      */
     ConstantUtf8(DataInput file) throws IOException {
-        super(Const.CONSTANT_Utf8);
+        super(Constants.CONSTANT_Utf8);
         bytes = file.readUTF();
         created++;
     }
@@ -148,7 +148,7 @@ public final class ConstantUtf8 extends Constant {
      * @param bytes Data
      */
     public ConstantUtf8(String bytes) {
-        super(Const.CONSTANT_Utf8);
+        super(Constants.CONSTANT_Utf8);
         if (bytes == null) {
             throw new IllegalArgumentException("bytes must not be null!");
         }
@@ -188,16 +188,6 @@ public final class ConstantUtf8 extends Constant {
      */
     public final String getBytes() {
         return bytes;
-    }
-
-
-    /**
-     * @param bytes the raw bytes of this Utf-8
-     * @deprecated
-     */
-    @java.lang.Deprecated
-    public final void setBytes( String bytes ) {
-        throw new UnsupportedOperationException();
     }
 
 

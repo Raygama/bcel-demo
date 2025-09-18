@@ -21,7 +21,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * This class is derived from the abstract {@link Constant}
@@ -39,7 +39,7 @@ public final class ConstantLong extends Constant implements ConstantObject {
      * @param bytes Data
      */
     public ConstantLong(long bytes) {
-        super(Const.CONSTANT_Long);
+        super(Constants.CONSTANT_Long);
         this.bytes = bytes;
     }
 

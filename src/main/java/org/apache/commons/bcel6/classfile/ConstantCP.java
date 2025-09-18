@@ -21,7 +21,7 @@ import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 
 /** 
  * Abstract super class for Fieldref, Methodref, InterfaceMethodref and
@@ -40,14 +40,14 @@ public abstract class ConstantCP extends Constant {
     // Note that this field is used to store the
     // bootstrap_method_attr_index of a ConstantInvokeDynamic.
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected int class_index; // TODO make private (has getter & setter)
     // This field has the same meaning for all subclasses.
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @java.lang.Deprecated
     protected int name_and_type_index; // TODO make private (has getter & setter)
@@ -107,10 +107,34 @@ public abstract class ConstantCP extends Constant {
 
 
     /**
+     * @return Reference (index) to bootstrap method this constant refers to.
+     *
+     * Note that this method is a functional duplicate of getClassIndex
+     * for use by ConstantInvokeDynamic.
+     * @since 6.0
+     */
+    public final int getBootstrapMethodAttrIndex() {
+        return class_index;  // AKA bootstrap_method_attr_index
+    }
+
+
+    /**
      * @param class_index points to Constant_class 
      */
     public final void setClassIndex( int class_index ) {
         this.class_index = class_index;
+    }
+
+
+    /**
+     * @param bootstrap_method_attr_index points to a BootstrapMethod. 
+     *
+     * Note that this method is a functional duplicate of setClassIndex
+     * for use by ConstantInvokeDynamic.
+     * @since 6.0
+     */
+    public final void setBootstrapMethodAttrIndex(int bootstrap_method_attr_index) {
+        this.class_index = bootstrap_method_attr_index;
     }
 
 
@@ -134,7 +158,7 @@ public abstract class ConstantCP extends Constant {
      * @return Class this field belongs to.
      */
     public String getClass( ConstantPool cp ) {
-        return cp.constantToString(class_index, Const.CONSTANT_Class);
+        return cp.constantToString(class_index, Constants.CONSTANT_Class);
     }
 
 

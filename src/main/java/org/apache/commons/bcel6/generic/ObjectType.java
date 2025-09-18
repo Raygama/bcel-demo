@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.Repository;
 import org.apache.commons.bcel6.classfile.JavaClass;
 
@@ -41,7 +41,7 @@ public class ObjectType extends ReferenceType {
      * @param class_name fully qualified class name, e.g. java.lang.String
      */
     public ObjectType(String class_name) {
-        super(Const.T_REFERENCE, "L" + class_name.replace('.', '/') + ";");
+        super(Constants.T_REFERENCE, "L" + class_name.replace('.', '/') + ";");
         this.class_name = class_name.replace('/', '.');
     }
 
@@ -68,42 +68,6 @@ public class ObjectType extends ReferenceType {
         return (type instanceof ObjectType)
                 ? ((ObjectType) type).class_name.equals(class_name)
                 : false;
-    }
-
-
-    /**
-     * If "this" doesn't reference a class, it references an interface
-     * or a non-existant entity.
-     * @deprecated (since 6.0) this method returns an inaccurate result
-     *   if the class or interface referenced cannot
-     *   be found: use referencesClassExact() instead
-     */
-    @Deprecated
-    public boolean referencesClass() {
-        try {
-            JavaClass jc = Repository.lookupClass(class_name);
-            return jc.isClass();
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
-
-
-    /**
-     * If "this" doesn't reference an interface, it references a class
-     * or a non-existant entity.
-     * @deprecated (since 6.0) this method returns an inaccurate result
-     *   if the class or interface referenced cannot
-     *   be found: use referencesInterfaceExact() instead
-     */
-    @Deprecated
-    public boolean referencesInterface() {
-        try {
-            JavaClass jc = Repository.lookupClass(class_name);
-            return !jc.isClass();
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
     }
 
 

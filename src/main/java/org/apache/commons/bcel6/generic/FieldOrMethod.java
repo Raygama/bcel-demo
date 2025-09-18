@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.ConstantCP;
 import org.apache.commons.bcel6.classfile.ConstantNameAndType;
 import org.apache.commons.bcel6.classfile.ConstantPool;
@@ -82,23 +82,12 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public String getClassName( ConstantPoolGen cpg ) {
         ConstantPool cp = cpg.getConstantPool();
         ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
+        String className = cp.getConstantString(cmr.getClassIndex(), Constants.CONSTANT_Class);
         if (className.startsWith("[")) {
             // Turn array classes into java.lang.Object.
             return "java.lang.Object";
         }
         return className.replace('/', '.');
-    }
-
-
-    /** @return type of the referenced class/interface
-     * @deprecated If the instruction references an array class,
-     *    the ObjectType returned will be invalid.  Use
-     *    getReferenceType() instead.
-     */
-    @Deprecated
-    public ObjectType getClassType( ConstantPoolGen cpg ) {
-        return ObjectType.getInstance(getClassName(cpg));
     }
 
 
@@ -113,7 +102,7 @@ public abstract class FieldOrMethod extends CPInstruction implements LoadClass {
     public ReferenceType getReferenceType( ConstantPoolGen cpg ) {
         ConstantPool cp = cpg.getConstantPool();
         ConstantCP cmr = (ConstantCP) cp.getConstant(super.getIndex());
-        String className = cp.getConstantString(cmr.getClassIndex(), Const.CONSTANT_Class);
+        String className = cp.getConstantString(cmr.getClassIndex(), Constants.CONSTANT_Class);
         if (className.startsWith("[")) {
             return (ArrayType) Type.getType(className);
         }

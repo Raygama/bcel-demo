@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.Utility;
 import org.apache.commons.bcel6.generic.AllocationInstruction;
 import org.apache.commons.bcel6.generic.ArrayInstruction;
@@ -122,11 +122,11 @@ class BCELFactory extends EmptyVisitor {
     public void visitLocalVariableInstruction( LocalVariableInstruction i ) {
         short opcode = i.getOpcode();
         Type type = i.getType(_cp);
-        if (opcode == Const.IINC) {
+        if (opcode == Constants.IINC) {
             _out.println("il.append(new IINC(" + i.getIndex() + ", " + ((IINC) i).getIncrement()
                     + "));");
         } else {
-            String kind = (opcode < Const.ISTORE) ? "Load" : "Store";
+            String kind = (opcode < Constants.ISTORE) ? "Load" : "Store";
             _out.println("il.append(_factory.create" + kind + "(" + BCELifier.printType(type)
                     + ", " + i.getIndex() + "));");
         }
@@ -137,7 +137,7 @@ class BCELFactory extends EmptyVisitor {
     public void visitArrayInstruction( ArrayInstruction i ) {
         short opcode = i.getOpcode();
         Type type = i.getType(_cp);
-        String kind = (opcode < Const.IASTORE) ? "Load" : "Store";
+        String kind = (opcode < Constants.IASTORE) ? "Load" : "Store";
         _out.println("il.append(_factory.createArray" + kind + "(" + BCELifier.printType(type)
                 + "));");
     }
@@ -151,7 +151,7 @@ class BCELFactory extends EmptyVisitor {
         Type type = i.getFieldType(_cp);
         _out.println("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" + field_name
                 + "\", " + BCELifier.printType(type) + ", " + "Constants."
-                + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + Constants.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
     }
 
 
@@ -165,7 +165,7 @@ class BCELFactory extends EmptyVisitor {
         _out.println("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name
                 + "\", " + BCELifier.printType(type) + ", "
                 + BCELifier.printArgumentTypes(arg_types) + ", " + "Constants."
-                + Const.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
+                + Constants.getOpcodeName(opcode).toUpperCase(Locale.ENGLISH) + "));");
     }
 
 
@@ -180,15 +180,15 @@ class BCELFactory extends EmptyVisitor {
         short opcode = ((Instruction) i).getOpcode();
         int dim = 1;
         switch (opcode) {
-            case Const.NEW:
+            case Constants.NEW:
                 _out.println("il.append(_factory.createNew(\"" + ((ObjectType) type).getClassName()
                         + "\"));");
                 break;
-            case Const.MULTIANEWARRAY:
+            case Constants.MULTIANEWARRAY:
                 dim = ((MULTIANEWARRAY) i).getDimensions();
                 //$FALL-THROUGH$
-            case Const.ANEWARRAY:
-            case Const.NEWARRAY:
+            case Constants.ANEWARRAY:
+            case Constants.NEWARRAY:
                 if (type instanceof ArrayType) {
                     type = ((ArrayType) type).getBasicType();
                 }

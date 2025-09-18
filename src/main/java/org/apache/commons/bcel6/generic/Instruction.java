@@ -20,7 +20,7 @@ package org.apache.commons.bcel6.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.ConstantPool;
 import org.apache.commons.bcel6.util.ByteSequence;
 
@@ -32,13 +32,13 @@ import org.apache.commons.bcel6.util.ByteSequence;
 public abstract class Instruction implements Cloneable {
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected short length = 1; // Length of instruction in bytes 
 
     /**
-     * @deprecated (since 6.0) will be made private; do not access directly, use getter/setter
+     * @deprecated will be made private; do not access directly, use getter/setter
      */
     @Deprecated
     protected short opcode = -1; // Opcode number
@@ -72,7 +72,7 @@ public abstract class Instruction implements Cloneable {
     /** @return name of instruction, i.e., opcode name
      */
     public String getName() {
-        return Const.getOpcodeName(opcode);
+        return Constants.getOpcodeName(opcode);
     }
 
 
@@ -160,7 +160,7 @@ public abstract class Instruction implements Cloneable {
         boolean wide = false;
         short opcode = (short) bytes.readUnsignedByte();
         Instruction obj = null;
-        if (opcode == Const.WIDE) { // Read next opcode after wide byte
+        if (opcode == Constants.WIDE) { // Read next opcode after wide byte
             wide = true;
             opcode = (short) bytes.readUnsignedByte();
         }
@@ -170,295 +170,295 @@ public abstract class Instruction implements Cloneable {
         }
 
         switch (opcode) {
-            case Const.BIPUSH:
+            case Constants.BIPUSH:
                 obj = new BIPUSH();
                 break;
-            case Const.SIPUSH:
+            case Constants.SIPUSH:
                 obj = new SIPUSH();
                 break;
-            case Const.LDC:
+            case Constants.LDC:
                 obj = new LDC();
                 break;
-            case Const.LDC_W:
+            case Constants.LDC_W:
                 obj = new LDC_W();
                 break;
-            case Const.LDC2_W:
+            case Constants.LDC2_W:
                 obj = new LDC2_W();
                 break;
-            case Const.ILOAD:
+            case Constants.ILOAD:
                 obj = new ILOAD();
                 break;
-            case Const.LLOAD:
+            case Constants.LLOAD:
                 obj = new LLOAD();
                 break;
-            case Const.FLOAD:
+            case Constants.FLOAD:
                 obj = new FLOAD();
                 break;
-            case Const.DLOAD:
+            case Constants.DLOAD:
                 obj = new DLOAD();
                 break;
-            case Const.ALOAD:
+            case Constants.ALOAD:
                 obj = new ALOAD();
                 break;
-            case Const.ILOAD_0:
+            case Constants.ILOAD_0:
                 obj = new ILOAD(0);
                 break;
-            case Const.ILOAD_1:
+            case Constants.ILOAD_1:
                 obj = new ILOAD(1);
                 break;
-            case Const.ILOAD_2:
+            case Constants.ILOAD_2:
                 obj = new ILOAD(2);
                 break;
-            case Const.ILOAD_3:
+            case Constants.ILOAD_3:
                 obj = new ILOAD(3);
                 break;
-            case Const.LLOAD_0:
+            case Constants.LLOAD_0:
                 obj = new LLOAD(0);
                 break;
-            case Const.LLOAD_1:
+            case Constants.LLOAD_1:
                 obj = new LLOAD(1);
                 break;
-            case Const.LLOAD_2:
+            case Constants.LLOAD_2:
                 obj = new LLOAD(2);
                 break;
-            case Const.LLOAD_3:
+            case Constants.LLOAD_3:
                 obj = new LLOAD(3);
                 break;
-            case Const.FLOAD_0:
+            case Constants.FLOAD_0:
                 obj = new FLOAD(0);
                 break;
-            case Const.FLOAD_1:
+            case Constants.FLOAD_1:
                 obj = new FLOAD(1);
                 break;
-            case Const.FLOAD_2:
+            case Constants.FLOAD_2:
                 obj = new FLOAD(2);
                 break;
-            case Const.FLOAD_3:
+            case Constants.FLOAD_3:
                 obj = new FLOAD(3);
                 break;
-            case Const.DLOAD_0:
+            case Constants.DLOAD_0:
                 obj = new DLOAD(0);
                 break;
-            case Const.DLOAD_1:
+            case Constants.DLOAD_1:
                 obj = new DLOAD(1);
                 break;
-            case Const.DLOAD_2:
+            case Constants.DLOAD_2:
                 obj = new DLOAD(2);
                 break;
-            case Const.DLOAD_3:
+            case Constants.DLOAD_3:
                 obj = new DLOAD(3);
                 break;
-            case Const.ALOAD_0:
+            case Constants.ALOAD_0:
                 obj = new ALOAD(0);
                 break;
-            case Const.ALOAD_1:
+            case Constants.ALOAD_1:
                 obj = new ALOAD(1);
                 break;
-            case Const.ALOAD_2:
+            case Constants.ALOAD_2:
                 obj = new ALOAD(2);
                 break;
-            case Const.ALOAD_3:
+            case Constants.ALOAD_3:
                 obj = new ALOAD(3);
                 break;
-            case Const.ISTORE:
+            case Constants.ISTORE:
                 obj = new ISTORE();
                 break;
-            case Const.LSTORE:
+            case Constants.LSTORE:
                 obj = new LSTORE();
                 break;
-            case Const.FSTORE:
+            case Constants.FSTORE:
                 obj = new FSTORE();
                 break;
-            case Const.DSTORE:
+            case Constants.DSTORE:
                 obj = new DSTORE();
                 break;
-            case Const.ASTORE:
+            case Constants.ASTORE:
                 obj = new ASTORE();
                 break;
-            case Const.ISTORE_0:
+            case Constants.ISTORE_0:
                 obj = new ISTORE(0);
                 break;
-            case Const.ISTORE_1:
+            case Constants.ISTORE_1:
                 obj = new ISTORE(1);
                 break;
-            case Const.ISTORE_2:
+            case Constants.ISTORE_2:
                 obj = new ISTORE(2);
                 break;
-            case Const.ISTORE_3:
+            case Constants.ISTORE_3:
                 obj = new ISTORE(3);
                 break;
-            case Const.LSTORE_0:
+            case Constants.LSTORE_0:
                 obj = new LSTORE(0);
                 break;
-            case Const.LSTORE_1:
+            case Constants.LSTORE_1:
                 obj = new LSTORE(1);
                 break;
-            case Const.LSTORE_2:
+            case Constants.LSTORE_2:
                 obj = new LSTORE(2);
                 break;
-            case Const.LSTORE_3:
+            case Constants.LSTORE_3:
                 obj = new LSTORE(3);
                 break;
-            case Const.FSTORE_0:
+            case Constants.FSTORE_0:
                 obj = new FSTORE(0);
                 break;
-            case Const.FSTORE_1:
+            case Constants.FSTORE_1:
                 obj = new FSTORE(1);
                 break;
-            case Const.FSTORE_2:
+            case Constants.FSTORE_2:
                 obj = new FSTORE(2);
                 break;
-            case Const.FSTORE_3:
+            case Constants.FSTORE_3:
                 obj = new FSTORE(3);
                 break;
-            case Const.DSTORE_0:
+            case Constants.DSTORE_0:
                 obj = new DSTORE(0);
                 break;
-            case Const.DSTORE_1:
+            case Constants.DSTORE_1:
                 obj = new DSTORE(1);
                 break;
-            case Const.DSTORE_2:
+            case Constants.DSTORE_2:
                 obj = new DSTORE(2);
                 break;
-            case Const.DSTORE_3:
+            case Constants.DSTORE_3:
                 obj = new DSTORE(3);
                 break;
-            case Const.ASTORE_0:
+            case Constants.ASTORE_0:
                 obj = new ASTORE(0);
                 break;
-            case Const.ASTORE_1:
+            case Constants.ASTORE_1:
                 obj = new ASTORE(1);
                 break;
-            case Const.ASTORE_2:
+            case Constants.ASTORE_2:
                 obj = new ASTORE(2);
                 break;
-            case Const.ASTORE_3:
+            case Constants.ASTORE_3:
                 obj = new ASTORE(3);
                 break;
-            case Const.IINC:
+            case Constants.IINC:
                 obj = new IINC();
                 break;
-            case Const.IFEQ:
+            case Constants.IFEQ:
                 obj = new IFEQ();
                 break;
-            case Const.IFNE:
+            case Constants.IFNE:
                 obj = new IFNE();
                 break;
-            case Const.IFLT:
+            case Constants.IFLT:
                 obj = new IFLT();
                 break;
-            case Const.IFGE:
+            case Constants.IFGE:
                 obj = new IFGE();
                 break;
-            case Const.IFGT:
+            case Constants.IFGT:
                 obj = new IFGT();
                 break;
-            case Const.IFLE:
+            case Constants.IFLE:
                 obj = new IFLE();
                 break;
-            case Const.IF_ICMPEQ:
+            case Constants.IF_ICMPEQ:
                 obj = new IF_ICMPEQ();
                 break;
-            case Const.IF_ICMPNE:
+            case Constants.IF_ICMPNE:
                 obj = new IF_ICMPNE();
                 break;
-            case Const.IF_ICMPLT:
+            case Constants.IF_ICMPLT:
                 obj = new IF_ICMPLT();
                 break;
-            case Const.IF_ICMPGE:
+            case Constants.IF_ICMPGE:
                 obj = new IF_ICMPGE();
                 break;
-            case Const.IF_ICMPGT:
+            case Constants.IF_ICMPGT:
                 obj = new IF_ICMPGT();
                 break;
-            case Const.IF_ICMPLE:
+            case Constants.IF_ICMPLE:
                 obj = new IF_ICMPLE();
                 break;
-            case Const.IF_ACMPEQ:
+            case Constants.IF_ACMPEQ:
                 obj = new IF_ACMPEQ();
                 break;
-            case Const.IF_ACMPNE:
+            case Constants.IF_ACMPNE:
                 obj = new IF_ACMPNE();
                 break;
-            case Const.GOTO:
+            case Constants.GOTO:
                 obj = new GOTO();
                 break;
-            case Const.JSR:
+            case Constants.JSR:
                 obj = new JSR();
                 break;
-            case Const.RET:
+            case Constants.RET:
                 obj = new RET();
                 break;
-            case Const.TABLESWITCH:
+            case Constants.TABLESWITCH:
                 obj = new TABLESWITCH();
                 break;
-            case Const.LOOKUPSWITCH:
+            case Constants.LOOKUPSWITCH:
                 obj = new LOOKUPSWITCH();
                 break;
-            case Const.GETSTATIC:
+            case Constants.GETSTATIC:
                 obj = new GETSTATIC();
                 break;
-            case Const.PUTSTATIC:
+            case Constants.PUTSTATIC:
                 obj = new PUTSTATIC();
                 break;
-            case Const.GETFIELD:
+            case Constants.GETFIELD:
                 obj = new GETFIELD();
                 break;
-            case Const.PUTFIELD:
+            case Constants.PUTFIELD:
                 obj = new PUTFIELD();
                 break;
-            case Const.INVOKEVIRTUAL:
+            case Constants.INVOKEVIRTUAL:
                 obj = new INVOKEVIRTUAL();
                 break;
-            case Const.INVOKESPECIAL:
+            case Constants.INVOKESPECIAL:
                 obj = new INVOKESPECIAL();
                 break;
-            case Const.INVOKESTATIC:
+            case Constants.INVOKESTATIC:
                 obj = new INVOKESTATIC();
                 break;
-            case Const.INVOKEINTERFACE:
+            case Constants.INVOKEINTERFACE:
                 obj = new INVOKEINTERFACE();
                 break;
-            case Const.INVOKEDYNAMIC:
+            case Constants.INVOKEDYNAMIC:
                 obj = new INVOKEDYNAMIC();
                 break;
-            case Const.NEW:
+            case Constants.NEW:
                 obj = new NEW();
                 break;
-            case Const.NEWARRAY:
+            case Constants.NEWARRAY:
                 obj = new NEWARRAY();
                 break;
-            case Const.ANEWARRAY:
+            case Constants.ANEWARRAY:
                 obj = new ANEWARRAY();
                 break;
-            case Const.CHECKCAST:
+            case Constants.CHECKCAST:
                 obj = new CHECKCAST();
                 break;
-            case Const.INSTANCEOF:
+            case Constants.INSTANCEOF:
                 obj = new INSTANCEOF();
                 break;
-            case Const.MULTIANEWARRAY:
+            case Constants.MULTIANEWARRAY:
                 obj = new MULTIANEWARRAY();
                 break;
-            case Const.IFNULL:
+            case Constants.IFNULL:
                 obj = new IFNULL();
                 break;
-            case Const.IFNONNULL:
+            case Constants.IFNONNULL:
                 obj = new IFNONNULL();
                 break;
-            case Const.GOTO_W:
+            case Constants.GOTO_W:
                 obj = new GOTO_W();
                 break;
-            case Const.JSR_W:
+            case Constants.JSR_W:
                 obj = new JSR_W();
                 break;
-            case Const.BREAKPOINT:
+            case Constants.BREAKPOINT:
                 obj = new BREAKPOINT();
                 break;
-            case Const.IMPDEP1:
+            case Constants.IMPDEP1:
                 obj = new IMPDEP1();
                 break;
-            case Const.IMPDEP2:
+            case Constants.IMPDEP2:
                 obj = new IMPDEP2();
                 break;
             default:
@@ -483,7 +483,7 @@ public abstract class Instruction implements Cloneable {
      * or Constants.UNPREDICTABLE, if this can not be computed statically
      */
     public int consumeStack( ConstantPoolGen cpg ) {
-        return Const.getConsumeStack(opcode);
+        return Constants.getConsumeStack(opcode);
     }
 
 
@@ -495,7 +495,7 @@ public abstract class Instruction implements Cloneable {
      * or Constants.UNPREDICTABLE, if this can not be computed statically
      */
     public int produceStack( ConstantPoolGen cpg ) {
-        return Const.getProduceStack(opcode);
+        return Constants.getProduceStack(opcode);
     }
 
 
@@ -547,27 +547,6 @@ public abstract class Instruction implements Cloneable {
      * @param v Visitor object
      */
     public abstract void accept( Visitor v );
-
-
-    /** Get Comparator object used in the equals() method to determine
-     * equality of instructions.
-     *
-     * @return currently used comparator for equals()
-     * @deprecated use the built in comparator, or wrap this class in another object that implements these methods
-     */
-    @Deprecated
-    public static InstructionComparator getComparator() {
-        return cmp;
-    }
-
-
-    /** Set comparator to be used for equals().
-      * @deprecated use the built in comparator, or wrap this class in another object that implements these methods
-     */
-    @Deprecated
-    public static void setComparator( InstructionComparator c ) {
-        cmp = c;
-    }
 
 
     /** Check for equality, delegated to comparator
