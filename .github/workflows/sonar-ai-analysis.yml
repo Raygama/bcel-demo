@@ -130,7 +130,7 @@ jobs:
           MAX_SNIPPET_CHARS=380     # keep snippet tiny but useful
           CONTEXT_BEFORE=1          # lines before the hit
           CONTEXT_AFTER=1           # lines after the hit
-          SONAR_SEVERITIES="BLOCKER,CRITICAL,MAJOR"   # you can widen later
+          SONAR_SEVERITIES="BLOCKER,CRITICAL,MAJOR,MINOR"   # you can widen later
           SONAR_TYPES="BUG,VULNERABILITY,CODE_SMELL"  # or narrow if needed
           # ----------------------------------------------------
 
