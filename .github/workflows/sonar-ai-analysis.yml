@@ -436,9 +436,23 @@ jobs:
               const raw = fs.readFileSync('judge_output.json', 'utf8');
               try {
                 const parsed = JSON.parse(raw);
-                judge = "### Judge Evaluation\n```json\n" +
-                        JSON.stringify(parsed, null, 2) + "\n```";
-              } catch {
+
+                // Extract `.text` and strip ```json fences
+                let judgeText = parsed.text || '';
+                judgeText = judgeText.replace(/^```json\n?/, '').replace(/```$/, '').trim();
+
+                let judgeJson;
+                try {
+                  judgeJson = JSON.parse(judgeText);
+                } catch (e) {
+                  judge = "Judge output could not be parsed:\n```\n" + judgeText + "\n```";
+                }
+
+                if (judgeJson) {
+                  judge = "### Judge Evaluation\n```json\n" +
+                          JSON.stringify(judgeJson, null, 2) + "\n```";
+                }
+              } catch (e) {
                 judge = raw;
               }
             }
