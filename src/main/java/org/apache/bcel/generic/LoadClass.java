@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * Denotes that an instruction may start the process of loading and resolving 
@@ -31,7 +31,7 @@ public interface LoadClass {
      * @return object type that may be loaded or null if a primitive is
      * referenced
      */
-    ObjectType getLoadClassType( ConstantPoolGen cpg );
+    public ObjectType getLoadClassType( ConstantPoolGen cpg );
 
 
     /**
@@ -46,5 +46,5 @@ public interface LoadClass {
      * an int[][].
      * @see #getLoadClassType(ConstantPoolGen)
      */
-    Type getType( ConstantPoolGen cpg );
+    public Type getType( ConstantPoolGen cpg );
 }

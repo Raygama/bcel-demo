@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ClassFormatException;
-import org.apache.bcel.classfile.Utility;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.ClassFormatException;
+import org.apache.commons.bcel6.classfile.Utility;
 
 /**
  * Abstract super class for all possible java types, namely basic types
@@ -113,10 +113,12 @@ public abstract class Type {
      * boolean, short and char variable are considered as int in the stack or local variable area.
      * Returns {@link Type#INT} for {@link Type#BOOLEAN}, {@link Type#SHORT} or {@link Type#CHAR}, otherwise
      * returns the given type.
+     * @see OperandStack#push(Type)
+     * @see LocalVariables#set(int, Type)
      * @since 6.0
      */
-    public Type normalizeForStackOrLocal() {
-        if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR) {
+    public Type normalizeForStackOrLocal(){
+        if (this == Type.BOOLEAN || this == Type.BYTE || this == Type.SHORT || this == Type.CHAR){
             return Type.INT;
         }
         return this;
@@ -212,11 +214,13 @@ public abstract class Type {
             wrap(consumed_chars, _temp);
             return new ArrayType(t, dim);
         } else { // type == T_REFERENCE
-            // Utility.signatureToString understands how to parse
-            // generic types.
-            String parsedSignature = Utility.signatureToString(signature, false);
-            wrap(consumed_chars, parsedSignature.length() + 2); // "Lblabla;" `L' and `;' are removed
-            return ObjectType.getInstance(parsedSignature.replace('/', '.'));
+            int index = signature.indexOf(';'); // Look for closing `;'
+            if (index < 0) {
+                throw new ClassFormatException("Invalid signature: " + signature);
+            }
+            //corrected concurrent private static field acess
+            wrap(consumed_chars, index + 1); // "Lblabla;" `L' and `;' are removed
+            return ObjectType.getInstance(signature.substring(1, index).replace('/', '.'));
         }
     }
 

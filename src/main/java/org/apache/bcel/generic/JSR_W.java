@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /** 
  * JSR_W - Jump to subroutine
@@ -38,7 +38,7 @@ public class JSR_W extends JsrInstruction {
 
 
     public JSR_W(final InstructionHandle target) {
-        super(org.apache.bcel.Const.JSR_W, target);
+        super(org.apache.commons.bcel6.Const.JSR_W, target);
         super.setLength(5);
     }
 

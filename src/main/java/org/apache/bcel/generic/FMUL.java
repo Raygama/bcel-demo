@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * FMUL - Multiply floats
@@ -28,7 +28,7 @@ public class FMUL extends ArithmeticInstruction {
     /** Multiply floats
      */
     public FMUL() {
-        super(org.apache.bcel.Const.FMUL);
+        super(org.apache.commons.bcel6.Const.FMUL);
     }
 
 

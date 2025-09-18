@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * DSUB - Substract doubles
@@ -29,7 +29,7 @@ public class DSUB extends ArithmeticInstruction {
     /** Substract doubles
      */
     public DSUB() {
-        super(org.apache.bcel.Const.DSUB);
+        super(org.apache.commons.bcel6.Const.DSUB);
     }
 
 

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LMUL - Multiply longs
@@ -27,7 +27,7 @@ package org.apache.bcel.generic;
 public class LMUL extends ArithmeticInstruction {
 
     public LMUL() {
-        super(org.apache.bcel.Const.LMUL);
+        super(org.apache.commons.bcel6.Const.LMUL);
     }
 
 

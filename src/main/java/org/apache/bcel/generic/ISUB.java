@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * ISUB - Substract ints
@@ -28,7 +28,7 @@ public class ISUB extends ArithmeticInstruction {
     /** Substract ints
      */
     public ISUB() {
-        super(org.apache.bcel.Const.ISUB);
+        super(org.apache.commons.bcel6.Const.ISUB);
     }
 
 

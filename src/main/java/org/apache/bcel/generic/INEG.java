@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * INEG - Negate int
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class INEG extends ArithmeticInstruction {
 
     public INEG() {
-        super(org.apache.bcel.Const.INEG);
+        super(org.apache.commons.bcel6.Const.INEG);
     }
 
 

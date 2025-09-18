@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * CALOAD - Load char from array
@@ -28,7 +28,7 @@ public class CALOAD extends ArrayInstruction implements StackProducer {
     /** Load char from array
      */
     public CALOAD() {
-        super(org.apache.bcel.Const.CALOAD);
+        super(org.apache.commons.bcel6.Const.CALOAD);
     }
 
 

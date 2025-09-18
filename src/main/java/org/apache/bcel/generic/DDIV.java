@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * DDIV -  Divide doubles
@@ -29,7 +29,7 @@ public class DDIV extends ArithmeticInstruction {
     /** Divide doubles
      */
     public DDIV() {
-        super(org.apache.bcel.Const.DDIV);
+        super(org.apache.commons.bcel6.Const.DDIV);
     }
 
 

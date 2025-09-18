@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.structurals;
+package org.apache.commons.bcel6.verifier.structurals;
 
 
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.ObjectType;
+import org.apache.commons.bcel6.generic.InstructionHandle;
+import org.apache.commons.bcel6.generic.ObjectType;
 
 /**
  * This class represents an exception handler; that is, an ObjectType
@@ -36,7 +36,7 @@ public class ExceptionHandler{
     private final InstructionHandle handlerpc;
 
     /** Leave instance creation to JustIce. */
-    ExceptionHandler(final ObjectType catch_type, final InstructionHandle handler_pc) {
+    ExceptionHandler(final ObjectType catch_type, final InstructionHandle handler_pc){
         catchtype = catch_type;
         handlerpc = handler_pc;
     }
@@ -44,14 +44,14 @@ public class ExceptionHandler{
     /**
      * Returns the type of the exception that's handled. <B>'null' means 'ANY'.</B>
      */
-    public ObjectType getExceptionType() {
+    public ObjectType getExceptionType(){
         return catchtype;
     }
 
     /**
      * Returns the InstructionHandle where the handler starts off.
      */
-    public InstructionHandle getHandlerStart() {
+    public InstructionHandle getHandlerStart(){
         return handlerpc;
     }
 }

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * L2F - Convert long to float
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class L2F extends ConversionInstruction {
 
     public L2F() {
-        super(org.apache.bcel.Const.L2F);
+        super(org.apache.commons.bcel6.Const.L2F);
     }
 
 

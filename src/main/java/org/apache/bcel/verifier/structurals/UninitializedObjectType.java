@@ -15,13 +15,12 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.structurals;
+package org.apache.commons.bcel6.verifier.structurals;
 
 
-import org.apache.bcel.Const;
-import org.apache.bcel.Constants;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.ReferenceType;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.generic.ObjectType;
+import org.apache.commons.bcel6.generic.ReferenceType;
 
 /**
  * This class represents an uninitialized object type; see The Java
@@ -30,13 +29,13 @@ import org.apache.bcel.generic.ReferenceType;
  *
  * @version $Id$
  */
-public class UninitializedObjectType extends ReferenceType implements Constants {
+public class UninitializedObjectType extends ReferenceType{
 
     /** The "initialized" version. */
     private final ObjectType initialized;
 
     /** Creates a new instance. */
-    public UninitializedObjectType(final ObjectType t) {
+    public UninitializedObjectType(final ObjectType t){
         super(Const.T_UNKNOWN, "<UNINITIALIZED OBJECT OF TYPE '"+t.getClassName()+"'>");
         initialized = t;
     }
@@ -45,7 +44,7 @@ public class UninitializedObjectType extends ReferenceType implements Constants 
      * Returns the ObjectType of the same class as the one of the uninitialized object
      * represented by this UninitializedObjectType instance.
      */
-    public ObjectType getInitialized() {
+    public ObjectType getInitialized(){
         return initialized;
     }
 
@@ -61,7 +60,7 @@ public class UninitializedObjectType extends ReferenceType implements Constants 
      *
      */
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(final Object o){
         if (! (o instanceof UninitializedObjectType)) {
             return false;
         }

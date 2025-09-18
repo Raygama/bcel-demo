@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /** 
  * NEW - Create new object
@@ -37,7 +37,7 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
 
 
     public NEW(final int index) {
-        super(org.apache.bcel.Const.NEW, index);
+        super(org.apache.commons.bcel6.Const.NEW, index);
     }
 
 

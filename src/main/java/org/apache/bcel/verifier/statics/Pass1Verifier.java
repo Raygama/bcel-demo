@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.statics;
+package org.apache.commons.bcel6.verifier.statics;
 
 
-import org.apache.bcel.Repository;
-import org.apache.bcel.classfile.ClassFormatException;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.verifier.PassVerifier;
-import org.apache.bcel.verifier.VerificationResult;
-import org.apache.bcel.verifier.Verifier;
-import org.apache.bcel.verifier.exc.LoadingException;
-import org.apache.bcel.verifier.exc.Utility;
+import org.apache.commons.bcel6.Repository;
+import org.apache.commons.bcel6.classfile.ClassFormatException;
+import org.apache.commons.bcel6.classfile.JavaClass;
+import org.apache.commons.bcel6.verifier.PassVerifier;
+import org.apache.commons.bcel6.verifier.VerificationResult;
+import org.apache.commons.bcel6.verifier.Verifier;
+import org.apache.commons.bcel6.verifier.exc.LoadingException;
+import org.apache.commons.bcel6.verifier.exc.Utility;
 
 /**
  * This PassVerifier verifies a class file according to pass 1 as
@@ -52,8 +52,8 @@ public final class Pass1Verifier extends PassVerifier{
      * Used to load in and return the myOwner-matching JavaClass object when needed.
      * Avoids loading in a class file when it's not really needed!
      */
-    private JavaClass getJavaClass() {
-        if (jc == null) {
+    private JavaClass getJavaClass(){
+        if (jc == null){
             try {
                 jc = Repository.lookupClass(myOwner.getClassName());
             } catch (ClassNotFoundException e) {
@@ -71,7 +71,7 @@ public final class Pass1Verifier extends PassVerifier{
      *
      * @see Verifier
      */
-    public Pass1Verifier(final Verifier owner) {
+    public Pass1Verifier(final Verifier owner){
         myOwner = owner;
     }
 
@@ -140,18 +140,18 @@ public final class Pass1Verifier extends PassVerifier{
      * (like the check for extra bytes at the end of the class file) are handy when actually using BCEL to repair a class file
      * (otherwise you would not be able to load it into BCEL).</P>
      *
-     * @see org.apache.bcel.Repository
-     * @see org.apache.bcel.Const#JVM_CLASSFILE_MAGIC
+     * @see org.apache.commons.bcel6.Repository
+     * @see org.apache.commons.bcel6.Const#JVM_CLASSFILE_MAGIC
      */
     @Override
-    public VerificationResult do_verify() {
+    public VerificationResult do_verify(){
         JavaClass jc;
         try{
             jc = getJavaClass();    //loads in the class file if not already done.
 
-            if (jc != null) {
+            if (jc != null){
                 /* If we find more constraints to check, we should do this in an own method. */
-                if (! myOwner.getClassName().equals(jc.getClassName())) {
+                if (! myOwner.getClassName().equals(jc.getClassName())){
                     // This should maybe caught by BCEL: In case of renamed .class files we get wrong
                     // JavaClass objects here.
                     throw new LoadingException("Wrong name: the internal name of the .class file '"+jc.getClassName()+
@@ -160,20 +160,20 @@ public final class Pass1Verifier extends PassVerifier{
             }
 
         }
-        catch(LoadingException e) {
+        catch(LoadingException e){
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, e.getMessage());
         }
-        catch(ClassFormatException e) {
+        catch(ClassFormatException e){
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, e.getMessage());
         }
-        catch(RuntimeException e) {
+        catch(RuntimeException e){
             // BCEL does not catch every possible RuntimeException; e.g. if
             // a constant pool index is referenced that does not exist.
             return new VerificationResult(VerificationResult.VERIFIED_REJECTED, "Parsing via BCEL did not succeed. "+
                 e.getClass().getName()+" occured:\n"+Utility.getStackTrace(e));
         }
 
-        if (jc != null) {
+        if (jc != null){
             return VerificationResult.VR_OK;
         }
         //TODO: Maybe change Repository's behaviour to throw a LoadingException instead of just returning "null"
@@ -192,7 +192,7 @@ public final class Pass1Verifier extends PassVerifier{
      * <B>TODO</B>.
      */
     @Override
-    public String[] getMessages() {
+    public String[] getMessages(){
         // This method is only here to override the javadoc-comment.
         return super.getMessages();
     }

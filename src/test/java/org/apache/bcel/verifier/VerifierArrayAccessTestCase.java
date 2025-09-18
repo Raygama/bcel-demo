@@ -16,13 +16,13 @@
  * 
  */
 
-package org.apache.bcel.verifier;
+package org.apache.commons.bcel6.verifier;
 
 import java.io.IOException;
 
-import org.apache.bcel.verifier.tests.TestArrayAccess02Creator;
-import org.apache.bcel.verifier.tests.TestArrayAccess03Creator;
-import org.apache.bcel.verifier.tests.TestArrayAccess04Creator;
+import org.apache.commons.bcel6.verifier.tests.TestArrayAccess02Creator;
+import org.apache.commons.bcel6.verifier.tests.TestArrayAccess03Creator;
+import org.apache.commons.bcel6.verifier.tests.TestArrayAccess04Creator;
 
 public class VerifierArrayAccessTestCase extends AbstractVerifierTestCase {
     

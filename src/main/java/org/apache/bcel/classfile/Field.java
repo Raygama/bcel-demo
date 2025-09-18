@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.util.BCELComparator;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.generic.Type;
+import org.apache.commons.bcel6.util.BCELComparator;
 
 /**
  * This class represents the field info structure, i.e., the representation 
@@ -32,7 +32,7 @@ import org.apache.bcel.util.BCELComparator;
  */
 public final class Field extends FieldOrMethod {
 
-    private static BCELComparator bcelComparator = new BCELComparator() {
+    private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
         public boolean equals( final Object o1, final Object o2 ) {
@@ -123,7 +123,7 @@ public final class Field extends FieldOrMethod {
 
         // Get names from constant pool
         access = Utility.accessToString(super.getAccessFlags());
-        access = access.isEmpty() ? "" : (access + " ");
+        access = access.equals("") ? "" : (access + " ");
         signature = Utility.signatureToString(getSignature());
         name = getName();
         StringBuilder buf = new StringBuilder(64); // CHECKSTYLE IGNORE MagicNumber
@@ -161,7 +161,7 @@ public final class Field extends FieldOrMethod {
      * @return Comparison strategy object
      */
     public static BCELComparator getComparator() {
-        return bcelComparator;
+        return _cmp;
     }
 
 
@@ -169,7 +169,7 @@ public final class Field extends FieldOrMethod {
      * @param comparator Comparison strategy object
      */
     public static void setComparator( final BCELComparator comparator ) {
-        bcelComparator = comparator;
+        _cmp = comparator;
     }
 
 
@@ -182,7 +182,7 @@ public final class Field extends FieldOrMethod {
      */
     @Override
     public boolean equals( final Object obj ) {
-        return bcelComparator.equals(this, obj);
+        return _cmp.equals(this, obj);
     }
 
 
@@ -194,6 +194,6 @@ public final class Field extends FieldOrMethod {
      */
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        return _cmp.hashCode(this);
     }
 }

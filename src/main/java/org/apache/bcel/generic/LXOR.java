@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * LXOR - Bitwise XOR long
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class LXOR extends ArithmeticInstruction {
 
     public LXOR() {
-        super(org.apache.bcel.Const.LXOR);
+        super(org.apache.commons.bcel6.Const.LXOR);
     }
 
 

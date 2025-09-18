@@ -15,12 +15,12 @@
  * limitations under the License.
  * 
  */
-package org.apache.bcel.verifier.tests;
+package org.apache.commons.bcel6.verifier.tests;
 
 
 public class TestArrayAccess01 extends XTestArray01{
 
-    public static void test() {
+    public static void test(){
         XTestArray01[] array = new TestArrayAccess01[1];
         array[0] = new XTestArray01();
     }

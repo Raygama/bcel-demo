@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */ 
-package org.apache.bcel.verifier.structurals;
+package org.apache.commons.bcel6.verifier.structurals;
 
 
 import java.util.HashMap;
@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.bcel.generic.CodeExceptionGen;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.MethodGen;
+import org.apache.commons.bcel6.generic.CodeExceptionGen;
+import org.apache.commons.bcel6.generic.InstructionHandle;
+import org.apache.commons.bcel6.generic.MethodGen;
 
 /**
  * This class allows easy access to ExceptionHandler objects.
@@ -42,15 +42,15 @@ public class ExceptionHandlers{
     /**
      * Constructor. Creates a new ExceptionHandlers instance.
      */
-    public ExceptionHandlers(final MethodGen mg) {
+    public ExceptionHandlers(final MethodGen mg){
         exceptionhandlers = new HashMap<>();
         CodeExceptionGen[] cegs = mg.getExceptionHandlers();
         for (CodeExceptionGen ceg : cegs) {
             ExceptionHandler eh = new ExceptionHandler(ceg.getCatchType(), ceg.getHandlerPC());
-            for (InstructionHandle ih=ceg.getStartPC(); ih != ceg.getEndPC().getNext(); ih=ih.getNext()) {
+            for (InstructionHandle ih=ceg.getStartPC(); ih != ceg.getEndPC().getNext(); ih=ih.getNext()){
                 Set<ExceptionHandler> hs;
                 hs = exceptionhandlers.get(ih);
-                if (hs == null) {
+                if (hs == null){
                     hs = new HashSet<>();
                     exceptionhandlers.put(ih, hs);
                 }
@@ -63,7 +63,7 @@ public class ExceptionHandlers{
      * Returns all the ExceptionHandler instances representing exception
      * handlers that protect the instruction ih.
      */
-    public ExceptionHandler[] getExceptionHandlers(final InstructionHandle ih) {
+    public ExceptionHandler[] getExceptionHandlers(final InstructionHandle ih){
         Set<ExceptionHandler> hsSet = exceptionhandlers.get(ih);
         if (hsSet == null) {
             return new ExceptionHandler[0];

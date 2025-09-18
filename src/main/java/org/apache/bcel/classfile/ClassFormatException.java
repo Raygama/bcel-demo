@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 /** 
  * Thrown when the BCEL attempts to read a class file and determines
@@ -38,6 +38,7 @@ public class ClassFormatException extends RuntimeException {
     }
 
     /**
+     * {@inheritDoc}
      * @since 6.0
      */
     public ClassFormatException(final String message, final Throwable cause) {

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IXOR - Bitwise XOR int
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class IXOR extends ArithmeticInstruction {
 
     public IXOR() {
-        super(org.apache.bcel.Const.IXOR);
+        super(org.apache.commons.bcel6.Const.IXOR);
     }
 
 

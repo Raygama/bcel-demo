@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.classfile.LineNumber;
+import org.apache.commons.bcel6.classfile.LineNumber;
 
 /** 
  * This class represents a line number within a method, i.e., give an instruction

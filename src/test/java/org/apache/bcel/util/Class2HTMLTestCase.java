@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-import org.apache.bcel.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.ClassParser;
 import org.junit.Assert;
 
 import junit.framework.TestCase;
@@ -33,11 +33,10 @@ public class Class2HTMLTestCase extends TestCase {
             Assert.assertTrue(outputDir.isDirectory()); // fail if missing
         }
 
-        try (FileInputStream file = new FileInputStream("target/test-classes/Java8Example.class")) {
+        FileInputStream file = new FileInputStream("target/test-classes/Java8Example.class");
 
-            ClassParser parser = new ClassParser(file, "Java8Example.class");
+        ClassParser parser = new ClassParser(file, "Java8Example.class");
 
-            new Class2HTML(parser.parse(), outputDir.getAbsolutePath() + "/");
-        }
+        new Class2HTML(parser.parse(), outputDir.getAbsolutePath() + "/");
     }
 }

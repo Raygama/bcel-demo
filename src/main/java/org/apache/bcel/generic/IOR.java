@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IOR - Bitwise OR int
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class IOR extends ArithmeticInstruction {
 
     public IOR() {
-        super(org.apache.bcel.Const.IOR);
+        super(org.apache.commons.bcel6.Const.IOR);
     }
 
 

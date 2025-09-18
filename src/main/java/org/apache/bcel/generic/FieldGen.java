@@ -15,22 +15,22 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.Annotations;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.Constant;
-import org.apache.bcel.classfile.ConstantObject;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.ConstantValue;
-import org.apache.bcel.classfile.Field;
-import org.apache.bcel.classfile.Utility;
-import org.apache.bcel.util.BCELComparator;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.AnnotationEntry;
+import org.apache.commons.bcel6.classfile.Annotations;
+import org.apache.commons.bcel6.classfile.Attribute;
+import org.apache.commons.bcel6.classfile.Constant;
+import org.apache.commons.bcel6.classfile.ConstantObject;
+import org.apache.commons.bcel6.classfile.ConstantPool;
+import org.apache.commons.bcel6.classfile.ConstantValue;
+import org.apache.commons.bcel6.classfile.Field;
+import org.apache.commons.bcel6.classfile.Utility;
+import org.apache.commons.bcel6.util.BCELComparator;
 
 /** 
  * Template class for building up a field.  The only extraordinary thing
@@ -43,7 +43,7 @@ import org.apache.bcel.util.BCELComparator;
 public class FieldGen extends FieldGenOrMethodGen {
 
     private Object value = null;
-    private static BCELComparator bcelComparator = new BCELComparator() {
+    private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
         public boolean equals( final Object o1, final Object o2 ) {
@@ -317,7 +317,7 @@ public class FieldGen extends FieldGenOrMethodGen {
         String signature;
         String access; // Short cuts to constant pool
         access = Utility.accessToString(super.getAccessFlags());
-        access = access.isEmpty() ? "" : (access + " ");
+        access = access.equals("") ? "" : (access + " ");
         signature = super.getType().toString();
         name = getName();
         StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
@@ -343,7 +343,7 @@ public class FieldGen extends FieldGenOrMethodGen {
      * @return Comparison strategy object
      */
     public static BCELComparator getComparator() {
-        return bcelComparator;
+        return _cmp;
     }
 
 
@@ -351,7 +351,7 @@ public class FieldGen extends FieldGenOrMethodGen {
      * @param comparator Comparison strategy object
      */
     public static void setComparator( final BCELComparator comparator ) {
-        bcelComparator = comparator;
+        _cmp = comparator;
     }
 
 
@@ -364,7 +364,7 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     @Override
     public boolean equals( final Object obj ) {
-        return bcelComparator.equals(this, obj);
+        return _cmp.equals(this, obj);
     }
 
 
@@ -376,6 +376,6 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        return _cmp.hashCode(this);
     }
 }

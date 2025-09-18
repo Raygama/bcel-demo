@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -29,11 +29,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.util.BCELComparator;
-import org.apache.bcel.util.ClassQueue;
-import org.apache.bcel.util.SyntheticRepository;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.generic.Type;
+import org.apache.commons.bcel6.util.BCELComparator;
+import org.apache.commons.bcel6.util.ClassQueue;
+import org.apache.commons.bcel6.util.SyntheticRepository;
 
 /**
  * Represents a Java class, i.e., the data structures, constant pool,
@@ -44,7 +44,7 @@ import org.apache.bcel.util.SyntheticRepository;
  * should see the <a href="../generic/ClassGen.html">ClassGen</a> class.
 
  * @version $Id$
- * @see org.apache.bcel.generic.ClassGen
+ * @see org.apache.commons.bcel6.generic.ClassGen
  */
 public class JavaClass extends AccessFlags implements Cloneable, Node, Comparable<JavaClass> {
 
@@ -73,7 +73,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     public static final byte ZIP = 3;
     private static final boolean debug = Boolean.getBoolean("JavaClass.debug");; // Debugging on/off
     
-    private static BCELComparator bcelComparator = new BCELComparator() {
+    private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
         public boolean equals( final Object o1, final Object o2 ) {
@@ -94,7 +94,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * use the default SyntheticRepository, because we
      * don't know any better.
      */
-    private transient org.apache.bcel.util.Repository repository = SyntheticRepository
+    private transient org.apache.commons.bcel6.util.Repository repository = SyntheticRepository
             .getInstance();
 
 
@@ -229,7 +229,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * @param file Output file
      * @throws IOException
      */
-    public void dump(final File file) throws IOException {
+    public void dump( final File file ) throws IOException {
         String parent = file.getParent();
         if (parent != null) {
             File dir = new File(parent);
@@ -239,8 +239,14 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                 }
             }
         }
-        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
+        DataOutputStream dos = null;
+        try {
+            dos = new DataOutputStream(new FileOutputStream(file));
             dump(dos);
+        } finally {
+            if (dos != null) {
+                dos.close();
+            }
         }
     }
 
@@ -595,7 +601,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     @Override
     public String toString() {
         String access = Utility.accessToString(super.getAccessFlags(), true);
-        access = access.isEmpty() ? "" : (access + " ");
+        access = access.equals("") ? "" : (access + " ");
         StringBuilder buf = new StringBuilder(128);
         buf.append(access).append(Utility.classOrInterface(super.getAccessFlags())).append(" ").append(
                 class_name).append(" extends ").append(
@@ -750,7 +756,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * Gets the ClassRepository which holds its definition. By default
      * this is the same as SyntheticRepository.getInstance();
      */
-    public org.apache.bcel.util.Repository getRepository() {
+    public org.apache.commons.bcel6.util.Repository getRepository() {
         return repository;
     }
 
@@ -759,7 +765,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * Sets the ClassRepository which loaded the JavaClass.
      * Should be called immediately after parsing is done.
      */
-    public void setRepository( final org.apache.bcel.util.Repository repository ) { // TODO make protected?
+    public void setRepository( final org.apache.commons.bcel6.util.Repository repository ) { // TODO make protected?
         this.repository = repository;
     }
 
@@ -880,7 +886,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * @return Comparison strategy object
      */
     public static BCELComparator getComparator() {
-        return bcelComparator;
+        return _cmp;
     }
 
 
@@ -888,7 +894,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      * @param comparator Comparison strategy object
      */
     public static void setComparator( final BCELComparator comparator ) {
-        bcelComparator = comparator;
+        _cmp = comparator;
     }
 
 
@@ -901,7 +907,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      */
     @Override
     public boolean equals( final Object obj ) {
-        return bcelComparator.equals(this, obj);
+        return _cmp.equals(this, obj);
     }
 
 
@@ -924,6 +930,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      */
     @Override
     public int hashCode() {
-        return bcelComparator.hashCode(this);
+        return _cmp.hashCode(this);
     }
 }

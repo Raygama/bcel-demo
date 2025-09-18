@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * IUSHR - Logical shift right int
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class IUSHR extends ArithmeticInstruction {
 
     public IUSHR() {
-        super(org.apache.bcel.Const.IUSHR);
+        super(org.apache.commons.bcel6.Const.IUSHR);
     }
 
 

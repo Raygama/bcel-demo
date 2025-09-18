@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * L2D - Convert long to double
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class L2D extends ConversionInstruction {
 
     public L2D() {
-        super(org.apache.bcel.Const.L2D);
+        super(org.apache.commons.bcel6.Const.L2D);
     }
 
 

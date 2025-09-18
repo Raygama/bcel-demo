@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.verifier;
+package org.apache.commons.bcel6.verifier;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
 
-import org.apache.bcel.generic.Type;
+import org.apache.commons.bcel6.generic.Type;
 
 /**
  * A graphical user interface application demonstrating JustIce.

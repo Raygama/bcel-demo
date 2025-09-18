@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * DUP_X1 - Duplicate top operand stack word and put two down
@@ -26,7 +26,7 @@ package org.apache.bcel.generic;
 public class DUP_X1 extends StackInstruction {
 
     public DUP_X1() {
-        super(org.apache.bcel.Const.DUP_X1);
+        super(org.apache.commons.bcel6.Const.DUP_X1);
     }
 
 

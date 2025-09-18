@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.verifier;
+package org.apache.commons.bcel6.verifier;
 
 import java.awt.AWTEvent;
 import java.awt.CardLayout;
@@ -39,8 +39,8 @@ import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 
-import org.apache.bcel.Repository;
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.Repository;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /**
  * This class implements a machine-generated frame for use with
@@ -318,7 +318,7 @@ public class VerifierAppFrame extends JFrame {
     void newFileMenuItem_actionPerformed( final ActionEvent e ) {
         String classname = JOptionPane
                 .showInputDialog("Please enter the fully qualified name of a class or interface to verify:");
-        if ((classname == null) || (classname.isEmpty())) {
+        if ((classname == null) || (classname.equals(""))) {
             return;
         }
         VerifierFactory.getVerifier(classname); // let observers do the rest.

@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /**
  * SIPUSH - Push short
@@ -43,7 +43,7 @@ public class SIPUSH extends Instruction implements ConstantPushInstruction {
 
 
     public SIPUSH(final short b) {
-        super(org.apache.bcel.Const.SIPUSH, (short) 3);
+        super(org.apache.commons.bcel6.Const.SIPUSH, (short) 3);
         this.b = b;
     }
 

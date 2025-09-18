@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,12 +25,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.AbstractTestCase;
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Annotations;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.RuntimeInvisibleAnnotations;
-import org.apache.bcel.classfile.RuntimeVisibleAnnotations;
+import org.apache.commons.bcel6.AbstractTestCase;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.Annotations;
+import org.apache.commons.bcel6.classfile.Attribute;
+import org.apache.commons.bcel6.classfile.RuntimeInvisibleAnnotations;
+import org.apache.commons.bcel6.classfile.RuntimeVisibleAnnotations;
 
 public class AnnotationGenTestCase extends AbstractTestCase
 {
@@ -124,16 +124,16 @@ public class AnnotationGenTestCase extends AbstractTestCase
         {
             String beforeName = a.getTypeName();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try (DataOutputStream dos = new DataOutputStream(baos)) {
-                a.dump(dos);
-                dos.flush();
-            }
+            DataOutputStream dos = new DataOutputStream(baos);
+            a.dump(dos);
+            dos.flush();
+            dos.close();
             byte[] bs = baos.toByteArray();
             ByteArrayInputStream bais = new ByteArrayInputStream(bs);
-            AnnotationEntryGen annAfter;
-            try (DataInputStream dis = new DataInputStream(bais)) {
-                annAfter = AnnotationEntryGen.read(dis, cpg, a.isRuntimeVisible());
-            }
+            DataInputStream dis = new DataInputStream(bais);
+            AnnotationEntryGen annAfter = AnnotationEntryGen.read(dis, cpg, a
+                    .isRuntimeVisible());
+            dis.close();
             String afterName = annAfter.getTypeName();
             if (!beforeName.equals(afterName))
             {

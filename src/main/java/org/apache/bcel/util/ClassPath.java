@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -69,17 +69,17 @@ public class ClassPath {
      */
     public ClassPath(final String class_path) {
         this.class_path = class_path;
-        List<PathEntry> list = new ArrayList<>();
+        List<PathEntry> vec = new ArrayList<>();
         for (StringTokenizer tok = new StringTokenizer(class_path, File.pathSeparator); tok.hasMoreTokens();) {
             String path = tok.nextToken();
-            if (!path.isEmpty()) {
+            if (!path.equals("")) {
                 File file = new File(path);
                 try {
                     if (file.exists()) {
                         if (file.isDirectory()) {
-                            list.add(new Dir(path));
+                            vec.add(new Dir(path));
                         } else {
-                            list.add(new Zip(new ZipFile(file)));
+                            vec.add(new Zip(new ZipFile(file)));
                         }
                     }
                 } catch (IOException e) {
@@ -89,8 +89,8 @@ public class ClassPath {
                 }
             }
         }
-        paths = new PathEntry[list.size()];
-        list.toArray(paths);
+        paths = new PathEntry[vec.size()];
+        vec.toArray(paths);
     }
 
     /**
@@ -307,9 +307,10 @@ public class ClassPath {
      * @param suffix file name ends with suffix, e.g. .java
      * @return byte array for file on class path
      */
-    public byte[] getBytes(final String name, final String suffix) throws IOException {
+    public byte[] getBytes( final String name, final String suffix ) throws IOException {
         DataInputStream dis = null;
-        try (InputStream is = getInputStream(name, suffix)) {
+        try {
+            InputStream is = getInputStream(name, suffix);
             if (is == null) {
                 throw new IOException("Couldn't find: " + name + suffix);
             }
@@ -370,28 +371,28 @@ public class ClassPath {
 
         /** @return input stream for class file.
          */
-        InputStream getInputStream() throws IOException;
+        public abstract InputStream getInputStream() throws IOException;
 
 
         /** @return canonical path to class file.
          */
-        String getPath();
+        public abstract String getPath();
 
 
         /** @return base path of found class, i.e. class is contained relative
          * to that path, which may either denote a directory, or zip file
          */
-        String getBase();
+        public abstract String getBase();
 
 
         /** @return modification time of class file.
          */
-        long getTime();
+        public abstract long getTime();
 
 
         /** @return size of class file.
          */
-        long getSize();
+        public abstract long getSize();
     }
 
     private static class Dir extends PathEntry {

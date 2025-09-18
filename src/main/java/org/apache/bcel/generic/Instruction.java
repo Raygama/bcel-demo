@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.util.ByteSequence;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.ConstantPool;
+import org.apache.commons.bcel6.util.ByteSequence;
 
 /** 
  * Abstract super class for all Java byte codes.

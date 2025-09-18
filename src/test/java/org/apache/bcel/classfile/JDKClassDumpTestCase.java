@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,7 +44,7 @@ public class JDKClassDumpTestCase {
 
             @Override
             public boolean accept(final File file) {
-                if (file.getName().endsWith(".jar")) {
+                if(file.getName().endsWith(".jar")) {
                     try {
                         testJar(file);
                     } catch (Exception e) {
@@ -59,36 +59,36 @@ public class JDKClassDumpTestCase {
 
     private void testJar(final File file) throws Exception {
         System.out.println("parsing " + file);
-        try (JarFile jar = new JarFile(file)) {
-            Enumeration<JarEntry> en = jar.entries();
-            while (en.hasMoreElements()) {
-                JarEntry e = en.nextElement();
-                final String name = e.getName();
-                if (name.endsWith(".class")) {
-                    // System.out.println("parsing " + name);
-                    try (InputStream in = jar.getInputStream(e)) {
-                        ClassParser parser = new ClassParser(in, name);
-                        JavaClass jc = parser.parse();
-                        compare(jc, jar.getInputStream(e), name);
-                    }
-                }
+        JarFile jar = new JarFile(file);
+        Enumeration<JarEntry> en = jar.entries();
+
+        while (en.hasMoreElements()) {
+            JarEntry e = en.nextElement();
+            final String name = e.getName();
+            if (name.endsWith(".class")) {
+//                System.out.println("parsing " + name);
+                InputStream in = jar.getInputStream(e);
+                ClassParser parser = new ClassParser(in, name);
+                JavaClass jc = parser.parse();
+                compare(jc, jar.getInputStream(e), name);
             }
         }
+        jar.close();
     }
 
     private void compare(final JavaClass jc, final InputStream inputStream, final String name) throws Exception {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (DataOutputStream dos = new DataOutputStream(baos)) {
-            jc.dump(dos);
+        DataOutputStream dos = new DataOutputStream(baos);
+        jc.dump(dos);
+        dos.close();
+        DataInputStream src = new DataInputStream(inputStream);
+        int i=0;
+        for(int out : baos.toByteArray()) {
+            int in = src.read();
+            assertEquals(name + ": Mismatch at "+i, in, out&0xFF);
+            i++;
         }
-        try (DataInputStream src = new DataInputStream(inputStream)) {
-            int i = 0;
-            for (int out : baos.toByteArray()) {
-                int in = src.read();
-                assertEquals(name + ": Mismatch at " + i, in, out & 0xFF);
-                i++;
-            }
-        }
+        src.close();
     }
 
 

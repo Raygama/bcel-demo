@@ -15,21 +15,21 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.JavaClass;
 
 /**
  * This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are loaded from the file systems using the paths
  * specified in the given class path. By default, this is the value returned by ClassPath.getClassPath(). <br>
  *
- * @see org.apache.bcel.Repository
+ * @see org.apache.commons.bcel6.Repository
  */
 public class ClassPathRepository implements Repository {
 
@@ -77,7 +77,7 @@ public class ClassPathRepository implements Repository {
      */
     @Override
     public JavaClass loadClass(String className) throws ClassNotFoundException {
-        if ((className == null) || className.isEmpty()) {
+        if ((className == null) || className.equals("")) {
             throw new IllegalArgumentException("Invalid class name " + className);
         }
         className = className.replace('/', '.'); // Just in case, canonical form
@@ -106,21 +106,28 @@ public class ClassPathRepository implements Repository {
      */
     @Override
     public JavaClass loadClass(final Class<?> clazz) throws ClassNotFoundException {
-        String className = clazz.getName();
-        JavaClass repositoryClass = findClass(className);
-        if (repositoryClass != null) {
-            return repositoryClass;
-        }
-        String name = className;
-        int i = name.lastIndexOf('.');
-        if (i > 0) {
-            name = name.substring(i + 1);
-        }
-        JavaClass cls = null;
-        try (InputStream clsStream = clazz.getResourceAsStream(name + ".class")) {
-            return cls = loadClass(clsStream, className);
-        } catch (IOException e) {
-            return cls;
+        InputStream clsStream = null;
+        try {
+            String className = clazz.getName();
+            JavaClass repositoryClass = findClass(className);
+            if (repositoryClass != null) {
+                return repositoryClass;
+            }
+            String name = className;
+            int i = name.lastIndexOf('.');
+            if (i > 0) {
+                name = name.substring(i + 1);
+            }
+            clsStream = clazz.getResourceAsStream(name + ".class");
+            return loadClass(clsStream, className);
+        } finally {
+            try {
+                if (clsStream != null) {
+                    clsStream.close();
+                }
+            } catch (IOException ioe) {
+                // don't care
+            }
         }
     }
 

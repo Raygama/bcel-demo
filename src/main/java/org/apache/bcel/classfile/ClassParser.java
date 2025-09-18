@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /**
  * Wrapper class that parses a given Java .class file. The method <A
@@ -155,7 +155,7 @@ public final class ClassParser {
             readAttributes();
             // Check for unknown variables
             //Unknown[] u = Unknown.getUnknownAttributes();
-            //for (int i=0; i < u.length; i++)
+            //for(int i=0; i < u.length; i++)
             //  System.err.println("WARNING: " + u[i]);
             // Everything should have been read now
             //      if(file.available() > 0) {
@@ -174,16 +174,12 @@ public final class ClassParser {
                     if (dataInputStream != null) {
                         dataInputStream.close();
                     }
+                    if (zip != null) {
+                        zip.close();
+                    }
                 } catch (IOException ioe) {
                     //ignore close exceptions
                 }
-            }
-            try {
-                if (zip != null) {
-                    zip.close();
-                }
-            } catch (IOException ioe) {
-                //ignore close exceptions
             }
         }
         // Return the information we have gathered in a new object

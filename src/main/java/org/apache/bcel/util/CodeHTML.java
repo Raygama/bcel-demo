@@ -15,27 +15,27 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.Code;
-import org.apache.bcel.classfile.CodeException;
-import org.apache.bcel.classfile.ConstantFieldref;
-import org.apache.bcel.classfile.ConstantInterfaceMethodref;
-import org.apache.bcel.classfile.ConstantInvokeDynamic;
-import org.apache.bcel.classfile.ConstantMethodref;
-import org.apache.bcel.classfile.ConstantNameAndType;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.LocalVariable;
-import org.apache.bcel.classfile.LocalVariableTable;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.Utility;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.Attribute;
+import org.apache.commons.bcel6.classfile.Code;
+import org.apache.commons.bcel6.classfile.CodeException;
+import org.apache.commons.bcel6.classfile.ConstantFieldref;
+import org.apache.commons.bcel6.classfile.ConstantInterfaceMethodref;
+import org.apache.commons.bcel6.classfile.ConstantInvokeDynamic;
+import org.apache.commons.bcel6.classfile.ConstantMethodref;
+import org.apache.commons.bcel6.classfile.ConstantNameAndType;
+import org.apache.commons.bcel6.classfile.ConstantPool;
+import org.apache.commons.bcel6.classfile.LocalVariable;
+import org.apache.commons.bcel6.classfile.LocalVariableTable;
+import org.apache.commons.bcel6.classfile.Method;
+import org.apache.commons.bcel6.classfile.Utility;
 
 /**
  * Convert code into HTML file.
@@ -549,31 +549,32 @@ final class CodeHTML {
         if (code != null) { // No code, an abstract method, e.g.
             //System.out.println(name + "\n" + Utility.codeToString(code, constant_pool, 0, -1));
             // Print the byte code
-            try (ByteSequence stream = new ByteSequence(code)) {
-                stream.mark(stream.available());
-                findGotos(stream, c);
-                stream.reset();
-                file.println("<TABLE BORDER=0><TR><TH ALIGN=LEFT>Byte<BR>offset</TH>"
-                        + "<TH ALIGN=LEFT>Instruction</TH><TH ALIGN=LEFT>Argument</TH>");
-                for (; stream.available() > 0;) {
-                    int offset = stream.getIndex();
-                    String str = codeToHTML(stream, method_number);
-                    String anchor = "";
-                    /*
-                     * Set an anchor mark if this line is targetted by a goto, jsr, etc. Defining an anchor for every
-                     * line is very inefficient!
-                     */
-                    if (goto_set.get(offset)) {
-                        anchor = "<A NAME=code" + method_number + "@" + offset + "></A>";
-                    }
-                    String anchor2;
-                    if (stream.getIndex() == code.length) {
-                        anchor2 = "<A NAME=code" + method_number + "@" + code.length + ">" + offset + "</A>";
-                    } else {
-                        anchor2 = "" + offset;
-                    }
-                    file.println("<TR VALIGN=TOP><TD>" + anchor2 + "</TD><TD>" + anchor + str + "</TR>");
+            ByteSequence stream = new ByteSequence(code);
+            stream.mark(stream.available());
+            findGotos(stream, c);
+            stream.reset();
+            file.println("<TABLE BORDER=0><TR><TH ALIGN=LEFT>Byte<BR>offset</TH>"
+                    + "<TH ALIGN=LEFT>Instruction</TH><TH ALIGN=LEFT>Argument</TH>");
+            for (; stream.available() > 0;) {
+                int offset = stream.getIndex();
+                String str = codeToHTML(stream, method_number);
+                String anchor = "";
+                /* Set an anchor mark if this line is targetted by a goto, jsr, etc.
+                 * Defining an anchor for every line is very inefficient!
+                 */
+                if (goto_set.get(offset)) {
+                    anchor = "<A NAME=code" + method_number + "@" + offset + "></A>";
                 }
+                String anchor2;
+                if (stream.getIndex() == code.length) {
+                    anchor2 = "<A NAME=code" + method_number + "@" + code.length + ">" + offset
+                            + "</A>";
+                } else {
+                    anchor2 = "" + offset;
+                }
+                file
+                        .println("<TR VALIGN=TOP><TD>" + anchor2 + "</TD><TD>" + anchor + str
+                                + "</TR>");
             }
             // Mark last line, may be targetted from Attributes window
             file.println("<TR><TD> </A></TD></TR>");

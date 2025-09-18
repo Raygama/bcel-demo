@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * DRETURN -  Return double from method
@@ -28,7 +28,7 @@ public class DRETURN extends ReturnInstruction {
     /** Return double from method
      */
     public DRETURN() {
-        super(org.apache.bcel.Const.DRETURN);
+        super(org.apache.commons.bcel6.Const.DRETURN);
     }
 
 

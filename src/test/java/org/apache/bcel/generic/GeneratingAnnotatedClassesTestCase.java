@@ -15,23 +15,23 @@
  * limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.bcel.AbstractTestCase;
-import org.apache.bcel.Const;
-import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.ArrayElementValue;
-import org.apache.bcel.classfile.ElementValue;
-import org.apache.bcel.classfile.ElementValuePair;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.ParameterAnnotationEntry;
-import org.apache.bcel.classfile.SimpleElementValue;
-import org.apache.bcel.util.SyntheticRepository;
+import org.apache.commons.bcel6.AbstractTestCase;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.AnnotationEntry;
+import org.apache.commons.bcel6.classfile.ArrayElementValue;
+import org.apache.commons.bcel6.classfile.ElementValue;
+import org.apache.commons.bcel6.classfile.ElementValuePair;
+import org.apache.commons.bcel6.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.Method;
+import org.apache.commons.bcel6.classfile.ParameterAnnotationEntry;
+import org.apache.commons.bcel6.classfile.SimpleElementValue;
+import org.apache.commons.bcel6.util.SyntheticRepository;
 
 /**
  * The program that some of the tests generate looks like this:
@@ -258,7 +258,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
         // check the three methods
         Method[] methods = cgen.getMethods();
         assertEquals(3, methods.length);
-        for (Method method : methods)
+        for(Method method : methods)
         {
             String methodName= method.getName();
             if(methodName.equals("<init>"))
@@ -308,7 +308,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
         assertEquals(methodName, expectedNumberOfParmeterAnnotations.length, parameterAnnotations.length);
 
         int i= 0;
-        for (ParameterAnnotationEntry parameterAnnotation : parameterAnnotations)
+        for(ParameterAnnotationEntry parameterAnnotation : parameterAnnotations)
         {
             AnnotationEntry[] annos= parameterAnnotation.getAnnotationEntries();
             int expectedLength = expectedNumberOfParmeterAnnotations[i++];

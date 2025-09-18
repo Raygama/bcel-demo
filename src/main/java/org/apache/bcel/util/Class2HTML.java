@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.util;
+package org.apache.commons.bcel6.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,14 +24,13 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.bcel.Const;
-import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.ConstantPool;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.Utility;
+import org.apache.commons.bcel6.Const;
+import org.apache.commons.bcel6.classfile.Attribute;
+import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.classfile.ConstantPool;
+import org.apache.commons.bcel6.classfile.JavaClass;
+import org.apache.commons.bcel6.classfile.Method;
+import org.apache.commons.bcel6.classfile.Utility;
 
 /**
  * Read class file(s) and convert them into HTML files.
@@ -54,7 +53,7 @@ import org.apache.bcel.classfile.Utility;
  *
  * @version $Id$
  */
-public class Class2HTML implements Constants {
+public class Class2HTML {
 
     private final JavaClass java_class; // current class object
     private final String dir;
@@ -218,19 +217,24 @@ public class Class2HTML implements Constants {
 
 
     private void writeMainHTML( final AttributeHTML attribute_html ) throws IOException {
-        try (PrintWriter file = new PrintWriter(new FileOutputStream(dir + class_name + ".html"))) {
-            file.println("<HTML>\n" + "<HEAD><TITLE>Documentation for " + class_name + "</TITLE>" + "</HEAD>\n"
-                    + "<FRAMESET BORDER=1 cols=\"30%,*\">\n" + "<FRAMESET BORDER=1 rows=\"80%,*\">\n"
-                    + "<FRAME NAME=\"ConstantPool\" SRC=\"" + class_name + "_cp.html" + "\"\n MARGINWIDTH=\"0\" "
-                    + "MARGINHEIGHT=\"0\" FRAMEBORDER=\"1\" SCROLLING=\"AUTO\">\n" + "<FRAME NAME=\"Attributes\" SRC=\""
-                    + class_name + "_attributes.html" + "\"\n MARGINWIDTH=\"0\" "
-                    + "MARGINHEIGHT=\"0\" FRAMEBORDER=\"1\" SCROLLING=\"AUTO\">\n" + "</FRAMESET>\n"
-                    + "<FRAMESET BORDER=1 rows=\"80%,*\">\n" + "<FRAME NAME=\"Code\" SRC=\"" + class_name
-                    + "_code.html\"\n MARGINWIDTH=0 " + "MARGINHEIGHT=0 FRAMEBORDER=1 SCROLLING=\"AUTO\">\n"
-                    + "<FRAME NAME=\"Methods\" SRC=\"" + class_name + "_methods.html\"\n MARGINWIDTH=0 "
-                    + "MARGINHEIGHT=0 FRAMEBORDER=1 SCROLLING=\"AUTO\">\n" + "</FRAMESET></FRAMESET></HTML>");
-        }
+        PrintWriter file = new PrintWriter(new FileOutputStream(dir + class_name + ".html"));
         Attribute[] attributes = java_class.getAttributes();
+        file.println("<HTML>\n" + "<HEAD><TITLE>Documentation for " + class_name + "</TITLE>"
+                + "</HEAD>\n" + "<FRAMESET BORDER=1 cols=\"30%,*\">\n"
+                + "<FRAMESET BORDER=1 rows=\"80%,*\">\n" + "<FRAME NAME=\"ConstantPool\" SRC=\""
+                + class_name + "_cp.html" + "\"\n MARGINWIDTH=\"0\" "
+                + "MARGINHEIGHT=\"0\" FRAMEBORDER=\"1\" SCROLLING=\"AUTO\">\n"
+                + "<FRAME NAME=\"Attributes\" SRC=\"" + class_name + "_attributes.html"
+                + "\"\n MARGINWIDTH=\"0\" "
+                + "MARGINHEIGHT=\"0\" FRAMEBORDER=\"1\" SCROLLING=\"AUTO\">\n" + "</FRAMESET>\n"
+                + "<FRAMESET BORDER=1 rows=\"80%,*\">\n" + "<FRAME NAME=\"Code\" SRC=\""
+                + class_name + "_code.html\"\n MARGINWIDTH=0 "
+                + "MARGINHEIGHT=0 FRAMEBORDER=1 SCROLLING=\"AUTO\">\n"
+                + "<FRAME NAME=\"Methods\" SRC=\"" + class_name
+                + "_methods.html\"\n MARGINWIDTH=0 "
+                + "MARGINHEIGHT=0 FRAMEBORDER=1 SCROLLING=\"AUTO\">\n"
+                + "</FRAMESET></FRAMESET></HTML>");
+        file.close();
         for (int i = 0; i < attributes.length; i++) {
             attribute_html.writeAttribute(attributes[i], "class" + i);
         }

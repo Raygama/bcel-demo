@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /** 
  * AASTORE -  Store into reference array
@@ -28,7 +28,7 @@ public class AASTORE extends ArrayInstruction implements StackConsumer {
     /** Store into reference array
      */
     public AASTORE() {
-        super(org.apache.bcel.Const.AASTORE);
+        super(org.apache.commons.bcel6.Const.AASTORE);
     }
 
 

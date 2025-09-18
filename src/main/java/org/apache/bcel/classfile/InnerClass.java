@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.classfile;
+package org.apache.commons.bcel6.classfile;
 
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /** 
  * This class represents a inner class attribute, i.e., the class
@@ -198,7 +198,7 @@ public final class InnerClass implements Cloneable, Node {
             inner_name = "(anonymous)";
         }
         String access = Utility.accessToString(inner_access_flags, true);
-        access = access.isEmpty() ? "" : (access + " ");
+        access = access.equals("") ? "" : (access + " ");
         return "  " + access + inner_name + "=class " + inner_class_name + outer_class_name;
     }
 

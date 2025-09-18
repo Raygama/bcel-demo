@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /** 
  * ANEWARRAY -  Create new array of references
@@ -37,7 +37,7 @@ public class ANEWARRAY extends CPInstruction implements LoadClass, AllocationIns
 
 
     public ANEWARRAY(final int index) {
-        super(org.apache.bcel.Const.ANEWARRAY, index);
+        super(org.apache.commons.bcel6.Const.ANEWARRAY, index);
     }
 
 

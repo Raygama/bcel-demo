@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
 /**
  * FSUB - Substract floats
@@ -28,7 +28,7 @@ public class FSUB extends ArithmeticInstruction {
     /** Substract floats
      */
     public FSUB() {
-        super(org.apache.bcel.Const.FSUB);
+        super(org.apache.commons.bcel6.Const.FSUB);
     }
 
 

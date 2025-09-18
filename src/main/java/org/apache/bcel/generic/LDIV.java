@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConst;
 
 /**
  * LDIV - Divide longs
@@ -29,7 +29,7 @@ import org.apache.bcel.ExceptionConst;
 public class LDIV extends ArithmeticInstruction implements ExceptionThrower {
 
     public LDIV() {
-        super(org.apache.bcel.Const.LDIV);
+        super(org.apache.commons.bcel6.Const.LDIV);
     }
 
 

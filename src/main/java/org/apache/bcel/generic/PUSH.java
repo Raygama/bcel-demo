@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  */
-package org.apache.bcel.generic;
+package org.apache.commons.bcel6.generic;
 
-import org.apache.bcel.Const;
+import org.apache.commons.bcel6.Const;
 
 /** 
  * Wrapper class for push operations, which are implemented either as BIPUSH,
@@ -25,7 +25,7 @@ import org.apache.bcel.Const;
  *
  * @version $Id$
  */
-public final class PUSH implements CompoundInstruction, VariableLengthInstruction, InstructionConstants {
+public final class PUSH implements CompoundInstruction, VariableLengthInstruction {
 
     private Instruction instruction;
 
