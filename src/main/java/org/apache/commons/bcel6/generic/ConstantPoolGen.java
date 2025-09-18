@@ -79,7 +79,7 @@ public class ConstantPoolGen {
 
     private static class Index {
 
-        final int index;
+        int index; // TODO this could be final
 
 
         Index(int i) {

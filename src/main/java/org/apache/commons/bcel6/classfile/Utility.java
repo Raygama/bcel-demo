@@ -113,7 +113,7 @@ public abstract class Utility {
                 if (for_class && ((p == Constants.ACC_SUPER) || (p == Constants.ACC_INTERFACE))) {
                     continue;
                 }
-                buf.append(Constants.getAccessName(i)).append(" ");
+                buf.append(Constants.ACCESS_NAMES[i]).append(" ");
             }
         }
         return buf.toString().trim();
@@ -198,7 +198,7 @@ public abstract class Utility {
         int[] jump_table;
         int no_pad_bytes = 0;
         int offset;
-        StringBuilder buf = new StringBuilder(Constants.getOpcodeName(opcode));
+        StringBuilder buf = new StringBuilder(Constants.OPCODE_NAMES[opcode]);
         /* Special case: Skip (0-3) padding bytes, i.e., the
          * following bytes are 4-byte-aligned
          */
@@ -209,7 +209,7 @@ public abstract class Utility {
                 byte b;
                 if ((b = bytes.readByte()) != 0) {
                     System.err.println("Warning: Padding byte != 0 in "
-                            + Constants.getOpcodeName(opcode) + ":" + b);
+                            + Constants.OPCODE_NAMES[opcode] + ":" + b);
                 }
             }
             // Both cases have a field default_offset in common
@@ -318,7 +318,7 @@ public abstract class Utility {
             /* Array of basic type.
              */
             case Constants.NEWARRAY:
-                buf.append("\t\t<").append(Constants.getTypeName(bytes.readByte())).append(">");
+                buf.append("\t\t<").append(Constants.TYPE_NAMES[bytes.readByte()]).append(">");
                 break;
             /* Access object/class fields.
              */
@@ -428,10 +428,10 @@ public abstract class Utility {
                 buf.append("\t\t%").append(vindex).append("\t").append(constant);
                 break;
             default:
-                if (Constants.getNoOfOperands(opcode) > 0) {
-                    for (int i = 0; i < Constants.getOperandTypeCount(opcode); i++) {
+                if (Constants.NO_OF_OPERANDS[opcode] > 0) {
+                    for (int i = 0; i < Constants.TYPE_OF_OPERANDS[opcode].length; i++) {
                         buf.append("\t\t");
-                        switch (Constants.getOperandType(opcode, i)) {
+                        switch (Constants.TYPE_OF_OPERANDS[opcode][i]) {
                             case Constants.T_BYTE:
                                 buf.append(bytes.readByte());
                                 break;
@@ -987,9 +987,9 @@ public abstract class Utility {
         }
         boolean found = false;
         for (int i = Constants.T_BOOLEAN; (i <= Constants.T_VOID) && !found; i++) {
-            if (Constants.getTypeName(i).equals(type)) {
+            if (Constants.TYPE_NAMES[i].equals(type)) {
                 found = true;
-                buf.append(Constants.getShortTypeName(i));
+                buf.append(Constants.SHORT_TYPE_NAMES[i]);
             }
         }
         if (!found) {
@@ -1101,8 +1101,8 @@ public abstract class Utility {
      */
     public static short searchOpcode( String name ) {
         name = name.toLowerCase(Locale.ENGLISH);
-        for (short i = 0; i < Constants.OPCODE_NAMES_LENGTH; i++) {
-            if (Constants.getOpcodeName(i).equals(name)) {
+        for (short i = 0; i < Constants.OPCODE_NAMES.length; i++) {
+            if (Constants.OPCODE_NAMES[i].equals(name)) {
                 return i;
             }
         }
@@ -1326,8 +1326,8 @@ public abstract class Utility {
 
     // A-Z, g-z, _, $
     private static final int FREE_CHARS = 48;
-    private static int[] CHAR_MAP = new int[FREE_CHARS];
-    private static int[] MAP_CHAR = new int[256]; // Reverse map
+    static int[] CHAR_MAP = new int[FREE_CHARS];
+    static int[] MAP_CHAR = new int[256]; // Reverse map
     private static final char ESCAPE_CHAR = '$';
     static {
         int j = 0;

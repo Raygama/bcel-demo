@@ -17,7 +17,7 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 
 /**
  * Super class for instructions dealing with array access such as IALOAD.
@@ -45,7 +45,7 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
 
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_ARRAY_EXCEPTION);
     }
 
 
@@ -53,8 +53,7 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
      */
     @Override
     public Type getType( ConstantPoolGen cp ) {
-        final short _opcode = super.getOpcode();
-        switch (_opcode) {
+        switch (opcode) {
             case org.apache.commons.bcel6.Constants.IALOAD:
             case org.apache.commons.bcel6.Constants.IASTORE:
                 return Type.INT;
@@ -80,7 +79,7 @@ public abstract class ArrayInstruction extends Instruction implements ExceptionT
             case org.apache.commons.bcel6.Constants.AASTORE:
                 return Type.OBJECT;
             default:
-                throw new ClassGenException("Oops: unknown case in switch" + _opcode);
+                throw new ClassGenException("Oops: unknown case in switch" + opcode);
         }
     }
 }

@@ -30,7 +30,7 @@ import org.apache.commons.bcel6.generic.Type;
  */
 public class GraphicalVerifier {
 
-    private final boolean packFrame = false;
+    private boolean packFrame = false;
 
 
     /** Constructor. */

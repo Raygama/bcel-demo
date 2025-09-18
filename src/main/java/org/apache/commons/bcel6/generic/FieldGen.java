@@ -106,7 +106,7 @@ public class FieldGen extends FieldGenOrMethodGen {
 
 
     private void setValue( int index ) {
-        ConstantPool cp = super.getConstantPool().getConstantPool();
+        ConstantPool cp = this.cp.getConstantPool();
         Constant c = cp.getConstant(index);
         value = ((ConstantObject) c).getConstantValue(cp);
     }
@@ -196,15 +196,14 @@ public class FieldGen extends FieldGenOrMethodGen {
 
 
     private void checkType( Type atype ) {
-        final Type superType = super.getType();
-        if (superType == null) {
+        if (type == null) {
             throw new ClassGenException("You haven't defined the type of the field yet");
         }
         if (!isFinal()) {
             throw new ClassGenException("Only final fields may have an initial value!");
         }
-        if (!superType.equals(atype)) {
-            throw new ClassGenException("Types are not compatible: " + superType + " vs. " + atype);
+        if (!type.equals(atype)) {
+            throw new ClassGenException("Types are not compatible: " + type + " vs. " + atype);
         }
     }
 
@@ -214,17 +213,17 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     public Field getField() {
         String signature = getSignature();
-        int name_index = super.getConstantPool().addUtf8(super.getName());
-        int signature_index = super.getConstantPool().addUtf8(signature);
+        int name_index = cp.addUtf8(name);
+        int signature_index = cp.addUtf8(signature);
         if (value != null) {
-            checkType(super.getType());
+            checkType(type);
             int index = addConstant();
-            addAttribute(new ConstantValue(super.getConstantPool().addUtf8("ConstantValue"), 2, index, 
-                    super.getConstantPool().getConstantPool())); // sic
+            addAttribute(new ConstantValue(cp.addUtf8("ConstantValue"), 2, index, cp
+                    .getConstantPool()));
         }
-        addAnnotationsAsAttribute(super.getConstantPool());
-        return new Field(super.getAccessFlags(), name_index, signature_index, getAttributes(), 
-                super.getConstantPool().getConstantPool()); // sic
+        addAnnotationsAsAttribute(cp);
+        return new Field(super.getAccessFlags(), name_index, signature_index, getAttributes(), cp
+                .getConstantPool());
     }
 
     private void addAnnotationsAsAttribute(ConstantPoolGen cp) {
@@ -236,30 +235,30 @@ public class FieldGen extends FieldGenOrMethodGen {
 
 
     private int addConstant() {
-        switch (super.getType().getType()) { // sic
+        switch (type.getType()) {
             case Constants.T_INT:
             case Constants.T_CHAR:
             case Constants.T_BYTE:
             case Constants.T_BOOLEAN:
             case Constants.T_SHORT:
-                return super.getConstantPool().addInteger(((Integer) value).intValue());
+                return cp.addInteger(((Integer) value).intValue());
             case Constants.T_FLOAT:
-                return super.getConstantPool().addFloat(((Float) value).floatValue());
+                return cp.addFloat(((Float) value).floatValue());
             case Constants.T_DOUBLE:
-                return super.getConstantPool().addDouble(((Double) value).doubleValue());
+                return cp.addDouble(((Double) value).doubleValue());
             case Constants.T_LONG:
-                return super.getConstantPool().addLong(((Long) value).longValue());
+                return cp.addLong(((Long) value).longValue());
             case Constants.T_REFERENCE:
-                return super.getConstantPool().addString((String) value);
+                return cp.addString((String) value);
             default:
-                throw new RuntimeException("Oops: Unhandled : " + super.getType().getType()); // sic
+                throw new RuntimeException("Oops: Unhandled : " + type.getType());
         }
     }
 
 
     @Override
     public String getSignature() {
-        return super.getType().getSignature();
+        return type.getSignature();
     }
 
     private List<FieldObserver> observers;
@@ -318,7 +317,7 @@ public class FieldGen extends FieldGenOrMethodGen {
         String access; // Short cuts to constant pool
         access = Utility.accessToString(super.getAccessFlags());
         access = access.equals("") ? "" : (access + " ");
-        signature = super.getType().toString();
+        signature = type.toString();
         name = getName();
         StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
         buf.append(access).append(signature).append(" ").append(name);

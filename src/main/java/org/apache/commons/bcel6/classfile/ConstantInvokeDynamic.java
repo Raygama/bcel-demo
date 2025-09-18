@@ -25,10 +25,8 @@ import org.apache.commons.bcel6.Constants;
 /** 
  * This class is derived from the abstract {@link Constant}
  * and represents a reference to a invoke dynamic.
- *
+ * 
  * @see     Constant
- * @see  <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.10">
- * The CONSTANT_InvokeDynamic_info Structure in The Java Virtual Machine Specification</a>
  * @since 6.0
  */
 public final class ConstantInvokeDynamic extends ConstantCP {
@@ -37,7 +35,7 @@ public final class ConstantInvokeDynamic extends ConstantCP {
      * Initialize from another object.
      */
     public ConstantInvokeDynamic(ConstantInvokeDynamic c) {
-        this(c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
+        super(Constants.CONSTANT_InvokeDynamic, c.getBootstrapMethodAttrIndex(), c.getNameAndTypeIndex());
     }
 
 
@@ -48,7 +46,7 @@ public final class ConstantInvokeDynamic extends ConstantCP {
      * @throws IOException
      */
     ConstantInvokeDynamic(DataInput file) throws IOException {
-        this(file.readShort(), file.readShort());
+        super(Constants.CONSTANT_InvokeDynamic, file);
     }
 
 

@@ -17,8 +17,6 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.ExceptionConst;
-
 /**
  * LREM - Remainder of long
  * <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
@@ -35,7 +33,7 @@ public class LREM extends ArithmeticInstruction implements ExceptionThrower {
     @Override
     public Class<?>[] getExceptions() {
         return new Class[] {
-            ExceptionConst.ARITHMETIC_EXCEPTION
+            org.apache.commons.bcel6.ExceptionConstants.ARITHMETIC_EXCEPTION
         };
     }
 

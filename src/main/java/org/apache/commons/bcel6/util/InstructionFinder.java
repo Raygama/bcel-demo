@@ -114,7 +114,7 @@ public class InstructionFinder {
             return result;
         }
         for (short i = 0; i < NO_OPCODES; i++) {
-            if (pattern.equals(Constants.getOpcodeName(i))) {
+            if (pattern.equals(Constants.OPCODE_NAMES[i])) {
                 return "" + makeChar(i);
             }
         }
@@ -369,7 +369,7 @@ public class InstructionFinder {
         // Add instruction alias to match anything
         StringBuilder buf = new StringBuilder("(");
         for (short i = 0; i < NO_OPCODES; i++) {
-            if (Constants.getNoOfOperands(i) != Constants.UNDEFINED) { // Not an invalid opcode
+            if (Constants.NO_OF_OPERANDS[i] != Constants.UNDEFINED) { // Not an invalid opcode
                 buf.append(makeChar(i));
                 if (i < NO_OPCODES - 1) {
                     buf.append('|');
@@ -407,7 +407,7 @@ public class InstructionFinder {
 //            char ch = pattern.charAt(i);
 //            if (ch >= OFFSET) {
 //                if (make_string) {
-//                    buf.append(Constants.getOpcodeName(ch - OFFSET));
+//                    buf.append(Constants.OPCODE_NAMES[ch - OFFSET]);
 //                } else {
 //                    buf.append((ch - OFFSET));
 //                }

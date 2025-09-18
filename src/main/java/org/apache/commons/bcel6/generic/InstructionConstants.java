@@ -34,16 +34,10 @@ import org.apache.commons.bcel6.Constants;
  * it's possible to write il.append(Instruction.ICONST_0);
  *
  * @version $Id$
- * @deprecated Do not use. Use InstructionConst instead.
  */
-@Deprecated
-public interface InstructionConstants {
+public class InstructionConstants {
 
     /** Predefined instruction objects
-     */
-    /*
-     * NOTE these are not currently immutable, because Instruction
-     * has mutable protected fields opcode and length.
      */
     public static final Instruction NOP = new NOP();
     public static final Instruction ACONST_NULL = new ACONST_NULL();
@@ -171,15 +165,9 @@ public interface InstructionConstants {
     /** Get object via its opcode, for immutable instructions like
      * branch instructions entries are set to null.
      */
-    public static final Instruction[] INSTRUCTIONS = new Instruction[256];
-    /** Interfaces may have no static initializers, so we simulate this
-     * with an inner class.
-     */
-    static final Clinit bla = new Clinit();
+    private static final Instruction[] INSTRUCTIONS = new Instruction[256];
 
-    static class Clinit {
-
-        Clinit() {
+    static {
             INSTRUCTIONS[Constants.NOP] = NOP;
             INSTRUCTIONS[Constants.ACONST_NULL] = ACONST_NULL;
             INSTRUCTIONS[Constants.ICONST_M1] = ICONST_M1;
@@ -287,6 +275,16 @@ public interface InstructionConstants {
             INSTRUCTIONS[Constants.ATHROW] = ATHROW;
             INSTRUCTIONS[Constants.MONITORENTER] = MONITORENTER;
             INSTRUCTIONS[Constants.MONITOREXIT] = MONITOREXIT;
-        }
+    }
+
+    private InstructionConstants() { } // non-instantiable 
+
+    /**
+     * Gets the Instruction.
+     * @param index the index, e.g. {@link Constants#RETURN}
+     * @return the entry from the private INSTRUCTIONS table
+     */
+    public static Instruction getInstruction(int index) {
+        return INSTRUCTIONS[index];
     }
 }

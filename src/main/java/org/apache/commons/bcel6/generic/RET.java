@@ -58,7 +58,7 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
         if (wide) {
             out.writeByte(org.apache.commons.bcel6.Constants.WIDE);
         }
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         if (wide) {
             out.writeShort(index);
         } else {
@@ -70,9 +70,9 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
     private void setWide() {
         wide = index > org.apache.commons.bcel6.Constants.MAX_BYTE;
         if (wide) {
-            super.setLength(4); // Including the wide byte  
+            length = 4; // Including the wide byte  
         } else {
-            super.setLength(2);
+            length = 2;
         }
     }
 
@@ -85,10 +85,10 @@ public class RET extends Instruction implements IndexedInstruction, TypedInstruc
         this.wide = wide;
         if (wide) {
             index = bytes.readUnsignedShort();
-            super.setLength(4);
+            length = 4;
         } else {
             index = bytes.readUnsignedByte();
-            super.setLength(2);
+            length = 2;
         }
     }
 

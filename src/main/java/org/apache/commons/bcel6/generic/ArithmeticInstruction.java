@@ -47,8 +47,7 @@ public abstract class ArithmeticInstruction extends Instruction implements Typed
      */
     @Override
     public Type getType( ConstantPoolGen cp ) {
-        final short _opcode = super.getOpcode();
-        switch (_opcode) {
+        switch (opcode) {
             case Constants.DADD:
             case Constants.DDIV:
             case Constants.DMUL:
@@ -90,7 +89,7 @@ public abstract class ArithmeticInstruction extends Instruction implements Typed
             case Constants.LXOR:
                 return Type.LONG;
             default: // Never reached
-                throw new ClassGenException("Unknown type " + _opcode);
+                throw new ClassGenException("Unknown type " + opcode);
         }
     }
 }

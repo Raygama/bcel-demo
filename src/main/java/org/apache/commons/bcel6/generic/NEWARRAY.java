@@ -20,7 +20,6 @@ package org.apache.commons.bcel6.generic;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.bcel6.ExceptionConst;
 import org.apache.commons.bcel6.util.ByteSequence;
 
 /** 
@@ -61,7 +60,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         out.writeByte(type);
     }
 
@@ -87,7 +86,7 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
      */
     @Override
     public String toString( boolean verbose ) {
-        return super.toString(verbose) + " " + org.apache.commons.bcel6.Constants.getTypeName(type);
+        return super.toString(verbose) + " " + org.apache.commons.bcel6.Constants.TYPE_NAMES[type];
     }
 
 
@@ -97,14 +96,14 @@ public class NEWARRAY extends Instruction implements AllocationInstruction, Exce
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
         type = bytes.readByte();
-        super.setLength(2);
+        length = 2;
     }
 
 
     @Override
     public Class<?>[] getExceptions() {
         return new Class[] {
-            ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION
+            org.apache.commons.bcel6.ExceptionConstants.NEGATIVE_ARRAY_SIZE_EXCEPTION
         };
     }
 

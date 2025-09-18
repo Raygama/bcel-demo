@@ -89,15 +89,12 @@ public abstract class Select extends BranchInstruction implements VariableLength
      * @param defaultTarget default instruction target
      */
     Select(short opcode, int[] match, InstructionHandle[] targets, InstructionHandle defaultTarget) {
-        // don't set default target before instuction is built
-        super(opcode, null);
-        this.match = match;
+        super(opcode, defaultTarget);
         this.targets = targets;
-        // now it's safe to set default target
-        setTarget(defaultTarget);
         for (InstructionHandle target2 : targets) {
             notifyTarget(null, target2, this);
         }
+        this.match = match;
         if ((match_length = match.length) != targets.length) {
             throw new ClassGenException("Match and target array have not the same length: Match length: " +
                 match.length + " Target length: " + targets.length);
@@ -122,12 +119,12 @@ public abstract class Select extends BranchInstruction implements VariableLength
     @Override
     protected int updatePosition( int offset, int max_offset ) {
         setPosition(getPosition() + offset); // Additional offset caused by preceding SWITCHs, GOTOs, etc.
-        short old_length = (short) super.getLength();
+        short old_length = length;
         /* Alignment on 4-byte-boundary, + 1, because of tag byte.
          */
         padding = (4 - ((getPosition() + 1) % 4)) % 4;
-        super.setLength((short) (fixed_length + padding)); // Update length
-        return super.getLength() - old_length;
+        length = (short) (fixed_length + padding); // Update length
+        return length - old_length;
     }
 
 
@@ -137,7 +134,7 @@ public abstract class Select extends BranchInstruction implements VariableLength
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         for (int i = 0; i < padding; i++) {
             out.writeByte(0);
         }

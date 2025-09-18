@@ -17,8 +17,6 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import org.apache.commons.bcel6.ExceptionConst;
-
 /** 
  * MONITORENTER - Enter monitor for object
  * <PRE>Stack: ..., objectref -&gt; ...</PRE>
@@ -35,7 +33,7 @@ public class MONITORENTER extends Instruction implements ExceptionThrower, Stack
     @Override
     public Class<?>[] getExceptions() {
         return new Class[] {
-            ExceptionConst.NULL_POINTER_EXCEPTION
+            org.apache.commons.bcel6.ExceptionConstants.NULL_POINTER_EXCEPTION
         };
     }
 

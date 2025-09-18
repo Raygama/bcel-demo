@@ -35,12 +35,20 @@ public interface InstructionComparator {
 
         @Override
         public boolean equals( Instruction i1, Instruction i2 ) {
-            if (i1.getOpcode() == i2.getOpcode()) {
-                if (i1 instanceof BranchInstruction) {
-                 // BIs are never equal to make targeters work correctly (BCEL-195)
-                    return false;
-//                } else if (i1 == i2) { TODO consider adding this shortcut
-//                    return true; // this must be AFTER the BI test
+            if (i1.opcode == i2.opcode) {
+                if (i1 instanceof Select) {
+                    InstructionHandle[] t1 = ((Select) i1).getTargets();
+                    InstructionHandle[] t2 = ((Select) i2).getTargets();
+                    if (t1.length == t2.length) {
+                        for (int i = 0; i < t1.length; i++) {
+                            if (t1[i] != t2[i]) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                } else if (i1 instanceof BranchInstruction) {
+                    return ((BranchInstruction) i1).target == ((BranchInstruction) i2).target;
                 } else if (i1 instanceof ConstantPushInstruction) {
                     return ((ConstantPushInstruction) i1).getValue().equals(
                             ((ConstantPushInstruction) i2).getValue());

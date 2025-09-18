@@ -243,7 +243,7 @@ class ClassDumper {
         System.out.printf("%nFields(%d):%n", fields_count); 
 
         for (int i = 0; i < fields_count; i++) {
-            processFieldOrMethod();
+            processFieldOrMethod(true);
             if (i < fields_count - 1) {
                 System.out.println(); 
             }
@@ -263,7 +263,7 @@ class ClassDumper {
         System.out.printf("%nMethods(%d):%n", methods_count); 
 
         for (int i = 0; i < methods_count; i++) {
-            processFieldOrMethod();
+            processFieldOrMethod(false);
             if (i < methods_count - 1) {
                 System.out.println(); 
             }
@@ -294,7 +294,7 @@ class ClassDumper {
      * @throws IOException
      * @throws ClassFormatException
      */
-    private final void processFieldOrMethod () throws IOException, ClassFormatException {
+    private final void processFieldOrMethod (boolean isField) throws IOException, ClassFormatException {
         int access_flags = file.readUnsignedShort();
         int name_index = file.readUnsignedShort();
         System.out.printf("  name_index: %d (", name_index); 
@@ -334,6 +334,9 @@ class ClassDumper {
                         attribute_length, pos2-pos1-6, pos1, pos1, pos2, pos2); 
             }
             System.out.printf("  "); 
+            if (isField) {
+                System.out.printf("%s: ", attributes[i].getName()); 
+            }
             System.out.println(attributes[i]); 
         }
     }

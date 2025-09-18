@@ -97,7 +97,7 @@ public abstract class Constant implements Cloneable, Node {
      */
     @Override
     public String toString() {
-        return Constants.getConstantName(tag) + "[" + tag + "]";
+        return Constants.CONSTANT_NAMES[tag] + "[" + tag + "]";
     }
 
 
@@ -115,9 +115,9 @@ public abstract class Constant implements Cloneable, Node {
 
 
     @Override
-    public Object clone() {
+    public Constant clone() {
         try {
-            return super.clone();
+            return (Constant) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new Error("Clone Not Supported"); // never happens
         }

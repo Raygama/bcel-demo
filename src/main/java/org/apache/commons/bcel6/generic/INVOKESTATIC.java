@@ -17,11 +17,8 @@
  */
 package org.apache.commons.bcel6.generic;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.ExceptionConst;
+import org.apache.commons.bcel6.ExceptionConstants;
 
 /** 
  * INVOKESTATIC - Invoke a class (static) method
@@ -29,9 +26,6 @@ import org.apache.commons.bcel6.ExceptionConst;
  * <PRE>Stack: ..., [arg1, [arg2 ...]] -&gt; ...</PRE>
  *
  * @version $Id$
- * @see
- * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokestatic">
- * The invokestatic instruction in The Java Virtual Machine Specification</a>
  */
 public class INVOKESTATIC extends InvokeInstruction {
 
@@ -48,21 +42,11 @@ public class INVOKESTATIC extends InvokeInstruction {
     }
 
 
-    /**
-     * Dump instruction as byte code to stream out.
-     * @param out Output stream
-     */
-    @Override
-    public void dump( DataOutputStream out ) throws IOException {
-      out.writeByte(super.getOpcode());
-      out.writeShort(super.getIndex());
-    }
-
     @Override
     public Class<?>[] getExceptions() {
-        return ExceptionConst.createExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
-            ExceptionConst.UNSATISFIED_LINK_ERROR,
-            ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION,
+            ExceptionConstants.UNSATISFIED_LINK_ERROR,
+            ExceptionConstants.INCOMPATIBLE_CLASS_CHANGE_ERROR);
     }
 
 
