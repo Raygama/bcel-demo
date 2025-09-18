@@ -132,9 +132,9 @@ public interface Visitor
     void visitMethodParameters(MethodParameters obj);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitMethodParameter(final MethodParameter obj) {
+    default void visitMethodParameter(MethodParameter obj) {
         // empty
     }
 
@@ -166,70 +166,52 @@ public interface Visitor
     /**
      * @since 6.3
      */
-    default void visitConstantDynamic(final ConstantDynamic constantDynamic) {
+    default void visitConstantDynamic(ConstantDynamic constantDynamic) {
         // empty
     }
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModule(final Module constantModule) {
-        // empty
-    }
+    void visitModule(Module constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModuleRequires(final ModuleRequires constantModule) {
-        // empty
-    }
+    void visitModuleRequires(ModuleRequires constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModuleExports(final ModuleExports constantModule) {
-        // empty
-    }
+    void visitModuleExports(ModuleExports constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModuleOpens(final ModuleOpens constantModule) {
-        // empty
-    }
+    void visitModuleOpens(ModuleOpens constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModuleProvides(final ModuleProvides constantModule) {
-        // empty
-    }
+    void visitModuleProvides(ModuleProvides constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModulePackages(final ModulePackages constantModule) {
-        // empty
-    }
+    void visitModulePackages(ModulePackages constantModule);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitModuleMainClass(final ModuleMainClass obj) {
-        // empty
-    }
+    void visitModuleMainClass(ModuleMainClass obj);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitNestHost(final NestHost obj) {
-        // empty
-    }
+    void visitNestHost(NestHost obj);
 
     /**
-     * @since 6.4.0
+     * @since 6.4
      */
-    default void visitNestMembers(final NestMembers obj) {
-        // empty
-    }
+    void visitNestMembers(NestMembers obj);
 }

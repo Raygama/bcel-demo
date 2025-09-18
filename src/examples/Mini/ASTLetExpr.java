@@ -37,15 +37,15 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
   private ASTExpr     body;
 
   // Generated methods
-  ASTLetExpr(final int id) {
+  ASTLetExpr(int id) {
     super(id);
   }
 
-  ASTLetExpr(final MiniParser p, final int id) {
+  ASTLetExpr(MiniParser p, int id) {
     super(p, id);
   }
 
-  public static Node jjtCreate(final MiniParser p, final int id) {
+  public static Node jjtCreate(MiniParser p, int id) {
     return new ASTLetExpr(p, id);
   }
 
@@ -56,9 +56,8 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
    */
   @Override
   public void closeNode() {
-    int i; /* length must be a multiple of
+    int i, len_2 = children.length / 2; /* length must be a multiple of 
                                          * two (ident = expr) + 1 (body expr) */
-    final int len_2 = children.length / 2;
     idents = new ASTIdent[len_2];
     exprs  = new ASTExpr[len_2];
 
@@ -76,19 +75,19 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Overrides ASTExpr.traverse()
    */
   @Override
-  public ASTExpr traverse(final Environment env) {
+  public ASTExpr traverse(Environment env) {
     this.env = env;
-
+    
     // Traverse RHS exprs first, so no references to LHS vars are allowed
     for(int i=0; i < exprs.length; i++) {
         exprs[i] = exprs[i].traverse((Environment)env.clone());
     }
-
+    
     // Put argument names into hash table aka. environment
     for(int i=0; i < idents.length; i++) {
-      final ASTIdent id    = idents[i];
-      final String   name  = id.getName();
-      final EnvEntry entry = env.get(name);
+      ASTIdent id    = idents[i];
+      String   name  = id.getName();
+      EnvEntry entry = env.get(name);
 
       if(entry != null) {
         MiniC.addError(id.getLine(), id.getColumn(),
@@ -99,10 +98,10 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
     }
 
     body = body.traverse(env);
-
+    
     return this;
   }
-
+  
   /**
    * Second pass
    * Overrides AstExpr.eval()
@@ -110,12 +109,12 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
    * @param expected type
    */
   @Override
-  public int eval(final int expected) {
+  public int eval(int expected) {
     //is_simple = true;
 
     for(int i=0; i < idents.length; i++) {
-      final int t = exprs[i].eval(T_UNKNOWN);
-
+      int t = exprs[i].eval(T_UNKNOWN);
+      
       idents[i].setType(t);
       //      is_simple = is_simple && exprs[i].isSimple();
     }
@@ -127,10 +126,10 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Fifth pass, produce Java code.
    */
   @Override
-  public void code(final StringBuffer buf) {
+  public void code(StringBuffer buf) {
     for(int i = 0; i < idents.length; i++) {
-      final String ident = idents[i].getName();
-      final int    t     = idents[i].getType(); // can only be int
+      String ident = idents[i].getName();
+      int    t     = idents[i].getType(); // can only be int
 
       /* Idents have to be declared at start of function for later use.
        * Each name is unique, so there shouldn't be a problem in application.
@@ -148,16 +147,16 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
    * Fifth pass, produce Java byte code.
    */
   @Override
-  public void byte_code(final InstructionList il, final MethodGen method, final ConstantPoolGen cp) {
-    final int size = idents.length;
-    final LocalVariableGen[] l = new LocalVariableGen[size];
+  public void byte_code(InstructionList il, MethodGen method, ConstantPoolGen cp) {
+    int size = idents.length;
+    LocalVariableGen[] l = new LocalVariableGen[size];
 
     for(int i=0; i < size; i++) {
-      final String           ident = idents[i].getName();
-      final Variable         entry = (Variable)env.get(ident);
-      final Type             t     = BasicType.getType((byte)idents[i].getType());
-      final LocalVariableGen lg    = method.addLocalVariable(ident, t, null, null);
-      final int              slot  = lg.getIndex();
+      String           ident = idents[i].getName();
+      Variable         entry = (Variable)env.get(ident);
+      Type             t     = BasicType.getType((byte)idents[i].getType());
+      LocalVariableGen lg    = method.addLocalVariable(ident, t, null, null);
+      int              slot  = lg.getIndex();
 
       entry.setLocalVariable(lg);
       InstructionHandle start = il.getEnd();
@@ -169,14 +168,14 @@ public class ASTLetExpr extends ASTExpr implements org.apache.bcel.Constants {
     }
 
     body.byte_code(il, method, cp);
-    final InstructionHandle end = il.getEnd();
+    InstructionHandle end = il.getEnd();
     for(int i=0; i < size; i++) {
         l[i].setEnd(end);
     }
   }
 
   @Override
-  public void dump(final String prefix) {
+  public void dump(String prefix) {
     System.out.println(toString(prefix));
 
     for(int i=0; i < idents.length; i++) {

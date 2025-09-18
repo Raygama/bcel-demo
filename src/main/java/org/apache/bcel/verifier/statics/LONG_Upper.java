@@ -34,11 +34,7 @@ public final class LONG_Upper extends Type{
         super(Const.T_UNKNOWN, "Long_Upper");
     }
 
-    /**
-     * Gets the single instance of this class.
-     *
-     * @return the single instance of this class.
-     */
+    /** Use this method to get the single instance of this class. */
     public static LONG_Upper theInstance() {
         return singleton;
     }

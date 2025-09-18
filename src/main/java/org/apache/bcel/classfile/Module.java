@@ -28,19 +28,19 @@ import org.apache.bcel.Const;
  * There may be at most one Module attribute in a ClassFile structure.
  *
  * @see   Attribute
- * @since 6.4.0
+ * @since 6.4
  */
 public final class Module extends Attribute {
 
-    private final int module_name_index;
-    private final int module_flags;
-    private final int module_version_index;
+    private int module_name_index;
+    private int module_flags;
+    private int module_version_index;
 
     private ModuleRequires[] requires_table;
     private ModuleExports[] exports_table;
     private ModuleOpens[] opens_table;
-    private final int uses_count;
-    private final int[] uses_index;
+    private int uses_count;
+    private int uses_index[];
     private ModuleProvides[] provides_table;
 
     /**
@@ -108,7 +108,7 @@ public final class Module extends Attribute {
      * @return table of required modules
      * @see ModuleRequires
      */
-    public ModuleRequires[] getRequiresTable() {
+    public final ModuleRequires[] getRequiresTable() {
         return requires_table;
     }
 
@@ -117,7 +117,7 @@ public final class Module extends Attribute {
      * @return table of exported interfaces
      * @see ModuleExports
      */
-    public ModuleExports[] getExportsTable() {
+    public final ModuleExports[] getExportsTable() {
         return exports_table;
     }
 
@@ -126,7 +126,7 @@ public final class Module extends Attribute {
      * @return table of provided interfaces
      * @see ModuleOpens
      */
-    public ModuleOpens[] getOpensTable() {
+    public final ModuleOpens[] getOpensTable() {
         return opens_table;
     }
 
@@ -135,7 +135,7 @@ public final class Module extends Attribute {
      * @return table of provided interfaces
      * @see ModuleProvides
      */
-    public ModuleProvides[] getProvidesTable() {
+    public final ModuleProvides[] getProvidesTable() {
         return provides_table;
     }
 
@@ -147,7 +147,7 @@ public final class Module extends Attribute {
      * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
 
         file.writeShort(module_name_index);
@@ -185,13 +185,13 @@ public final class Module extends Attribute {
      * @return String representation, i.e., a list of packages.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final ConstantPool cp = super.getConstantPool();
         final StringBuilder buf = new StringBuilder();
         buf.append("Module:\n");
         buf.append("  name:    ") .append(cp.getConstantString(module_name_index, Const.CONSTANT_Module).replace('/', '.')).append("\n");
         buf.append("  flags:   ") .append(String.format("%04x", module_flags)).append("\n");
-        final String version = module_version_index == 0 ? "0" : cp.getConstantString(module_version_index, Const.CONSTANT_Utf8);
+        final String version = (module_version_index == 0 ? "0" : cp.getConstantString(module_version_index, Const.CONSTANT_Utf8));
         buf.append("  version: ") .append(version).append("\n");
 
         buf.append("  requires(").append(requires_table.length).append("):\n");

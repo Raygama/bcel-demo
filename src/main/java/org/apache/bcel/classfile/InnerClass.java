@@ -92,7 +92,7 @@ public final class InnerClass implements Cloneable, Node {
      * @param file Output file stream
      * @throws IOException
      */
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeShort(inner_class_index);
         file.writeShort(outer_class_index);
         file.writeShort(inner_name_index);
@@ -103,7 +103,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @return access flags of inner class.
      */
-    public int getInnerAccessFlags() {
+    public final int getInnerAccessFlags() {
         return inner_access_flags;
     }
 
@@ -111,7 +111,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @return class index of inner class.
      */
-    public int getInnerClassIndex() {
+    public final int getInnerClassIndex() {
         return inner_class_index;
     }
 
@@ -119,7 +119,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @return name index of inner class.
      */
-    public int getInnerNameIndex() {
+    public final int getInnerNameIndex() {
         return inner_name_index;
     }
 
@@ -127,7 +127,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @return class index of outer class.
      */
-    public int getOuterClassIndex() {
+    public final int getOuterClassIndex() {
         return outer_class_index;
     }
 
@@ -135,7 +135,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @param inner_access_flags access flags for this inner class
      */
-    public void setInnerAccessFlags( final int inner_access_flags ) {
+    public final void setInnerAccessFlags( final int inner_access_flags ) {
         this.inner_access_flags = inner_access_flags;
     }
 
@@ -143,7 +143,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @param inner_class_index index into the constant pool for this class
      */
-    public void setInnerClassIndex( final int inner_class_index ) {
+    public final void setInnerClassIndex( final int inner_class_index ) {
         this.inner_class_index = inner_class_index;
     }
 
@@ -151,7 +151,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @param inner_name_index index into the constant pool for this class's name
      */
-    public void setInnerNameIndex( final int inner_name_index ) { // TODO unused
+    public final void setInnerNameIndex( final int inner_name_index ) { // TODO unused
         this.inner_name_index = inner_name_index;
     }
 
@@ -159,7 +159,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @param outer_class_index index into the constant pool for the owning class
      */
-    public void setOuterClassIndex( final int outer_class_index ) { // TODO unused
+    public final void setOuterClassIndex( final int outer_class_index ) { // TODO unused
         this.outer_class_index = outer_class_index;
     }
 
@@ -168,7 +168,7 @@ public final class InnerClass implements Cloneable, Node {
      * @return String representation.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return "InnerClass(" + inner_class_index + ", " + outer_class_index + ", "
                 + inner_name_index + ", " + inner_access_flags + ")";
     }
@@ -177,7 +177,7 @@ public final class InnerClass implements Cloneable, Node {
     /**
      * @return Resolved string representation
      */
-    public String toString( final ConstantPool constant_pool ) {
+    public final String toString( final ConstantPool constant_pool ) {
         String outer_class_name;
         String inner_name;
         String inner_class_name = constant_pool.getConstantString(inner_class_index,

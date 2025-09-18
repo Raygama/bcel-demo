@@ -54,11 +54,11 @@ public class Package {
      * See usage() for arguments. Create an instance and run that
      *(just so not all members have to be static)
      */
-    static void main(final String args[]) {
-        final Package instance = new Package();
+    static void main(String args[]) {
+        Package instance = new Package();
         try {
             instance.go(args);
-        } catch (final Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             instance.usage();
         }
@@ -75,20 +75,20 @@ public class Package {
      * Store class name against the JavaClass. From the JavaClass
      * we get the bytes to create the jar.
      */
-    Map<String, JavaClass> allClasses = new TreeMap<>();
+    Map<String, JavaClass> allClasses = new TreeMap<String, JavaClass>();
 
     /**
      * We start at the root classes, put them in here, then go through
      * this list, putting dependent classes in here and from there
      * into allClasses. Store class names against class names of their dependents
      */
-    TreeMap<String, String> dependents = new TreeMap<>();
+    TreeMap<String, String> dependents = new TreeMap<String, String>();
 
     /**
      * Collect all classes that could not be found in the classpath.
      * Store class names against class names of their dependents
      */
-    TreeMap<String, String> notFound = new TreeMap<>();
+    TreeMap<String, String> notFound = new TreeMap<String, String>();
 
     /**
      * See wheather we print the classes that were not found (default = false)
@@ -126,10 +126,10 @@ public class Package {
     /**
      * the main of this class
      */
-    void go(final String[] args) throws IOException {
+    void go(String[] args) throws IOException {
         JavaClass clazz;
         // sort the options
-        for (final String arg : args) {
+        for (String arg : args) {
             if (arg.startsWith("-e")) {
                 showNotFound = true;
                 continue;
@@ -163,14 +163,14 @@ public class Package {
         // starting processing: Grab from the dependents list an add back to it
         // and the allClasses list. see addDependents
         while (!dependents.isEmpty()) {
-            final String name = dependents.firstKey();
-            final String from = dependents.remove(name);
+            String name = dependents.firstKey();
+            String from = dependents.remove(name);
             if (allClasses.get(name) == null) {
                 try {
-                    final InputStream is = classPath.getInputStream(name);
+                    InputStream is = classPath.getInputStream(name);
                     clazz = new ClassParser(is, name).parse();
                     addDependents(clazz);
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     //System.err.println("Error, class not found " + name );
                     notFound.put(name, from);
                 }
@@ -182,14 +182,14 @@ public class Package {
         }
 
         // create the jar
-        final JarOutputStream jarFile = new JarOutputStream(new FileOutputStream(defaultJar));
+        JarOutputStream jarFile = new JarOutputStream(new FileOutputStream(defaultJar));
         jarFile.setLevel(5); // use compression
         int written = 0;
-        for (final String name : allClasses.keySet()) { // add entries for every class
-            final JavaClass claz = allClasses.get(name);
-            final ZipEntry zipEntry = new ZipEntry(name + ".class");
-            final byte[] bytes = claz.getBytes();
-            final int length = bytes.length;
+        for (String name : allClasses.keySet()) { // add entries for every class
+            JavaClass claz = allClasses.get(name);
+            ZipEntry zipEntry = new ZipEntry(name + ".class");
+            byte[] bytes = claz.getBytes();
+            int length = bytes.length;
             jarFile.putNextEntry(zipEntry);
             jarFile.write(bytes, 0, length);
             written += length;  // for logging
@@ -202,7 +202,7 @@ public class Package {
             System.err.println(notFound.size() + " classes could not be found");
             if (showNotFound) { // if wanted show the actual classes that we not found
                 while (!notFound.isEmpty()) {
-                    final String name = notFound.firstKey();
+                    String name = notFound.firstKey();
                     System.err.println(name + " (" + notFound.remove(name) + ")");
                 }
             } else {
@@ -216,10 +216,10 @@ public class Package {
      * overview. Enabled by -s option
      */
     void printAllClasses() {
-        final List<String> names = new ArrayList<>(allClasses.keySet());
+        List<String> names = new ArrayList<String>(allClasses.keySet());
         Collections.sort(names);
         for (int i = 0; i < names.size(); i++) {
-            final String cl = names.get(i);
+            String cl = names.get(i);
             System.err.println(cl);
         }
     }
@@ -228,16 +228,16 @@ public class Package {
      * Add this class to allClasses. Then go through all its dependents
      * and add them to the dependents list if they are not in allClasses
      */
-    void addDependents(final JavaClass clazz) throws IOException {
-        final String name = clazz.getClassName().replace('.', '/');
+    void addDependents(JavaClass clazz) throws IOException {
+        String name = clazz.getClassName().replace('.', '/');
         allClasses.put(name, clazz);
-        final ConstantPool pool = clazz.getConstantPool();
+        ConstantPool pool = clazz.getConstantPool();
         for (int i = 1; i < pool.getLength(); i++) {
-            final Constant cons = pool.getConstant(i);
+            Constant cons = pool.getConstant(i);
             //System.out.println("("+i+") " + cons );
             if (cons != null && cons.getTag() == Constants.CONSTANT_Class) {
-                final int idx = ((ConstantClass) pool.getConstant(i)).getNameIndex();
-                final String clas = ((ConstantUtf8) pool.getConstant(idx)).getBytes();
+                int idx = ((ConstantClass) pool.getConstant(i)).getNameIndex();
+                String clas = ((ConstantUtf8) pool.getConstant(idx)).getBytes();
                 addClassString(clas, name);
             }
         }
@@ -247,7 +247,7 @@ public class Package {
      * add given class to dependents (from is where its dependent from)
      * some fiddeling to be done because of array class notation
      */
-    void addClassString(final String clas, final String from) throws IOException {
+    void addClassString(String clas, String from) throws IOException {
         if (log) {
             System.out.println("processing: " + clas + " referenced by " + from);
         }

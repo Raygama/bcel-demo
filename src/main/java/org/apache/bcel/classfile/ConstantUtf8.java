@@ -40,18 +40,18 @@ import org.apache.bcel.Const;
  * <p>
  * Here is a sample Maven invocation with caching disabled:
  * </p>
- *
+ * 
  * <pre>
  * mvn test -Dbcel.statistics=true -Dbcel.maxcached.size=0 -Dbcel.maxcached=0
  * </pre>
  * <p>
  * Here is a sample Maven invocation with caching enabled:
  * </p>
- *
+ * 
  * <pre>
  * mvn test -Dbcel.statistics=true -Dbcel.maxcached.size=100000 -Dbcel.maxcached=5000000
  * </pre>
- *
+ * 
  * @see Constant
  */
 public final class ConstantUtf8 extends Constant {
@@ -105,7 +105,7 @@ public final class ConstantUtf8 extends Constant {
 
     /**
      * Clears the cache.
-     *
+     * 
      * @since 6.4.0
      */
     public static synchronized void clearCache() {
@@ -122,7 +122,7 @@ public final class ConstantUtf8 extends Constant {
      * <p>
      * See {@link ConstantUtf8} class Javadoc for details.
      * </p>
-     *
+     * 
      * @param value the value.
      * @return a new or cached instance of the given value.
      * @since 6.0
@@ -150,7 +150,7 @@ public final class ConstantUtf8 extends Constant {
      * <p>
      * See {@link ConstantUtf8} class Javadoc for details.
      * </p>
-     *
+     * 
      * @param dataInput the value.
      * @return a new or cached instance of the given value.
      * @throws IOException if an I/O error occurs.
@@ -165,7 +165,7 @@ public final class ConstantUtf8 extends Constant {
      * <p>
      * See {@link ConstantUtf8} class Javadoc for details.
      * </p>
-     *
+     * 
      * @param value the value.
      * @return a new or cached instance of the given value.
      * @since 6.0
@@ -187,7 +187,7 @@ public final class ConstantUtf8 extends Constant {
 
     /**
      * Initializes from another object.
-     *
+     * 
      * @param constantUtf8 the value.
      */
     public ConstantUtf8(final ConstantUtf8 constantUtf8) {
@@ -236,7 +236,7 @@ public final class ConstantUtf8 extends Constant {
      * @throws IOException
      */
     @Override
-    public void dump(final DataOutputStream file) throws IOException {
+    public final void dump(final DataOutputStream file) throws IOException {
         file.writeByte(super.getTag());
         file.writeUTF(value);
     }
@@ -244,7 +244,7 @@ public final class ConstantUtf8 extends Constant {
     /**
      * @return Data converted to string.
      */
-    public String getBytes() {
+    public final String getBytes() {
         return value;
     }
 
@@ -253,7 +253,7 @@ public final class ConstantUtf8 extends Constant {
      * @deprecated (since 6.0)
      */
     @java.lang.Deprecated
-    public void setBytes(final String bytes) {
+    public final void setBytes(final String bytes) {
         throw new UnsupportedOperationException();
     }
 
@@ -261,7 +261,7 @@ public final class ConstantUtf8 extends Constant {
      * @return String representation
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + "(\"" + Utility.replace(value, "\n", "\\n") + "\")";
     }
 }

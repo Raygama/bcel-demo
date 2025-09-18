@@ -28,13 +28,13 @@ import org.apache.bcel.Const;
  * Each entry describes a module on which the parent module depends.
  *
  * @see   Module
- * @since 6.4.0
+ * @since 6.4
  */
 public final class ModuleRequires implements Cloneable, Node {
 
-    private final int requires_index;  // points to CONSTANT_Module_info
-    private final int requires_flags;
-    private final int requires_version_index;  // either 0 or points to CONSTANT_Utf8_info
+    private int requires_index;  // points to CONSTANT_Module_info
+    private int requires_flags;
+    private int requires_version_index;  // either 0 or points to CONSTANT_Utf8_info
 
 
     /**
@@ -70,7 +70,7 @@ public final class ModuleRequires implements Cloneable, Node {
      * @param file Output file stream
      * @throws IOException if an I/O Exception occurs in writeShort
      */
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeShort(requires_index);
         file.writeShort(requires_flags);
         file.writeShort(requires_version_index);
@@ -81,7 +81,7 @@ public final class ModuleRequires implements Cloneable, Node {
      * @return String representation
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return "requires(" + requires_index + ", " + String.format("%04x", requires_flags) + ", " + requires_version_index + ")";
     }
 
@@ -89,12 +89,12 @@ public final class ModuleRequires implements Cloneable, Node {
     /**
      * @return Resolved string representation
      */
-    public String toString( final ConstantPool constant_pool ) {
+    public final String toString( final ConstantPool constant_pool ) {
         final StringBuilder buf = new StringBuilder();
         final String module_name = constant_pool.constantToString(requires_index, Const.CONSTANT_Module);
         buf.append(Utility.compactClassName(module_name, false));
         buf.append(", ").append(String.format("%04x", requires_flags));
-        final String version = requires_version_index == 0 ? "0" : constant_pool.getConstantString(requires_version_index, Const.CONSTANT_Utf8);
+        final String version = (requires_version_index == 0 ? "0" : constant_pool.getConstantString(requires_version_index, Const.CONSTANT_Utf8));
         buf.append(", ").append(version);
         return buf.toString();
     }

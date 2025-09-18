@@ -83,7 +83,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
      * @throws IOException if an I/O error occurs writing to the DataOutputStream.
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeByte(super.getTag());
         file.writeShort(name_index);
     }
@@ -92,7 +92,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
     /**
      * @return Name index in constant pool of class name.
      */
-    public int getNameIndex() {
+    public final int getNameIndex() {
         return name_index;
     }
 
@@ -100,7 +100,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
     /**
      * @param name_index the name index in the constant pool of this Constant Class
      */
-    public void setNameIndex( final int name_index ) {
+    public final void setNameIndex( final int name_index ) {
         this.name_index = name_index;
     }
 
@@ -125,7 +125,7 @@ public final class ConstantClass extends Constant implements ConstantObject {
      * @return String representation.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + "(name_index = " + name_index + ")";
     }
 }

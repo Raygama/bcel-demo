@@ -26,24 +26,24 @@ import java.util.Vector;
  * That environment contains all function definitions and identifiers.
  * Hash keys are Strings (identifiers), which are mapped to a table index.
  *
- * The table consists of `SIZE' fields which have `SLOTS' subfields. Thus
+ * The table consists of `SIZE' fields which have `SLOTS' subfields. Thus 
  * the maximum number of storable items is `SLOTS' * `SIZE'.
  *
  */
 public class Environment implements Cloneable {
   private static final int SIZE  = 127; // Prime number large enough for most cases
   private static final int SLOTS = 3;   // Number of slots of each field
-
-  private final int       size;               // The table is an array of
-  private final Vector<EnvEntry>[]  table;              // Vectors
+  
+  private int       size;               // The table is an array of
+  private Vector<EnvEntry>[]  table;              // Vectors
   private int       elements=0;
 
-  public Environment(final int size) {
+  public Environment(int size) {
     this.size = size;
     table     = new Vector[size];
   }
 
-  private Environment(final Vector<EnvEntry>[] table) {
+  private Environment(Vector<EnvEntry>[] table) {
     size       = table.length;
     this.table = table;
   }
@@ -52,7 +52,7 @@ public class Environment implements Cloneable {
     this(SIZE);
   }
 
-  private int hashCode(final String key) {
+  private int hashCode(String key) {
     return Math.abs(key.hashCode()) % size;
   }
 
@@ -60,10 +60,10 @@ public class Environment implements Cloneable {
    * Inserts macro into table or overwrite old contents if it
    * was already stored.
    */
-  public void put(final EnvEntry obj) {
+  public void put(EnvEntry obj) {
     int    hash;
     Vector<EnvEntry> v;
-    final String key = obj.getHashKey();
+    String key = obj.getHashKey();
 
     hash = hashCode(key);
     v    = table[hash];
@@ -71,16 +71,16 @@ public class Environment implements Cloneable {
     elements++; // Count
 
     if(v == null) {
-        table[hash] = v = new Vector<>(SLOTS);
+        table[hash] = v = new Vector<EnvEntry>(SLOTS);
     } else {
       try {
-        final int index = lookup(v, key);
+        int index = lookup(v, key);
 
         if(index >= 0) {
           v.setElementAt(obj, index); // Overwrite
           return;
         }
-      } catch(final ArrayIndexOutOfBoundsException e) {}
+      } catch(ArrayIndexOutOfBoundsException e) {}
     }
 
     // Not found in Vector -> add it
@@ -89,7 +89,7 @@ public class Environment implements Cloneable {
 
   /** Get entry from hash table.
    */
-  public EnvEntry get(final String key) {
+  public EnvEntry get(String key) {
     int       hash;
     Vector<EnvEntry>    v;
     EnvEntry entry = null;
@@ -102,12 +102,12 @@ public class Environment implements Cloneable {
     }
 
     try {
-      final int index = lookup(v, key);
+      int index = lookup(v, key);
 
       if(index >= 0) {
         entry = v.elementAt(index);
     }
-    } catch(final ArrayIndexOutOfBoundsException e) {}
+    } catch(ArrayIndexOutOfBoundsException e) {}
 
     return entry;
   }
@@ -115,7 +115,7 @@ public class Environment implements Cloneable {
   /**
    * Delete an object if it does exist.
    */
-  public void delete(final String key) {
+  public void delete(String key) {
     int       hash;
     Vector<EnvEntry>    v;
 
@@ -127,22 +127,22 @@ public class Environment implements Cloneable {
     }
 
     try {
-      final int index = lookup(v, key);
+      int index = lookup(v, key);
 
       if(index >= 0) {
         elements--; // Count
         v.removeElementAt(index);
       }
-    } catch(final ArrayIndexOutOfBoundsException e) {}
+    } catch(ArrayIndexOutOfBoundsException e) {}
   }
 
-  private static int lookup(final Vector<EnvEntry> v, final String key)
+  private static int lookup(Vector<EnvEntry> v, String key) 
        throws ArrayIndexOutOfBoundsException
   {
-    final int len = v.size();
+    int len = v.size();
 
     for(int i=0; i < len; i++) {
-      final EnvEntry entry = v.elementAt(i);
+      EnvEntry entry = v.elementAt(i);
 
       if(entry.getHashKey().equals(key)) {
         return i;
@@ -153,8 +153,8 @@ public class Environment implements Cloneable {
   }
 
   @Override
-  public Object clone() {
-    final Vector<EnvEntry>[] copy = new Vector[size];
+  public Object clone() { 
+    Vector<EnvEntry>[] copy = new Vector[size];
 
     for(int i=0; i < size; i++) {
       if(table[i] != null) {
@@ -176,7 +176,7 @@ public class Environment implements Cloneable {
 
   @Override
   public String toString() {
-    final StringBuffer buf = new StringBuffer();
+    StringBuffer buf = new StringBuffer();
 
     for(int i=0; i < size; i++) {
         if(table[i] != null) {
@@ -188,18 +188,18 @@ public class Environment implements Cloneable {
   }
 
   public EnvEntry[] getEntries() {
-    final EnvEntry[] entries = new EnvEntry[elements];
+    EnvEntry[] entries = new EnvEntry[elements];
     int        k       = 0;
     Vector<EnvEntry>     v;
 
     for(int i=0; i < size; i++) {
       if((v = table[i]) != null) {
-        final int len = v.size();
+        int len = v.size();
         try {
           for(int j=0; j < len; j++) {
         entries[k++] = v.elementAt(j);
     }
-        } catch(final ArrayIndexOutOfBoundsException e) {}
+        } catch(ArrayIndexOutOfBoundsException e) {}  
       }
     }
 

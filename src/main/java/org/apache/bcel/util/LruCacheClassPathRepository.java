@@ -29,7 +29,7 @@ import org.apache.bcel.classfile.JavaClass;
  * This repository supports a class path consisting of too many JAR files to handle in {@link ClassPathRepository} or
  * {@link MemorySensitiveClassPathRepository} without causing {@code OutOfMemoryError}.
  * </p>
- *
+ * 
  * @since 6.4.0
  */
 public class LruCacheClassPathRepository extends AbstractClassPathRepository {
@@ -42,14 +42,14 @@ public class LruCacheClassPathRepository extends AbstractClassPathRepository {
         if (cacheSize < 1) {
             throw new IllegalArgumentException("cacheSize must be a positive number.");
         }
-        final int initialCapacity = (int) (0.75 * cacheSize);
-        final boolean accessOrder = true; // Evicts least-recently-accessed
+        int initialCapacity = (int) (0.75 * cacheSize);
+        boolean accessOrder = true; // Evicts least-recently-accessed
         loadedClasses = new LinkedHashMap<String, JavaClass>(initialCapacity, cacheSize, accessOrder) {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected boolean removeEldestEntry(final Map.Entry<String, JavaClass> eldest) {
+            protected boolean removeEldestEntry(Map.Entry<String, JavaClass> eldest) {
                 return size() > cacheSize;
             }
         };

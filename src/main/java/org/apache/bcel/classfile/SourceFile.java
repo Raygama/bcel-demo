@@ -98,7 +98,7 @@ public final class SourceFile extends Attribute {
      * @throws IOException
      */
     @Override
-    public void dump( final DataOutputStream file ) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         super.dump(file);
         file.writeShort(sourcefile_index);
     }
@@ -107,7 +107,7 @@ public final class SourceFile extends Attribute {
     /**
      * @return Index in constant pool of source file name.
      */
-    public int getSourceFileIndex() {
+    public final int getSourceFileIndex() {
         return sourcefile_index;
     }
 
@@ -115,7 +115,7 @@ public final class SourceFile extends Attribute {
     /**
      * @param sourcefile_index
      */
-    public void setSourceFileIndex( final int sourcefile_index ) {
+    public final void setSourceFileIndex( final int sourcefile_index ) {
         this.sourcefile_index = sourcefile_index;
     }
 
@@ -123,7 +123,7 @@ public final class SourceFile extends Attribute {
     /**
      * @return Source file name.
      */
-    public String getSourceFileName() {
+    public final String getSourceFileName() {
         final ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(sourcefile_index,
                 Const.CONSTANT_Utf8);
         return c.getBytes();
@@ -134,7 +134,7 @@ public final class SourceFile extends Attribute {
      * @return String representation
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return "SourceFile: " + getSourceFileName();
     }
 
