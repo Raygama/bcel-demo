@@ -134,7 +134,7 @@ jobs:
           SONAR_TYPES="BUG,VULNERABILITY,CODE_SMELL"  # or narrow if needed
           # ----------------------------------------------------
 
-          # Paginate from Sonar; stop when we collected >= MAX_ISSUES raw
+          # Paginate from Sonar; stop when we collected >= MAX_ISSUES raw 
           echo "[]" > all-issues.json
           PAGE=1
           PAGESIZE=500
