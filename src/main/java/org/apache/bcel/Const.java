@@ -111,40 +111,20 @@ public final class Const {
    *  */
   public static final short MAJOR_1_8 = 52;
 
-  /** Minor version number of class files for Java 1.8.
-   *  @see #MAJOR_1_8
-   *  */
-  public static final short MINOR_1_8 = 0;
-
   /** Major version number of class files for Java 1.9.
    *  @see #MINOR_1_9
    *  */
   public static final short MAJOR_1_9 = 53;
 
+  /** Minor version number of class files for Java 1.8.
+   *  @see #MAJOR_1_8
+   *  */
+  public static final short MINOR_1_8 = 0;
+
   /** Minor version number of class files for Java 1.9.
    *  @see #MAJOR_1_9
    *  */
   public static final short MINOR_1_9 = 0;
-
-  /** Major version number of class files for Java 10.
-   *  @see #MINOR_1_10
-   *  */
-  public static final short MAJOR_1_10 = 54;
-
-  /** Minor version number of class files for Java 10.
-   *  @see #MAJOR_1_10
-   *  */
-  public static final short MINOR_1_10 = 0;
-
-  /** Major version number of class files for Java 11.
-   *  @see #MINOR_1_11
-   *  */
-  public static final short MAJOR_1_11 = 55;
-
-  /** Minor version number of class files for Java 11.
-   *  @see #MAJOR_1_11
-   *  */
-  public static final short MINOR_1_11 = 0;
 
   /** Default major version number.  Class file is for Java 1.1.
    *  @see #MAJOR_1_1
@@ -393,16 +373,22 @@ public final class Const {
 
   /**
    * Marks a constant pool entry as a Module Reference.
-   * @see <a href="https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.4.11">
-   * The Constant Pool in The Java Virtual Machine Specification</a>
+   *
+   * <p>Note: Early access Java 9 support- currently subject to change</p>
+   *
+   * @see <a href="http://cr.openjdk.java.net/~mr/jigsaw/spec/lang-vm.html#jigsaw-2.6">
+   * JPMS: Modules in the Java Language and JVM</a>
    * @since 6.1
    */
   public static final byte CONSTANT_Module             = 19;
 
   /**
    * Marks a constant pool entry as a Package Reference.
-   * @see <a href="https://docs.oracle.com/javase/specs/jvms/se9/html/jvms-4.html#jvms-4.4.12">
-   * The Constant Pool in The Java Virtual Machine Specification</a>
+   *
+   * <p>Note: Early access Java 9 support- currently subject to change</p>
+   *
+   * @see <a href="http://cr.openjdk.java.net/~mr/jigsaw/spec/lang-vm.html#jigsaw-2.6">
+   * JPMS: Modules in the Java Language and JVM</a>
    * @since 6.1
    */
   public static final byte CONSTANT_Package            = 20;

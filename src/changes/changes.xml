@@ -62,25 +62,9 @@ The <action> type attribute can be add,update,fix,remove.
    -->
 
   <body>
-    <release version="6.3" date="2017-MM-DD" description="?">
-    </release>
-
-    <release version="6.2" date="2017-12-08" description="Experimental Java 9 Support">
-      <action issue="BCEL-294" type="fix" dev="britter" due-to="Mark Roberts">Incorrect comment in StackMap.java</action>
-      <action issue="BCEL-296" type="fix" dev="ggregory" due-to="Mark Roberts">Incorrect comment in several classes.</action>
-      <action issue="BCEL-295" type="fix" dev="ggregory" due-to="Mark Roberts">Fix local variable live range length; add test case.</action>
-      <action issue="BCEL-300" type="fix" dev="ggregory">org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19.</action>
-      <action issue="BCEL-301" type="fix" dev="ggregory">org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 20.</action>
-    </release>
-
-    <release version="6.1" date="2017-09-14" description="Experimental Java 9 Support">
-      <action issue="BCEL-293" type="add" dev="britter">Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility</action>
-      <action issue="BCEL-292" type="add" dev="markt">Add minimal Java 9 support</action>
-      <action issue="BCEL-286" type="fix" dev="britter" due-to="Mark Roberts">Utility.signatureToString fails if a method has multiple type arguments</action>
-      <action issue="BCEL-287" type="fix" dev="britter" due-to="Mark Roberts">IINC does not handle -128 properly</action>
-      <action issue="BCEL-283" type="fix" dev="britter" due-to="Mark Roberts">Support for StackMap should be different from StackMapTable</action>
+    <release version="6.1" date="tba" description="tba">
       <action issue="BCEL-289" type="fix" dev="kinow">Crash when parsing constructor of inner classes with parameters annotated</action>
-      <action issue="BCEL-276" type="fix" dev="britter" due-to="Sam Yoon, Mark Roberts">LocalVariableTypeTable is not updated.</action>
+      <action issue="BCEL-276" type="fix" dev="britter" due-to="Sam Yoon">LocalVariableTypeTable is not updated.</action>
       <action issue="BCEL-277" type="fix" dev="britter" due-to="Sam Yoon">Resolving the String representation of a constant throws NoSuchElementException in case of CONSTANT_NameAndType constant.</action>
     </release>
 

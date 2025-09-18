@@ -37,8 +37,6 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     private Type type;
     private InstructionHandle start;
     private InstructionHandle end;
-    private int orig_index; // never changes; used to match up with LocalVariableTypeTable entries
-    private boolean live_to_end;
 
 
     /**
@@ -61,26 +59,6 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         this.index = index;
         setStart(start);
         setEnd(end);
-        this.orig_index = index;
-        this.live_to_end = end == null;
-    }
-
-
-    /**
-     * Generate a local variable that with index `index'. Note that double and long
-     * variables need two indexs. Index indices have to be provided by the user.
-     *
-     * @param index index of local variable
-     * @param name its name
-     * @param type its type
-     * @param start from where the instruction is valid (null means from the start)
-     * @param end until where the instruction is valid (null means to the end)
-     * @param orig_index index of local variable prior to any changes to index
-     */
-    public LocalVariableGen(final int index, final String name, final Type type, final InstructionHandle start,
-            final InstructionHandle end, final int orig_index) {
-        this(index, name, type, start, end);
-        this.orig_index = orig_index;
     }
 
 
@@ -90,11 +68,11 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
      * This relies on that the instruction list has already been dumped to byte code or
      * or that the `setPositions' methods has been called for the instruction list.
      *
-     * Note that due to the conversion from byte code offset to InstructionHandle,
-     * it is impossible to tell the difference between a live range that ends BEFORE
-     * the last insturction of the method or a live range that ends AFTER the last
-     * instruction of the method.  Hence the live_to_end flag to differentiate
-     * between these two cases.
+     * Note that for local variables whose scope end at the last
+     * instruction of the method's code, the JVM specification is ambiguous:
+     * both a start_pc+length ending at the last instruction and
+     * start_pc+length ending at first index beyond the end of the code are
+     * valid.
      *
      * @param cp constant pool
      */
@@ -104,14 +82,14 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
         if ((start != null) && (end != null)) {
             start_pc = start.getPosition();
             length = end.getPosition() - start_pc;
-            if ((end.getNext() == null) && live_to_end) {
+            if (end.getNext() == null) {
                 length += end.getInstruction().getLength();
             }
         }
         final int name_index = cp.addUtf8(name);
         final int signature_index = cp.addUtf8(type.getSignature());
         return new LocalVariable(start_pc, length, name_index, signature_index, index, cp
-                .getConstantPool(), orig_index);
+                .getConstantPool());
     }
 
 
@@ -122,21 +100,6 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
 
     public int getIndex() {
         return index;
-    }
-
-
-    public int getOrigIndex() {
-        return orig_index;
-    }
-
-
-    public void setLiveToEnd( final boolean live_to_end) {
-        this.live_to_end = live_to_end;
-    }
-
-
-    public boolean getLiveToEnd() {
-        return live_to_end;
     }
 
 

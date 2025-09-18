@@ -34,8 +34,8 @@ public class IINC extends LocalVariableInstruction {
 
 
     /**
-     * Empty constructor needed for Instruction.readInstruction.
-     * Not to be used otherwise.
+     * Empty constructor needed for the Class.newInstance() statement in
+     * Instruction.readInstruction(). Not to be used otherwise.
      */
     IINC() {
     }
@@ -75,12 +75,7 @@ public class IINC extends LocalVariableInstruction {
 
 
     private void setWide() {
-        wide = super.getIndex() > org.apache.bcel.Const.MAX_BYTE;
-        if (c > 0) {
-            wide = wide || (c > Byte.MAX_VALUE);
-        } else {
-            wide = wide || (c < Byte.MIN_VALUE);
-        }
+        wide = (super.getIndex() > org.apache.bcel.Const.MAX_BYTE) || (Math.abs(c) > Byte.MAX_VALUE);
         if (wide) {
             super.setLength(6); // wide byte included
         } else {
