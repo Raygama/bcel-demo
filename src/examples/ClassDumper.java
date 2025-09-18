@@ -162,8 +162,8 @@ class ClassDumper {
 
             // All eight byte constants take up two spots in the constant pool
             tag = constant_items[i].getTag();
-            if ((tag == Const.CONSTANT_Double) ||
-                    (tag == Const.CONSTANT_Long)) {
+            if ((tag == Constants.CONSTANT_Double) ||
+                    (tag == Constants.CONSTANT_Long)) {
                 i++;
             }
         }
@@ -179,11 +179,11 @@ class ClassDumper {
         /* Interfaces are implicitely abstract, the flag should be set
          * according to the JVM specification.
          */
-        if ((access_flags & Const.ACC_INTERFACE) != 0) {
-            access_flags |= Const.ACC_ABSTRACT;
+        if ((access_flags & Constants.ACC_INTERFACE) != 0) {
+            access_flags |= Constants.ACC_ABSTRACT;
         }
-        if (((access_flags & Const.ACC_ABSTRACT) != 0)
-                && ((access_flags & Const.ACC_FINAL) != 0)) {
+        if (((access_flags & Constants.ACC_ABSTRACT) != 0)
+                && ((access_flags & Constants.ACC_FINAL) != 0)) {
             throw new ClassFormatException("Class " + file_name +
                     " can't be both final and abstract");
         }
@@ -197,10 +197,7 @@ class ClassDumper {
 
         superclass_name_index = file.readUnsignedShort();
         System.out.printf("  super_class: %d (", superclass_name_index); 
-        if (superclass_name_index > 0) {
-            System.out.printf("%s", constantToString(superclass_name_index));
-        }
-        System.out.println(")");
+        System.out.println(constantToString(superclass_name_index) + ")"); 
     }
 
     /**
@@ -227,7 +224,7 @@ class ClassDumper {
             }
             System.out.println(interfaces[i] + " (" +
                     constant_pool.getConstantString(interfaces[i],
-                            Const.CONSTANT_Class) + ")");
+                            Constants.CONSTANT_Class) + ")"); 
         }
     }
 
@@ -286,11 +283,7 @@ class ClassDumper {
 
         for (int i = 0; i < attributes_count; i++) {
             attributes[i] = Attribute.readAttribute(file, constant_pool);
-            // indent all lines by two spaces
-            String[] lines = attributes[i].toString().split("\\r?\\n");
-            for (String line : lines) {
-                System.out.println("  " + line);
-            }
+            System.out.printf("  %s%n", attributes[i]); 
         }
     }
 
