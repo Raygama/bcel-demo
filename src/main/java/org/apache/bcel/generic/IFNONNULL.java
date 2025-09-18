@@ -22,6 +22,7 @@ package org.apache.bcel.generic;
  *
  * <PRE>Stack: ..., reference -&gt; ...</PRE>
  *
+ * @version $Id$
  */
 public class IFNONNULL extends IfInstruction {
 

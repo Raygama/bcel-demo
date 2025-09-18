@@ -22,6 +22,7 @@ import org.apache.bcel.classfile.ConstantPool;
 /**
  * Super class for the GET/PUTxxx family of instructions.
  *
+ * @version $Id$
  */
 public abstract class FieldInstruction extends FieldOrMethod {
 

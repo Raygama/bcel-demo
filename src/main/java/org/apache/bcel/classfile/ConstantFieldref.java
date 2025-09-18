@@ -25,6 +25,7 @@ import org.apache.bcel.Const;
 /**
  * This class represents a constant pool reference to a field.
  *
+ * @version $Id$
  */
 public final class ConstantFieldref extends ConstantCP {
 

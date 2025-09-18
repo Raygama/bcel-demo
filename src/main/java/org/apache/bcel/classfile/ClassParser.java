@@ -39,6 +39,7 @@ import org.apache.bcel.Const;
  * JVM specification 1.0</a>. See this paper for
  * further details about the structure of a bytecode file.
  *
+ * @version $Id$
  */
 public final class ClassParser {
 

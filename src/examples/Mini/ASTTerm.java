@@ -22,6 +22,7 @@ package Mini;
 
 /**
  *
+ * @version $Id$
  */
 public class ASTTerm extends ASTExpr {
   // Generated methods

@@ -22,6 +22,7 @@ package org.apache.bcel.classfile;
  * with the DescendingVisitor class, e.g. By courtesy of David Spencer.
  *
  * @see DescendingVisitor
+ * @version $Id$
  */
 public class EmptyVisitor implements Visitor
 {
@@ -308,13 +309,5 @@ public class EmptyVisitor implements Visitor
      */
     @Override
     public void visitConstantModule(final ConstantModule constantModule) {
-    }
-
-
-    /**
-     * @since 6.3
-     */
-    @Override
-    public void visitConstantDynamic(final ConstantDynamic obj) {
     }
 }

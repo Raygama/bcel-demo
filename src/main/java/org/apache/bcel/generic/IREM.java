@@ -23,6 +23,7 @@ import org.apache.bcel.ExceptionConst;
  * IREM - Remainder of int
  * <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
  *
+ * @version $Id$
  */
 public class IREM extends ArithmeticInstruction implements ExceptionThrower {
 

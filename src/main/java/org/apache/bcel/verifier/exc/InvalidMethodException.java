@@ -21,6 +21,7 @@ package org.apache.bcel.verifier.exc;
  * Instances of this class are thrown by BCEL's class file verifier "JustIce"
  * when the verification of a method is requested that does not exist.
  *
+ * @version $Id$
  */
 public class InvalidMethodException extends RuntimeException{
 

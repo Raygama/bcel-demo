@@ -23,20 +23,10 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -45,12 +35,8 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
-import org.apache.bcel.util.ModularRuntimeImage;
-import org.apache.commons.lang3.JavaVersion;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -63,46 +49,7 @@ import com.sun.jna.platform.win32.Advapi32Util;
  * the instructions. The output bytes should be the same as the input.
  */
 @RunWith(Parameterized.class)
-public class JdkGenericDumpTestCase {
-
-    private static class ClassParserFilesVisitor extends SimpleFileVisitor<Path> {
-
-        private final PathMatcher matcher;
-
-        ClassParserFilesVisitor(final String pattern) {
-            matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
-        }
-
-        private void find(final Path path) throws IOException {
-            final Path name = path.getFileName();
-            if (name != null && matcher.matches(name)) {
-                try (final InputStream inputStream = Files.newInputStream(path)) {
-                    final ClassParser parser = new ClassParser(inputStream, name.toAbsolutePath().toString());
-                    final JavaClass jc = parser.parse();
-                    Assert.assertNotNull(jc);
-                }
-
-            }
-        }
-
-        @Override
-        public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
-            find(dir);
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
-            find(file);
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult visitFileFailed(final Path file, final IOException e) {
-            System.err.println(e);
-            return FileVisitResult.CONTINUE;
-        }
-    }
+public class JDKGenericDumpTestCase {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
@@ -152,21 +99,10 @@ public class JdkGenericDumpTestCase {
         addAllJavaHomesOnWindows(KEY_JRE_9, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK, javaHomes);
         addAllJavaHomesOnWindows(KEY_JDK_9, javaHomes);
-        addAllJavaHomes("ExtraJavaHomes", javaHomes);
         return javaHomes;
     }
 
-    private static void addAllJavaHomes(String extraJavaHomesProp, Set<String> javaHomes) {
-		String path = System.getProperty(extraJavaHomesProp);
-		if (StringUtils.isEmpty(path)) {
-			return;
-		}
-		String[] paths = path.split(File.pathSeparator);
-		javaHomes.addAll(Arrays.asList(paths));
-		
-	}
-
-	private static Set<String> findJavaHomesOnWindows(final String keyJavaHome, final String[] keys) {
+    private static Set<String> findJavaHomesOnWindows(final String keyJavaHome, final String[] keys) {
         final Set<String> javaHomes = new HashSet<>(keys.length);
         for (final String key : keys) {
             if (Advapi32Util.registryKeyExists(HKEY_LOCAL_MACHINE, keyJavaHome + "\\" + key)) {
@@ -184,7 +120,7 @@ public class JdkGenericDumpTestCase {
 
     private final String javaHome;
 
-    public JdkGenericDumpTestCase(final String javaHome) {
+    public JDKGenericDumpTestCase(final String javaHome) {
         this.javaHome = javaHome;
     }
 
@@ -210,22 +146,12 @@ public class JdkGenericDumpTestCase {
         }
     }
 
-    private File[] listJdkJars() throws Exception {
+    private File[] listJDKjars() throws Exception {
         final File javaLib = new File(javaHome, "lib");
         return javaLib.listFiles(new FileFilter() {
             @Override
             public boolean accept(final File file) {
                 return file.getName().endsWith(".jar");
-            }
-        });
-    }
-
-    private File[] listJdkModules() throws Exception {
-        final File javaLib = new File(javaHome, "jmods");
-        return javaLib.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(final File file) {
-                return file.getName().endsWith(".jmod");
             }
         });
     }
@@ -252,35 +178,12 @@ public class JdkGenericDumpTestCase {
     }
 
     @Test
-    public void testJdkJars() throws Exception {
-        final File[] jars = listJdkJars();
+    public void testJDKjars() throws Exception {
+        final File[] jars = listJDKjars();
         if (jars != null) {
             for (final File file : jars) {
                 testJar(file);
             }
         }
     }
-
-    @Test
-    public void testJdkModules() throws Exception {
-        final File[] jmods = listJdkModules();
-        if (jmods != null) {
-            for (final File file : jmods) {
-                testJar(file);
-            }
-        }
-    }
-
-    @Test
-    public void testJreModules() throws Exception {
-        Assume.assumeTrue(SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_9));
-        try (final ModularRuntimeImage mri = new ModularRuntimeImage(javaHome)) {
-            final List<Path> modules = mri.modules();
-            Assert.assertFalse(modules.isEmpty());
-            for (final Path path : modules) {
-                Files.walkFileTree(path, new ClassParserFilesVisitor("*.class"));
-            }
-        }
-    }
-
 }

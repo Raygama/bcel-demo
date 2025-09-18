@@ -20,6 +20,7 @@ package org.apache.bcel.generic;
 /**
  * IMPDEP1 - Implementation dependent
  *
+ * @version $Id$
  */
 public class IMPDEP1 extends Instruction {
 

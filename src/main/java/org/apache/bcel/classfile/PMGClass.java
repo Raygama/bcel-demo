@@ -27,6 +27,7 @@ import org.apache.bcel.Const;
  * This class is derived from <em>Attribute</em> and represents a reference
  * to a PMG attribute.
  *
+ * @version $Id$
  * @see     Attribute
  */
 public final class PMGClass extends Attribute {
@@ -83,7 +84,7 @@ public final class PMGClass extends Attribute {
      */
     @Override
     public void accept( final Visitor v ) {
-        println("Visiting non-standard PMGClass object");
+        System.err.println("Visiting non-standard PMGClass object");
     }
 
 

@@ -26,6 +26,7 @@ import org.apache.bcel.ExceptionConst;
  * OR
  * <PRE>Stack: ..., value.word1, value.word2 -&gt; ...</PRE>
  *
+ * @version $Id$
  */
 public class PUTSTATIC extends FieldInstruction implements ExceptionThrower, PopInstruction {
 

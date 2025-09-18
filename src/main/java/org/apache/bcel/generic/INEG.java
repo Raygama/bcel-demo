@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * INEG - Negate int
  * <PRE>Stack: ..., value -&gt; ..., result</PRE>
  *
+ * @version $Id$
  */
 public class INEG extends ArithmeticInstruction {
 

@@ -22,6 +22,7 @@ package Mini;
 
 /**
  *
+ * @version $Id$
  */
 public class ASTFactor extends ASTExpr {
   // Generated methods

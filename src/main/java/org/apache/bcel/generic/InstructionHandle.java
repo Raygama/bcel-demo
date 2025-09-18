@@ -37,6 +37,7 @@ import org.apache.bcel.classfile.Utility;
  * can traverse the list via an Enumeration returned by
  * InstructionList.elements().
  *
+ * @version $Id$
  * @see Instruction
  * @see BranchHandle
  * @see InstructionList
@@ -57,16 +58,6 @@ public class InstructionHandle {
     private Map<Object, Object> attributes;
 
 
-    /**
-     * Does nothing.
-     * 
-     * @deprecated Does nothing as of 6.3.1.
-     */
-    @Deprecated
-    protected void addHandle() {
-        // noop
-    }
-    
     public final InstructionHandle getNext() {
         return next;
     }
@@ -122,10 +113,19 @@ public class InstructionHandle {
         setInstruction(i);
     }
 
+    private static InstructionHandle ih_list = null; // List of reusable handles
+
+
     /** Factory method.
      */
     static InstructionHandle getInstructionHandle( final Instruction i ) {
-    	return new InstructionHandle(i);
+        if (ih_list == null) {
+            return new InstructionHandle(i);
+        }
+        final InstructionHandle ih = ih_list;
+        ih_list = ih.next;
+        ih.setInstruction(i);
+        return ih;
     }
 
 
@@ -162,8 +162,16 @@ public class InstructionHandle {
     }
 
 
+    /** Overridden in BranchHandle
+     */
+    protected void addHandle() {
+        next = ih_list;
+        ih_list = this;
+    }
+
+
     /**
-     * Delete contents, i.e., remove user access.
+     * Delete contents, i.e., remove user access and make handle reusable.
      */
     void dispose() {
         next = prev = null;
@@ -172,6 +180,7 @@ public class InstructionHandle {
         i_position = -1;
         attributes = null;
         removeAllTargeters();
+        addHandle();
     }
 
 

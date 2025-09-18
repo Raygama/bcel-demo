@@ -41,6 +41,7 @@ import org.apache.bcel.classfile.Utility;
 /**
  * Convert found attributes into HTML file.
  *
+ * @version $Id$
  *
  */
 final class AttributeHTML {

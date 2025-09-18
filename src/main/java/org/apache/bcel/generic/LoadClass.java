@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * Denotes that an instruction may start the process of loading and resolving
  * the referenced class in the Virtual Machine.
  *
+ * @version $Id$
  */
 public interface LoadClass {
 

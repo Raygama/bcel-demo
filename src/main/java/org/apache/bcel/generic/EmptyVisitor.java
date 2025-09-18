@@ -20,6 +20,7 @@ package org.apache.bcel.generic;
 /**
  * Supplies empty method bodies to be overridden by subclasses.
  *
+ * @version $Id$
  */
 public abstract class EmptyVisitor implements Visitor {
 

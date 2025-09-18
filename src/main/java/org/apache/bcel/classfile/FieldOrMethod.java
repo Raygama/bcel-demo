@@ -27,6 +27,7 @@ import org.apache.bcel.Const;
 /**
  * Abstract super class for fields and methods.
  *
+ * @version $Id$
  */
 public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
 
@@ -134,15 +135,13 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
      * @param file Output file stream
      * @throws IOException
      */
-    public final void dump(final DataOutputStream file) throws IOException {
+    public final void dump( final DataOutputStream file ) throws IOException {
         file.writeShort(super.getAccessFlags());
         file.writeShort(name_index);
         file.writeShort(signature_index);
-        file.writeShort(attributes_count);
-        if (attributes != null) {
-            for (final Attribute attribute : attributes) {
-                attribute.dump(file);
-            }
+        file.writeShort(attributes.length);
+        for (final Attribute attribute : attributes) {
+            attribute.dump(file);
         }
     }
 

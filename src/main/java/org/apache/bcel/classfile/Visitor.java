@@ -22,6 +22,7 @@ package org.apache.bcel.classfile;
  * that implements this interface can traverse the contents of a Java class just
  * by calling the `accept' method which all classes have.
  *
+ * @version $Id$
  */
 public interface Visitor
 {
@@ -155,11 +156,4 @@ public interface Visitor
      * @since 6.1
      */
     void visitConstantModule(ConstantModule constantModule);
-
-    /**
-     * @since 6.3
-     */
-    default void visitConstantDynamic(ConstantDynamic constantDynamic) {
-        // empty
-    }
 }

@@ -19,7 +19,6 @@ package org.apache.bcel.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Objects;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.Type;
@@ -29,6 +28,7 @@ import org.apache.bcel.util.BCELComparator;
  * This class represents the field info structure, i.e., the representation
  * for a variable in the class. See JVM specification for details.
  *
+ * @version $Id$
  */
 public final class Field extends FieldOrMethod {
 
@@ -38,8 +38,8 @@ public final class Field extends FieldOrMethod {
         public boolean equals( final Object o1, final Object o2 ) {
             final Field THIS = (Field) o1;
             final Field THAT = (Field) o2;
-            return Objects.equals(THIS.getName(), THAT.getName())
-                    && Objects.equals(THIS.getSignature(), THAT.getSignature());
+            return THIS.getName().equals(THAT.getName())
+                    && THIS.getSignature().equals(THAT.getSignature());
         }
 
 

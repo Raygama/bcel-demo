@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * Get the type associated with an instruction, int for ILOAD, or the type
  * of the field of a PUTFIELD instruction, e.g..
  *
+ * @version $Id$
  */
 public interface TypedInstruction {
 

@@ -26,6 +26,7 @@ import org.apache.bcel.classfile.LocalVariable;
  * with getLocalVariable which needs the instruction list and the constant
  * pool as parameters.
  *
+ * @version $Id$
  * @see     LocalVariable
  * @see     MethodGen
  */

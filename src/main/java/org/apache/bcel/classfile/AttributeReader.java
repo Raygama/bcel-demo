@@ -23,6 +23,7 @@ package org.apache.bcel.classfile;
  * method. These factory objects should implement this interface.
 
  * @see Attribute
+ * @version $Id$
  *
  * @deprecated Use UnknownAttributeReader instead
  */

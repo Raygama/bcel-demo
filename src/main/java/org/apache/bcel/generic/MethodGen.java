@@ -18,12 +18,11 @@
 package org.apache.bcel.generic;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.List;
-import java.util.Stack;
-import java.util.Hashtable;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Stack;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AnnotationEntry;
@@ -54,6 +53,7 @@ import org.apache.bcel.util.BCELComparator;
  * use the `removeNOPs' method to get rid off them.
  * The resulting method object can be obtained via the `getMethod()' method.
  *
+ * @version $Id$
  * @see     InstructionList
  * @see     Method
  */
@@ -83,8 +83,8 @@ public class MethodGen extends FieldGenOrMethodGen {
         public boolean equals( final Object o1, final Object o2 ) {
             final MethodGen THIS = (MethodGen) o1;
             final MethodGen THAT = (MethodGen) o2;
-            return Objects.equals(THIS.getName(), THAT.getName())
-                    && Objects.equals(THIS.getSignature(), THAT.getSignature());
+            return THIS.getName().equals(THAT.getName())
+                    && THIS.getSignature().equals(THAT.getSignature());
         }
 
 

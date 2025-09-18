@@ -23,6 +23,7 @@ import org.apache.bcel.ExceptionConst;
  * INSTANCEOF - Determine if object is of given type
  * <PRE>Stack: ..., objectref -&gt; ..., result</PRE>
  *
+ * @version $Id$
  */
 public class INSTANCEOF extends CPInstruction implements LoadClass, ExceptionThrower,
         StackProducer, StackConsumer {

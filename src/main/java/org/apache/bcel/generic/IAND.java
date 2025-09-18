@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * IAND - Bitwise AND int
  * <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>
  *
+ * @version $Id$
  */
 public class IAND extends ArithmeticInstruction {
 

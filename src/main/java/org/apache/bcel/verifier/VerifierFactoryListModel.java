@@ -28,6 +28,7 @@ import javax.swing.event.ListDataListener;
 /**
  * This class implements an adapter; it implements both a Swing ListModel and a VerifierFactoryObserver.
  *
+ * @version $Id$
  */
 public class VerifierFactoryListModel implements VerifierFactoryObserver, javax.swing.ListModel<String> {
 

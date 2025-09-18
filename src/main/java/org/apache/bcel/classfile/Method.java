@@ -19,7 +19,6 @@ package org.apache.bcel.classfile;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.Objects;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.Type;
@@ -30,6 +29,7 @@ import org.apache.bcel.util.BCELComparator;
  * for a method in the class. See JVM specification for details.
  * A method has access flags, a name, a signature and a number of attributes.
  *
+ * @version $Id$
  */
 public final class Method extends FieldOrMethod {
 
@@ -39,8 +39,8 @@ public final class Method extends FieldOrMethod {
         public boolean equals( final Object o1, final Object o2 ) {
             final Method THIS = (Method) o1;
             final Method THAT = (Method) o2;
-            return Objects.equals(THIS.getName(), THAT.getName())
-                    && Objects.equals(THIS.getSignature(), THAT.getSignature());
+            return THIS.getName().equals(THAT.getName())
+                    && THIS.getSignature().equals(THAT.getSignature());
         }
 
 

@@ -19,7 +19,6 @@ package org.apache.bcel.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.AnnotationEntry;
@@ -38,6 +37,7 @@ import org.apache.bcel.util.BCELComparator;
  * one can do is to add a constant value attribute to a field (which must of
  * course be compatible with to the declared type).
  *
+ * @version $Id$
  * @see Field
  */
 public class FieldGen extends FieldGenOrMethodGen {
@@ -49,8 +49,8 @@ public class FieldGen extends FieldGenOrMethodGen {
         public boolean equals( final Object o1, final Object o2 ) {
             final FieldGen THIS = (FieldGen) o1;
             final FieldGen THAT = (FieldGen) o2;
-            return Objects.equals(THIS.getName(), THAT.getName())
-                    && Objects.equals(THIS.getSignature(), THAT.getSignature());
+            return THIS.getName().equals(THAT.getName())
+                    && THIS.getSignature().equals(THAT.getSignature());
         }
 
 

@@ -21,6 +21,7 @@ package org.apache.bcel.generic;
  * AASTORE -  Store into reference array
  * <PRE>Stack: ..., arrayref, index, value -&gt; ...</PRE>
  *
+ * @version $Id$
  */
 public class AASTORE extends ArrayInstruction implements StackConsumer {
 

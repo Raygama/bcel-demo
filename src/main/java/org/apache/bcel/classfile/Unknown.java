@@ -34,6 +34,7 @@ import org.apache.bcel.Const;
  * {@link Attribute#addAttributeReader(String, UnknownAttributeReader)}.
 
  *
+ * @version $Id$
  * @see Attribute
  * @see UnknownAttributeReader
  */

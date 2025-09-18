@@ -25,6 +25,7 @@ import org.apache.bcel.util.ByteSequence;
 /**
  * LOOKUPSWITCH - Switch with unordered set of values
  *
+ * @version $Id$
  * @see SWITCH
  */
 public class LOOKUPSWITCH extends Select {

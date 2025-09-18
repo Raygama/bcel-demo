@@ -22,6 +22,7 @@ package Mini;
 
 /**
  *
+ * @version $Id$
  */
 public abstract class SimpleNode implements Node {
   protected Node parent;
