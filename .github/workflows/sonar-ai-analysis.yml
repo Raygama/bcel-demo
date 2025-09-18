@@ -124,8 +124,8 @@ jobs:
           set -euo pipefail
 
           # ---- Tunables (tighten if you still hit limits) ----
-          MAX_ISSUES=120            # hard cap on issues you will pass to AI
-          MAX_ISSUES_PER_RULE=25    # avoid one rule dominating
+          MAX_ISSUES=50             # hard cap on issues you will pass to AI
+          MAX_ISSUES_PER_RULE=5    # avoid one rule dominating
           MAX_ISSUES_PER_FILE=20    # avoid one file dominating
           MAX_SNIPPET_CHARS=380     # keep snippet tiny but useful
           CONTEXT_BEFORE=1          # lines before the hit
@@ -136,9 +136,9 @@ jobs:
 
           # Paginate from Sonar; stop when we collected >= MAX_ISSUES raw
           echo "[]" > all-issues.json
-          PAGE=1 
+          PAGE=1
           PAGESIZE=500
-          COLLECTED=0
+          COLLECTED=0 
 
           while : ; do
             PAGE_JSON=$(curl -s -G "${{ env.SONAR_URL }}/api/issues/search" \
@@ -417,67 +417,74 @@ jobs:
           cat judge_output.json
 
 
-      - name: Comment on PR (Judge Result)
+      - name: Comment on PR
         uses: actions/github-script@v6
         if: success()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const path = 'flowise_output.json';
 
-            if (!fs.existsSync(path)) {
-              core.warning('Flowise output file not found.');
-              return;
+            let analysis = 'No analysis';
+            if (fs.existsSync('flowise_output.json')) {
+              const raw = fs.readFileSync('flowise_output.json', 'utf8');
+              try { analysis = JSON.parse(raw).text || raw; } catch {}
             }
 
-            const raw = fs.readFileSync(path, 'utf8').trim();
-            if (!raw || raw[0] !== '{' && !raw.startsWith('```')) {
-              core.warning('Flowise did not return JSON. Skipping comment.');
-              return;
-            }
+            let judgeReadable = 'No judge result';
+            let judgeRaw = null;
+            if (fs.existsSync('judge_output.json')) {
+              const raw = fs.readFileSync('judge_output.json', 'utf8');
+              try {
+                const parsed = JSON.parse(raw);
 
-            let parsed;
-            try {
-              // If text field exists (Flowise format), extract it
-              let body = JSON.parse(raw).text || raw;
+                // Extract `.text` and strip ```json fences
+                let judgeText = parsed.text || '';
+                judgeText = judgeText.replace(/^```json\n?/, '').replace(/```$/, '').trim();
 
-              // Strip Markdown fences if present
-              if (typeof body === 'string') {
-                body = body
-                  .replace(/^```json\s*/i, '')
-                  .replace(/^```/, '')
-                  .replace(/```$/, '')
-                  .trim();
+                let judgeJson;
+                try {
+                  judgeJson = JSON.parse(judgeText);
+                  judgeRaw = judgeJson;
+
+                  // Build human-readable version
+                  const ctx = judgeJson.reasoning.contextual_analysis;
+                  const pres = judgeJson.reasoning.prescriptive_guidance;
+                  const qual = judgeJson.reasoning.quality_of_generation;
+                  const scores = judgeJson.final_scores;
+
+                  judgeReadable =
+                    `### Judge Evaluation\n\n` +
+                    `**Contextual Analysis**\n` +
+                    `- Cites Jira Issue: ${ctx.cites_jira_issue}\n` +
+                    `- Logical Connection: ${ctx.is_connection_logical}\n\n` +
+                    `**Prescriptive Guidance**\n` +
+                    `- Concrete Action: ${pres.is_action_concrete}\n` +
+                    `- High Quality: ${pres.is_action_high_quality}\n\n` +
+                    `**Quality of Generation**\n` +
+                    `- Clear & Concise: ${qual.is_clear_and_concise}\n\n` +
+                    `**Final Scores**\n` +
+                    `- Contextual Score: ${scores.contextual_score}/5\n` +
+                    `- Prescriptive Score: ${scores.prescriptive_score}/5\n`;
+                } catch (e) {
+                  judgeReadable = "Judge output could not be parsed:\n```\n" + judgeText + "\n```";
+                }
+              } catch (e) {
+                judgeReadable = raw;
               }
-
-              parsed = JSON.parse(body);
-            } catch (e) {
-              core.warning(`Judge output could not be parsed: ${e.message}`);
-              parsed = { error: "Invalid JSON", raw: raw };
             }
 
-            // Build a human-readable summary from parsed JSON
-            let summary;
-            if (parsed.final_scores) {
-              summary = `🧑‍⚖️ **LLM Judge Verdict**  
-              - Contextual Score: ${parsed.final_scores.contextual_score}/5  
-              - Prescriptive Score: ${parsed.final_scores.prescriptive_score}/5  
-
-              **Reasoning:**  
-              - Cites JIRA: ${parsed.reasoning?.contextual_analysis?.cites_jira_issue}  
-              - Logical Connection: ${parsed.reasoning?.contextual_analysis?.is_connection_logical}  
-              - Concrete Action: ${parsed.reasoning?.prescriptive_guidance?.is_action_concrete}  
-              - High Quality Action: ${parsed.reasoning?.prescriptive_guidance?.is_action_high_quality}  
-              - Clarity: ${parsed.reasoning?.quality_of_generation?.is_clear_and_concise}`;
-            } else {
-              summary = '⚠️ Judge failed to produce valid scores.\n\nRaw output:\n```\n' + raw + '\n```';
-            }
+            const body =
+              "## Technical Debt Analysis\n" + analysis + "\n\n" +
+              judgeReadable +
+              (judgeRaw ? ("\n<details><summary>Raw Judge JSON</summary>\n\n```json\n" +
+                           JSON.stringify(judgeRaw, null, 2) +
+                           "\n```\n</details>") : "");
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: summary
+              body
             });
 
