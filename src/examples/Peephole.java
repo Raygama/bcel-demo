@@ -18,35 +18,34 @@
 
 import java.util.Iterator;
 
-import org.apache.commons.bcel6.Repository;
-import org.apache.commons.bcel6.classfile.JavaClass;
-import org.apache.commons.bcel6.classfile.Method;
-import org.apache.commons.bcel6.generic.ConstantPoolGen;
-import org.apache.commons.bcel6.generic.InstructionHandle;
-import org.apache.commons.bcel6.generic.InstructionList;
-import org.apache.commons.bcel6.generic.InstructionTargeter;
-import org.apache.commons.bcel6.generic.MethodGen;
-import org.apache.commons.bcel6.generic.TargetLostException;
-import org.apache.commons.bcel6.util.InstructionFinder;
+import org.apache.bcel.Repository;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
+import org.apache.bcel.generic.ConstantPoolGen;
+import org.apache.bcel.generic.InstructionHandle;
+import org.apache.bcel.generic.InstructionList;
+import org.apache.bcel.generic.InstructionTargeter;
+import org.apache.bcel.generic.MethodGen;
+import org.apache.bcel.generic.TargetLostException;
+import org.apache.bcel.util.InstructionFinder;
 
 /**
  * Remove NOPs from given class
  *
- * @version $Id$
  */
 public class Peephole {
 
-    public static void main(String[] argv) {
+    public static void main(final String[] argv) {
         try {
             // Load the class from CLASSPATH.
-            JavaClass clazz = Repository.lookupClass(argv[0]);
-            Method[] methods = clazz.getMethods();
-            ConstantPoolGen cp = new ConstantPoolGen(clazz.getConstantPool());
+            final JavaClass clazz = Repository.lookupClass(argv[0]);
+            final Method[] methods = clazz.getMethods();
+            final ConstantPoolGen cp = new ConstantPoolGen(clazz.getConstantPool());
 
             for (int i = 0; i < methods.length; i++) {
                 if (!(methods[i].isAbstract() || methods[i].isNative())) {
-                    MethodGen mg = new MethodGen(methods[i], clazz.getClassName(), cp);
-                    Method stripped = removeNOPs(mg);
+                    final MethodGen mg = new MethodGen(methods[i], clazz.getClassName(), cp);
+                    final Method stripped = removeNOPs(mg);
 
                     if (stripped != null) {
                         methods[i] = stripped; // Overwrite with stripped method
@@ -57,22 +56,22 @@ public class Peephole {
             // Dump the class to <class name>_.class
             clazz.setConstantPool(cp.getFinalConstantPool());
             clazz.dump(clazz.getClassName() + "_.class");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static Method removeNOPs(MethodGen mg) {
-        InstructionList il = mg.getInstructionList();
-        InstructionFinder f = new InstructionFinder(il);
-        String pat = "NOP+"; // Find at least one NOP
+    private static Method removeNOPs(final MethodGen mg) {
+        final InstructionList il = mg.getInstructionList();
+        final InstructionFinder f = new InstructionFinder(il);
+        final String pat = "NOP+"; // Find at least one NOP
         InstructionHandle next = null;
         int count = 0;
 
-        for (Iterator<InstructionHandle[]> e = f.search(pat); e.hasNext(); ) {
-            InstructionHandle[] match = e.next();
-            InstructionHandle first = match[0];
-            InstructionHandle last = match[match.length - 1];
+        for (final Iterator<InstructionHandle[]> e = f.search(pat); e.hasNext(); ) {
+            final InstructionHandle[] match = e.next();
+            final InstructionHandle first = match[0];
+            final InstructionHandle last = match[match.length - 1];
 
             // Some nasty Java compilers may add NOP at end of method.
             if ((next = last.getNext()) == null) {
@@ -84,9 +83,9 @@ public class Peephole {
             // Delete NOPs and redirect any references to them to the following (non-nop) instruction.
             try {
                 il.delete(first, last);
-            } catch (TargetLostException e2) {
-                for (InstructionHandle target : e2.getTargets()) {
-                    for (InstructionTargeter targeter : target.getTargeters()) {
+            } catch (final TargetLostException e2) {
+                for (final InstructionHandle target : e2.getTargets()) {
+                    for (final InstructionTargeter targeter : target.getTargeters()) {
                         targeter.updateTarget(target, next);
                     }
                 }

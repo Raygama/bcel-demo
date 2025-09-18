@@ -16,14 +16,14 @@
  *
  */
 
-import org.apache.commons.bcel6.Repository;
-import org.apache.commons.bcel6.classfile.ClassParser;
-import org.apache.commons.bcel6.classfile.Field;
-import org.apache.commons.bcel6.classfile.JavaClass;
-import org.apache.commons.bcel6.classfile.Method;
-import org.apache.commons.bcel6.generic.ClassGen;
-import org.apache.commons.bcel6.generic.FieldGen;
-import org.apache.commons.bcel6.generic.MethodGen;
+import org.apache.bcel.Repository;
+import org.apache.bcel.classfile.ClassParser;
+import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
+import org.apache.bcel.generic.ClassGen;
+import org.apache.bcel.generic.FieldGen;
+import org.apache.bcel.generic.MethodGen;
 
 /**
  * Test BCEL if an input file is identical to the outfile generated
@@ -38,26 +38,25 @@ import org.apache.commons.bcel6.generic.MethodGen;
  * % diff foo bar | more
  * <pre>
  *
- * @version $Id$
  */
 public class id {
 
-    public static void main(String[] argv) throws Exception {
+    public static void main(final String[] argv) throws Exception {
         JavaClass clazz;
 
         if ((clazz = Repository.lookupClass(argv[0])) == null) {
             clazz = new ClassParser(argv[0]).parse(); // May throw IOException
         }
 
-        ClassGen cg = new ClassGen(clazz);
+        final ClassGen cg = new ClassGen(clazz);
 
-        for (Method method : clazz.getMethods()) {
-            MethodGen mg = new MethodGen(method, cg.getClassName(), cg.getConstantPool());
+        for (final Method method : clazz.getMethods()) {
+            final MethodGen mg = new MethodGen(method, cg.getClassName(), cg.getConstantPool());
             cg.replaceMethod(method, mg.getMethod());
         }
 
-        for (Field field : clazz.getFields()) {
-            FieldGen fg = new FieldGen(field, cg.getConstantPool());
+        for (final Field field : clazz.getFields()) {
+            final FieldGen fg = new FieldGen(field, cg.getConstantPool());
             cg.replaceField(field, fg.getField());
         }
 

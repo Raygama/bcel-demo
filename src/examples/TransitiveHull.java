@@ -19,49 +19,51 @@
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.Repository;
-import org.apache.commons.bcel6.classfile.ClassParser;
-import org.apache.commons.bcel6.classfile.ConstantCP;
-import org.apache.commons.bcel6.classfile.ConstantClass;
-import org.apache.commons.bcel6.classfile.ConstantFieldref;
-import org.apache.commons.bcel6.classfile.ConstantInterfaceMethodref;
-import org.apache.commons.bcel6.classfile.ConstantMethodref;
-import org.apache.commons.bcel6.classfile.ConstantNameAndType;
-import org.apache.commons.bcel6.classfile.ConstantPool;
-import org.apache.commons.bcel6.classfile.JavaClass;
-import org.apache.commons.bcel6.generic.ArrayType;
-import org.apache.commons.bcel6.generic.ObjectType;
-import org.apache.commons.bcel6.generic.Type;
-import org.apache.commons.bcel6.util.ClassQueue;
-import org.apache.commons.bcel6.util.ClassSet;
+import org.apache.bcel.Constants;
+import org.apache.bcel.Repository;
+import org.apache.bcel.classfile.ClassParser;
+import org.apache.bcel.classfile.ConstantCP;
+import org.apache.bcel.classfile.ConstantClass;
+import org.apache.bcel.classfile.ConstantFieldref;
+import org.apache.bcel.classfile.ConstantInterfaceMethodref;
+import org.apache.bcel.classfile.ConstantMethodref;
+import org.apache.bcel.classfile.ConstantNameAndType;
+import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.Type;
+import org.apache.bcel.util.ClassQueue;
+import org.apache.bcel.util.ClassSet;
 
 /**
  * Find all classes referenced by given start class and all classes referenced
  * by those and so on. In other words: Compute the transitive hull of classes
  * used by a given class. This is done by checking all ConstantClass entries and
- * all method and field signatures.<br>
+ * all method and field signatures.
+ * <p>
  * This may be useful in order to put all class files of an application into a
  * single JAR file, e.g..
+ * </p>
  * <p>
  * It fails however in the presence of reflexive code aka introspection.
+ * </p>
  * <p>
  * You'll need Apache's regular expression library supplied together with BCEL
  * to use this class.
- *
- * @version $Id$
+ * </p>
  */
-public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisitor {
+public class TransitiveHull extends org.apache.bcel.classfile.EmptyVisitor {
 
-    private ClassQueue queue;
-    private ClassSet set;
+    private final ClassQueue queue;
+    private final ClassSet set;
     private ConstantPool cp;
     private String[] ignored = IGNORED;
 
     public static final String[] IGNORED = {"java[.].*", "javax[.].*", "sun[.].*", "sunw[.].*",
             "com[.]sun[.].*", "org[.]omg[.].*", "org[.]w3c[.].*", "org[.]xml[.].*", "net[.]jini[.].*"};
 
-    public TransitiveHull(JavaClass clazz) {
+    public TransitiveHull(final JavaClass clazz) {
         queue = new ClassQueue();
         queue.enqueue(clazz);
         set = new ClassSet();
@@ -81,36 +83,36 @@ public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisi
      */
     public void start() {
         while (!queue.empty()) {
-            JavaClass clazz = queue.dequeue();
+            final JavaClass clazz = queue.dequeue();
             cp = clazz.getConstantPool();
 
-            new org.apache.commons.bcel6.classfile.DescendingVisitor(clazz, this).visit();
+            new org.apache.bcel.classfile.DescendingVisitor(clazz, this).visit();
         }
     }
 
     private void add(String class_name) {
         class_name = class_name.replace('/', '.');
 
-        for (String anIgnored : ignored) {
+        for (final String anIgnored : ignored) {
             if (Pattern.matches(anIgnored, class_name)) {
                 return;
             }
         }
 
         try {
-            JavaClass clazz = Repository.lookupClass(class_name);
+            final JavaClass clazz = Repository.lookupClass(class_name);
 
             if (set.add(clazz)) {
                 queue.enqueue(clazz);
             }
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             throw new IllegalStateException("Missing class: " + e.toString());
         }
     }
 
     @Override
-    public void visitConstantClass(ConstantClass cc) {
-        String class_name = (String) cc.getConstantValue(cp);
+    public void visitConstantClass(final ConstantClass cc) {
+        final String class_name = (String) cc.getConstantValue(cp);
         add(class_name);
     }
 
@@ -124,21 +126,21 @@ public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisi
         }
     }
 
-    private void visitRef(ConstantCP ccp, boolean method) {
-        String class_name = ccp.getClass(cp);
+    private void visitRef(final ConstantCP ccp, final boolean method) {
+        final String class_name = ccp.getClass(cp);
         add(class_name);
 
-        ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(ccp.getNameAndTypeIndex(),
+        final ConstantNameAndType cnat = (ConstantNameAndType) cp.getConstant(ccp.getNameAndTypeIndex(),
                 Constants.CONSTANT_NameAndType);
 
-        String signature = cnat.getSignature(cp);
+        final String signature = cnat.getSignature(cp);
 
         if (method) {
-            Type type = Type.getReturnType(signature);
+            final Type type = Type.getReturnType(signature);
 
             checkType(type);
 
-            for (Type type1 : Type.getArgumentTypes(signature)) {
+            for (final Type type1 : Type.getArgumentTypes(signature)) {
                 checkType(type1);
             }
         } else {
@@ -147,17 +149,17 @@ public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisi
     }
 
     @Override
-    public void visitConstantMethodref(ConstantMethodref cmr) {
+    public void visitConstantMethodref(final ConstantMethodref cmr) {
         visitRef(cmr, true);
     }
 
     @Override
-    public void visitConstantInterfaceMethodref(ConstantInterfaceMethodref cimr) {
+    public void visitConstantInterfaceMethodref(final ConstantInterfaceMethodref cimr) {
         visitRef(cimr, true);
     }
 
     @Override
-    public void visitConstantFieldref(ConstantFieldref cfr) {
+    public void visitConstantFieldref(final ConstantFieldref cfr) {
         visitRef(cfr, false);
     }
 
@@ -170,11 +172,11 @@ public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisi
      *
      * @param v Value to assign to ignored.
      */
-    public void setIgnored(String[] v) {
+    public void setIgnored(final String[] v) {
         ignored = v;
     }
 
-    public static void main(String[] argv) {
+    public static void main(final String[] argv) {
         JavaClass java_class;
 
         try {
@@ -185,12 +187,12 @@ public class TransitiveHull extends org.apache.commons.bcel6.classfile.EmptyVisi
                     java_class = new ClassParser(argv[0]).parse();
                 }
 
-                TransitiveHull hull = new TransitiveHull(java_class);
+                final TransitiveHull hull = new TransitiveHull(java_class);
 
                 hull.start();
                 System.out.println(Arrays.asList(hull.getClassNames()));
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }

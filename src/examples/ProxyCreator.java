@@ -19,35 +19,36 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.apache.commons.bcel6.Constants;
-import org.apache.commons.bcel6.classfile.Utility;
-import org.apache.commons.bcel6.generic.ALOAD;
-import org.apache.commons.bcel6.generic.ClassGen;
-import org.apache.commons.bcel6.generic.ConstantPoolGen;
-import org.apache.commons.bcel6.generic.GETSTATIC;
-import org.apache.commons.bcel6.generic.INVOKEVIRTUAL;
-import org.apache.commons.bcel6.generic.InstructionConstants;
-import org.apache.commons.bcel6.generic.InstructionFactory;
-import org.apache.commons.bcel6.generic.InstructionList;
-import org.apache.commons.bcel6.generic.MethodGen;
-import org.apache.commons.bcel6.generic.ObjectType;
-import org.apache.commons.bcel6.generic.PUSH;
-import org.apache.commons.bcel6.generic.Type;
+import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.Utility;
+import org.apache.bcel.generic.ALOAD;
+import org.apache.bcel.generic.ClassGen;
+import org.apache.bcel.generic.ConstantPoolGen;
+import org.apache.bcel.generic.GETSTATIC;
+import org.apache.bcel.generic.INVOKEVIRTUAL;
+import org.apache.bcel.generic.InstructionConstants;
+import org.apache.bcel.generic.InstructionFactory;
+import org.apache.bcel.generic.InstructionList;
+import org.apache.bcel.generic.MethodGen;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.PUSH;
+import org.apache.bcel.generic.Type;
 
 /**
  * Dynamically creates and uses a proxy for {@code java.awt.event.ActionListener}
  * via the classloader mechanism if called with
- * <pre>java org.apache.commons.bcel6.util.JavaWrapper ProxyCreator</pre>
+ * <pre>java org.apache.bcel.util.JavaWrapper ProxyCreator</pre>
  *
  * The trick is to encode the byte code we need into the class name
  * using the Utility.encode() method. This will result however in big
  * ugly class name, so for many cases it will be more sufficient to
- * put some clever creation code into the class loader.<br> This is
- * comparable to the mechanism provided via
+ * put some clever creation code into the class loader.
+ * <p>
+ * This is comparable to the mechanism provided via
  * {@code java.lang.reflect.Proxy}, but much more flexible.
+ * </p>
  *
- * @version $Id$
- * @see org.apache.commons.bcel6.util.JavaWrapper
+ * @see org.apache.bcel.util.JavaWrapper
  * @see Utility
  */
 public class ProxyCreator {
@@ -55,11 +56,11 @@ public class ProxyCreator {
     /**
      * Load class and create instance
      */
-    public static Object createProxy(String pack, String class_name) {
+    public static Object createProxy(final String pack, final String class_name) {
         try {
-            Class<?> cl = Class.forName(pack + "$$BCEL$$" + class_name);
+            final Class<?> cl = Class.forName(pack + "$$BCEL$$" + class_name);
             return cl.newInstance();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
@@ -71,28 +72,28 @@ public class ProxyCreator {
      * that just prints the passed arguments, load and use it via the class loader
      * mechanism.
      */
-    public static void main(String[] argv) throws Exception {
-        ClassLoader loader = ProxyCreator.class.getClassLoader();
+    public static void main(final String[] argv) throws Exception {
+        final ClassLoader loader = ProxyCreator.class.getClassLoader();
 
         // instanceof won't work here ...
         // TODO this is broken; cannot ever be true now that ClassLoader has been dropped
-        if (loader.getClass().toString().equals("class org.apache.commons.bcel6.util.ClassLoader")) {
+        if (loader.getClass().toString().equals("class org.apache.bcel.util.ClassLoader")) {
             // Real class name will be set by the class loader
-            ClassGen cg = new ClassGen("foo", "java.lang.Object", "", Constants.ACC_PUBLIC,
+            final ClassGen cg = new ClassGen("foo", "java.lang.Object", "", Constants.ACC_PUBLIC,
                     new String[]{"java.awt.event.ActionListener"});
 
             // That's important, otherwise newInstance() won't work
             cg.addEmptyConstructor(Constants.ACC_PUBLIC);
 
-            InstructionList il = new InstructionList();
-            ConstantPoolGen cp = cg.getConstantPool();
-            InstructionFactory factory = new InstructionFactory(cg);
+            final InstructionList il = new InstructionList();
+            final ConstantPoolGen cp = cg.getConstantPool();
+            final InstructionFactory factory = new InstructionFactory(cg);
 
-            int out = cp.addFieldref("java.lang.System", "out",
+            final int out = cp.addFieldref("java.lang.System", "out",
                     "Ljava/io/PrintStream;");
-            int println = cp.addMethodref("java.io.PrintStream", "println",
+            final int println = cp.addMethodref("java.io.PrintStream", "println",
                     "(Ljava/lang/Object;)V");
-            MethodGen mg = new MethodGen(Constants.ACC_PUBLIC, Type.VOID,
+            final MethodGen mg = new MethodGen(Constants.ACC_PUBLIC, Type.VOID,
                     new Type[]{
                             new ObjectType("java.awt.event.ActionEvent")
                     }, null, "actionPerformed", "foo", il, cp);
@@ -115,20 +116,20 @@ public class ProxyCreator {
             mg.setMaxLocals();
             cg.addMethod(mg.getMethod());
 
-            byte[] bytes = cg.getJavaClass().getBytes();
+            final byte[] bytes = cg.getJavaClass().getBytes();
 
             System.out.println("Uncompressed class: " + bytes.length);
 
-            String s = Utility.encode(bytes, true);
+            final String s = Utility.encode(bytes, true);
             System.out.println("Encoded class: " + s.length());
 
             System.out.print("Creating proxy ... ");
-            ActionListener a = (ActionListener) createProxy("foo.bar.", s);
+            final ActionListener a = (ActionListener) createProxy("foo.bar.", s);
             System.out.println("Done. Now calling actionPerformed()");
 
             a.actionPerformed(new ActionEvent(a, ActionEvent.ACTION_PERFORMED, "hello"));
         } else {
-            System.err.println("Call me with java org.apache.commons.bcel6.util.JavaWrapper ProxyCreator");
+            System.err.println("Call me with java org.apache.bcel.util.JavaWrapper ProxyCreator");
         }
     }
 
