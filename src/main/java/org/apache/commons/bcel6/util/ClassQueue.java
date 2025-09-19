@@ -29,11 +29,7 @@ import org.apache.commons.bcel6.classfile.JavaClass;
  */
 public class ClassQueue {
 
-    /**
-     * @deprecated will be made private; do not access
-     */
-    @Deprecated
-    protected LinkedList<JavaClass> vec = new LinkedList<>(); // TODO not used externally
+    protected LinkedList<JavaClass> vec = new LinkedList<>();
 
 
     public void enqueue( JavaClass clazz ) {

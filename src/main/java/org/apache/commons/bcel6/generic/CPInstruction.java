@@ -38,10 +38,6 @@ import org.apache.commons.bcel6.util.ByteSequence;
 public abstract class CPInstruction extends Instruction implements TypedInstruction,
         IndexedInstruction {
 
-    /**
-     * @deprecated will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
     protected int index; // index to constant pool
 
 
@@ -68,7 +64,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
      */
     @Override
     public void dump( DataOutputStream out ) throws IOException {
-        out.writeByte(super.getOpcode());
+        out.writeByte(opcode);
         out.writeShort(index);
     }
 
@@ -98,7 +94,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
         if (c instanceof ConstantClass) {
             str = str.replace('.', '/');
         }
-        return org.apache.commons.bcel6.Constants.OPCODE_NAMES[super.getOpcode()] + " " + str;
+        return org.apache.commons.bcel6.Constants.OPCODE_NAMES[opcode] + " " + str;
     }
 
 
@@ -110,7 +106,7 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     @Override
     protected void initFromFile( ByteSequence bytes, boolean wide ) throws IOException {
         setIndex(bytes.readUnsignedShort());
-        super.setLength(3);
+        length = 3;
     }
 
 

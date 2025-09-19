@@ -34,16 +34,8 @@ import org.apache.commons.bcel6.classfile.SimpleElementValue;
  */
 public abstract class ElementValueGen
 {
-    /**
-     * @deprecated will be made private and final; do not access directly, use getter
-     */
-    @Deprecated
     protected int type;
 
-    /**
-     * @deprecated will be made private and final; do not access directly, use getter
-     */
-    @Deprecated
     protected ConstantPoolGen cpGen;
 
     protected ElementValueGen(int type, ConstantPoolGen cpGen)

@@ -39,16 +39,7 @@ public class InstructionFactory {
             "C", "F", "D", "B", "S", "I", "L"
     };
 
-    /**
-     * @deprecated will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
     protected ClassGen cg;
-
-    /**
-     * @deprecated will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
     protected ConstantPoolGen cp;
 
 

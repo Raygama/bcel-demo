@@ -31,18 +31,8 @@ import org.apache.commons.bcel6.util.ByteSequence;
  */
 public abstract class Instruction implements Cloneable {
 
-    /**
-     * @deprecated will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
     protected short length = 1; // Length of instruction in bytes 
-
-    /**
-     * @deprecated will be made private; do not access directly, use getter/setter
-     */
-    @Deprecated
     protected short opcode = -1; // Opcode number
-
     private static InstructionComparator cmp = InstructionComparator.DEFAULT;
 
 
@@ -515,17 +505,8 @@ public abstract class Instruction implements Cloneable {
     /**
      * Needed in readInstruction and subclasses in this package
      */
-    final void setOpcode( short opcode ) {
+    void setOpcode( short opcode ) {
         this.opcode = opcode;
-    }
-
-
-    /**
-     * Needed in readInstruction and subclasses in this package
-     * @since 6.0
-     */
-    final void setLength( int length ) {
-        this.length = (short) length; // TODO check range?
     }
 
 

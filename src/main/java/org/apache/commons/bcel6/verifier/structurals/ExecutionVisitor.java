@@ -839,7 +839,7 @@ public class ExecutionVisitor extends EmptyVisitor{
         if (o.getMethodName(cpg).equals(Constants.CONSTRUCTOR_NAME)){
             UninitializedObjectType t = (UninitializedObjectType) stack().peek(o.getArgumentTypes(cpg).length);
             if (t == Frame.getThis()){
-                Frame.setThis(null);
+                Frame._this = null;
             }
             stack().initializeObject(t);
             locals().initializeObject(t);
