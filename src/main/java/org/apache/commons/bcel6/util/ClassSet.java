@@ -65,6 +65,6 @@ public class ClassSet {
 
 
     public String[] getClassNames() {
-        return _map.keySet().toArray(new String[_map.size()]);
+        return _map.keySet().toArray(new String[_map.keySet().size()]);
     }
 }

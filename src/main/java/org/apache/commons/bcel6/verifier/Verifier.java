@@ -176,8 +176,11 @@ public class Verifier {
                         + "'): " + element);
             }
         }
-        
-        return messages.toArray(new String[messages.size()]);
+        String[] ret = new String[messages.size()];
+        for (int i = 0; i < messages.size(); i++) {
+            ret[i] = messages.get(i);
+        }
+        return ret;
     }
 
 

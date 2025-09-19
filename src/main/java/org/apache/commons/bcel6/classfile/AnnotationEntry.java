@@ -138,10 +138,10 @@ public class AnnotationEntry implements Node {
         final StringBuilder result = new StringBuilder();
         result.append("@");
         result.append(getAnnotationType());
-        ElementValuePair[] evPairs = getElementValuePairs();
-        if (evPairs.length > 0) {
+        if (getElementValuePairs().length > 0) {
             result.append("(");
-            for (ElementValuePair element : evPairs) {
+            for (int i = 0; i < getElementValuePairs().length; i++) {
+                final ElementValuePair element = getElementValuePairs()[i];
                 result.append(element.toShortString());
             }
             result.append(")");

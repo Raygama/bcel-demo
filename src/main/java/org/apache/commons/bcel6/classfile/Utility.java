@@ -894,7 +894,7 @@ public abstract class Utility {
 
                     // are there more TypeArguments?
                     while (signature.charAt(consumed_chars) != '>') {
-                        type.append(", ").append(signatureToString(signature.substring(consumed_chars), chopit));
+                        type.append(", " + signatureToString(signature.substring(consumed_chars), chopit));
                         // update our consumed count by the number of characters the for type argument
                         consumed_chars = unwrap(Utility.consumed_chars) + consumed_chars;
                         wrap(Utility.consumed_chars, consumed_chars);
@@ -1223,7 +1223,7 @@ public abstract class Utility {
         }
         for (int i = 0; i < obj.length; i++) {
             if (obj[i] != null) {
-                buf.append(quote ? "\"" : "").append(obj[i]).append(quote ? "\"" : "");
+                buf.append(quote ? "\"" : "").append(obj[i].toString()).append(quote ? "\"" : "");
             } else {
                 buf.append("null");
             }

@@ -134,7 +134,7 @@ public final class Field extends FieldOrMethod {
         }
         for (Attribute attribute : super.getAttributes()) {
             if (!(attribute instanceof ConstantValue)) {
-                buf.append(" [").append(attribute).append("]");
+                buf.append(" [").append(attribute.toString()).append("]");
             }
         }
         return buf.toString();

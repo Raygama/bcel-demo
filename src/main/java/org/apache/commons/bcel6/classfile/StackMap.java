@@ -117,7 +117,7 @@ public final class StackMap extends Attribute {
     public final String toString() {
         StringBuilder buf = new StringBuilder("StackMap(");
         for (int i = 0; i < map.length; i++) {
-            buf.append(map[i]);
+            buf.append(map[i].toString());
             if (i < map.length - 1) {
                 buf.append(", ");
             }
