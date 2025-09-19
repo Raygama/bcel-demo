@@ -39,8 +39,6 @@ import junit.framework.TestCase;
 
 public final class PerformanceTest extends TestCase {
 
-    private static final boolean REPORT = Boolean.parseBoolean(System.getProperty("PerformanceTest.report", "true"));;
-
     private static byte[] read(final InputStream is) throws IOException {
         if (is == null) {
             throw new IOException("Class not found");
@@ -120,15 +118,13 @@ public final class PerformanceTest extends TestCase {
 
         jar.close();
         total.stop();
-        if (REPORT) {
-            System.out.println("ClassParser.parse: " + parseTime);
-            System.out.println("ClassGen.init: " + cgenTime);
-            System.out.println("MethodGen.init: " + mgenTime);
-            System.out.println("MethodGen.getMethod: " + mserTime);
-            System.out.println("ClassGen.getJavaClass.getBytes: " + serTime);
-            System.out.println("Total: " + total);
-            System.out.println();
-        }
+        System.out.println("ClassParser.parse: " + parseTime);
+        System.out.println("ClassGen.init: " + cgenTime);
+        System.out.println("MethodGen.init: " + mgenTime);
+        System.out.println("MethodGen.getMethod: " + mserTime);
+        System.out.println("ClassGen.getJavaClass.getBytes: " + serTime);
+        System.out.println("Total: " + total);
+        System.out.println();
     }
 
     public void testPerformance() throws IOException {
