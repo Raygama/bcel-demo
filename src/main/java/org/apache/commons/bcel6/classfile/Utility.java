@@ -864,15 +864,15 @@ public abstract class Utility {
 
                     // we have TypeArguments; build up partial result
                     // as we recurse for each TypeArgument
-                    StringBuilder type = new StringBuilder(compactClassName(signature.substring(1, bracketIndex), chopit)).append("<");
+                    String type = compactClassName(signature.substring(1, bracketIndex), chopit) + "<";
                     int consumed_chars = bracketIndex + 1; // Shadows global var
 
                     // check for wildcards
                     if (signature.charAt(consumed_chars) == '+') {
-                        type.append("? extends ");
+                        type = type + "? extends ";
                         consumed_chars++;
                     } else if (signature.charAt(consumed_chars) == '-') {
-                        type.append("? super ");
+                        type = type + "? super ";
                         consumed_chars++;
                     } else if (signature.charAt(consumed_chars) == '*') {
                         // must be at end of signature
@@ -887,14 +887,14 @@ public abstract class Utility {
                     }
 
                     // get the first TypeArgument
-                    type.append(signatureToString(signature.substring(consumed_chars), chopit));
+                    type = type + signatureToString(signature.substring(consumed_chars), chopit);
                     // update our consumed count by the number of characters the for type argument
                     consumed_chars = unwrap(Utility.consumed_chars) + consumed_chars;
                     wrap(Utility.consumed_chars, consumed_chars);
 
                     // are there more TypeArguments?
                     while (signature.charAt(consumed_chars) != '>') {
-                        type.append(", " + signatureToString(signature.substring(consumed_chars), chopit));
+                        type = type + ", " + signatureToString(signature.substring(consumed_chars), chopit);
                         // update our consumed count by the number of characters the for type argument
                         consumed_chars = unwrap(Utility.consumed_chars) + consumed_chars;
                         wrap(Utility.consumed_chars, consumed_chars);
@@ -904,7 +904,7 @@ public abstract class Utility {
                         throw new ClassFormatException("Invalid signature: " + signature);
                     }
                     wrap(Utility.consumed_chars, consumed_chars + 2); // remove final ">;"
-                    return type.append(">").toString();
+                    return type + ">";
                 }
                 case 'S':
                     return "short";
@@ -1020,7 +1020,6 @@ public abstract class Utility {
                     break;
                 default:
                     // Don't care
-                    break;
             }
         }
         if (open) {
