@@ -41,29 +41,29 @@ import org.apache.commons.bcel6.generic.Select;
 import org.apache.commons.bcel6.verifier.exc.AssertionViolatedException;
 import org.apache.commons.bcel6.verifier.exc.StructuralCodeConstraintException;
 
-/**
- * Instances of this class contain information about the subroutines
- * found in a code array of a method.
- * This implementation considers the top-level (the instructions
- * reachable without a JSR or JSR_W starting off from the first
- * instruction in a code array of a method) being a special subroutine;
- * see getTopLevel() for that.
- * Please note that the definition of subroutines in the Java Virtual
- * Machine Specification, Second Edition is somewhat incomplete.
- * Therefore, JustIce uses an own, more rigid notion.
- * Basically, a subroutine is a piece of code that starts at the target
- * of a JSR of JSR_W instruction and ends at a corresponding RET
- * instruction. Note also that the control flow of a subroutine
- * may be complex and non-linear; and that subroutines may be nested.
- * JustIce also mandates subroutines not to be protected by exception
- * handling code (for the sake of control flow predictability).
- * To understand JustIce's notion of subroutines, please read
- *
- * TODO: refer to the paper.
- *
- * @version $Id$
- * @see #getTopLevel()
- */
+    /**
+     * Instances of this class contain information about the subroutines
+     * found in a code array of a method.
+     * This implementation considers the top-level (the instructions
+     * reachable without a JSR or JSR_W starting off from the first
+     * instruction in a code array of a method) being a special subroutine;
+     * see getTopLevel() for that.
+     * Please note that the definition of subroutines in the Java Virtual
+     * Machine Specification, Second Edition is somewhat incomplete.
+     * Therefore, JustIce uses an own, more rigid notion.
+     * Basically, a subroutine is a piece of code that starts at the target
+     * of a JSR of JSR_W instruction and ends at a corresponding RET
+     * instruction. Note also that the control flow of a subroutine
+     * may be complex and non-linear; and that subroutines may be nested.
+     * JustIce also mandates subroutines not to be protected by exception
+     * handling code (for the sake of control flow predictability).
+     * To understand JustIce's notion of subroutines, please read
+   *
+     * TODO: refer to the paper.
+     *
+     * @version $Id$
+     * @see #getTopLevel()
+     */
 public class Subroutines{
     /**
      * This inner class implements the Subroutine interface.
@@ -350,11 +350,9 @@ public class Subroutines{
     }// end Inner Class SubrouteImpl
 
     //Node coloring constants
-    private enum ColourConstants{
-        WHITE,
-        GRAY,
-        BLACK
-    }
+    private static final Integer WHITE = Integer.valueOf(0);
+    private static final Integer GRAY = Integer.valueOf(1);
+    private static final Integer BLACK = Integer.valueOf(2);
 
     /**
      * The map containing the subroutines found.
@@ -377,20 +375,9 @@ public class Subroutines{
      * Constructor.
      * @param mg A MethodGen object representing method to
      * create the Subroutine objects of.
-     * Assumes that JustIce strict checks are needed.
      */
     public Subroutines(MethodGen mg){
-        this(mg, true);
-    }
 
-    /**
-     * Constructor.
-     * @param mg A MethodGen object representing method to
-     * create the Subroutine objects of.
-     * @param enableJustIceCheck whether to enable additional JustIce checks
-     * @since 6.0
-     */
-    public Subroutines(MethodGen mg, boolean enableJustIceCheck){
         InstructionHandle[] all = mg.getInstructionList().getInstructionHandles();
         CodeExceptionGen[] handlers = mg.getExceptionHandlers();
 
@@ -435,17 +422,16 @@ public class Subroutines{
         // we don't want to assign an instruction to two or more Subroutine objects.
         Set<InstructionHandle> instructions_assigned = new HashSet<>();
 
-        //Graph colouring. Key: InstructionHandle, Value: ColourConstants enum .
-        Map<InstructionHandle, ColourConstants> colors = new HashMap<>();
+        Map<InstructionHandle, Integer> colors = new HashMap<>(); //Graph colouring. Key: InstructionHandle, Value: Integer .
 
         List<InstructionHandle> Q = new ArrayList<>();        
         for (InstructionHandle actual : sub_leaders) {
             // Do some BFS with "actual" as the root of the graph.
             // Init colors
             for (InstructionHandle element : all) {
-                colors.put(element, ColourConstants.WHITE);
+                colors.put(element, WHITE);
             }
-            colors.put(actual, ColourConstants.GRAY);
+            colors.put(actual, GRAY);
             // Init Queue
 
             Q.clear();
@@ -459,7 +445,7 @@ public class Subroutines{
              */
             if (actual == all[0]){
                 for (CodeExceptionGen handler : handlers) {
-                    colors.put(handler.getHandlerPC(), ColourConstants.GRAY);
+                    colors.put(handler.getHandlerPC(), GRAY);
                     Q.add(handler.getHandlerPC());
                 }
             }
@@ -470,16 +456,16 @@ public class Subroutines{
                 InstructionHandle u = Q.remove(0);
                 InstructionHandle[] successors = getSuccessors(u);
                 for (InstructionHandle successor : successors) {
-                    if (colors.get(successor) == ColourConstants.WHITE){
-                        colors.put(successor, ColourConstants.GRAY);
+                    if (colors.get(successor) == WHITE){
+                        colors.put(successor, GRAY);
                         Q.add(successor);
                     }
                 }
-                colors.put(u, ColourConstants.BLACK);
+                colors.put(u, BLACK);
             }
             // BFS ended above.
             for (InstructionHandle element : all) {
-                if (colors.get(element) == ColourConstants.BLACK){
+                if (colors.get(element) == BLACK){
                     ((SubroutineImpl) (actual==all[0]?getTopLevel():getSubroutine(actual))).addInstruction(element);
                     if (instructions_assigned.contains(element)){
                         throw new StructuralCodeConstraintException("Instruction '"+element+
@@ -493,24 +479,22 @@ public class Subroutines{
             }
         }
 
-        if (enableJustIceCheck) {
-            // Now make sure no instruction of a Subroutine is protected by exception handling code
-            // as is mandated by JustIces notion of subroutines.
-            for (CodeExceptionGen handler : handlers) {
-                InstructionHandle _protected = handler.getStartPC();
-                while (_protected != handler.getEndPC().getNext()){
-                    // Note the inclusive/inclusive notation of "generic API" exception handlers!
-                    for (Subroutine sub : subroutines.values()) {
-                        if (sub != subroutines.get(all[0])){    // We don't want to forbid top-level exception handlers.
-                            if (sub.contains(_protected)){
-                                throw new StructuralCodeConstraintException("Subroutine instruction '"+_protected+
-                                    "' is protected by an exception handler, '"+handler+
-                                    "'. This is forbidden by the JustIce verifier due to its clear definition of subroutines.");
-                            }
+        // Now make sure no instruction of a Subroutine is protected by exception handling code
+        // as is mandated by JustIces notion of subroutines.
+        for (CodeExceptionGen handler : handlers) {
+            InstructionHandle _protected = handler.getStartPC();
+            while (_protected != handler.getEndPC().getNext()){
+                // Note the inclusive/inclusive notation of "generic API" exception handlers!
+                for (Subroutine sub : subroutines.values()) {
+                    if (sub != subroutines.get(all[0])){    // We don't want to forbid top-level exception handlers.
+                        if (sub.contains(_protected)){
+                            throw new StructuralCodeConstraintException("Subroutine instruction '"+_protected+
+                                "' is protected by an exception handler, '"+handler+
+                                "'. This is forbidden by the JustIce verifier due to its clear definition of subroutines.");
                         }
                     }
-                    _protected = _protected.getNext();
                 }
+                _protected = _protected.getNext();
             }
         }
 

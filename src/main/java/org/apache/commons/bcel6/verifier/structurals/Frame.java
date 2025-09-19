@@ -125,17 +125,15 @@ public class Frame{
 
     /**
      * @return the _this
-     * @since 6.0
      */
-    public static UninitializedObjectType getThis() {
+    public static UninitializedObjectType get_this() {
         return _this;
     }
 
     /**
      * @param _this the _this to set
-     * @since 6.0
      */
-    public static void setThis(UninitializedObjectType _this) {
+    public static void set_this(UninitializedObjectType _this) {
         Frame._this = _this;
     }
 }

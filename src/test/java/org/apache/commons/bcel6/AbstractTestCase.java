@@ -43,19 +43,13 @@ public abstract class AbstractTestCase extends TestCase
 
     protected static final String PACKAGE_BASE_NAME = AbstractTestCase.class.getPackage().getName();
 
-    // Location of test data
-    protected static final File TESTDATA = new File("target", "testdata");
-
     // package base name in signature format, i.e. with '/' separators instead of '.'
     protected static final String PACKAGE_BASE_SIG = PACKAGE_BASE_NAME.replace('.', '/');
 
-    /**
-     * @param name
-     * @return Path to file under the TESTDATA directory
-     */
     protected File createTestdataFile(String name)
     {
-        return new File(TESTDATA, name);
+        return new File("target" + File.separator + "testdata" + File.separator
+                + name);
     }
 
     protected JavaClass getTestClass(String name) throws ClassNotFoundException
@@ -75,35 +69,19 @@ public abstract class AbstractTestCase extends TestCase
         return null;
     }
 
-    /**
-     * Delete a file under the TESTDATA directory
-     * @param name
-     * @return
-     */
     protected boolean wipe(String name)
     {
-        return new File(TESTDATA, name).delete();
+        return new File("target" + File.separator + "testdata" + File.separator
+                + name).delete();
     }
 
-    /**
-     * Delete a directory and file under the TESTDATA directory
-     * @param dir
-     * @param name
-     * @return true if the file was deleted
-     */
     protected boolean wipe(String dir, String name)
     {
-        // The parameter is relative to the TESTDATA dir
         boolean b = wipe(dir + File.separator + name);
-        final File testDir = new File(TESTDATA, dir);
-        String[] files = testDir.list();
+        String[] files = new File(dir).list();
         if (files == null || files.length == 0)
         {
-            if (!testDir.delete()){
-                System.err.println("Failed to remove: " + testDir);
-            }
-        } else {
-            System.err.println("Non-empty directory: " + testDir);
+            new File(dir).delete(); // Why does this not succeed? stupid thing
         }
         return b;
     }
