@@ -156,8 +156,7 @@ public abstract class LocalVariableInstruction extends Instruction implements Ty
             throw new ClassGenException("Illegal value: " + n);
         }
         this.n = n;
-        // Cannot be < 0 as this is checked above
-        if (n <= 3) { // Use more compact instruction xLOAD_n
+        if (n >= 0 && n <= 3) { // Use more compact instruction xLOAD_n
             opcode = (short) (c_tag + n);
             length = 1;
         } else {

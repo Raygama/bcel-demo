@@ -86,8 +86,8 @@ public class Class2HTML {
          */
         AttributeHTML attribute_html = new AttributeHTML(dir, class_name, constant_pool,
                 constant_html);
-        new MethodHTML(dir, class_name, methods, java_class.getFields(),
-                constant_html, attribute_html);
+//        MethodHTML method_html = new MethodHTML(dir, class_name, methods, java_class.getFields(),
+//                constant_html, attribute_html);
         // Write main file (with frames, yuk)
         writeMainHTML(attribute_html);
         new CodeHTML(dir, class_name, methods, constant_pool, constant_html);
@@ -95,7 +95,7 @@ public class Class2HTML {
     }
 
 
-    public static void main( String[] argv ) throws IOException {
+    public static void main( String[] argv ) {
         String[] file_name = new String[argv.length];
         int files = 0;
         ClassParser parser = null;
@@ -103,47 +103,44 @@ public class Class2HTML {
         String zip_file = null;
         char sep = File.separatorChar;
         String dir = "." + sep; // Where to store HTML files
-        /* Parse command line arguments.
-         */
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i].charAt(0) == '-') { // command line switch
-                if (argv[i].equals("-d")) { // Specify target directory, default '.'
-                    dir = argv[++i];
-                    if (!dir.endsWith("" + sep)) {
-                        dir = dir + sep;
-                    }
-                    final File store = new File(dir);
-                    if (!store.isDirectory()) {
-                        boolean created = store.mkdirs(); // Create target directory if necessary
-                        if (!created) {
-                            if (!store.isDirectory()) {
-                                System.out.println("Tried to create the directory " + dir + " but failed");
-                            }
+        try {
+            /* Parse command line arguments.
+             */
+            for (int i = 0; i < argv.length; i++) {
+                if (argv[i].charAt(0) == '-') { // command line switch
+                    if (argv[i].equals("-d")) { // Specify target directory, default `.�
+                        dir = argv[++i];
+                        if (!dir.endsWith("" + sep)) {
+                            dir = dir + sep;
                         }
+                        new File(dir).mkdirs(); // Create target directory if necessary
+                    } else if (argv[i].equals("-zip")) {
+                        zip_file = argv[++i];
+                    } else {
+                        System.out.println("Unknown option " + argv[i]);
                     }
-                } else if (argv[i].equals("-zip")) {
-                    zip_file = argv[++i];
                 } else {
-                    System.out.println("Unknown option " + argv[i]);
+                    file_name[files++] = argv[i];
                 }
-            } else {
-                file_name[files++] = argv[i];
             }
-        }
-        if (files == 0) {
-            System.err.println("Class2HTML: No input files specified.");
-        } else { // Loop through files ...
-            for (int i = 0; i < files; i++) {
-                System.out.print("Processing " + file_name[i] + "...");
-                if (zip_file == null) {
-                    parser = new ClassParser(file_name[i]); // Create parser object from file
-                } else {
-                    parser = new ClassParser(zip_file, file_name[i]); // Create parser object from zip file
+            if (files == 0) {
+                System.err.println("Class2HTML: No input files specified.");
+            } else { // Loop through files ...
+                for (int i = 0; i < files; i++) {
+                    System.out.print("Processing " + file_name[i] + "...");
+                    if (zip_file == null) {
+                        parser = new ClassParser(file_name[i]); // Create parser object from file
+                    } else {
+                        parser = new ClassParser(zip_file, file_name[i]); // Create parser object from zip file
+                    }
+                    java_class = parser.parse();
+                    new Class2HTML(java_class, dir);
+                    System.out.println("Done.");
                 }
-                java_class = parser.parse();
-                new Class2HTML(java_class, dir);
-                System.out.println("Done.");
             }
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace(System.out);
         }
     }
 

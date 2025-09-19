@@ -115,27 +115,24 @@ public class Subroutines{
          */
         @Override
         public String toString(){
-            StringBuilder ret = new StringBuilder();
-            ret.append("Subroutine: Local variable is '").append(localVariable);
-            ret.append("', JSRs are '").append(theJSRs);
-            ret.append("', RET is '").append(theRET);
-            ret.append("', Instructions: '").append(instructions).append("'.");
+            String ret = "Subroutine: Local variable is '"+localVariable+
+                        "', JSRs are '"+theJSRs+"', RET is '"+theRET+"', Instructions: '"+instructions+"'.";
 
-            ret.append(" Accessed local variable slots: '");
+            ret += " Accessed local variable slots: '";
             int[] alv = getAccessedLocalsIndices();
             for (int element : alv) {
-                ret.append(element);ret.append(" ");
+                ret += element+" ";
             }
-            ret.append("'.");
+            ret+="'.";
 
-            ret.append(" Recursively (via subsub...routines) accessed local variable slots: '");
+            ret += " Recursively (via subsub...routines) accessed local variable slots: '";
             alv = getRecursivelyAccessedLocalsIndices();
             for (int element : alv) {
-                ret.append(element);ret.append(" ");
+                ret += element+" ";
             }
-            ret.append("'.");
+            ret+="'.";
 
-            return ret.toString();
+            return ret;
         }
 
         /**
