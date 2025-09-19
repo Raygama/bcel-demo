@@ -245,7 +245,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      * @return the position
      * @since 6.0
      */
-    protected int getPosition() {
+    public int getPosition() {
         return position;
     }
 
@@ -255,8 +255,9 @@ public abstract class BranchInstruction extends Instruction implements Instructi
      * @return the new position
      * @since 6.0
      */
-    protected void setPosition(int position) {
+    protected int setGetPosition(int position) {
         this.position = position;
+        return position;
     }
 
 

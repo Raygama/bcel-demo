@@ -76,9 +76,7 @@ public final class BranchHandle extends InstructionHandle {
 
     @Override
     void setPosition( int pos ) {
-        // Original code: i_position = bi.position = pos;
-        getBI().setPosition(pos);
-        i_position = pos;
+        i_position = getBI().setGetPosition(pos);
     }
 
 
@@ -117,7 +115,7 @@ public final class BranchHandle extends InstructionHandle {
     /** 
      * Set new contents. Old instruction is disposed and may not be used anymore.
      */
-    @Override // This is only done in order to apply the additional type check; could be merged with super impl.
+    @Override
     public void setInstruction( Instruction i ) { // TODO could be package-protected?
         super.setInstruction(i);
         if (!(i instanceof BranchInstruction)) {
