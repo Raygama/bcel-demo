@@ -65,9 +65,8 @@ public class ArrayElementValueGen extends ElementValueGen
         for (ElementValueGen element : evalues) {
             immutableData[i++] = element.getElementValue();
         }
-        return new ArrayElementValue(super.getElementValueType(),
-                immutableData,
-                getConstantPool().getConstantPool());
+        return new ArrayElementValue(super.getElementValueType(), immutableData, getConstantPoolgen()
+                .getConstantPool());
     }
 
     /**

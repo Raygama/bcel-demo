@@ -32,13 +32,11 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
 
     private static final long serialVersionUID = -1833306330869469714L;
 
-    // TODO should be made private
-    protected int name_index; // Points to field name in constant pool 
-    protected int signature_index; // Points to encoded signature
-    protected Attribute[] attributes; // Collection of attributes
-    // @since 6.0
+    private int name_index; // Points to field name in constant pool 
+    private int signature_index; // Points to encoded signature
+    private Attribute[] attributes; // Collection of attributes
     private AnnotationEntry[] annotationEntries; // annotations defined on the field or method 
-    protected ConstantPool constant_pool;
+    private ConstantPool constant_pool;
 
     private String signatureAttributeString = null;
     private boolean searchedForSignatureAttribute = false;
@@ -214,7 +212,6 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
 
     /**
      * @return Annotations on the field or method
-     * @since 6.0
      */
     public AnnotationEntry[] getAnnotationEntries() {
         if (annotationEntries == null) {
@@ -228,7 +225,6 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
      * Hunts for a signature attribute on the member and returns its contents.  So where the 'regular' signature
      * may be (Ljava/util/Vector;)V the signature attribute may in fact say 'Ljava/lang/Vector&lt;Ljava/lang/String&gt;;'
      * Coded for performance - searches for the attribute only when requested - only searches for it once.
-     * @since 6.0
      */
     public final String getGenericSignature()
     {

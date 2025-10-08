@@ -74,9 +74,8 @@ public class AnnotationElementValueGen extends ElementValueGen
     @Override
     public ElementValue getElementValue()
     {
-        return new AnnotationElementValue(super.getElementValueType(),
-                a.getAnnotation(),
-                getConstantPool().getConstantPool());
+        return new AnnotationElementValue(super.getElementValueType(), a.getAnnotation(), getConstantPoolgen()
+                .getConstantPool());
     }
 
     public AnnotationEntryGen getAnnotation()

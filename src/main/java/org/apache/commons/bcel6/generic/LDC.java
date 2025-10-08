@@ -52,10 +52,10 @@ public class LDC extends CPInstruction implements PushInstruction, ExceptionThro
     // Adjust to proper size
     protected final void setSize() {
         if (super.getIndex() <= org.apache.commons.bcel6.Constants.MAX_BYTE) { // Fits in one byte?
-            super.setOpcode(org.apache.commons.bcel6.Constants.LDC);
+            opcode = org.apache.commons.bcel6.Constants.LDC;
             length = 2;
         } else {
-            super.setOpcode(org.apache.commons.bcel6.Constants.LDC_W);
+            opcode = org.apache.commons.bcel6.Constants.LDC_W;
             length = 3;
         }
     }

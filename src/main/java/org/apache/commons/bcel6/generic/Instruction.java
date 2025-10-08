@@ -504,9 +504,9 @@ public abstract class Instruction implements Cloneable, Serializable {
 
 
     /**
-     * Needed in readInstruction and subclasses in this package
+     * Needed in readInstruction.
      */
-    void setOpcode( short opcode ) {
+    private void setOpcode( short opcode ) {
         this.opcode = opcode;
     }
 

@@ -59,8 +59,8 @@ public class EnumElementValueGen extends ElementValueGen
     {
         System.err.println("Duplicating value: " + getEnumTypeString() + ":"
                 + getEnumValueString());
-        return new EnumElementValue(super.getElementValueType(), typeIdx, valueIdx,
-                getConstantPool().getConstantPool());
+        return new EnumElementValue(super.getElementValueType(), typeIdx, valueIdx, getConstantPoolgen()
+                .getConstantPool());
     }
 
     public EnumElementValueGen(ObjectType t, String value, ConstantPoolGen cpool)
@@ -99,7 +99,8 @@ public class EnumElementValueGen extends ElementValueGen
     @Override
     public String stringifyValue()
     {
-        ConstantUtf8 cu8 = (ConstantUtf8) getConstantPool().getConstant(valueIdx);
+        ConstantUtf8 cu8 = (ConstantUtf8) getConstantPoolgen().getConstant(
+                valueIdx);
         return cu8.getBytes();
         // ConstantString cu8 =
         // (ConstantString)getConstantPool().getConstant(valueIdx);
@@ -116,14 +117,15 @@ public class EnumElementValueGen extends ElementValueGen
         // (ConstantClass)getConstantPool().getConstant(typeIdx);
         // return
         // ((ConstantUtf8)getConstantPool().getConstant(cu8.getNameIndex())).getBytes();
-        return ((ConstantUtf8) getConstantPool().getConstant(typeIdx))
+        return ((ConstantUtf8) getConstantPoolgen().getConstant(typeIdx))
                 .getBytes();
         // return Utility.signatureToString(cu8.getBytes());
     }
 
     public String getEnumValueString()
     {
-        return ((ConstantUtf8) getConstantPool().getConstant(valueIdx)).getBytes();
+        return ((ConstantUtf8) getConstantPoolgen().getConstant(valueIdx))
+                .getBytes();
         // ConstantString cu8 =
         // (ConstantString)getConstantPool().getConstant(valueIdx);
         // return
