@@ -33,7 +33,7 @@ import org.apache.commons.bcel6.Constants;
 public final class ConstantDouble extends Constant implements ConstantObject {
 
     private static final long serialVersionUID = -7394764537394782136L;
-    private double bytes;
+    private final double bytes;
 
 
     /** 
@@ -95,14 +95,6 @@ public final class ConstantDouble extends Constant implements ConstantObject {
      */
     public final double getBytes() {
         return bytes;
-    }
-
-
-    /**
-     * @param bytes the raw bytes that represent the double value
-     */
-    public final void setBytes( double bytes ) {
-        this.bytes = bytes;
     }
 
 

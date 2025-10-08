@@ -140,15 +140,6 @@ public final class ExceptionTable extends Attribute {
 
 
     /**
-     * @param exception_index_table the list of exception indexes
-     * Also redefines number_of_exceptions according to table length.
-     */
-    public final void setExceptionIndexTable( int[] exception_index_table ) {
-        this.exception_index_table = exception_index_table != null ? exception_index_table : new int[0];
-    }
-
-
-    /**
      * @return String representation, i.e., a list of thrown exceptions.
      */
     @Override
