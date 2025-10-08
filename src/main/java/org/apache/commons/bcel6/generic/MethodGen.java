@@ -360,10 +360,10 @@ public class MethodGen extends FieldGenOrMethodGen {
         LocalVariableGen[] lg = new LocalVariableGen[size];
         variable_vec.toArray(lg);
         for (int i = 0; i < size; i++) {
-            if ((lg[i].getStart() == null) && (il != null)) {
+            if (lg[i].getStart() == null) {
                 lg[i].setStart(il.getStart());
             }
-            if ((lg[i].getEnd() == null) && (il != null)) {
+            if (lg[i].getEnd() == null) {
                 lg[i].setEnd(il.getEnd());
             }
         }

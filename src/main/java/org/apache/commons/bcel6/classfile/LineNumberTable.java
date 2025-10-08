@@ -67,7 +67,7 @@ public final class LineNumberTable extends Attribute {
      * @param length Content length in bytes
      * @param input Input stream
      * @param constant_pool Array of constants
-     * @throws IOEXception if an I/O Exception occurs in readUnsignedShort
+     * @throws IOException
      */
     LineNumberTable(int name_index, int length, DataInput input, ConstantPool constant_pool)
             throws IOException {
@@ -97,7 +97,6 @@ public final class LineNumberTable extends Attribute {
      * Dump line number table attribute to file stream in binary format.
      *
      * @param file Output file stream
-     * @throws IOEXception if an I/O Exception occurs in writeShort
      */
     @Override
     public final void dump( DataOutputStream file ) throws IOException {
