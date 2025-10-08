@@ -20,6 +20,7 @@ package org.apache.commons.bcel6.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.bcel6.Constants;
 
@@ -35,8 +36,9 @@ import org.apache.commons.bcel6.Constants;
  * @see     Constant
  * @see     org.apache.commons.bcel6.generic.ConstantPoolGen
  */
-public class ConstantPool implements Cloneable, Node {
+public class ConstantPool implements Cloneable, Node, Serializable {
 
+    private static final long serialVersionUID = -9093478476423540196L;
     private Constant[] constant_pool;
 
 
@@ -365,7 +367,6 @@ public class ConstantPool implements Cloneable, Node {
                 }
             }
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return c;
     }

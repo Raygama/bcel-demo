@@ -26,6 +26,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class DREM extends ArithmeticInstruction {
 
+    private static final long serialVersionUID = -3984082114153729887L;
+
+
     /** Remainder of doubles
      */
     public DREM() {

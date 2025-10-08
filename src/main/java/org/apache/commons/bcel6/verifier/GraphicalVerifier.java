@@ -30,11 +30,11 @@ import org.apache.commons.bcel6.generic.Type;
  */
 public class GraphicalVerifier {
 
-    private boolean packFrame = false;
+    boolean packFrame = false;
 
 
     /** Constructor. */
-    private GraphicalVerifier() {
+    public GraphicalVerifier() {
         VerifierAppFrame frame = new VerifierAppFrame();
         //Frames �berpr�fen, die voreingestellte Gr��e haben
         //Frames packen, die nutzbare bevorzugte Gr��eninformationen enthalten, z.B. aus ihrem Layout
@@ -55,9 +55,9 @@ public class GraphicalVerifier {
         frame.setLocation((screenSize.width - frameSize.width) / 2,
                 (screenSize.height - frameSize.height) / 2);
         frame.setVisible(true);
-        frame.getClassNamesJList().setModel(new VerifierFactoryListModel());
+        frame.classNamesJList.setModel(new VerifierFactoryListModel());
         VerifierFactory.getVerifier(Type.OBJECT.getClassName()); // Fill list with java.lang.Object
-        frame.getClassNamesJList().setSelectedIndex(0); // default, will verify java.lang.Object
+        frame.classNamesJList.setSelectedIndex(0); // default, will verify java.lang.Object
     }
 
 

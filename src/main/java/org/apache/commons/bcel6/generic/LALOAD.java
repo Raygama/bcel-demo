@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class LALOAD extends ArrayInstruction implements StackProducer {
 
+    private static final long serialVersionUID = -3687594761485525620L;
+
+
     /** Load long from array
      */
     public LALOAD() {

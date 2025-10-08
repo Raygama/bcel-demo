@@ -141,20 +141,13 @@ public class CounterVisitor implements Visitor
 
     public int annotationCount = 0;
 
-    /** @since 6.0 */
     public int stackMapTableCount = 0;
 
-    /** @since 6.0 */
     public int stackMapTableEntryCount = 0;
 
-    /** @since 6.0 */
     public int bootstrapMethodsCount = 0;
 
-    /** @since 6.0 */
     public int methodParametersCount = 0;
-
-    /** @since 6.0 */
-    public int constantInvokeDynamic = 0;
 
 
     @Override
@@ -385,38 +378,32 @@ public class CounterVisitor implements Visitor
         unknownCount++;
     }
 
-    /** @since 6.0 */
     @Override
     public void visitStackMapTable(StackMapTable obj)
     {
         stackMapTableCount++;
     }
 
-    /** @since 6.0 */
     @Override
     public void visitStackMapTableEntry(StackMapTableEntry obj)
     {
         stackMapTableEntryCount++;
     }
 
-    /** @since 6.0 */
     @Override
     public void visitBootstrapMethods(BootstrapMethods obj)
     {
         bootstrapMethodsCount++;
     }
 
-    /** @since 6.0 */
     @Override
     public void visitMethodParameters(MethodParameters obj)
     {
         methodParametersCount++;
     }
 
-    /** @since 6.0 */
     @Override
     public void visitConstantInvokeDynamic(ConstantInvokeDynamic obj)
     {
-        constantInvokeDynamic++;
     }
 }

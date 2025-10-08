@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class ILOAD extends LoadInstruction {
 
+    private static final long serialVersionUID = 7568563453093184347L;
+
+
     /**
      * Empty constructor needed for the Class.newInstance() statement in
      * Instruction.readInstruction(). Not to be used otherwise.

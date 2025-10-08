@@ -27,8 +27,9 @@ import org.apache.commons.bcel6.classfile.JavaClass;
  * @version $Id$
  * @see Stack
  */
-public class ClassStack {
+public class ClassStack implements java.io.Serializable {
 
+    private static final long serialVersionUID = 6126079269396985982L;
     private final Stack<JavaClass> stack = new Stack<>();
 
 

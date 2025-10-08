@@ -32,6 +32,7 @@ import org.apache.commons.bcel6.util.ByteSequence;
  */
 public abstract class BranchInstruction extends Instruction implements InstructionTargeter {
 
+    private static final long serialVersionUID = 3225905281842405051L;
     protected int index; // Branch target relative to this instruction
     protected InstructionHandle target; // Target object in instruction list
     protected int position; // Byte code offset
@@ -63,7 +64,7 @@ public abstract class BranchInstruction extends Instruction implements Instructi
     public void dump( DataOutputStream out ) throws IOException {
         out.writeByte(opcode);
         index = getTargetOffset();
-        if (!isValidShort(index)) {
+        if (Math.abs(index) >= 32767) {
             throw new ClassGenException("Branch target offset too large for short: " + index);
         }
         out.writeShort(index); // May be negative, i.e., point backwards

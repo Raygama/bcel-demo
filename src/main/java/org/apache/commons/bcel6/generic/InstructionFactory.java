@@ -24,17 +24,14 @@ import org.apache.commons.bcel6.Constants;
  * versions of instructions. Its main purpose is to be used as the
  * byte code generating backend of a compiler. You can subclass it to
  * add your own create methods.
- * <p>
- * Note: The static createXXX methods return singleton instances
- * from the {@link InstructionConstants} class.
  *
  * @version $Id$
  * @see Constants
- * @see InstructionConstants
  */
-public class InstructionFactory {
+public class InstructionFactory implements java.io.Serializable {
 
-    // N.N. These must agree with the order of Constants.T_CHAR through T_LONG
+    private static final long serialVersionUID = -1210011499635580258L;
+
     private static final String[] short_names = {
             "C", "F", "D", "B", "S", "I", "L"
     };

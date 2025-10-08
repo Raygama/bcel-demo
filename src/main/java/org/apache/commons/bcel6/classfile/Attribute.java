@@ -21,6 +21,7 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,9 @@ import org.apache.commons.bcel6.Constants;
  * @see Deprecated
  * @see Signature
  */
-public abstract class Attribute implements Cloneable, Node {
+public abstract class Attribute implements Cloneable, Node, Serializable
+{
+    private static final long serialVersionUID = -1707826820310002955L;
 
     protected int name_index; // Points to attribute name in constant pool TODO make private (has getter & setter)
 

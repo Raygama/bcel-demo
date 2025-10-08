@@ -32,6 +32,7 @@ import org.apache.commons.bcel6.util.BCELComparator;
  */
 public final class Field extends FieldOrMethod {
 
+    private static final long serialVersionUID = -4604082205545049134L;
     private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
@@ -117,10 +118,7 @@ public final class Field extends FieldOrMethod {
      */
     @Override
     public final String toString() {
-        String name;
-        String signature;
-        String access; // Short cuts to constant pool
-
+        String name, signature, access; // Short cuts to constant pool
         // Get names from constant pool
         access = Utility.accessToString(super.getAccessFlags());
         access = access.equals("") ? "" : (access + " ");

@@ -20,6 +20,7 @@ package org.apache.commons.bcel6.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.bcel6.Constants;
 
@@ -30,8 +31,9 @@ import org.apache.commons.bcel6.Constants;
  * @version $Id$
  * @see     LocalVariableTable
  */
-public final class LocalVariable implements Cloneable, Node {
+public final class LocalVariable implements Cloneable, Node, Serializable {
 
+    private static final long serialVersionUID = -51081099265972179L;
     private int start_pc; // Range in which the variable is valid
     private int length;
     private int name_index; // Index in constant pool of variable name
@@ -182,8 +184,7 @@ public final class LocalVariable implements Cloneable, Node {
      * Helper method shared with LocalVariableTypeTable
      */
     final String toStringShared( boolean typeTable ) {
-        String name = getName();
-        String signature = Utility.signatureToString(getSignature(), false);
+        String name = getName(), signature = Utility.signatureToString(getSignature(), false);
         String label = "LocalVariable" + (typeTable ? "Types" : "" );
         return label + "(start_pc = " + start_pc + ", length = " + length + ", index = "
                 + index + ":" + signature + " " + name + ")";
@@ -254,7 +255,6 @@ public final class LocalVariable implements Cloneable, Node {
         try {
             return (LocalVariable) clone();
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

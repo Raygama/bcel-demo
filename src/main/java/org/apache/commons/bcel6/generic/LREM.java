@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class LREM extends ArithmeticInstruction implements ExceptionThrower {
 
+    private static final long serialVersionUID = -3646771608200042527L;
+
+
     public LREM() {
         super(org.apache.commons.bcel6.Constants.LREM);
     }

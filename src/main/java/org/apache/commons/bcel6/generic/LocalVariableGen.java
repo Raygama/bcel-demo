@@ -30,8 +30,10 @@ import org.apache.commons.bcel6.classfile.LocalVariable;
  * @see     LocalVariable
  * @see     MethodGen
  */
-public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Cloneable {
+public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Cloneable,
+        java.io.Serializable {
 
+    private static final long serialVersionUID = -3810966319065955534L;
     private int index;
     private String name;
     private Type type;

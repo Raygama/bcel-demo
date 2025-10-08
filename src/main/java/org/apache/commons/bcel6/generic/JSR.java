@@ -27,6 +27,9 @@ import java.io.IOException;
  */
 public class JSR extends JsrInstruction implements VariableLengthInstruction {
 
+    private static final long serialVersionUID = 7425681395340093184L;
+
+
     /**
      * Empty constructor needed for the Class.newInstance() statement in
      * Instruction.readInstruction(). Not to be used otherwise.
@@ -61,7 +64,7 @@ public class JSR extends JsrInstruction implements VariableLengthInstruction {
     protected int updatePosition( int offset, int max_offset ) {
         int i = getTargetOffset(); // Depending on old position value
         setGetPosition(getPosition() + offset); // Position may be shifted by preceding expansions
-        if (Math.abs(i) >= (Short.MAX_VALUE - max_offset)) { // to large for short (estimate)
+        if (Math.abs(i) >= (32767 - max_offset)) { // to large for short (estimate)
             opcode = org.apache.commons.bcel6.Constants.JSR_W;
             short old_length = length;
             length = 5;

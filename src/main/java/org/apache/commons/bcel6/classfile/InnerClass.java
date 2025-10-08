@@ -20,6 +20,7 @@ package org.apache.commons.bcel6.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.bcel6.Constants;
 
@@ -31,8 +32,9 @@ import org.apache.commons.bcel6.Constants;
  * @version $Id$
  * @see InnerClasses
  */
-public final class InnerClass implements Cloneable, Node {
+public final class InnerClass implements Cloneable, Node, Serializable {
 
+    private static final long serialVersionUID = -7200195918166127614L;
     private int inner_class_index;
     private int outer_class_index;
     private int inner_name_index;
@@ -179,9 +181,8 @@ public final class InnerClass implements Cloneable, Node {
      * @return Resolved string representation
      */
     public final String toString( ConstantPool constant_pool ) {
-        String outer_class_name;
-        String inner_name;
-        String inner_class_name = constant_pool.getConstantString(inner_class_index,
+        String inner_class_name, outer_class_name, inner_name, access;
+        inner_class_name = constant_pool.getConstantString(inner_class_index,
                 Constants.CONSTANT_Class);
         inner_class_name = Utility.compactClassName(inner_class_name);
         if (outer_class_index != 0) {
@@ -197,7 +198,7 @@ public final class InnerClass implements Cloneable, Node {
         } else {
             inner_name = "(anonymous)";
         }
-        String access = Utility.accessToString(inner_access_flags, true);
+        access = Utility.accessToString(inner_access_flags, true);
         access = access.equals("") ? "" : (access + " ");
         return "  " + access + inner_name + "=class " + inner_class_name + outer_class_name;
     }
@@ -210,7 +211,6 @@ public final class InnerClass implements Cloneable, Node {
         try {
             return (InnerClass) clone();
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

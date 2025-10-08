@@ -33,6 +33,7 @@ import org.apache.commons.bcel6.util.BCELComparator;
  */
 public final class Method extends FieldOrMethod {
 
+    private static final long serialVersionUID = -2013983967283787941L;
     private static BCELComparator _cmp = new BCELComparator() {
 
         @Override
@@ -168,15 +169,18 @@ public final class Method extends FieldOrMethod {
      */
     @Override
     public final String toString() {
-        String access = Utility.accessToString(super.getAccessFlags());
+        ConstantUtf8 c;
+        String name, signature, access; // Short cuts to constant pool
+        StringBuilder buf;
+        access = Utility.accessToString(super.getAccessFlags());
         // Get name and signature from constant pool
-        ConstantUtf8 c = (ConstantUtf8) super.getConstantPool().getConstant(super.getSignatureIndex(), Constants.CONSTANT_Utf8);
-        String signature = c.getBytes();
+        c = (ConstantUtf8) super.getConstantPool().getConstant(super.getSignatureIndex(), Constants.CONSTANT_Utf8);
+        signature = c.getBytes();
         c = (ConstantUtf8) super.getConstantPool().getConstant(super.getNameIndex(), Constants.CONSTANT_Utf8);
-        String name = c.getBytes();
+        name = c.getBytes();
         signature = Utility.methodSignatureToString(signature, name, access, true,
                 getLocalVariableTable());
-        StringBuilder buf = new StringBuilder(signature);
+        buf = new StringBuilder(signature);
         for (Attribute attribute : super.getAttributes()) {
             if (!((attribute instanceof Code) || (attribute instanceof ExceptionTable))) {
                 buf.append(" [").append(attribute.toString()).append("]");

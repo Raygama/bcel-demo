@@ -277,8 +277,6 @@ public class InstructionConstants {
             INSTRUCTIONS[Constants.MONITOREXIT] = MONITOREXIT;
     }
 
-    private InstructionConstants() { } // non-instantiable 
-
     /**
      * Gets the Instruction.
      * @param index the index, e.g. {@link Constants#RETURN}

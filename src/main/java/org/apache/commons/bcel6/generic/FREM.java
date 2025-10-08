@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class FREM extends ArithmeticInstruction {
 
+    private static final long serialVersionUID = -9122754212888086133L;
+
+
     /** Remainder of floats
      */
     public FREM() {

@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class IAND extends ArithmeticInstruction {
 
+    private static final long serialVersionUID = -3190292062305201816L;
+
+
     public IAND() {
         super(org.apache.commons.bcel6.Constants.IAND);
     }

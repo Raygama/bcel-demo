@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class DALOAD extends ArrayInstruction implements StackProducer {
 
+    private static final long serialVersionUID = -8493938101832015094L;
+
+
     /** Load double from array
      */
     public DALOAD() {

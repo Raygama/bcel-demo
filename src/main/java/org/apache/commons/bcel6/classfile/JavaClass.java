@@ -48,6 +48,7 @@ import org.apache.commons.bcel6.util.SyntheticRepository;
  */
 public class JavaClass extends AccessFlags implements Cloneable, Node, Comparable<JavaClass> {
 
+    private static final long serialVersionUID = 2179314813560563755L;
     private String file_name;
     private String package_name;
     private String source_file_name = "<Unknown>";
@@ -55,8 +56,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     private int superclass_name_index;
     private String class_name;
     private String superclass_name;
-    private int major;
-    private int minor; // Compiler version
+    private int major, minor; // Compiler version
     private ConstantPool constant_pool; // Constant pool
     private int[] interfaces; // implemented interfaces
     private String[] interface_names;
@@ -71,7 +71,8 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     public static final byte HEAP = 1;
     public static final byte FILE = 2;
     public static final byte ZIP = 3;
-    private static final boolean debug = Boolean.getBoolean("JavaClass.debug");; // Debugging on/off
+    static boolean debug = false; // Debugging on/off
+    final static char sep = File.separatorChar; // directory separator
     
     private static BCELComparator _cmp = new BCELComparator() {
 
@@ -479,6 +480,12 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return superclass_name_index;
     }
 
+    static {
+        // Debugging ... on/off
+        debug = Boolean.getBoolean("JavaClass.debug");
+    }
+
+
     /**
      * @param attributes .
      */
@@ -681,7 +688,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
                 c.attributes[i] = attributes[i].copy(c.constant_pool);
             }
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return c;
     }

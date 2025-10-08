@@ -19,6 +19,7 @@ package org.apache.commons.bcel6.generic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.ConstantPool;
@@ -29,8 +30,9 @@ import org.apache.commons.bcel6.util.ByteSequence;
  *
  * @version $Id$
  */
-public abstract class Instruction implements Cloneable {
+public abstract class Instruction implements Cloneable, Serializable {
 
+    private static final long serialVersionUID = -2518741982574515847L;
     protected short length = 1; // Length of instruction in bytes 
     protected short opcode = -1; // Opcode number
     private static InstructionComparator cmp = InstructionComparator.DEFAULT;
@@ -542,25 +544,5 @@ public abstract class Instruction implements Cloneable {
     @Override
     public int hashCode() {
         return opcode;
-    }
-
-    /**
-     * Check if the value can fit in a byte (signed)
-     * @param value the value to check
-     * @return true if the value is in range
-     * @since 6.0
-     */
-    public static boolean isValidByte(int value) {
-        return value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE;
-    }
-
-    /**
-     * Check if the value can fit in a short (signed)
-     * @param value the value to check
-     * @return true if the value is in range
-     * @since 6.0
-     */
-    public static boolean isValidShort(int value) {
-        return value >= Short.MIN_VALUE && value <= Short.MAX_VALUE;
     }
 }

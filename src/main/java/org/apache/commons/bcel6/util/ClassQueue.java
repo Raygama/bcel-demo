@@ -27,8 +27,9 @@ import org.apache.commons.bcel6.classfile.JavaClass;
  *
  * @version $Id$
  */
-public class ClassQueue {
+public class ClassQueue implements java.io.Serializable {
 
+    private static final long serialVersionUID = 685144104322420292L;
     protected LinkedList<JavaClass> vec = new LinkedList<>();
 
 

@@ -31,6 +31,8 @@ import org.apache.commons.bcel6.Constants;
  */
 public class AnnotationDefault extends Attribute {
     
+    private static final long serialVersionUID = -4017327188724019487L;
+
     private ElementValue default_value;
 
     /**
@@ -83,7 +85,7 @@ public class AnnotationDefault extends Attribute {
 
     @Override
     public Attribute copy(ConstantPool _constant_pool) {
-        return (AnnotationDefault) clone();
+        throw new RuntimeException("Not implemented yet!");
     }
 
     @Override

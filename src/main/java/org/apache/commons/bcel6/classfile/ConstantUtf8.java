@@ -35,6 +35,7 @@ import org.apache.commons.bcel6.Constants;
  */
 public final class ConstantUtf8 extends Constant {
 
+    private static final long serialVersionUID = -8709101585611518985L;
     private final String bytes;
 
     // TODO these should perhaps be AtomicInt?

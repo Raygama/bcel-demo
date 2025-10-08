@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,8 +41,9 @@ import java.util.zip.ZipFile;
  *
  * @version $Id$
  */
-public class ClassPath {
+public class ClassPath implements Serializable {
 
+    private static final long serialVersionUID = 2099441438483340671L;
     public static final ClassPath SYSTEM_CLASS_PATH = new ClassPath(getClassPath());
 
     private static final FilenameFilter ARCHIVE_FILTER = new FilenameFilter() {
@@ -190,9 +192,8 @@ public class ClassPath {
     public InputStream getInputStream( String name, String suffix ) throws IOException {
         InputStream is = null;
         try {
-            is = getClass().getClassLoader().getResourceAsStream(name + suffix); // may return null
+            is = getClass().getClassLoader().getResourceAsStream(name + suffix);
         } catch (Exception e) {
-            // ignored
         }
         if (is != null) {
             return is;
@@ -349,8 +350,9 @@ public class ClassPath {
         return getClassFile(name, suffix).getPath();
     }
 
-    private abstract static class PathEntry {
+    private static abstract class PathEntry implements Serializable {
 
+        private static final long serialVersionUID = 6828494485207666122L;
         abstract ClassFile getClassFile( String name, String suffix ) throws IOException;
         abstract URL getResource(String name);
         abstract InputStream getResourceAsStream(String name);
@@ -388,6 +390,7 @@ public class ClassPath {
 
     private static class Dir extends PathEntry {
 
+        private static final long serialVersionUID = 4374062802142373088L;
         private final String dir;
 
 
@@ -467,6 +470,7 @@ public class ClassPath {
 
     private static class Zip extends PathEntry {
 
+        private static final long serialVersionUID = -2210747632897905532L;
         private final ZipFile zip;
 
 

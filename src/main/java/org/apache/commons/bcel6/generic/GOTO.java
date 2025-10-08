@@ -27,6 +27,9 @@ import java.io.IOException;
  */
 public class GOTO extends GotoInstruction implements VariableLengthInstruction {
 
+    private static final long serialVersionUID = 6106731367505145625L;
+
+
     /**
      * Empty constructor needed for the Class.newInstance() statement in
      * Instruction.readInstruction(). Not to be used otherwise.
@@ -57,19 +60,14 @@ public class GOTO extends GotoInstruction implements VariableLengthInstruction {
     }
 
 
-    /**
-     * Called in pass 2 of InstructionList.setPositions() in order to update
+    /** Called in pass 2 of InstructionList.setPositions() in order to update
      * the branch target, that may shift due to variable length instructions.
-     *
-     * @param offset additional offset caused by preceding (variable length) instructions
-     * @param max_offset the maximum offset that may be caused by these instructions
-     * @return additional offset caused by possible change of this instruction's length
      */
     @Override
     protected int updatePosition( int offset, int max_offset ) {
         int i = getTargetOffset(); // Depending on old position value
         setGetPosition(getPosition() + offset); // Position may be shifted by preceding expansions
-        if (Math.abs(i) >= (Short.MAX_VALUE - max_offset)) { // to large for short (estimate)
+        if (Math.abs(i) >= (32767 - max_offset)) { // to large for short (estimate)
             opcode = org.apache.commons.bcel6.Constants.GOTO_W;
             short old_length = length;
             length = 5;

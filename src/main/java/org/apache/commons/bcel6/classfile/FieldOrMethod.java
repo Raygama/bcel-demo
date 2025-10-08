@@ -30,6 +30,8 @@ import org.apache.commons.bcel6.Constants;
  */
 public abstract class FieldOrMethod extends AccessFlags implements Cloneable, Node {
 
+    private static final long serialVersionUID = -1833306330869469714L;
+
     // TODO should be made private
     protected int name_index; // Points to field name in constant pool 
     protected int signature_index; // Points to encoded signature
@@ -198,9 +200,7 @@ public abstract class FieldOrMethod extends AccessFlags implements Cloneable, No
 
         try {
           c = (FieldOrMethod)clone();
-        } catch(CloneNotSupportedException e) {
-            // ignored, but will cause NPE ...
-        }
+        } catch(CloneNotSupportedException e) {}
 
         c.constant_pool    = constant_pool;
         c.attributes       = new Attribute[attributes.length];

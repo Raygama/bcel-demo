@@ -27,7 +27,7 @@ import org.apache.commons.bcel6.classfile.JavaClass;
  * @see org.apache.commons.bcel6.Repository
  * @version $Id$
  */
-public interface Repository {
+public interface Repository extends java.io.Serializable {
 
     /**
      * Store the provided class under "clazz.getClassName()" 

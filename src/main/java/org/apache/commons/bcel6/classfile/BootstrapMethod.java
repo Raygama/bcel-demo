@@ -20,6 +20,7 @@ package org.apache.commons.bcel6.classfile;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.commons.bcel6.Constants;
 
@@ -31,7 +32,9 @@ import org.apache.commons.bcel6.Constants;
  * @see <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.23">The class File Format : The BootstrapMethods Attribute</a>
  * @since 6.0
  */
-public class BootstrapMethod implements Cloneable {
+public class BootstrapMethod implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -4517534834047695344L;
 
     /** Index of the CONSTANT_MethodHandle_info structure in the constant_pool table */
     private int bootstrap_method_ref;
@@ -162,7 +165,6 @@ public class BootstrapMethod implements Cloneable {
         try {
             return (BootstrapMethod) clone();
         } catch (CloneNotSupportedException e) {
-            // TODO should this throw?
         }
         return null;
     }

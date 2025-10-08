@@ -165,7 +165,7 @@ public class Subroutines{
          */
         @Override
         public InstructionHandle[] getEnteringJsrInstructions(){
-            if (this == getTopLevel()) {
+            if (this == TOPLEVEL) {
                 throw new AssertionViolatedException("getLeavingRET() called on top level pseudo-subroutine.");
             }
             InstructionHandle[] jsrs = new InstructionHandle[theJSRs.size()];
@@ -196,7 +196,7 @@ public class Subroutines{
          */
         @Override
         public InstructionHandle getLeavingRET(){
-            if (this == getTopLevel()) {
+            if (this == TOPLEVEL) {
                 throw new AssertionViolatedException("getLeavingRET() called on top level pseudo-subroutine.");
             }
             return theRET;
@@ -264,7 +264,7 @@ public class Subroutines{
         public int[] getAccessedLocalsIndices(){
             //TODO: Implement caching.
             Set<Integer> acc = new HashSet<>();
-            if (theRET == null && this != getTopLevel()){
+            if (theRET == null && this != TOPLEVEL){
                 throw new AssertionViolatedException("This subroutine object must be built up completely before calculating accessed locals.");
             }
             {
@@ -359,9 +359,7 @@ public class Subroutines{
      * it to distinguish between top level instructions and
      * unreachable instructions.
      */
-    // CHECKSTYLE:OFF
-    public final Subroutine TOPLEVEL; // TODO can this be made private?
-    // CHECKSTYLE:ON
+    public final Subroutine TOPLEVEL;
 
     /**
      * Constructor.

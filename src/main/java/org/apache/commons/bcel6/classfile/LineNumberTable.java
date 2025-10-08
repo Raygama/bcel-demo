@@ -34,6 +34,8 @@ import org.apache.commons.bcel6.Constants;
  */
 public final class LineNumberTable extends Attribute {
 
+    private static final long serialVersionUID = -6967221519632128904L;
+
     private LineNumber[] line_number_table; // Table of line/numbers pairs
 
 
@@ -154,8 +156,7 @@ public final class LineNumberTable extends Attribute {
      * @return corresponding line in source code
      */
     public int getSourceLine( int pos ) {
-        int l = 0;
-        int r = line_number_table.length - 1;
+        int l = 0, r = line_number_table.length - 1;
         if (r < 0) {
             return -1;
         }

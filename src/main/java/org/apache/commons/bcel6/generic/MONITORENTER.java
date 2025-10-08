@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class MONITORENTER extends Instruction implements ExceptionThrower, StackConsumer {
 
+    private static final long serialVersionUID = 4537302966975402521L;
+
+
     public MONITORENTER() {
         super(org.apache.commons.bcel6.Constants.MONITORENTER, (short) 1);
     }

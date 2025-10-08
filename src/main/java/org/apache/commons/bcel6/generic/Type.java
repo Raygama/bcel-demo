@@ -23,6 +23,8 @@ import java.util.List;
 import org.apache.commons.bcel6.Constants;
 import org.apache.commons.bcel6.classfile.ClassFormatException;
 import org.apache.commons.bcel6.classfile.Utility;
+import org.apache.commons.bcel6.verifier.structurals.LocalVariables;
+import org.apache.commons.bcel6.verifier.structurals.OperandStack;
 
 /**
  * Abstract super class for all possible java types, namely basic types
@@ -30,8 +32,9 @@ import org.apache.commons.bcel6.classfile.Utility;
  *
  * @version $Id$
  */
-public abstract class Type {
+public abstract class Type implements java.io.Serializable {
 
+    private static final long serialVersionUID = -1985077286871826895L;
     protected byte type; // TODO should be final (and private)
     protected String signature; // signature for the type TODO should be private
     /** Predefined constants
@@ -52,8 +55,12 @@ public abstract class Type {
     public static final ObjectType THROWABLE = ObjectType.getInstance("java.lang.Throwable");
     public static final Type[] NO_ARGS = new Type[0];
     public static final ReferenceType NULL = new ReferenceType() {
+
+        private static final long serialVersionUID = 4526765862386946282L;
     };
     public static final Type UNKNOWN = new Type(Constants.T_UNKNOWN, "<unknown object>") {
+
+        private static final long serialVersionUID = 1321113605813486066L;
     };
 
 

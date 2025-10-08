@@ -25,6 +25,9 @@ package org.apache.commons.bcel6.generic;
  */
 public class LNEG extends ArithmeticInstruction {
 
+    private static final long serialVersionUID = 7749253327528155126L;
+
+
     public LNEG() {
         super(org.apache.commons.bcel6.Constants.LNEG);
     }

@@ -32,12 +32,13 @@ import org.apache.commons.bcel6.classfile.Attribute;
  */
 public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAndTyped, Cloneable {
 
+    private static final long serialVersionUID = -2549303846821589647L;
     protected String name;
     protected Type type;
     protected ConstantPoolGen cp;
     private final List<Attribute> attribute_vec = new ArrayList<>();
     // @since 6.0
-    private final List<AnnotationEntryGen>       annotation_vec= new ArrayList<>();
+    private List<AnnotationEntryGen>       annotation_vec= new ArrayList<>();
 
 
     protected FieldGenOrMethodGen() {

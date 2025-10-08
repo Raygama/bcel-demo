@@ -32,6 +32,8 @@ import org.apache.commons.bcel6.Constants;
  */
 public class RuntimeInvisibleAnnotations extends Annotations
 {
+    private static final long serialVersionUID = 5274986004117955967L;
+
     /**
      * @param name_index
      *            Index pointing to the name <em>Code</em>
@@ -54,7 +56,8 @@ public class RuntimeInvisibleAnnotations extends Annotations
     @Override
     public Attribute copy(ConstantPool constant_pool)
     {
-        return (Annotations) clone();
+        Annotations c = (Annotations) clone();
+        return c;
     }
 
     @Override

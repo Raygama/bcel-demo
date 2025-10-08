@@ -33,8 +33,9 @@ import org.apache.commons.bcel6.classfile.CodeException;
  * @see     CodeException
  * @see     InstructionHandle
  */
-public final class CodeExceptionGen implements InstructionTargeter, Cloneable {
+public final class CodeExceptionGen implements InstructionTargeter, Cloneable, java.io.Serializable {
 
+    private static final long serialVersionUID = 6548901422158960190L;
     private InstructionHandle start_pc;
     private InstructionHandle end_pc;
     private InstructionHandle handler_pc;

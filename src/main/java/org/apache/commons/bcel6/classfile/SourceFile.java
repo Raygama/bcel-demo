@@ -34,6 +34,7 @@ import org.apache.commons.bcel6.Constants;
  */
 public final class SourceFile extends Attribute {
 
+    private static final long serialVersionUID = -804226255663222912L;
     private int sourcefile_index;
 
 
