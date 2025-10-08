@@ -43,8 +43,7 @@ public class TestReturn03Creator extends TestCreator {
     _factory = new InstructionFactory(_cg, _cp);
   }
 
-  @Override
-public void create(OutputStream out) throws IOException {
+  public void create(OutputStream out) throws IOException {
     createMethod_0();
     createMethod_1();
     _cg.getJavaClass().dump(out);

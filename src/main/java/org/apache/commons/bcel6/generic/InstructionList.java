@@ -841,7 +841,7 @@ public class InstructionList implements Serializable {
     }
 
 
-    public void setPositions() { // TODO could be package-protected? (some test code would need to be repackaged)
+    public void setPositions() {
         setPositions(false);
     }
 
@@ -853,7 +853,7 @@ public class InstructionList implements Serializable {
      * @param check Perform sanity checks, e.g. if all targeted instructions really belong
      * to this list
      */
-    public void setPositions( boolean check ) { // called by code in other packages
+    public void setPositions( boolean check ) {
         int max_additional_bytes = 0, additional_bytes = 0;
         int index = 0, count = 0;
         int[] pos = new int[length];

@@ -77,7 +77,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable, java.io.Se
     }
 
 
-    public void setInstruction( InstructionHandle ih ) { // TODO could be package-protected?
+    public void setInstruction( InstructionHandle ih ) {
         if (ih == null) {
             throw new NullPointerException("InstructionHandle may not be null");
         }
@@ -101,7 +101,7 @@ public class LineNumberGen implements InstructionTargeter, Cloneable, java.io.Se
     }
 
 
-    public void setSourceLine( int src_line ) { // TODO could be package-protected?
+    public void setSourceLine( int src_line ) {
         this.src_line = src_line;
     }
 

@@ -90,7 +90,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
 
-    public void setIndex( int index ) { // TODO unused
+    public void setIndex( int index ) {
         this.index = index;
     }
 
@@ -100,7 +100,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
 
-    public void setName( String name ) { // TODO unused
+    public void setName( String name ) {
         this.name = name;
     }
 
@@ -110,7 +110,7 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
 
-    public void setType( Type type ) { // TODO unused
+    public void setType( Type type ) {
         this.type = type;
     }
 
@@ -130,13 +130,13 @@ public class LocalVariableGen implements InstructionTargeter, NamedAndTyped, Clo
     }
 
 
-    public void setStart( InstructionHandle start ) { // TODO could be package-protected?
+    public void setStart( InstructionHandle start ) {
         BranchInstruction.notifyTarget(this.start, start, this);
         this.start = start;
     }
 
 
-    public void setEnd( InstructionHandle end ) { // TODO could be package-protected?
+    public void setEnd( InstructionHandle end ) {
         BranchInstruction.notifyTarget(this.end, end, this);
         this.end = end;
     }

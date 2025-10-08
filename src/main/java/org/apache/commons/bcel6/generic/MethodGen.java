@@ -746,7 +746,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     /**
      * Set maximum stack size for this method.
      */
-    public void setMaxStack( int m ) { // TODO could be package-protected?
+    public void setMaxStack( int m ) {
         max_stack = m;
     }
 
@@ -763,12 +763,12 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setClassName( String class_name ) { // TODO could be package-protected?
+    public void setClassName( String class_name ) {
         this.class_name = class_name;
     }
 
 
-    public void setReturnType( Type return_type ) { // TODO unused
+    public void setReturnType( Type return_type ) {
         setType(return_type);
     }
 
@@ -778,7 +778,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentTypes( Type[] arg_types ) { // TODO could be package-protected?
+    public void setArgumentTypes( Type[] arg_types ) {
         this.arg_types = arg_types;
     }
 
@@ -788,7 +788,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentType( int i, Type type ) { // TODO unused
+    public void setArgumentType( int i, Type type ) {
         arg_types[i] = type;
     }
 
@@ -798,7 +798,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentNames( String[] arg_names ) { // TODO could be package-protected?
+    public void setArgumentNames( String[] arg_names ) {
         this.arg_names = arg_names;
     }
 
@@ -808,7 +808,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentName( int i, String name ) { // TODO unused
+    public void setArgumentName( int i, String name ) {
         arg_names[i] = name;
     }
 
@@ -823,7 +823,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setInstructionList( InstructionList il ) { // TODO could be package-protected?
+    public void setInstructionList( InstructionList il ) {
         this.il = il;
     }
 
@@ -837,7 +837,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     /**
      * Computes max. stack size by performing control flow analysis.
      */
-    public void setMaxStack() { // TODO could be package-protected? (some tests would need repackaging)
+    public void setMaxStack() {
         if (il != null) {
             max_stack = getMaxStack(cp, il, getExceptionHandlers());
         } else {
@@ -849,7 +849,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     /**
      * Compute maximum number of local variables.
      */
-    public void setMaxLocals() { // TODO could be package-protected? (some tests would need repackaging)
+    public void setMaxLocals() {
         if (il != null) {
             int max = isStatic() ? 0 : 1;
             if (arg_types != null) {
