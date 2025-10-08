@@ -234,8 +234,9 @@ public class SimpleElementValueGen extends ElementValueGen
             ConstantInteger bo = (ConstantInteger) getConstantPoolgen().getConstant(idx);
             if (bo.getBytes() == 0) {
                 return "false";
+            } else {
+                return "true";
             }
-            return "true";
         case STRING:
             ConstantUtf8 cu8 = (ConstantUtf8) getConstantPoolgen().getConstant(idx);
             return cu8.getBytes();

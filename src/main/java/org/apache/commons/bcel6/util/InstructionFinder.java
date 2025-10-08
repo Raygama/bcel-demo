@@ -72,7 +72,7 @@ public class InstructionFinder {
     // LATIN-1
     private static final int NO_OPCODES = 256; // Potential number,
     // some are not used
-    private static final Map<String, String> map = new HashMap<>();
+    private static final Map<String, String> map = new HashMap<String, String>();
     private final InstructionList il;
     private String il_string; // instruction list
     // as string
@@ -223,7 +223,7 @@ public class InstructionFinder {
                     + " not found in instruction list.");
         }
         Pattern regex = Pattern.compile(search);
-        List<InstructionHandle[]> matches = new ArrayList<>();
+        List<InstructionHandle[]> matches = new ArrayList<InstructionHandle[]>();
         Matcher matcher = regex.matcher(il_string);
         while (start < il_string.length() && matcher.find(start)) {
             int startExpr = matcher.start();

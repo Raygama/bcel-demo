@@ -37,7 +37,7 @@ public class ArrayElementValueGen extends ElementValueGen
     public ArrayElementValueGen(ConstantPoolGen cp)
     {
         super(ARRAY, cp);
-        evalues = new ArrayList<>();
+        evalues = new ArrayList<ElementValueGen>();
     }
 
     public ArrayElementValueGen(int type, ElementValue[] datums,
@@ -48,7 +48,7 @@ public class ArrayElementValueGen extends ElementValueGen
             throw new RuntimeException(
                     "Only element values of type array can be built with this ctor - type specified: " + type);
         }
-        this.evalues = new ArrayList<>();
+        this.evalues = new ArrayList<ElementValueGen>();
         for (ElementValue datum : datums) {
             evalues.add(ElementValueGen.copy(datum, cpool, true));
         }
@@ -77,7 +77,7 @@ public class ArrayElementValueGen extends ElementValueGen
             boolean copyPoolEntries)
     {
         super(ARRAY, cpool);
-        evalues = new ArrayList<>();
+        evalues = new ArrayList<ElementValueGen>();
         ElementValue[] in = value.getElementValuesArray();
         for (ElementValue element : in) {
             evalues.add(ElementValueGen.copy(element, cpool, copyPoolEntries));

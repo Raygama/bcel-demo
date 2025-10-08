@@ -76,7 +76,7 @@ class BCELFactory extends EmptyVisitor {
         _out = out;
     }
 
-    private final Map<Instruction, InstructionHandle> branch_map = new HashMap<>();
+    private final Map<Instruction, InstructionHandle> branch_map = new HashMap<Instruction, InstructionHandle>();
 
 
     public void start() {
@@ -259,7 +259,7 @@ class BCELFactory extends EmptyVisitor {
     }
 
     // Memorize BranchInstructions that need an update
-    private final List<BranchInstruction> branches = new ArrayList<>();
+    private final List<BranchInstruction> branches = new ArrayList<BranchInstruction>();
 
 
     @Override

@@ -36,11 +36,11 @@ public class VerifierFactory {
     /**
      * The HashMap that holds the data about the already-constructed Verifier instances.
      */
-    private static final Map<String, Verifier> hashMap = new HashMap<>();
+    private static final Map<String, Verifier> hashMap = new HashMap<String, Verifier>();
     /**
      * The VerifierFactoryObserver instances that observe the VerifierFactory.
      */
-    private static final List<VerifierFactoryObserver> observers = new Vector<>();
+    private static final List<VerifierFactoryObserver> observers = new Vector<VerifierFactoryObserver>();
 
 
     /**

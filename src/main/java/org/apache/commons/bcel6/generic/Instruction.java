@@ -80,8 +80,9 @@ public abstract class Instruction implements Cloneable, Serializable {
     public String toString( boolean verbose ) {
         if (verbose) {
             return getName() + "[" + opcode + "](" + length + ")";
+        } else {
+            return getName();
         }
-        return getName();
     }
 
 

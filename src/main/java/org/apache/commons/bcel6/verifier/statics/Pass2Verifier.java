@@ -191,7 +191,7 @@ public final class Pass2Verifier extends PassVerifier {
      */
     private void every_class_has_an_accessible_superclass(){
         try {
-        Set<String> hs = new HashSet<>(); // save class names to detect circular inheritance
+        Set<String> hs = new HashSet<String>(); // save class names to detect circular inheritance
         JavaClass jc = Repository.lookupClass(myOwner.getClassName());
         int supidx = -1;
 
@@ -241,7 +241,7 @@ public final class Pass2Verifier extends PassVerifier {
      */
     private void final_methods_are_not_overridden(){
         try {
-        Map<String, String> hashmap = new HashMap<>();
+        Map<String, String> hashmap = new HashMap<String, String>();
         JavaClass jc = Repository.lookupClass(myOwner.getClassName());
 
         int supidx = -1;
@@ -327,9 +327,9 @@ public final class Pass2Verifier extends PassVerifier {
         private final int cplen; // == cp.getLength() -- to save computing power.
         private final DescendingVisitor carrier;
 
-        private final Set<String> field_names = new HashSet<>();
-        private final Set<String> field_names_and_desc = new HashSet<>();
-        private final Set<String> method_names_and_desc = new HashSet<>();
+        private final Set<String> field_names = new HashSet<String>();
+        private final Set<String> field_names_and_desc = new HashSet<String>();
+        private final Set<String> method_names_and_desc = new HashSet<String>();
 
         private CPESSC_Visitor(JavaClass _jc){
             jc = _jc;
@@ -1067,25 +1067,29 @@ public final class Pass2Verifier extends PassVerifier {
                 if (vr != VerificationResult.VR_OK){
                     throw new ClassConstraintException("Exceptions attribute '"+tostring(obj)+"' references '"+cname+"' as an Exception but it does not pass verification pass 1: "+vr);
                 }
-                // We cannot safely trust any other "instanceof" mechanism. We need to transitively verify
-                // the ancestor hierarchy.
-                JavaClass e = Repository.lookupClass(cname);
-                JavaClass t = Repository.lookupClass(Type.THROWABLE.getClassName());
-                JavaClass o = Repository.lookupClass(Type.OBJECT.getClassName());
-                while (e != o){
-                    if (e == t) {
-                        break; // It's a subclass of Throwable, OKAY, leave.
-                    }
+                else{
+                    // We cannot safely trust any other "instanceof" mechanism. We need to transitively verify
+                    // the ancestor hierarchy.
+                    JavaClass e = Repository.lookupClass(cname);
+                    JavaClass t = Repository.lookupClass(Type.THROWABLE.getClassName());
+                    JavaClass o = Repository.lookupClass(Type.OBJECT.getClassName());
+                    while (e != o){
+                        if (e == t) {
+                            break; // It's a subclass of Throwable, OKAY, leave.
+                        }
 
-                    v = VerifierFactory.getVerifier(e.getSuperclassName());
-                    vr = v.doPass1();
-                    if (vr != VerificationResult.VR_OK){
-                        throw new ClassConstraintException("Exceptions attribute '"+tostring(obj)+"' references '"+cname+"' as an Exception but '"+e.getSuperclassName()+"' in the ancestor hierachy does not pass verification pass 1: "+vr);
+                        v = VerifierFactory.getVerifier(e.getSuperclassName());
+                        vr = v.doPass1();
+                        if (vr != VerificationResult.VR_OK){
+                            throw new ClassConstraintException("Exceptions attribute '"+tostring(obj)+"' references '"+cname+"' as an Exception but '"+e.getSuperclassName()+"' in the ancestor hierachy does not pass verification pass 1: "+vr);
+                        }
+                        else{
+                            e = Repository.lookupClass(e.getSuperclassName());
+                        }
                     }
-                    e = Repository.lookupClass(e.getSuperclassName());
-                }
-                if (e != t) {
-                    throw new ClassConstraintException("Exceptions attribute '"+tostring(obj)+"' references '"+cname+"' as an Exception but it is not a subclass of '"+t.getClassName()+"'.");
+                    if (e != t) {
+                        throw new ClassConstraintException("Exceptions attribute '"+tostring(obj)+"' references '"+cname+"' as an Exception but it is not a subclass of '"+t.getClassName()+"'.");
+                    }
                 }
             }
 
@@ -1331,7 +1335,9 @@ public final class Pass2Verifier extends PassVerifier {
         if (allowStaticInit){
             return (name.equals(Constants.CONSTRUCTOR_NAME) || name.equals(Constants.STATIC_INITIALIZER_NAME));
         }
-        return name.equals(Constants.CONSTRUCTOR_NAME);
+        else{
+            return name.equals(Constants.CONSTRUCTOR_NAME);
+        }
     }
 
     /**

@@ -289,8 +289,9 @@ public class InstructionList implements Serializable {
             length = il.length;
             il.clear();
             return start;
+        } else {
+            return append(end, il); // was end.instruction
         }
-        return append(end, il); // was end.instruction
     }
 
 
@@ -455,8 +456,9 @@ public class InstructionList implements Serializable {
         if (isEmpty()) {
             append(il); // Code is identical for this case
             return start;
+        } else {
+            return insert(start, il);
         }
-        return insert(start, il);
     }
 
 
@@ -705,7 +707,7 @@ public class InstructionList implements Serializable {
         }
         first.prev = null; // Completely separated from rest of list
         last.next = null;
-        List<InstructionHandle> target_vec = new ArrayList<>();
+        List<InstructionHandle> target_vec = new ArrayList<InstructionHandle>();
         for (InstructionHandle ih = first; ih != null; ih = ih.next) {
             ih.getInstruction().dispose(); // e.g. BranchInstructions release their targets
         }
@@ -961,7 +963,7 @@ public class InstructionList implements Serializable {
      */
     public Instruction[] getInstructions() {
         ByteSequence bytes = new ByteSequence(getByteCode());
-        List<Instruction> instructions = new ArrayList<>();
+        List<Instruction> instructions = new ArrayList<Instruction>();
         try {
             while (bytes.available() > 0) {
                 instructions.add(Instruction.readInstruction(bytes));
@@ -1056,7 +1058,7 @@ public class InstructionList implements Serializable {
      * @return complete, i.e., deep copy of this list
      */
     public InstructionList copy() {
-        Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
+        Map<InstructionHandle, InstructionHandle> map = new HashMap<InstructionHandle, InstructionHandle>();
         InstructionList il = new InstructionList();
         /* Pass 1: Make copies of all instructions, append them to the new list
          * and associate old instruction references with the new ones, i.e.,
@@ -1251,7 +1253,7 @@ public class InstructionList implements Serializable {
      */
     public void addObserver( InstructionListObserver o ) {
         if (observers == null) {
-            observers = new ArrayList<>();
+            observers = new ArrayList<InstructionListObserver>();
         }
         observers.add(o);
     }

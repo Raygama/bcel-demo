@@ -269,7 +269,7 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     public void addObserver( FieldObserver o ) {
         if (observers == null) {
-            observers = new ArrayList<>();
+            observers = new ArrayList<FieldObserver>();
         }
         observers.add(o);
     }
@@ -300,8 +300,9 @@ public class FieldGen extends FieldGenOrMethodGen {
     public String getInitValue() {
         if (value != null) {
             return value.toString();
+        } else {
+            return null;
         }
-        return null;
     }
 
 

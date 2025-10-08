@@ -36,7 +36,7 @@ import org.apache.commons.bcel6.verifier.exc.StructuralCodeConstraintException;
 public class OperandStack{
 
     /** We hold the stack information here. */
-    private ArrayList<Type> stack = new ArrayList<>();
+    private ArrayList<Type> stack = new ArrayList<Type>();
 
     /** The maximum number of stack slots this OperandStack instance may hold. */
     private final int maxStack;
@@ -74,7 +74,7 @@ public class OperandStack{
      * Clears the stack.
      */
     public void clear(){
-        stack = new ArrayList<>();
+        stack = new ArrayList<Type>();
     }
 
     /** @return a hash code value for the object.

@@ -69,7 +69,7 @@ public class AnnotationEntryGen {
 
     private List<ElementValuePairGen> copyValues(ElementValuePair[] in, ConstantPoolGen cpool,
                                                  boolean copyPoolEntries) {
-        List<ElementValuePairGen> out = new ArrayList<>();
+        List<ElementValuePairGen> out = new ArrayList<ElementValuePairGen>();
         for (ElementValuePair nvp : in) {
             out.add(new ElementValuePairGen(nvp, cpool, copyPoolEntries));
         }
@@ -125,7 +125,7 @@ public class AnnotationEntryGen {
 
     public void addElementNameValuePair(ElementValuePairGen evp) {
         if (evs == null) {
-            evs = new ArrayList<>();
+            evs = new ArrayList<ElementValuePairGen>();
         }
         evs.add(evp);
     }
@@ -247,7 +247,7 @@ public class AnnotationEntryGen {
                 riaIndex = cp.addUtf8("RuntimeInvisibleAnnotations");
             }
 
-            List<Attribute> newAttributes = new ArrayList<>();
+            List<Attribute> newAttributes = new ArrayList<Attribute>();
             if (rvaData.length > 2) {
                 newAttributes.add(
                         new RuntimeVisibleAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
@@ -332,7 +332,7 @@ public class AnnotationEntryGen {
             if (totalInvisCount > 0) {
                 riaIndex = cp.addUtf8("RuntimeInvisibleParameterAnnotations");
             }
-            List<Attribute> newAttributes = new ArrayList<>();
+            List<Attribute> newAttributes = new ArrayList<Attribute>();
             if (totalVisCount > 0) {
                 newAttributes
                         .add(new RuntimeVisibleParameterAnnotations(rvaIndex,

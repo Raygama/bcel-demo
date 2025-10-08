@@ -718,7 +718,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      */
     public JavaClass[] getSuperClasses() throws ClassNotFoundException {
         JavaClass clazz = this;
-        List<JavaClass> allSuperClasses = new ArrayList<>();
+        List<JavaClass> allSuperClasses = new ArrayList<JavaClass>();
         for (clazz = clazz.getSuperClass(); clazz != null; clazz = clazz.getSuperClass()) {
             allSuperClasses.add(clazz);
         }
@@ -744,7 +744,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
      */
     public JavaClass[] getAllInterfaces() throws ClassNotFoundException {
         ClassQueue queue = new ClassQueue();
-        Set<JavaClass> allInterfaces = new TreeSet<>();
+        Set<JavaClass> allInterfaces = new TreeSet<JavaClass>();
         queue.enqueue(this);
         while (!queue.empty()) {
             JavaClass clazz = queue.dequeue();

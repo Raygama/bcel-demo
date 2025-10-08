@@ -92,7 +92,7 @@ public abstract class Attribute implements Cloneable, Node, Serializable
         file.writeInt(length);
     }
 
-    private static final Map<String, Object> readers = new HashMap<>();
+    private static final Map<String, Object> readers = new HashMap<String, Object>();
 
     /**
      * Add an Attribute reader capable of parsing (user-defined) attributes
