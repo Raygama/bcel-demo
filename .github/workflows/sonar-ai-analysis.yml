@@ -121,7 +121,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          set -euo pipefail
+          set -euo pipefail 
 
           # ---- Tunables (tighten if you still hit limits) ----
           MAX_ISSUES=120            # hard cap on issues you will pass to AI
