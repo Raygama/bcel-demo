@@ -28,7 +28,8 @@ import java.lang.reflect.Modifier;
  * 
  * <pre>java org.apache.commons.bcel6.util.JavaWrapper &lt;real.class.name&gt; [arguments]</pre>
  * 
- * <p>To use your own class loader you can set the "bcel.classloader" system property<p>
+ * <p>To use your own class loader you can set the "bcel.classloader" system property
+ * which defaults to "org.apache.commons.bcel6.util.ClassLoader", e.g., with:</p>
  * <pre>java org.apache.commons.bcel6.util.JavaWrapper -Dbcel.classloader=foo.MyLoader &lt;real.class.name&gt; [arguments]</pre>
  *
  * @version $Id$
@@ -42,7 +43,7 @@ public class JavaWrapper {
     private static java.lang.ClassLoader getClassLoader() {
         String s = System.getProperty("bcel.classloader");
         if ((s == null) || "".equals(s)) {
-            throw new IllegalArgumentException("The property 'bcel.classloader' must be defined");
+            s = "org.apache.commons.bcel6.util.ClassLoader";
         }
         try {
             return (java.lang.ClassLoader) Class.forName(s).newInstance();

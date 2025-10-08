@@ -48,8 +48,6 @@ public class BCELifier extends org.apache.commons.bcel6.classfile.EmptyVisitor {
     private static final int FLAG_FOR_UNKNOWN = -1;
     private static final int FLAG_FOR_CLASS = 0;
     private static final int FLAG_FOR_METHOD = 1;
-    // The base package name for imports; assumes Constants is at the top level
-    private static final String BASE_PACKAGE = Constants.class.getPackage().getName();
     private final JavaClass _clazz;
     private final PrintWriter _out;
     private final ConstantPoolGen _cp;
@@ -84,9 +82,9 @@ public class BCELifier extends org.apache.commons.bcel6.classfile.EmptyVisitor {
             _out.println("package " + package_name + ";");
             _out.println();
         }
-        _out.println("import " + BASE_PACKAGE + ".generic.*;");
-        _out.println("import " + BASE_PACKAGE + ".classfile.*;");
-        _out.println("import " + BASE_PACKAGE + ".*;");
+        _out.println("import org.apache.commons.bcel6.generic.*;");
+        _out.println("import org.apache.commons.bcel6.classfile.*;");
+        _out.println("import org.apache.commons.bcel6.*;");
         _out.println("import java.io.*;");
         _out.println();
         _out.println("public class " + class_name + "Creator implements Constants {");
@@ -98,8 +96,8 @@ public class BCELifier extends org.apache.commons.bcel6.classfile.EmptyVisitor {
         _out.println("    _cg = new ClassGen(\""
                 + (("".equals(package_name)) ? class_name : package_name + "." + class_name)
                 + "\", \"" + super_name + "\", " + "\"" + clazz.getSourceFileName() + "\", "
-                + printFlags(clazz.getAccessFlags(), FLAG_FOR_CLASS) + ", "
-                + "new String[] { " + inter + " });");
+                + printFlags(clazz.getAccessFlags(), FLAG_FOR_CLASS) + ", " + "new String[] { "
+                + inter + " });");
         _out.println();
         _out.println("    _cp = _cg.getConstantPool();");
         _out.println("    _factory = new InstructionFactory(_cg, _cp);");
@@ -170,11 +168,12 @@ public class BCELifier extends org.apache.commons.bcel6.classfile.EmptyVisitor {
     @Override
     public void visitMethod( Method method ) {
         MethodGen mg = new MethodGen(method, _clazz.getClassName(), _cp);
+        Type result_type = mg.getReturnType();
+        Type[] arg_types = mg.getArgumentTypes();
         _out.println("    InstructionList il = new InstructionList();");
         _out.println("    MethodGen method = new MethodGen("
                 + printFlags(method.getAccessFlags(), FLAG_FOR_METHOD) + ", "
-                + printType(mg.getReturnType()) + ", "
-                + printArgumentTypes(mg.getArgumentTypes()) + ", "
+                + printType(result_type) + ", " + printArgumentTypes(arg_types) + ", "
                 + "new String[] { " + Utility.printArray(mg.getArgumentNames(), false, true)
                 + " }, \"" + method.getName() + "\", \"" + _clazz.getClassName() + "\", il, _cp);");
         _out.println();

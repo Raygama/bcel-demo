@@ -23,7 +23,8 @@ import java.io.IOException;
 import org.apache.commons.bcel6.Constants;
 
 /** 
- * This class is derived from the abstract {@link Constant}
+ * This class is derived from the abstract 
+ * <A HREF="org.apache.commons.bcel6.classfile.Constant.html">Constant</A> class 
  * and represents a reference to a invoke dynamic.
  * 
  * @see     Constant

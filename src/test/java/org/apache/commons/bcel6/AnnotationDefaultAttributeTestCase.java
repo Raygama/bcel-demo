@@ -33,7 +33,7 @@ public class AnnotationDefaultAttributeTestCase extends AbstractTestCase
      */
     public void testMethodAnnotations() throws ClassNotFoundException
     {
-        JavaClass clazz = getTestClass(PACKAGE_BASE_NAME+".data.SimpleAnnotation");
+        JavaClass clazz = getTestClass("org.apache.commons.bcel6.data.SimpleAnnotation");
         Method m = getMethod(clazz, "fruit");
         AnnotationDefault a = (AnnotationDefault) findAttribute(
                 "AnnotationDefault", m.getAttributes());

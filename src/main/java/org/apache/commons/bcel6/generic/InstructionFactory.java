@@ -745,7 +745,7 @@ public class InstructionFactory implements java.io.Serializable {
     }
 
 
-    public void setClassGen( ClassGen c ) {
+    public void setClassGen( ClassGen c ) { // TODO unused
         cg = c;
     }
 
@@ -755,7 +755,7 @@ public class InstructionFactory implements java.io.Serializable {
     }
 
 
-    public void setConstantPool( ConstantPoolGen c ) {
+    public void setConstantPool( ConstantPoolGen c ) { // TODO unused
         cp = c;
     }
 

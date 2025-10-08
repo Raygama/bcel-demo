@@ -35,8 +35,8 @@ import org.apache.commons.bcel6.Constants;
 
  *
  * @version $Id$
- * @see Attribute
- * @see UnknownAttributeReader
+ * @see org.apache.commons.bcel6.classfile.Attribute
+ * @see org.apache.commons.bcel6.classfile.UnknownAttributeReader
  */
 public final class Unknown extends Attribute {
 

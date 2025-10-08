@@ -753,7 +753,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setReturnType( Type return_type ) {
+    public void setReturnType( Type return_type ) { // TODO unused
         setType(return_type);
     }
 
@@ -763,7 +763,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentTypes( Type[] arg_types ) {
+    public void setArgumentTypes( Type[] arg_types ) { // TODO could be package-protected?
         this.arg_types = arg_types;
     }
 
@@ -773,7 +773,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentType( int i, Type type ) {
+    public void setArgumentType( int i, Type type ) { // TODO unused
         arg_types[i] = type;
     }
 
@@ -783,7 +783,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentNames( String[] arg_names ) {
+    public void setArgumentNames( String[] arg_names ) { // TODO could be package-protected?
         this.arg_names = arg_names;
     }
 
@@ -793,7 +793,7 @@ public class MethodGen extends FieldGenOrMethodGen {
     }
 
 
-    public void setArgumentName( int i, String name ) {
+    public void setArgumentName( int i, String name ) { // TODO unused
         arg_names[i] = name;
     }
 

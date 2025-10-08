@@ -27,7 +27,8 @@ import java.util.Map;
 import org.apache.commons.bcel6.Constants;
 
 /** 
- * This class is derived from the abstract {@link Constant}
+ * This class is derived from the abstract 
+ * <A HREF="org.apache.commons.bcel6.classfile.Constant.html">Constant</A> class 
  * and represents a reference to a Utf8 encoded string.
  *
  * @version $Id$

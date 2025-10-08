@@ -74,7 +74,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     static boolean debug = false; // Debugging on/off
     final static char sep = File.separatorChar; // directory separator
     
-    private static final BCELComparator _cmp = new BCELComparator() {
+    private static final BCELComparator _cmp = new BCELComparator() { // TODO could be final (setter unused)
 
         @Override
         public boolean equals( Object o1, Object o2 ) {
@@ -430,7 +430,7 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
 
 
     /**
-     * @return A {@link Method} corresponding to
+     * @return A org.apache.commons.bcel6.classfile.Method corresponding to
      * java.lang.reflect.Method if any
      */
     public Method getMethod( java.lang.reflect.Method m ) {

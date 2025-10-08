@@ -217,7 +217,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
     public void testTransformClassToClassGen_SimpleTypes()
             throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.SimpleAnnotatedClass");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.SimpleAnnotatedClass");
         ClassGen cgen = new ClassGen(jc);
         // Check annotations are correctly preserved
         AnnotationEntryGen[] annotations = cgen.getAnnotationEntries();
@@ -232,7 +232,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
     public void testTransformClassToClassGen_EnumType()
             throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.AnnotatedWithEnumClass");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.AnnotatedWithEnumClass");
         ClassGen cgen = new ClassGen(jc);
         // Check annotations are correctly preserved
         AnnotationEntryGen[] annotations = cgen.getAnnotationEntries();
@@ -247,7 +247,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
     public void testTransformClassToClassGen_ArrayAndAnnotationTypes()
             throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.AnnotatedWithCombinedAnnotation");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.AnnotatedWithCombinedAnnotation");
         ClassGen cgen = new ClassGen(jc);
         // Check annotations are correctly preserved
         AnnotationEntryGen[] annotations = cgen.getAnnotationEntries();
@@ -270,10 +270,10 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
                         + innerValue,
                 innerValue instanceof AnnotationElementValueGen);
         AnnotationElementValueGen innerAnnotationValue = (AnnotationElementValueGen) innerValue;
-        assertTrue("Should be called L"+PACKAGE_BASE_SIG+"/data/SimpleAnnotation; but is called: "
+        assertTrue("Should be called Lorg/apache/commons/bcel6/data/SimpleAnnotation; but is called: "
                 + innerAnnotationValue.getAnnotation().getTypeName(),
                 innerAnnotationValue.getAnnotation().getTypeSignature().equals(
-                        "L"+PACKAGE_BASE_SIG+"/data/SimpleAnnotation;"));
+                        "Lorg/apache/commons/bcel6/data/SimpleAnnotation;"));
 
         // check the three methods
         Method[] methods = cgen.getMethods();
@@ -354,7 +354,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
     public void testTransformComplexClassToClassGen()
             throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.ComplexAnnotatedClass");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.ComplexAnnotatedClass");
         ClassGen cgen = new ClassGen(jc);
         // Check annotations are correctly preserved
         AnnotationEntryGen[] annotations = cgen.getAnnotationEntries();
@@ -382,7 +382,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
      */
     public void testModifyingClasses1() throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.SimpleAnnotatedClass");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.SimpleAnnotatedClass");
         ClassGen cgen = new ClassGen(jc);
         ConstantPoolGen cp = cgen.getConstantPool();
         cgen.addAnnotationEntry(createFruitAnnotation(cp, "Pineapple"));
@@ -399,7 +399,7 @@ public class GeneratingAnnotatedClassesTestCase extends AbstractTestCase
      */
     public void testModifyingClasses2() throws ClassNotFoundException
     {
-        JavaClass jc = getTestClass(PACKAGE_BASE_NAME+".data.SimpleAnnotatedClass");
+        JavaClass jc = getTestClass("org.apache.commons.bcel6.data.SimpleAnnotatedClass");
         ClassGen cgen = new ClassGen(jc);
         ConstantPoolGen cp = cgen.getConstantPool();
         cgen.addAnnotationEntry(createCombinedAnnotation(cp));
