@@ -58,7 +58,7 @@ public class VerifierAppFrame extends JFrame {
     JPanel jPanel2 = new JPanel();
     JSplitPane jSplitPane2 = new JSplitPane();
     JPanel jPanel3 = new JPanel();
-    JList<String> classNamesJList = new JList<>();
+    JList classNamesJList = new JList(); // TODO Java7 makes this generic
     GridLayout gridLayout1 = new GridLayout();
     JPanel messagesPanel = new JPanel();
     GridLayout gridLayout2 = new GridLayout();
@@ -83,8 +83,8 @@ public class VerifierAppFrame extends JFrame {
     JScrollPane jScrollPane5 = new JScrollPane();
     JScrollPane jScrollPane6 = new JScrollPane();
     JScrollPane jScrollPane7 = new JScrollPane();
-    JList<String> pass3aJList = new JList<>();
-    JList<String> pass3bJList = new JList<>();
+    JList pass3aJList = new JList();
+    JList pass3bJList = new JList();
     JTextPane pass3aTextPane = new JTextPane();
     JTextPane pass3bTextPane = new JTextPane();
     JMenu jMenu2 = new JMenu();
