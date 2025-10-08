@@ -109,8 +109,7 @@ final class MethodHTML {
         // Get return type string
         String type = Utility.methodSignatureReturnType(signature, false);
         // Get method name
-        String name = method.getName();
-        String html_name;
+        String name = method.getName(), html_name;
         // Get method's access flags
         String access = Utility.accessToString(method.getAccessFlags());
         // Get the method's attributes, the Code Attribute in particular

@@ -34,7 +34,6 @@ import org.apache.commons.bcel6.Constants;
  */
 public final class LineNumberTable extends Attribute {
 
-    private static final int MAX_LINE_LENGTH = 72;
     private LineNumber[] line_number_table; // Table of line/numbers pairs
 
 
@@ -71,7 +70,7 @@ public final class LineNumberTable extends Attribute {
     LineNumberTable(int name_index, int length, DataInput input, ConstantPool constant_pool)
             throws IOException {
         this(name_index, length, (LineNumber[]) null, constant_pool);
-        int line_number_table_length = input.readUnsignedShort();
+        int line_number_table_length = (input.readUnsignedShort());
         line_number_table = new LineNumber[line_number_table_length];
         for (int i = 0; i < line_number_table_length; i++) {
             line_number_table[i] = new LineNumber(input);
@@ -137,7 +136,7 @@ public final class LineNumberTable extends Attribute {
             if (i < line_number_table.length - 1) {
                 line.append(", ");
             }
-            if ((line.length() > MAX_LINE_LENGTH) && (i < line_number_table.length - 1)) {
+            if ((line.length() > 72) && (i < line_number_table.length - 1)) {
                 line.append(newLine);
                 buf.append(line.toString());
                 line.setLength(0);
@@ -160,8 +159,7 @@ public final class LineNumberTable extends Attribute {
         if (r < 0) {
             return -1;
         }
-        int min_index = -1;
-        int min = -1;
+        int min_index = -1, min = -1;
         /* Do a binary search since the array is ordered.
          */
         do {

@@ -638,7 +638,7 @@ public class MethodGen extends FieldGenOrMethodGen {
          */
         int attrs_len = 0;
         for (Attribute code_attr : code_attrs) {
-            attrs_len += code_attr.getLength() + 6;
+            attrs_len += (code_attr.getLength() + 6);
         }
         CodeException[] c_exc = getCodeExceptions();
         int exc_len = c_exc.length * 8; // Every entry takes 8 bytes
@@ -906,7 +906,7 @@ public class MethodGen extends FieldGenOrMethodGen {
 
 
         private boolean visited( InstructionHandle target ) {
-            return visitedTargets.get(target) != null;
+            return (visitedTargets.get(target) != null);
         }
     }
 
@@ -929,8 +929,7 @@ public class MethodGen extends FieldGenOrMethodGen {
                 branchTargets.push(handler_pc, 1);
             }
         }
-        int stackDepth = 0;
-        int maxStackDepth = 0;
+        int stackDepth = 0, maxStackDepth = 0;
         InstructionHandle ih = il.getStart();
         while (ih != null) {
             Instruction instruction = ih.getInstruction();

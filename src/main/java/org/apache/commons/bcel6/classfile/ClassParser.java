@@ -258,7 +258,8 @@ public final class ClassParser {
      * @throws  ClassFormatException
      */
     private void readID() throws IOException, ClassFormatException {
-        if (dataInputStream.readInt() != Constants.JVM_CLASSFILE_MAGIC) {
+        int magic = 0xCAFEBABE;
+        if (dataInputStream.readInt() != magic) {
             throw new ClassFormatException(file_name + " is not a Java .class file");
         }
     }

@@ -20,6 +20,10 @@ package org.apache.commons.bcel6.verifier;
 
 import java.util.Collection;
 
+import org.apache.commons.bcel6.verifier.VerificationResult;
+import org.apache.commons.bcel6.verifier.Verifier;
+import org.apache.commons.bcel6.verifier.VerifierFactory;
+
 import junit.framework.TestCase;
 
 public class VerifierTestCase extends TestCase {
@@ -30,12 +34,10 @@ public class VerifierTestCase extends TestCase {
         Verifier verifier = VerifierFactory.getVerifier(classname);
         VerificationResult result = verifier.doPass1();
 
-        assertEquals("Pass 1 verification of " + classname + " failed: " + result.getMessage(), VerificationResult.VERIFIED_OK,
-                result.getStatus());
+        assertEquals("Pass 1 verification of " + classname + " failed: " + result.getMessage(), VerificationResult.VERIFIED_OK, result.getStatus());
 
         result = verifier.doPass2();
 
-        assertEquals("Pass 2 verification of " + classname + " failed: " + result.getMessage(), VerificationResult.VERIFIED_OK,
-                result.getStatus());
+        assertEquals("Pass 2 verification of " + classname + " failed: " + result.getMessage(), VerificationResult.VERIFIED_OK, result.getStatus());
     }
 }

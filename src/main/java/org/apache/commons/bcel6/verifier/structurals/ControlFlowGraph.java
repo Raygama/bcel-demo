@@ -127,8 +127,7 @@ public class ControlFlowGraph{
             org = outFrames.get(jsr);
 
             if (org == null){
-                throw new AssertionViolatedException(
-                    "outFrame not set! This:\n"+this+"\nExecutionChain: "+getExecutionChain()+"\nOutFrames: '"+outFrames+"'.");
+                throw new AssertionViolatedException("outFrame not set! This:\n"+this+"\nExecutionChain: "+getExecutionChain()+"\nOutFrames: '"+outFrames+"'.");
             }
             return org.getClone();
         }
@@ -334,8 +333,7 @@ public class ControlFlowGraph{
 
             if (inst instanceof RET){
                 Subroutine s = subroutines.subroutineOf(getInstruction());
-                if (s==null){ //return empty;
-                    // RET in dead code. "empty" would be the correct answer, but we know something about the surrounding project...
+                if (s==null){ //return empty; // RET in dead code. "empty" would be the correct answer, but we know something about the surrounding project...
                     throw new AssertionViolatedException("Asking for successors of a RET in dead code?!");
                 }
 
@@ -406,7 +404,7 @@ public class ControlFlowGraph{
     private final ExceptionHandlers exceptionhandlers;
 
     /** All InstructionContext instances of this ControlFlowGraph. */
-    private final Map<InstructionHandle, InstructionContext> instructionContexts = new HashMap<>();
+    private final Map<InstructionHandle, InstructionContext> instructionContexts = new HashMap<>(); //keys: InstructionHandle, values: InstructionContextImpl
 
     /** 
      * A Control Flow Graph.

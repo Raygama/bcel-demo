@@ -65,7 +65,6 @@ import org.apache.commons.bcel6.classfile.Visitor;
 
 public class CounterVisitor implements Visitor
 {
-    // CHECKSTYLE:OFF (public mutable fields in test code)
     public int unknownCount = 0;
 
     public int syntheticCount = 0;
@@ -156,7 +155,6 @@ public class CounterVisitor implements Visitor
 
     /** @since 6.0 */
     public int constantInvokeDynamic = 0;
-    // CHECKSTYLE:ON
 
 
     @Override

@@ -249,7 +249,7 @@ public class FieldGen extends FieldGenOrMethodGen {
             case Constants.T_LONG:
                 return cp.addLong(((Long) value).longValue());
             case Constants.T_REFERENCE:
-                return cp.addString((String) value);
+                return cp.addString(((String) value));
             default:
                 throw new RuntimeException("Oops: Unhandled : " + type.getType());
         }
@@ -312,14 +312,12 @@ public class FieldGen extends FieldGenOrMethodGen {
      */
     @Override
     public final String toString() {
-        String name;
-        String signature;
-        String access; // Short cuts to constant pool
+        String name, signature, access; // Short cuts to constant pool
         access = Utility.accessToString(super.getAccessFlags());
         access = access.equals("") ? "" : (access + " ");
         signature = type.toString();
         name = getName();
-        StringBuilder buf = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(32);
         buf.append(access).append(signature).append(" ").append(name);
         String value = getInitValue();
         if (value != null) {

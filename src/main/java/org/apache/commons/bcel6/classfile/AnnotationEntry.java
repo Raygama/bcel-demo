@@ -52,11 +52,10 @@ public class AnnotationEntry implements Node {
     public static AnnotationEntry read(DataInput input, ConstantPool constant_pool, boolean isRuntimeVisible) throws IOException {
 
         final AnnotationEntry annotationEntry = new AnnotationEntry(input.readUnsignedShort(), constant_pool, isRuntimeVisible);
-        final int num_element_value_pairs = input.readUnsignedShort();
+        final int num_element_value_pairs = (input.readUnsignedShort());
         annotationEntry.element_value_pairs = new ArrayList<>();
         for (int i = 0; i < num_element_value_pairs; i++) {
-            annotationEntry.element_value_pairs.add(
-                    new ElementValuePair(input.readUnsignedShort(), ElementValue.readElementValue(input, constant_pool),
+            annotationEntry.element_value_pairs.add(new ElementValuePair(input.readUnsignedShort(), ElementValue.readElementValue(input, constant_pool),
                     constant_pool));
         }
         return annotationEntry;

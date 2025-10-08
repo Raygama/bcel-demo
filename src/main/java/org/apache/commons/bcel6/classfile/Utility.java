@@ -146,7 +146,7 @@ public abstract class Utility {
      */
     public static String codeToString( byte[] code, ConstantPool constant_pool, int index,
             int length, boolean verbose ) {
-        StringBuilder buf = new StringBuilder(code.length * 20); // Should be sufficient // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(code.length * 20); // Should be sufficient
         ByteSequence stream = new ByteSequence(code);
         try {
             for (int i = 0; i < index; i++) {
@@ -283,7 +283,7 @@ public abstract class Utility {
              */
             case Constants.GOTO_W:
             case Constants.JSR_W:
-                buf.append("\t\t#").append((bytes.getIndex() - 1) + bytes.readInt());
+                buf.append("\t\t#").append(((bytes.getIndex() - 1) + bytes.readInt()));
                 break;
             /* Index byte references local variable (register)
              */
@@ -329,7 +329,7 @@ public abstract class Utility {
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t").append(
                         constant_pool.constantToString(index, Constants.CONSTANT_Fieldref)).append(
-                        verbose ? " (" + index + ")" : "");
+                        (verbose ? " (" + index + ")" : ""));
                 break;
             /* Operands are references to classes in constant pool
              */
@@ -341,7 +341,7 @@ public abstract class Utility {
                 index = bytes.readUnsignedShort();
                 buf.append("\t<").append(
                         constant_pool.constantToString(index, Constants.CONSTANT_Class))
-                        .append(">").append(verbose ? " (" + index + ")" : "");
+                        .append(">").append((verbose ? " (" + index + ")" : ""));
                 break;
             /* Operands are references to methods in constant pool
              */
@@ -353,13 +353,13 @@ public abstract class Utility {
                 // or a CONSTANT_InterfaceMethodref.   (markro)
                 buf.append("\t").append(
                         constant_pool.constantToString(index, c.getTag()))
-                        .append(verbose ? " (" + index + ")" : "");
+                        .append((verbose ? " (" + index + ")" : ""));
                 break;
             case Constants.INVOKEVIRTUAL:
                 index = bytes.readUnsignedShort();
                 buf.append("\t").append(
                         constant_pool.constantToString(index, Constants.CONSTANT_Methodref))
-                        .append(verbose ? " (" + index + ")" : "");
+                        .append((verbose ? " (" + index + ")" : ""));
                 break;
             case Constants.INVOKEINTERFACE:
                 index = bytes.readUnsignedShort();
@@ -386,13 +386,13 @@ public abstract class Utility {
                 index = bytes.readUnsignedShort();
                 buf.append("\t\t").append(
                         constant_pool.constantToString(index, constant_pool.getConstant(index)
-                                .getTag())).append(verbose ? " (" + index + ")" : "");
+                                .getTag())).append((verbose ? " (" + index + ")" : ""));
                 break;
             case Constants.LDC:
                 index = bytes.readUnsignedByte();
                 buf.append("\t\t").append(
                         constant_pool.constantToString(index, constant_pool.getConstant(index)
-                                .getTag())).append(verbose ? " (" + index + ")" : "");
+                                .getTag())).append((verbose ? " (" + index + ")" : ""));
                 break;
             /* Array of references.
              */
@@ -401,7 +401,7 @@ public abstract class Utility {
                 buf.append("\t\t<").append(
                         compactClassName(constant_pool.getConstantString(index,
                                 Constants.CONSTANT_Class), false)).append(">").append(
-                        verbose ? " (" + index + ")" : "");
+                        (verbose ? " (" + index + ")" : ""));
                 break;
             /* Multidimensional array of references.
              */
@@ -411,7 +411,7 @@ public abstract class Utility {
                 buf.append("\t<").append(
                         compactClassName(constant_pool.getConstantString(index,
                                 Constants.CONSTANT_Class), false)).append(">\t").append(dimensions)
-                        .append(verbose ? " (" + index + ")" : "");
+                        .append((verbose ? " (" + index + ")" : ""));
             }
                 break;
             /* Increment local variable.
@@ -745,8 +745,7 @@ public abstract class Utility {
      * @return new String object
      */
     public static String replace( String str, String old, String new_ ) {
-        int index;
-        int old_index;
+        int index, old_index;
         try {
             if (str.contains(old)) { // `old' found in str
                 StringBuilder buf = new StringBuilder();
@@ -949,8 +948,7 @@ public abstract class Utility {
     public static String getSignature( String type ) {
         StringBuilder buf = new StringBuilder();
         char[] chars = type.toCharArray();
-        boolean char_found = false;
-        boolean delim = false;
+        boolean char_found = false, delim = false;
         int index = -1;
         loop: for (int i = 0; i < chars.length; i++) {
             switch (chars[i]) {
@@ -1122,13 +1120,13 @@ public abstract class Utility {
      *
      * @param bytes an array of bytes to convert to hexadecimal
      * 
-     * @return bytes as hexadecimal string, e.g. 00 fa 12 ...
+     * @return bytes as hexadecimal string, e.g. 00 FA 12 ...
      */
     public static String toHexString( byte[] bytes ) {
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
             short b = byteToShort(bytes[i]);
-            String hex = Integer.toHexString(b);
+            String hex = Integer.toString(b, 0x10);
             if (b < 0x10) {
                 buf.append('0');
             }
@@ -1222,7 +1220,8 @@ public abstract class Utility {
         }
         for (int i = 0; i < obj.length; i++) {
             if (obj[i] != null) {
-                buf.append(quote ? "\"" : "").append(obj[i].toString()).append(quote ? "\"" : "");
+                buf.append((quote ? "\"" : "")).append(obj[i].toString()).append(
+                        (quote ? "\"" : ""));
             } else {
                 buf.append("null");
             }

@@ -26,6 +26,7 @@ import org.apache.commons.bcel6.generic.ILOAD;
 import org.apache.commons.bcel6.generic.ISTORE;
 import org.apache.commons.bcel6.generic.InstructionHandle;
 import org.apache.commons.bcel6.generic.InstructionList;
+import org.apache.commons.bcel6.util.InstructionFinder;
 
 public class InstructionFinderTest extends AbstractTestCase {
 

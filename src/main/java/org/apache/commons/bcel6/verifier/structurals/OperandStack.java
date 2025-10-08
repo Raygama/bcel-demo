@@ -163,8 +163,7 @@ public class OperandStack{
             throw new AssertionViolatedException("The OperandStack does not know about '"+type+"'; use Type.INT instead.");
         }
         if (slotsUsed() >= maxStack){
-            throw new AssertionViolatedException(
-                "OperandStack too small, should have thrown proper Exception elsewhere. Stack: "+this);
+            throw new AssertionViolatedException("OperandStack too small, should have thrown proper Exception elsewhere. Stack: "+this);
         }
         stack.add(type);
     }
@@ -220,8 +219,7 @@ public class OperandStack{
     public void merge(OperandStack s){
         try {
         if ( (slotsUsed() != s.slotsUsed()) || (size() != s.size()) ) {
-            throw new StructuralCodeConstraintException(
-                "Cannot merge stacks of different size:\nOperandStack A:\n"+this+"\nOperandStack B:\n"+s);
+            throw new StructuralCodeConstraintException("Cannot merge stacks of different size:\nOperandStack A:\n"+this+"\nOperandStack B:\n"+s);
         }
 
         for (int i=0; i<size(); i++){
@@ -232,8 +230,7 @@ public class OperandStack{
             }
             // Even harder, we're not initialized but are supposed to broaden
             // the known object type
-            if ( (!(stack.get(i).equals(s.stack.get(i)))) &&
-                    (stack.get(i) instanceof UninitializedObjectType) && (!(s.stack.get(i) instanceof UninitializedObjectType))){
+            if ( (!(stack.get(i).equals(s.stack.get(i)))) && (stack.get(i) instanceof UninitializedObjectType) && (!(s.stack.get(i) instanceof UninitializedObjectType))){
                 throw new StructuralCodeConstraintException("Backwards branch with an uninitialized object on the stack detected.");
             }
             // on the other hand...
@@ -248,8 +245,7 @@ public class OperandStack{
                     stack.set(i, ((ReferenceType) stack.get(i)).getFirstCommonSuperclass((ReferenceType) (s.stack.get(i))));
                 }
                 else{
-                    throw new StructuralCodeConstraintException(
-                        "Cannot merge stacks of different types:\nStack A:\n"+this+"\nStack B:\n"+s);
+                    throw new StructuralCodeConstraintException("Cannot merge stacks of different types:\nStack A:\n"+this+"\nStack B:\n"+s);
                 }
             }
         }

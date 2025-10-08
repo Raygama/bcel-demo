@@ -91,7 +91,7 @@ final class CodeHTML {
         int[] jump_table;
         int no_pad_bytes = 0;
         int offset;
-        StringBuilder buf = new StringBuilder(256); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder buf = new StringBuilder(256);
         buf.append("<TT>").append(Constants.OPCODE_NAMES[opcode]).append("</TT></TD><TD>");
         /* Special case: Skip (0-3) padding bytes, i.e., the
          * following bytes are 4-byte-aligned
@@ -173,7 +173,7 @@ final class CodeHTML {
             case Constants.IF_ICMPLT:
             case Constants.IF_ICMPNE:
             case Constants.JSR:
-                index = bytes.getIndex() + bytes.readShort() - 1;
+                index = (bytes.getIndex() + bytes.readShort() - 1);
                 buf.append("<A HREF=\"#code").append(method_number).append("@").append(index)
                         .append("\">").append(index).append("</A>");
                 break;
@@ -405,7 +405,7 @@ final class CodeHTML {
                             .getLocalVariableTable();
                     for (LocalVariable var : vars) {
                         int start = var.getStartPC();
-                        int end = start + var.getLength();
+                        int end = (start + var.getLength());
                         goto_set.set(start);
                         goto_set.set(end);
                     }
@@ -423,8 +423,8 @@ final class CodeHTML {
                     //bytes.readByte(); // Skip already read byte
                     int remainder = bytes.getIndex() % 4;
                     int no_pad_bytes = (remainder == 0) ? 0 : 4 - remainder;
-                    int default_offset;
-                    int offset;
+                    int default_offset,
+                    offset;
                     for (int j = 0; j < no_pad_bytes; j++) {
                         bytes.readByte();
                     }

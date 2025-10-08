@@ -17,19 +17,15 @@
 
 package org.apache.commons.bcel6.classfile;
 
+import org.apache.commons.bcel6.classfile.Utility;
+
 import junit.framework.TestCase;
 
 public class UtilityTestCase extends TestCase {
     
     public void testSignatureToStringWithGenerics() throws Exception {
-        assertEquals("generic signature",
-                "java.util.Map<X, java.util.List<Y>>",
-                Utility.signatureToString("Ljava/util/Map<TX;Ljava/util/List<TY;>;>;"));
-        assertEquals("generic signature",
-                "java.util.Set<? extends java.nio.file.OpenOption>"
-                , Utility.signatureToString("Ljava/util/Set<+Ljava/nio/file/OpenOption;>;"));
-        assertEquals("generic signature",
-                "java.nio.file.attribute.FileAttribute<?>...[]",
-                Utility.signatureToString("[Ljava/nio/file/attribute/FileAttribute<*>;"));
+        assertEquals("generic signature", "java.util.Map<X, java.util.List<Y>>", Utility.signatureToString("Ljava/util/Map<TX;Ljava/util/List<TY;>;>;"));
+        assertEquals("generic signature", "java.util.Set<? extends java.nio.file.OpenOption>", Utility.signatureToString("Ljava/util/Set<+Ljava/nio/file/OpenOption;>;"));
+        assertEquals("generic signature", "java.nio.file.attribute.FileAttribute<?>...[]", Utility.signatureToString("[Ljava/nio/file/attribute/FileAttribute<*>;"));
     }
 }

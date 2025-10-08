@@ -43,14 +43,14 @@ public class LocalVariableInfo{
      * (Hashtable) database.
      */
     private void setName(int offset, String name){
-        names.put(Integer.toString(offset), name);
+        names.put( ((Integer.toString(offset))), name);
     }
     /**
      * Adds a type of a local variable and a certain slot to our 'types'
      * (Hashtable) database.
      */
     private void setType(int offset, Type t){
-        types.put(Integer.toString(offset), t);
+        types.put( ((Integer.toString(offset))), t);
     }
 
     /**
@@ -73,7 +73,7 @@ public class LocalVariableInfo{
      * variable slot at the given bytecode offset.
      */
     public String getName(int offset){
-        return names.get(Integer.toString(offset));
+        return (names.get(Integer.toString(offset)));
     }
     /**
      * Adds some information about this local variable (slot).
@@ -94,14 +94,12 @@ public class LocalVariableInfo{
     private void add(int offset, String name, Type t) throws LocalVariableInfoInconsistentException{
         if (getName(offset) != null){
             if (! getName(offset).equals(name)){
-                throw new LocalVariableInfoInconsistentException("At bytecode offset '"+offset+
-                    "' a local variable has two different names: '"+getName(offset)+"' and '"+name+"'.");
+                throw new LocalVariableInfoInconsistentException("At bytecode offset '"+offset+"' a local variable has two different names: '"+getName(offset)+"' and '"+name+"'.");
             }
         }
         if (getType(offset) != null){
             if (! getType(offset).equals(t)){
-                throw new LocalVariableInfoInconsistentException("At bytecode offset '"+offset+
-                    "' a local variable has two different types: '"+getType(offset)+"' and '"+t+"'.");
+                throw new LocalVariableInfoInconsistentException("At bytecode offset '"+offset+"' a local variable has two different types: '"+getType(offset)+"' and '"+t+"'.");
             }
         }
         setName(offset, name);

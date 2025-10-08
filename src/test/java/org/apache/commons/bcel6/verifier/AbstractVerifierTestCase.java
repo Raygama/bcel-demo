@@ -20,6 +20,9 @@ package org.apache.commons.bcel6.verifier;
 
 import org.apache.commons.bcel6.Repository;
 import org.apache.commons.bcel6.classfile.JavaClass;
+import org.apache.commons.bcel6.verifier.VerificationResult;
+import org.apache.commons.bcel6.verifier.Verifier;
+import org.apache.commons.bcel6.verifier.VerifierFactory;
 
 import junit.framework.TestCase;
 
@@ -39,8 +42,7 @@ public abstract class AbstractVerifierTestCase extends TestCase {
     }
 
     /**
-     * Asserts that the verification of the given class is rejected.
-     * If it isn't it throws an AssertionFailedError with the given message.
+     * Asserts that the verification of the given class is rejected. If it isn't it throws an AssertionFailedError with the given message.
      *
      * @param classname simple classname of the class to verify
      * @param message   message displayed if assertion fails
@@ -78,7 +80,7 @@ public abstract class AbstractVerifierTestCase extends TestCase {
             return false;
         }
 
-        for (int i = nbMethods; --i >= 0;) {
+        for (int i = nbMethods; --i >= 0; ) {
             result = verifier.doPass3a(i);
             if (result.getStatus() != VerificationResult.VERIFIED_OK) {
                 return false;

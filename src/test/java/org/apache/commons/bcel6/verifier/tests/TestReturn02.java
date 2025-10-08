@@ -48,7 +48,7 @@ public class TestReturn02 {
     }
     
     public static long test8(){
-        return 1L;
+        return 1l;
     }
     
     public static float test9(){

@@ -52,7 +52,6 @@ import org.apache.commons.bcel6.classfile.ConstantUtf8;
  */
 public class ConstantPoolGen {
 
-    private static final int DEFAULT_BUFFER_SIZE = 256;
     protected int size; 
     protected Constant[] constants;
     protected int index = 1; // First entry (0) used by JVM
@@ -78,9 +77,9 @@ public class ConstantPoolGen {
      * @param cs array of given constants, new ones will be appended
      */
     public ConstantPoolGen(Constant[] cs) {
-        StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
+        StringBuilder sb = new StringBuilder(256);
 
-        size = Math.max(DEFAULT_BUFFER_SIZE, cs.length + 64);
+        size = Math.max(256, cs.length + 64);
         constants = new Constant[size];
 
         System.arraycopy(cs, 0, constants, 0, cs.length);
@@ -181,7 +180,7 @@ public class ConstantPoolGen {
      * Create empty constant pool.
      */
     public ConstantPoolGen() {
-        size = DEFAULT_BUFFER_SIZE;
+        size = 256;
         constants = new Constant[size];
     }
 
@@ -511,8 +510,7 @@ public class ConstantPoolGen {
      */
     public int addNameAndType( String name, String signature ) {
         int ret;
-        int name_index;
-        int signature_index;
+        int name_index, signature_index;
         if ((ret = lookupNameAndType(name, signature)) != -1) {
             return ret; // Already in CP
         }
@@ -561,9 +559,7 @@ public class ConstantPoolGen {
      * @return index of entry
      */
     public int addMethodref( String class_name, String method_name, String signature ) {
-        int ret;
-        int class_index;
-        int name_and_type_index;
+        int ret, class_index, name_and_type_index;
         if ((ret = lookupMethodref(class_name, method_name, signature)) != -1) {
             return ret; // Already in CP
         }
@@ -616,9 +612,7 @@ public class ConstantPoolGen {
      * @return index of entry
      */
     public int addInterfaceMethodref( String class_name, String method_name, String signature ) {
-        int ret;
-        int class_index;
-        int name_and_type_index;
+        int ret, class_index, name_and_type_index;
         if ((ret = lookupInterfaceMethodref(class_name, method_name, signature)) != -1) {
             return ret; // Already in CP
         }
@@ -666,8 +660,7 @@ public class ConstantPoolGen {
      */
     public int addFieldref( String class_name, String field_name, String signature ) {
         int ret;
-        int class_index;
-        int name_and_type_index;
+        int class_index, name_and_type_index;
         if ((ret = lookupFieldref(class_name, field_name, signature)) != -1) {
             return ret; // Already in CP
         }

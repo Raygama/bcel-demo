@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.apache.commons.bcel6.classfile.ClassParser;
+import org.apache.commons.bcel6.util.Class2HTML;
 
 import junit.framework.TestCase;
 

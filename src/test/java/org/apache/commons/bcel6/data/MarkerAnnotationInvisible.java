@@ -18,8 +18,7 @@
 
 package org.apache.commons.bcel6.data;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.CLASS)
 public @interface MarkerAnnotationInvisible { }

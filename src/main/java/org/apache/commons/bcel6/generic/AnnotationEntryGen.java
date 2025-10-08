@@ -155,7 +155,7 @@ public class AnnotationEntryGen {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder(32); // CHECKSTYLE IGNORE MagicNumber
+        StringBuilder s = new StringBuilder(32);
         s.append("AnnotationGen:[").append(getTypeName()).append(" #").append(evs.size()).append(" {");
         for (int i = 0; i < evs.size(); i++) {
             s.append(evs.get(i));
@@ -250,13 +250,11 @@ public class AnnotationEntryGen {
             List<Attribute> newAttributes = new ArrayList<>();
             if (rvaData.length > 2) {
                 newAttributes.add(
-                        new RuntimeVisibleAnnotations(rvaIndex, rvaData.length,
-                            new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
+                        new RuntimeVisibleAnnotations(rvaIndex, rvaData.length, new DataInputStream(new ByteArrayInputStream(rvaData)), cp.getConstantPool()));
             }
             if (riaData.length > 2) {
                 newAttributes.add(
-                        new RuntimeInvisibleAnnotations(riaIndex, riaData.length,
-                            new DataInputStream(new ByteArrayInputStream(riaData)), cp.getConstantPool()));
+                        new RuntimeInvisibleAnnotations(riaIndex, riaData.length, new DataInputStream(new ByteArrayInputStream(riaData)), cp.getConstantPool()));
             }
 
             return newAttributes.toArray(new Attribute[newAttributes.size()]);
