@@ -23,7 +23,7 @@ package org.apache.commons.bcel6.generic;
  *
  * @version $Id$
  */
-public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackProducer, StackConsumer /* since 6.0 */ {
+public class ARRAYLENGTH extends Instruction implements ExceptionThrower, StackProducer, StackConsumer {
 
     private static final long serialVersionUID = 3038891629544391578L;
 

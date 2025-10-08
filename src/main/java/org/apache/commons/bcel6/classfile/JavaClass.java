@@ -338,7 +338,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
 
     /**
      * @return Annotations on the class
-     * @since 6.0
      */
     public AnnotationEntry[] getAnnotationEntries() {
         if (annotations == null) {
@@ -702,17 +701,11 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
         return (super.getAccessFlags() & Constants.ACC_INTERFACE) == 0;
     }
 
-    /**
-     * @since 6.0
-     */
     public final boolean isAnonymous() {
         computeNestedTypeStatus();
         return this.isAnonymous;
     }
 
-    /**
-     * @since 6.0
-     */
     public final boolean isNested() {
         computeNestedTypeStatus();
         return this.isNested;
@@ -720,8 +713,8 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
 
     private void computeNestedTypeStatus() {
         if (computedNestedTypeStatus) {
-            return;
-        }
+        return;
+    }
         for (Attribute attribute : this.attributes) {
               if (attribute instanceof InnerClasses) {
                   InnerClass[] innerClasses = ((InnerClasses) attribute).getInnerClasses();
@@ -916,7 +909,6 @@ public class JavaClass extends AccessFlags implements Cloneable, Node, Comparabl
     /**
      * Return the natural ordering of two JavaClasses.
      * This ordering is based on the class name
-     * @since 6.0
      */
     @Override
     public int compareTo( JavaClass obj ) {

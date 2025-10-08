@@ -785,10 +785,7 @@ public class ExecutionVisitor extends EmptyVisitor{
         stack().pop();
         stack().push(Type.INT);
     }
-    /**
-     * Symbolically executes the corresponding Java Virtual Machine instruction.
-     * @since 6.0
-     */ 
+    /** Symbolically executes the corresponding Java Virtual Machine instruction. */ 
     @Override
     public void visitINVOKEDYNAMIC(INVOKEDYNAMIC o){
         for (int i=0; i<o.getArgumentTypes(cpg).length; i++){

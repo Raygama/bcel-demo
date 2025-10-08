@@ -24,7 +24,6 @@ package org.apache.commons.bcel6.classfile;
  * 
  * @see Attribute
  * @version $Id$
- * @since 6.0
  */
 public interface UnknownAttributeReader {
 

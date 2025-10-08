@@ -144,7 +144,6 @@ public abstract class Instruction implements Cloneable, Serializable {
      * @param bytes input stream bytes
      * @return instruction object being read
      */
-    // @since 6.0 no longer final
     public static Instruction readInstruction( ByteSequence bytes ) throws IOException {
         boolean wide = false;
         short opcode = (short) bytes.readUnsignedByte();
@@ -539,7 +538,6 @@ public abstract class Instruction implements Cloneable, Serializable {
 
     /** calculate the hashCode of this object
      * @return the hashCode
-     * @since 6.0
      */
     @Override
     public int hashCode() {

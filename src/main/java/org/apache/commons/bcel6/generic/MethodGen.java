@@ -591,19 +591,13 @@ public class MethodGen extends FieldGenOrMethodGen {
         return attributes;
     }
 
-    /**
-     * @since 6.0
-     */
     public void addAnnotationsAsAttribute(ConstantPoolGen cp) {
-          Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp, super.getAnnotationEntries());
+          Attribute[] attrs = AnnotationEntryGen.getAnnotationAttributes(cp,annotation_vec);
         for (Attribute attr : attrs) {
             addAttribute(attr);
         }
       }
 
-    /**
-     * @since 6.0
-     */
       public void addParameterAnnotationsAsAttribute(ConstantPoolGen cp) {
           if (!hasParameterAnnotations) {
             return;
@@ -1076,7 +1070,6 @@ public class MethodGen extends FieldGenOrMethodGen {
     // is more likely to suggest to the caller it is readonly (which a List does not). 
     /**
      * Return a list of AnnotationGen objects representing parameter annotations
-     * @since 6.0
      */
     public List<AnnotationEntryGen> getAnnotationsOnParameter(int i) {
         ensureExistingParameterAnnotationsUnpacked();

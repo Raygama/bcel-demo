@@ -88,9 +88,6 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
-    /**
-     * @since 6.0
-     */
     public static ConstantUtf8 getCachedInstance(String s) {
         if (s.length() > MAX_CACHED_SIZE) {
             skipped++;
@@ -109,16 +106,10 @@ public final class ConstantUtf8 extends Constant {
         }
     }
 
-    /**
-     * @since 6.0
-     */
     public static ConstantUtf8 getInstance(String s) {
         return new ConstantUtf8(s);
     }
 
-    /**
-     * @since 6.0
-     */
     public static ConstantUtf8 getInstance (DataInput input)  throws IOException {
         return getInstance(input.readUTF());
     }

@@ -37,18 +37,14 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
     protected Type type;
     protected ConstantPoolGen cp;
     private final List<Attribute> attribute_vec = new ArrayList<>();
-    // @since 6.0
-    private List<AnnotationEntryGen>       annotation_vec= new ArrayList<>();
+    protected List<AnnotationEntryGen>       annotation_vec= new ArrayList<>();
 
 
     protected FieldGenOrMethodGen() {
     }
 
 
-    /**
-     * @since 6.0
-     */
-    protected FieldGenOrMethodGen(int access_flags) { // TODO could this be package protected?
+    public FieldGenOrMethodGen(int access_flags) {
         super(access_flags);
     }
 
@@ -103,10 +99,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         attribute_vec.add(a);
     }
 
-    /**
-     * @since 6.0
-     */
-    protected void addAnnotationEntry(AnnotationEntryGen ag) // TODO could this be package protected?
+    public void addAnnotationEntry(AnnotationEntryGen ag)
     {
         annotation_vec.add(ag);
     }
@@ -119,10 +112,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         attribute_vec.remove(a);
     }
 
-    /**
-     * @since 6.0
-     */
-    protected void removeAnnotationEntry(AnnotationEntryGen ag) // TODO could this be package protected?
+    public void removeAnnotationEntry(AnnotationEntryGen ag)
     {
         annotation_vec.remove(ag);
     }
@@ -135,10 +125,7 @@ public abstract class FieldGenOrMethodGen extends AccessFlags implements NamedAn
         attribute_vec.clear();
     }
 
-    /**
-     * @since 6.0
-     */
-    protected void removeAnnotationEntries() // TODO could this be package protected?
+    public void removeAnnotationEntries()
     {
         annotation_vec.clear();
     }
