@@ -94,13 +94,11 @@ public class ControlFlowGraph{
         }
 
         /* Satisfies InstructionContext.getTag(). */
-        @Override
         public int getTag(){
             return TAG;
         }
 
         /* Satisfies InstructionContext.setTag(int). */
-        @Override
         public void setTag(int tag){ // part of InstructionContext interface
             TAG = tag;
         }
@@ -108,7 +106,6 @@ public class ControlFlowGraph{
         /**
          * Returns the exception handlers of this instruction.
          */
-        @Override
         public ExceptionHandler[] getExceptionHandlers(){
             return exceptionhandlers.getExceptionHandlers(getInstruction());
         }
@@ -116,7 +113,6 @@ public class ControlFlowGraph{
         /**
          * Returns a clone of the "outgoing" frame situation with respect to the given ExecutionChain.
          */    
-        @Override
         public Frame getOutFrame(ArrayList<InstructionContext> execChain){
             executionPredecessors = execChain;
 
@@ -132,7 +128,6 @@ public class ControlFlowGraph{
             return org.getClone();
         }
 
-    @Override
     public Frame getInFrame() {
           Frame org;
 
@@ -161,7 +156,6 @@ public class ControlFlowGraph{
          * @return true - if and only if the "outgoing" frame situation
          * changed from the one before execute()ing.
          */
-        @Override
         public boolean execute(Frame inFrame, ArrayList<InstructionContext> execPreds, InstConstraintVisitor icv, ExecutionVisitor ev){
 
             @SuppressWarnings("unchecked") // OK because execPreds is compatible type
@@ -279,7 +273,6 @@ public class ControlFlowGraph{
         /*
          * Fulfils the contract of InstructionContext.getInstruction().
          */
-        @Override
         public InstructionHandle getInstruction(){
             return instruction;
         }
@@ -313,7 +306,6 @@ public class ControlFlowGraph{
         }
 
         /* Satisfies InstructionContext.getSuccessors(). */
-        @Override
         public InstructionContext[] getSuccessors(){
             return contextsOf(_getSuccessors());
         }

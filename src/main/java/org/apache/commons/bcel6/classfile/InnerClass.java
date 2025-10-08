@@ -83,7 +83,6 @@ public final class InnerClass implements Cloneable, Node, Serializable {
      *
      * @param v Visitor object
      */
-    @Override
     public void accept( Visitor v ) {
         v.visitInnerClass(this);
     }

@@ -37,7 +37,6 @@ public abstract class Constant implements Cloneable, Node, Serializable {
     private static final long serialVersionUID = 5739037344085356353L;
     private static BCELComparator _cmp = new BCELComparator() {
 
-        @Override
         public boolean equals( Object o1, Object o2 ) {
             Constant THIS = (Constant) o1;
             Constant THAT = (Constant) o2;
@@ -45,7 +44,6 @@ public abstract class Constant implements Cloneable, Node, Serializable {
         }
 
 
-        @Override
         public int hashCode( Object o ) {
             Constant THIS = (Constant) o;
             return THIS.toString().hashCode();
@@ -74,7 +72,6 @@ public abstract class Constant implements Cloneable, Node, Serializable {
      *
      * @param v Visitor object
      */
-    @Override
     public abstract void accept( Visitor v );
 
 

@@ -88,7 +88,6 @@ public class AnnotationEntry implements Node, Serializable {
      * 
      * @param v Visitor object
      */
-    @Override
     public void accept(Visitor v) {
         v.visitAnnotationEntry(this);
     }

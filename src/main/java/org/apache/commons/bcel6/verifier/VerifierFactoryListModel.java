@@ -44,7 +44,6 @@ public class VerifierFactoryListModel implements org.apache.commons.bcel6.verifi
     }
 
 
-    @Override
     public synchronized void update( String s ) {
         Verifier[] verifiers = VerifierFactory.getVerifiers();
         int num_of_verifiers = verifiers.length;
@@ -59,25 +58,21 @@ public class VerifierFactoryListModel implements org.apache.commons.bcel6.verifi
     }
 
 
-    @Override
     public synchronized void addListDataListener( ListDataListener l ) {
         listeners.add(l);
     }
 
 
-    @Override
     public synchronized void removeListDataListener( javax.swing.event.ListDataListener l ) {
         listeners.remove(l);
     }
 
 
-    @Override
     public synchronized int getSize() {
         return cache.size();
     }
 
 
-    @Override
     public synchronized String getElementAt( int index ) {
         return (cache.toArray(new String[cache.size()]))[index];
     }

@@ -40,7 +40,6 @@ public class TransitiveHull implements VerifierFactoryObserver {
 
 
     /* Implementing VerifierFactoryObserver. */
-    @Override
     public void update( String classname ) {
         System.gc(); // avoid swapping if possible.
         for (int i = 0; i < indent; i++) {

@@ -115,7 +115,6 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
     /**
      * @return index in constant pool referred by this instruction.
      */
-    @Override
     public final int getIndex() {
         return index;
     }
@@ -125,7 +124,6 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
      * Set the index to constant pool.
      * @param index in  constant pool.
      */
-    @Override
     public void setIndex( int index ) { // TODO could be package-protected?
         if (index < 0) {
             throw new ClassGenException("Negative index value: " + index);
@@ -136,7 +134,6 @@ public abstract class CPInstruction extends Instruction implements TypedInstruct
 
     /** @return type related with this instruction.
      */
-    @Override
     public Type getType( ConstantPoolGen cpg ) {
         ConstantPool cp = cpg.getConstantPool();
         String name = cp.getConstantString(index, org.apache.commons.bcel6.Constants.CONSTANT_Class);

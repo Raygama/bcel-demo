@@ -128,7 +128,6 @@ public class VerifierAppFrame extends JFrame {
         messagesScrollPane.setPreferredSize(new Dimension(10, 10));
         classNamesJList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
-            @Override
             public void valueChanged( ListSelectionEvent e ) {
                 classNamesJList_valueChanged(e);
             }
@@ -153,7 +152,6 @@ public class VerifierAppFrame extends JFrame {
                 InputEvent.CTRL_MASK, true));
         newFileMenuItem.addActionListener(new java.awt.event.ActionListener() {
 
-            @Override
             public void actionPerformed( ActionEvent e ) {
                 newFileMenuItem_actionPerformed(e);
             }
@@ -162,14 +160,12 @@ public class VerifierAppFrame extends JFrame {
         pass3bTextPane.setEditable(false);
         pass3aJList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
-            @Override
             public void valueChanged( ListSelectionEvent e ) {
                 pass3aJList_valueChanged(e);
             }
         });
         pass3bJList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
-            @Override
             public void valueChanged( ListSelectionEvent e ) {
                 pass3bJList_valueChanged(e);
             }
@@ -178,7 +174,6 @@ public class VerifierAppFrame extends JFrame {
         whatisMenuItem.setText("What is...");
         whatisMenuItem.addActionListener(new java.awt.event.ActionListener() {
 
-            @Override
             public void actionPerformed( ActionEvent e ) {
                 whatisMenuItem_actionPerformed(e);
             }
@@ -186,7 +181,6 @@ public class VerifierAppFrame extends JFrame {
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
 
-            @Override
             public void actionPerformed( ActionEvent e ) {
                 aboutMenuItem_actionPerformed(e);
             }

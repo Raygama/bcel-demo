@@ -85,7 +85,6 @@ public class DescendingVisitor implements Visitor
         clazz.accept(this);
     }
 
-    @Override
     public void visitJavaClass(JavaClass _clazz)
     {
         stack.push(_clazz);
@@ -106,7 +105,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitAnnotation(Annotations annotation)
     {
         stack.push(annotation);
@@ -118,7 +116,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitAnnotationEntry(AnnotationEntry annotationEntry)
     {
         stack.push(annotationEntry);
@@ -126,7 +123,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitField(Field field)
     {
         stack.push(field);
@@ -138,7 +134,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantValue(ConstantValue cv)
     {
         stack.push(cv);
@@ -146,7 +141,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitMethod(Method method)
     {
         stack.push(method);
@@ -158,7 +152,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitExceptionTable(ExceptionTable table)
     {
         stack.push(table);
@@ -166,7 +159,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitCode(Code code)
     {
         stack.push(code);
@@ -182,7 +174,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitCodeException(CodeException ce)
     {
         stack.push(ce);
@@ -190,7 +181,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitLineNumberTable(LineNumberTable table)
     {
         stack.push(table);
@@ -202,7 +192,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitLineNumber(LineNumber number)
     {
         stack.push(number);
@@ -210,7 +199,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitLocalVariableTable(LocalVariableTable table)
     {
         stack.push(table);
@@ -222,7 +210,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitStackMap(StackMap table)
     {
         stack.push(table);
@@ -234,7 +221,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitStackMapEntry(StackMapEntry var)
     {
         stack.push(var);
@@ -242,7 +228,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitStackMapTable(StackMapTable table)
     {
         stack.push(table);
@@ -254,7 +239,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitStackMapTableEntry(StackMapTableEntry var)
     {
         stack.push(var);
@@ -262,7 +246,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitLocalVariable(LocalVariable var)
     {
         stack.push(var);
@@ -270,7 +253,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantPool(ConstantPool cp)
     {
         stack.push(cp);
@@ -286,7 +268,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantClass(ConstantClass constant)
     {
         stack.push(constant);
@@ -294,7 +275,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantDouble(ConstantDouble constant)
     {
         stack.push(constant);
@@ -302,7 +282,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantFieldref(ConstantFieldref constant)
     {
         stack.push(constant);
@@ -310,7 +289,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantFloat(ConstantFloat constant)
     {
         stack.push(constant);
@@ -318,7 +296,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantInteger(ConstantInteger constant)
     {
         stack.push(constant);
@@ -326,7 +303,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantInterfaceMethodref(
             ConstantInterfaceMethodref constant)
     {
@@ -335,7 +311,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantInvokeDynamic(
             ConstantInvokeDynamic constant)
     {
@@ -344,7 +319,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantLong(ConstantLong constant)
     {
         stack.push(constant);
@@ -352,7 +326,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantMethodref(ConstantMethodref constant)
     {
         stack.push(constant);
@@ -360,7 +333,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantNameAndType(ConstantNameAndType constant)
     {
         stack.push(constant);
@@ -368,7 +340,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantString(ConstantString constant)
     {
         stack.push(constant);
@@ -376,7 +347,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitConstantUtf8(ConstantUtf8 constant)
     {
         stack.push(constant);
@@ -384,7 +354,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitInnerClasses(InnerClasses ic)
     {
         stack.push(ic);
@@ -396,7 +365,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitInnerClass(InnerClass inner)
     {
         stack.push(inner);
@@ -404,7 +372,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitBootstrapMethods(BootstrapMethods bm)
     {
         stack.push(bm);
@@ -417,7 +384,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitDeprecated(Deprecated attribute)
     {
         stack.push(attribute);
@@ -425,7 +391,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitSignature(Signature attribute)
     {
         stack.push(attribute);
@@ -433,7 +398,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitSourceFile(SourceFile attribute)
     {
         stack.push(attribute);
@@ -441,7 +405,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitSynthetic(Synthetic attribute)
     {
         stack.push(attribute);
@@ -449,7 +412,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitUnknown(Unknown attribute)
     {
         stack.push(attribute);
@@ -457,7 +419,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitAnnotationDefault(AnnotationDefault obj)
     {
         stack.push(obj);
@@ -465,7 +426,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitEnclosingMethod(EnclosingMethod obj)
     {
         stack.push(obj);
@@ -473,7 +433,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitLocalVariableTypeTable(LocalVariableTypeTable obj)
     {
         stack.push(obj);
@@ -481,7 +440,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitParameterAnnotation(ParameterAnnotations obj)
     {
         stack.push(obj);
@@ -489,7 +447,6 @@ public class DescendingVisitor implements Visitor
         stack.pop();
     }
 
-    @Override
     public void visitMethodParameters(MethodParameters obj)
     {
         stack.push(obj);

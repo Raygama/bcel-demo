@@ -76,7 +76,6 @@ public abstract class Attribute implements Cloneable, Node, Serializable
      * @param v
      *            Visitor object
      */
-    @Override
     public abstract void accept(Visitor v);
 
     /**

@@ -170,7 +170,6 @@ public final class PUSH implements CompoundInstruction, VariableLengthInstructio
     }
 
 
-    @Override
     public final InstructionList getInstructionList() {
         return new InstructionList(instruction);
     }

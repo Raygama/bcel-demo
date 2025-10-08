@@ -72,7 +72,6 @@ public class SyntheticRepository implements Repository {
     /**
      * Store a new JavaClass instance into this Repository.
      */
-    @Override
     public void storeClass( JavaClass clazz ) {
         _loadedClasses.put(clazz.getClassName(), new SoftReference<JavaClass>(clazz));
         clazz.setRepository(this);
@@ -82,7 +81,6 @@ public class SyntheticRepository implements Repository {
     /**
      * Remove class from repository
      */
-    @Override
     public void removeClass( JavaClass clazz ) {
         _loadedClasses.remove(clazz.getClassName());
     }
@@ -91,7 +89,6 @@ public class SyntheticRepository implements Repository {
     /**
      * Find an already defined (cached) JavaClass object by name.
      */
-    @Override
     public JavaClass findClass( String className ) {
         SoftReference<JavaClass> ref = _loadedClasses.get(className);
         if (ref == null) {
@@ -112,7 +109,6 @@ public class SyntheticRepository implements Repository {
      * @throws ClassNotFoundException if the class is not in the
      *   Repository, and could not be found on the classpath
      */
-    @Override
     public JavaClass loadClass( String className ) throws ClassNotFoundException {
         if (className == null || className.equals("")) {
             throw new IllegalArgumentException("Invalid class name " + className);
@@ -144,7 +140,6 @@ public class SyntheticRepository implements Repository {
      * @throws ClassNotFoundException if the class is not in the
      *   Repository, and its representation could not be found
      */
-    @Override
     public JavaClass loadClass( Class<?> clazz ) throws ClassNotFoundException {
         InputStream clsStream = null;
         try{
@@ -197,7 +192,6 @@ public class SyntheticRepository implements Repository {
 
     /** ClassPath associated with the Repository.
      */
-    @Override
     public ClassPath getClassPath() {
         return _path;
     }
@@ -205,7 +199,6 @@ public class SyntheticRepository implements Repository {
 
     /** Clear all entries from cache.
      */
-    @Override
     public void clear() {
         _loadedClasses.clear();
     }

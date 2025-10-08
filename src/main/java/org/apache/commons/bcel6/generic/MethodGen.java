@@ -79,7 +79,6 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     private static BCELComparator _cmp = new BCELComparator() {
 
-        @Override
         public boolean equals( Object o1, Object o2 ) {
             MethodGen THIS = (MethodGen) o1;
             MethodGen THAT = (MethodGen) o2;
@@ -88,7 +87,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
 
 
-        @Override
         public int hashCode( Object o ) {
             MethodGen THIS = (MethodGen) o;
             return THIS.getSignature().hashCode() ^ THIS.getName().hashCode();
@@ -371,7 +369,6 @@ public class MethodGen extends FieldGenOrMethodGen {
         }
         if (size > 1) {
             Arrays.sort(lg, new Comparator<LocalVariableGen>() {
-                @Override
                 public int compare(LocalVariableGen o1, LocalVariableGen o2) {
                     return o1.getIndex() - o2.getIndex();
                 }
@@ -707,7 +704,7 @@ public class MethodGen extends FieldGenOrMethodGen {
 
     /**
      * Remove all NOPs from the instruction list (if possible) and update every
-     * object referring to them, i.e., branch instructions, local variables and
+     * object refering to them, i.e., branch instructions, local variables and
      * exception handlers.
      */
     public void removeNOPs() {

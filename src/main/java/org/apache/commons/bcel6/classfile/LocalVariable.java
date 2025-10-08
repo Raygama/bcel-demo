@@ -91,7 +91,6 @@ public final class LocalVariable implements Cloneable, Node, Serializable {
      *
      * @param v Visitor object
      */
-    @Override
     public void accept( Visitor v ) {
         v.visitLocalVariable(this);
     }

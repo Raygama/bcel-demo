@@ -1003,7 +1003,6 @@ public class InstructionList implements Serializable {
             private InstructionHandle ih = start;
 
 
-            @Override
             public InstructionHandle next() throws NoSuchElementException {
                 if (ih == null) {
                     throw new NoSuchElementException();
@@ -1014,13 +1013,11 @@ public class InstructionList implements Serializable {
             }
 
 
-            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
 
 
-            @Override
             public boolean hasNext() {
                 return ih != null;
             }

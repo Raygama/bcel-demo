@@ -51,7 +51,6 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
     }
 
 
-    @Override
     public Number getValue() {
         return new Double(value);
     }
@@ -59,7 +58,6 @@ public class DCONST extends Instruction implements ConstantPushInstruction {
 
     /** @return Type.DOUBLE
      */
-    @Override
     public Type getType( ConstantPoolGen cp ) {
         return Type.DOUBLE;
     }

@@ -49,7 +49,6 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
     }
 
 
-    @Override
     public Number getValue() {
         return Integer.valueOf(value);
     }
@@ -57,7 +56,6 @@ public class ICONST extends Instruction implements ConstantPushInstruction {
 
     /** @return Type.INT
      */
-    @Override
     public Type getType( ConstantPoolGen cp ) {
         return Type.INT;
     }

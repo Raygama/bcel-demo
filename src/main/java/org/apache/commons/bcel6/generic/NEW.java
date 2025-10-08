@@ -44,7 +44,6 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
 
-    @Override
     public Class<?>[] getExceptions() {
         return ExceptionConstants.createExceptions(ExceptionConstants.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION,
             ExceptionConstants.ILLEGAL_ACCESS_ERROR,
@@ -52,7 +51,6 @@ public class NEW extends CPInstruction implements LoadClass, AllocationInstructi
     }
 
 
-    @Override
     public ObjectType getLoadClassType( ConstantPoolGen cpg ) {
         return (ObjectType) getType(cpg);
     }

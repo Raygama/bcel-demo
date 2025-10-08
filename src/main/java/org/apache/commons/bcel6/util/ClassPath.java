@@ -48,7 +48,6 @@ public class ClassPath implements Serializable {
 
     private static final FilenameFilter ARCHIVE_FILTER = new FilenameFilter() {
 
-        @Override
         public boolean accept( File dir, String name ) {
             name = name.toLowerCase(Locale.ENGLISH);
             return name.endsWith(".zip") || name.endsWith(".jar");
@@ -422,13 +421,11 @@ public class ClassPath implements Serializable {
                     + name.replace('.', File.separatorChar) + suffix);
             return file.exists() ? new ClassFile() {
 
-                @Override
                 public InputStream getInputStream() throws IOException {
                     return new FileInputStream(file);
                 }
 
 
-                @Override
                 public String getPath() {
                     try {
                         return file.getCanonicalPath();
@@ -438,19 +435,16 @@ public class ClassPath implements Serializable {
                 }
 
 
-                @Override
                 public long getTime() {
                     return file.lastModified();
                 }
 
 
-                @Override
                 public long getSize() {
                     return file.length();
                 }
 
 
-                @Override
                 public String getBase() {
                     return dir;
                 }
@@ -504,31 +498,26 @@ public class ClassPath implements Serializable {
 
             return new ClassFile() {
 
-                @Override
                 public InputStream getInputStream() throws IOException {
                     return zip.getInputStream(entry);
                 }
 
 
-                @Override
                 public String getPath() {
                     return entry.toString();
                 }
 
 
-                @Override
                 public long getTime() {
                     return entry.getTime();
                 }
 
 
-                @Override
                 public long getSize() {
                     return entry.getSize();
                 }
 
 
-                @Override
                 public String getBase() {
                     return zip.getName();
                 }

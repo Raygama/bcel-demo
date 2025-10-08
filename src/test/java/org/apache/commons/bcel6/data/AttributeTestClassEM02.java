@@ -22,7 +22,6 @@ public class AttributeTestClassEM02
 {
     Runnable r = new Runnable()
     {
-        @Override
         public void run()
         {
             System.err.println("hello");

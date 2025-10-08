@@ -38,7 +38,6 @@ public class ACONST_NULL extends Instruction implements PushInstruction, TypedIn
 
     /** @return Type.NULL
      */
-    @Override
     public Type getType( ConstantPoolGen cp ) {
         return Type.NULL;
     }

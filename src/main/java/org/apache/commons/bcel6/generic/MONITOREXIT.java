@@ -33,7 +33,6 @@ public class MONITOREXIT extends Instruction implements ExceptionThrower, StackC
     }
 
 
-    @Override
     public Class<?>[] getExceptions() {
         return new Class[] {
             org.apache.commons.bcel6.ExceptionConstants.NULL_POINTER_EXCEPTION
