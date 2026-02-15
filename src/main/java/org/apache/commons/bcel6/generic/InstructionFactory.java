@@ -92,8 +92,10 @@ public class InstructionFactory implements java.io.Serializable {
                 return new INVOKESTATIC(index);
             case Constants.INVOKEINTERFACE:
                 return new INVOKEINTERFACE(index, nargs + 1);
+            case Const.INVOKEDYNAMIC:
+                return new INVOKEDYNAMIC(index);
             default:
-                throw new RuntimeException("Oops: Unknown invoke kind:" + kind);
+                throw new RuntimeException("Oops: Unknown invoke kind: " + kind);
         }
     }
 
